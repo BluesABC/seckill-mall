@@ -41,4 +41,6 @@
 
 验证码答案摘要与到期时间只在自有测试Redis/SQL中注入，HTTP没有绕过入口。正常整栈重启不等于SIGKILL/HA，也没有验证重启后新下单的恢复SLA；S4-005仍需S7测量/改善。公网TLS、备份恢复、容量目标/资源预算、普通购物车/多规格创建/分页/图片压缩及非视觉验证码仍按BUGS/TODO处理。MOCK支付不是实际收款。
 
-公开GitHub交付包含源码、项目级Skill、UI参考与验收资料；不包含本机env、密钥、构建缓存和运行数据。发布前核查实际本机随机密码及GitHub令牌/私钥模式，无匹配项；具体仓库地址由本次交付确认。
+公开GitHub交付：[BluesABC/seckill-mall](https://github.com/BluesABC/seckill-mall)，PUBLIC/main，初始提交32f2a8d，已核对远端一致。包含247个源码、项目级Skill、UI参考与验收文件；不包含本机env、密钥、构建缓存和运行数据。发布前核查实际本机随机密码及GitHub令牌/私钥模式，无匹配项。
+
+最终S6测试容器停止、卷保留用于检查；按文档启动日常seckill-mall-stack，localhost:18080三处健康检查200/四款商品读取通过。原有5173开发展厅保留。
