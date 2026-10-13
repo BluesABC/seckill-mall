@@ -1,0 +1,10 @@
+{
+  "stage": "S4",
+  "platform": "linux",
+  "tests": 22,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": true,
+  "scope": "real HTTP/C++/RocketMQ/Java/MySQL/Redis; MOCK payment, not production capacity"
+}

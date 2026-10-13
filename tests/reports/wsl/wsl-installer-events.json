@@ -1,0 +1,122 @@
+[
+  {
+    "TimeCreated": "2026-10-13T11:18:36.8852504+08:00",
+    "Id": 1042,
+    "Message": "正在结束 Windows Installer 事务 C:\\Users\\14106\\AppData\\Local\\Temp\\wsl.3.0.3.0.x64.msi。客户端进程 ID: 6120。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:36.835564+08:00",
+    "Id": 1033,
+    "Message": "Windows Installer 已安装产品。产品名称: Windows Subsystem for Linux。产品版本: 3.0.3.0。产品语言: 1033。制造商: Microsoft Corporation。安装成功或错误状态: 0。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:36.8345643+08:00",
+    "Id": 11707,
+    "Message": "Product: Windows Subsystem for Linux -- Installation completed successfully."
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0242633+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\Drive\\shell\\WSL\\command。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0222702+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\Drive\\shell\\WSL。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.02126+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\Drive\\shell\\WSL。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0202574+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\Drive\\shell\\WSL。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0172575+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\Directory\\shell\\WSL\\command。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0162616+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\Directory\\shell\\WSL。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0152621+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\Directory\\shell\\WSL。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0152621+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\Directory\\shell\\WSL。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0102582+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\Instance\\InitPropertyBag。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0092583+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\Instance\\InitPropertyBag。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0082595+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\Instance\\InitPropertyBag。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0072606+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\Instance\\InitPropertyBag。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0062652+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\Instance。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0042606+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\ShellFolder。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.003257+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\ShellFolder。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0022596+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\InProcServer32。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0012711+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}\\DefaultIcon。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:34.0002649+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:33.9992611+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:33.9972646+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\SOFTWARE\\Classes\\CLSID\\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}。"
+  },
+  {
+    "TimeCreated": "2026-10-13T11:18:12.4365828+08:00",
+    "Id": 1039,
+    "Message": "产品: Windows Subsystem for Linux。应用程序试图修改受保护的 Windows 注册表项 \\Software\\Classes\\\\Application。"
+  }
+]

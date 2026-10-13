@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "origin": "http://localhost:18080/",
+  "desktop": true,
+  "mobile": true,
+  "images": 9,
+  "consoleErrors": []
+}

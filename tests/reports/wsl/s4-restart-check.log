@@ -1,0 +1,10 @@
+test_09_outbox_survives_redis_failure_and_restart (__main__.S4Tests.test_09_outbox_survives_redis_failure_and_restart) ... ok
+test_10_recover_stranded_queued_without_order (__main__.S4Tests.test_10_recover_stranded_queued_without_order) ... replay observed after 0.239s; terminal=True
+ok
+test_22_bounded_sigterm_shutdown (__main__.S4Tests.test_22_bounded_sigterm_shutdown) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 58.080s
+
+OK
+{"stage": "S4", "platform": "linux", "tests": 3, "failures": 0, "errors": 0, "skipped": 0, "passed": true, "scope": "real HTTP/C++/RocketMQ/Java/MySQL/Redis; MOCK payment, not production capacity"}

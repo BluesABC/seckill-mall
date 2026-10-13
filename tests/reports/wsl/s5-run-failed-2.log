@@ -1,0 +1,91 @@
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+v22.20.0
+openjdk version "21.0.12.1" 2026-08-18
+OpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)
+OpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)
+
+added 45 packages in 29s
+
+> seckill-mall-web@0.1.0 build
+> vue-tsc --noEmit && vite build
+
+vite v7.1.9 building for production...
+transforming...
+✓ 16 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.53 kB │ gzip:  0.41 kB
+dist/assets/index-CsyYxND5.css   16.02 kB │ gzip:  4.31 kB
+dist/assets/index-DoDRP24F.js   101.63 kB │ gzip: 38.42 kB
+✓ built in 2.32s
+
+added 6 packages in 25s
+PASS desktop real catalog, original assets, accessibility
+PASS catalog search, empty results and price sort
+PASS register/login modal and keyboard focus
+PASS real captcha -> C++ -> RocketMQ -> MySQL order, stable request on lost response
+PASS mock payment, duplicate-click guard and authoritative paid state
+PASS second real order, expiry close and no payment action
+PASS sold-out display disables buy (private cache fixture, restored)
+PASS mobile real detail and homepage: layout, accessibility, images
+PASS USER frontend guard and backend forbidden
+PASS ADMIN goods create/edit, activity create/activate/end, users, orders, recovery
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+Je [Error]: expect(locator).toBeVisible() failed
+
+Locator: getByRole('alert')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "to.be.visible" with timeout 5000ms
+  - waiting for getByRole('alert')
+
+    at Proxy.<anonymous> (/mnt/e/c++project/seckill-mall/build/wsl/browser/node_modules/playwright/lib/matchers/expect.js:221:24)
+    at file:///mnt/e/c++project/seckill-mall/tests/browser/s5.mjs:31:320
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:453:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17)
+    at async check (file:///mnt/e/c++project/seckill-mall/tests/browser/s5.mjs:11:30)
+    at async file:///mnt/e/c++project/seckill-mall/tests/browser/s5.mjs:31:2 {
+  matcherResult: {
+    message: 'expect(locator).toBeVisible() failed\n' +
+      '\n' +
+      "Locator: getByRole('alert')\n" +
+      'Expected: visible\n' +
+      'Timeout: 5000ms\n' +
+      'Error: element(s) not found\n' +
+      '\n' +
+      'Call log:\n' +
+      '  - Expect "to.be.visible" with timeout 5000ms\n' +
+      "  - waiting for getByRole('alert')\n",
+    pass: false,
+    actual: undefined,
+    name: 'toBeVisible',
+    expected: 'visible',
+    log: [
+      '  - Expect "to.be.visible" with timeout 5000ms',
+      "  - waiting for getByRole('alert')"
+    ],
+    timeout: 5000
+  }
+}
+
+Node.js v22.20.0
+ExitCode=1

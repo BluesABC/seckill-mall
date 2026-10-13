@@ -1,0 +1,10 @@
+{
+  "stage": "S3",
+  "platform": "linux",
+  "tests": 6,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": true,
+  "scope": "real RocketMQ C++ producer, Java simple ACK/retry and push failure/DLQ; no MySQL order transaction"
+}

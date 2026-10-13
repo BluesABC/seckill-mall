@@ -1,0 +1,52 @@
+Mode=--cpp; root=/mnt/e/c++project/seckill-mall; date=2026-10-12T09:20:34Z
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+cmake version 3.28.3
+c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+Python 3.12.3
+-- Configuring done (1.5s)
+-- Generating done (1.7s)
+-- Build files have been written to: /mnt/e/c++project/seckill-mall/build/wsl/cpp
+gmake: Warning: File 'Makefile' has modification time 0.36 s in the future
+gmake[1]: Warning: File 'CMakeFiles/Makefile2' has modification time 1.4 s in the future
+gmake[2]: Warning: File 'CMakeFiles/contract_tests.dir/progress.make' has modification time 1.3 s in the future
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_service.dir/progress.make' has modification time 1.3 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/contract_tests.dir/progress.make' has modification time 0.86 s in the future
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_service.dir/progress.make' has modification time 0.89 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 33%] Built target contract_tests
+[ 66%] Built target seckill_service
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_mq.dir/progress.make' has modification time 0.82 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_mq.dir/progress.make' has modification time 0.45 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target mall_mq
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake: warning:  Clock skew detected.  Your build may be incomplete.
+Internal ctest changing into directory: /mnt/e/c++project/seckill-mall/build/wsl/cpp
+Test project /mnt/e/c++project/seckill-mall/build/wsl/cpp
+    Start 1: state_contracts
+1/3 Test #1: state_contracts ..................   Passed    0.00 sec
+    Start 2: seckill_configuration
+2/3 Test #2: seckill_configuration ............   Passed    0.01 sec
+    Start 3: mq_configuration
+3/3 Test #3: mq_configuration .................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   0.08 sec
+PASS: C++ subset only; Java/Vue/contracts/Compose NOT RUN.

@@ -1,0 +1,215 @@
+Python 3.12.3
+openjdk version "21.0.12.1" 2026-08-18
+OpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)
+OpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)
+29.8.0
+ Container seckill-mall-s1-redis-1 Starting 
+ Container seckill-mall-s1-redis-1 Started 
+ Container seckill-mall-s1-redis-1 Waiting 
+ Container seckill-mall-s1-redis-1 Healthy 
+ Container seckill-mall-mq-prepare-volumes-1 Starting 
+ Container seckill-mall-mq-prepare-volumes-1 Started 
+ Container seckill-mall-mq-prepare-volumes-1 Waiting 
+ Container seckill-mall-mq-prepare-volumes-1 Exited 
+ Container seckill-mall-mq-namesrv-1 Starting 
+ Container seckill-mall-mq-namesrv-1 Started 
+ Container seckill-mall-mq-namesrv-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Healthy 
+ Container seckill-mall-mq-broker-1 Starting 
+ Container seckill-mall-mq-broker-1 Started 
+ Container seckill-mall-mq-namesrv-1 Waiting 
+ Container seckill-mall-mq-broker-1 Waiting 
+ Container seckill-mall-mq-prepare-volumes-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Healthy 
+ Container seckill-mall-mq-prepare-volumes-1 Exited 
+ Container seckill-mall-mq-broker-1 Healthy 
+create topic to 127.0.0.1:10911 success.
+TopicConfig [topicName=seckill_reserved_v1, readQueueNums=4, writeQueueNums=4, perm=RW-, topicFilterType=SINGLE_TAG, topicSysFlag=0, order=false, attributes={+message.type=NORMAL}]
+ Container seckill-mall-mq-namesrv-1 Running 
+ Container seckill-mall-mq-broker-1 Running 
+ Container seckill-mall-mq-prepare-volumes-1 Starting 
+ Container seckill-mall-mq-prepare-volumes-1 Started 
+ Container seckill-mall-mq-prepare-volumes-1 Waiting 
+ Container seckill-mall-mq-prepare-volumes-1 Exited 
+ Container seckill-mall-mq-namesrv-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Healthy 
+ Container seckill-mall-mq-broker-1 Waiting 
+ Container seckill-mall-mq-prepare-volumes-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Healthy 
+ Container seckill-mall-mq-prepare-volumes-1 Exited 
+ Container seckill-mall-mq-broker-1 Healthy 
+create subscription group to 127.0.0.1:10911 success.
+SubscriptionGroupConfig{groupName=mall_order_v1, consumeEnable=true, consumeFromMinEnable=false, consumeBroadcastEnable=false, consumeMessageOrderly=false, retryQueueNums=1, retryMaxTimes=8, groupRetryPolicy=GroupRetryPolicy{type=CUSTOMIZED, exponentialRetryPolicy=null, customizedRetryPolicy=CustomizedRetryPolicy{next=[1000, 2000, 4000, 8000, 16000, 30000, 30000, 30000]}}, brokerId=0, whichBrokerWhenConsumeSlowly=1, notifyConsumerIdsChangedEnable=true, groupSysFlag=0, consumeTimeoutMinute=15, subscriptionDataSet=null, attributes={}}RocketMQ C++ SDK already installed at /mnt/e/c++project/seckill-mall/build/wsl/rocketmq-sdk-install
+-- Found RE2 via pkg-config.
+-- Configuring done (10.9s)
+-- Generating done (2.4s)
+-- Build files have been written to: /mnt/e/c++project/seckill-mall/build/wsl/cpp-s3
+gmake[1]: Warning: File 'CMakeFiles/Makefile2' has modification time 0.76 s in the future
+gmake[2]: Warning: File 'CMakeFiles/contract_tests.dir/progress.make' has modification time 0.55 s in the future
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_core.dir/progress.make' has modification time 0.65 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/contract_tests.dir/progress.make' has modification time 0.051 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 11%] Built target contract_tests
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_mq.dir/compiler_depend.make' has modification time 0.69 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 23%] Built target mall_mq
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_core.dir/compiler_depend.make' has modification time 0.21 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 47%] Built target seckill_core
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_rocketmq_publisher.dir/compiler_depend.make' has modification time 0.53 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 58%] Built target mall_rocketmq_publisher
+gmake[2]: Warning: File 'CMakeFiles/relay_probe.dir/compiler_depend.make' has modification time 0.6 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 70%] Built target relay_probe
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_relay_worker.dir/compiler_depend.make' has modification time 0.51 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 82%] Built target mall_relay_worker
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_service.dir/compiler_depend.make' has modification time 0.24 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target seckill_service
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+Internal ctest changing into directory: /mnt/e/c++project/seckill-mall/build/wsl/cpp-s3
+Test project /mnt/e/c++project/seckill-mall/build/wsl/cpp-s3
+    Start 1: state_contracts
+1/3 Test #1: state_contracts ..................   Passed    0.01 sec
+    Start 2: seckill_configuration
+2/3 Test #2: seckill_configuration ............   Passed    0.01 sec
+    Start 3: mq_configuration
+3/3 Test #3: mq_configuration .................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   0.10 sec
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.seckillmall:order-service >--------------------
+[INFO] Building order-service 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:resources (default-resources) @ order-service ---
+[INFO] Copying 1 resource from src/main/resources to ../../build/wsl/order-target/classes
+[INFO] Copying 0 resource from src/main/resources to ../../build/wsl/order-target/classes
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.1:compile (default-compile) @ order-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to ../../build/wsl/order-target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:testResources (default-testResources) @ order-service ---
+[INFO] skip non existing resourceDirectory /mnt/e/c++project/seckill-mall/src/order/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.1:testCompile (default-testCompile) @ order-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to ../../build/wsl/order-target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.5.6:test (default-test) @ order-service ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.seckillmall.order.HealthControllerTest
+10:52:51.639 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seckillmall.order.HealthControllerTest]: HealthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+10:52:52.498 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seckillmall.order.OrderApplication for test class com.seckillmall.order.HealthControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-10-13T10:52:54.788+08:00  INFO 989 --- [order-service] [           main] c.s.order.HealthControllerTest           : Starting HealthControllerTest using Java 21.0.12.1 with PID 989 (started by lzh in /mnt/e/c++project/seckill-mall/src/order)
+2026-10-13T10:52:54.791+08:00  INFO 989 --- [order-service] [           main] c.s.order.HealthControllerTest           : No active profile set, falling back to 1 default profile: "default"
+2026-10-13T10:52:58.387+08:00  INFO 989 --- [order-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-13T10:52:58.388+08:00  INFO 989 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-13T10:52:58.393+08:00  INFO 989 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-10-13T10:52:58.463+08:00  INFO 989 --- [order-service] [           main] c.s.order.HealthControllerTest           : Started HealthControllerTest in 5.518 seconds (process running for 9.123)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/lzh/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.417 s -- in com.seckillmall.order.HealthControllerTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-jar-plugin:3.4.2:jar (default-jar) @ order-service ---
+[INFO] Building jar: /mnt/e/c++project/seckill-mall/build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:3.5.16:repackage (repackage) @ order-service ---
+[INFO] Replacing main artifact /mnt/e/c++project/seckill-mall/build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /mnt/e/c++project/seckill-mall/build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  20.234 s
+[INFO] Finished at: 2026-10-13T10:53:03+08:00
+[INFO] ------------------------------------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.seckillmall:order-service >--------------------
+[INFO] Building order-service 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.8.1:build-classpath (default-cli) @ order-service ---
+[INFO] Skipped writing classpath file '/mnt/e/c++project/seckill-mall/build/wsl/rocketmq-java.classpath'.  No changes found.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.211 s
+[INFO] Finished at: 2026-10-13T10:53:07+08:00
+[INFO] ------------------------------------------------------------------------
+Requirement already satisfied: jsonschema==4.25.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 1)) (4.25.1)
+Requirement already satisfied: lupa==2.6 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 2)) (2.6)
+Requirement already satisfied: sqlglot==27.20.0 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 3)) (27.20.0)
+Requirement already satisfied: PyYAML==6.0.3 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 4)) (6.0.3)
+Requirement already satisfied: redis==5.2.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 1)) (5.2.1)
+Requirement already satisfied: PyMySQL==1.1.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 2)) (1.1.1)
+Requirement already satisfied: cryptography==46.0.2 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 3)) (46.0.2)
+Requirement already satisfied: attrs>=22.2.0 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (26.1.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (0.37.0)
+Requirement already satisfied: rpds-py>=0.7.1 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (2026.9.1)
+Requirement already satisfied: cffi>=2.0.0 in ./build/wsl/venv/lib/python3.12/site-packages (from cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (2.1.1)
+Requirement already satisfied: pycparser in ./build/wsl/venv/lib/python3.12/site-packages (from cffi>=2.0.0->cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (3.11)
+Requirement already satisfied: typing-extensions>=4.4.0 in ./build/wsl/venv/lib/python3.12/site-packages (from referencing>=0.28.4->jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (4.16.0)
+test_01_cpp_to_java_and_ack (__main__.S3Tests.test_01_cpp_to_java_and_ack) ... ok
+test_02_broker_down_retains_reservation (__main__.S3Tests.test_02_broker_down_retains_reservation) ...  Container seckill-mall-mq-broker-1 Stopping 
+ Container seckill-mall-mq-broker-1 Stopped 
+ok
+test_03_publish_ack_then_relay_crash_duplicate_safe_identity (__main__.S3Tests.test_03_publish_ack_then_relay_crash_duplicate_safe_identity) ... ok
+test_04_broker_sigkill_retains_confirmed_message (__main__.S3Tests.test_04_broker_sigkill_retains_confirmed_message) ... FAIL
+test_05_push_consumer_retry_and_dead_letter (__main__.S3Tests.test_05_push_consumer_retry_and_dead_letter) ... ok
+test_06_continuous_relay_recovers_without_manual_replay (__main__.S3Tests.test_06_continuous_relay_recovers_without_manual_replay) ...  Container seckill-mall-mq-broker-1 Stopping 
+ Container seckill-mall-mq-broker-1 Stopped 
+ok
+
+======================================================================
+FAIL: test_04_broker_sigkill_retains_confirmed_message (__main__.S3Tests.test_04_broker_sigkill_retains_confirmed_message)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s3.py", line 206, in test_04_broker_sigkill_retains_confirmed_message
+    self.assertEqual(len(self.finish_receiver(receiver)),1)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s3.py", line 142, in finish_receiver
+    self.assertEqual(proc.returncode, 0, log.name + " " + output)
+AssertionError: 1 != 0 : /mnt/e/c++project/seckill-mall/build/wsl/s3-java-mall_s3_probe_5f40e32c698642e88a94aa57722d2947.log EVENT {"eventId":"740616c1-6253-44b0-825e-35880d6fd333","activityId":"225056173650","epoch":"1","schemaVersion":1,"userId":"104","createdAtMs":"1791860048927","quantity":1,"reservationId":"740616c1-6253-44b0-825e-35880d6fd333","priceFen":"1990","skuId":"1","traceId":"s3-transport-test","eventType":"SECKILL_RESERVED","requestId":"63de3c90-ae7d-4622-a161-ddb3670328a4"}
+EVENT {"eventId":"740616c1-6253-44b0-825e-35880d6fd333","activityId":"225056173650","epoch":"1","schemaVersion":1,"userId":"104","createdAtMs":"1791860048927","quantity":1,"reservationId":"740616c1-6253-44b0-825e-35880d6fd333","priceFen":"1990","skuId":"1","traceId":"s3-transport-test","eventType":"SECKILL_RESERVED","requestId":"63de3c90-ae7d-4622-a161-ddb3670328a4"}
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 194.280s
+
+FAILED (failures=1)
+{"stage": "S3", "platform": "linux", "tests": 6, "failures": 1, "errors": 0, "skipped": 0, "passed": false, "scope": "real RocketMQ C++ producer, Java simple ACK/retry and push failure/DLQ; no MySQL order transaction"}
+ExitCode=1

@@ -1,0 +1,15 @@
+PASS desktop real catalog, original assets, accessibility
+PASS catalog search, empty results and price sort
+PASS register/login modal and keyboard focus
+PASS wrong captcha, refresh and stable request identity
+PASS real captcha -> C++ -> RocketMQ -> MySQL order, stable request on lost response
+PASS mock payment, duplicate-click guard and authoritative paid state
+PASS second real order, expiry close and no payment action
+PASS sold-out display disables buy (private cache fixture, restored)
+PASS compensating and failed request UI (explicit response fixture)
+PASS mobile real detail and homepage: layout, accessibility, images
+PASS USER frontend guard and backend forbidden
+PASS ADMIN goods create/edit, activity create/activate/end, users, orders, recovery
+PASS API outage displays actionable error instead of fake catalog
+PASS no browser JavaScript exceptions
+PASS S5 SQL: unique orders, real payment records, stock conservation

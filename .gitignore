@@ -1,0 +1,19 @@
+# Generated files and local settings
+.env
+.env.*
+!.env.example
+!.env.*.example
+build/
+cmake-build-*/
+target/
+node_modules/
+dist/
+__pycache__/
+*.pyc
+*.log
+!tests/reports/**/*.log
+.idea/
+.vscode/
+
+# Runtime volumes; retain curated reports in tests/reports
+deploy/data/

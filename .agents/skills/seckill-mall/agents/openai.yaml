@@ -1,0 +1,6 @@
+interface:
+  display_name: "高并发秒杀商城"
+  short_description: "依照项目目标实现 C++ 秒杀、异步订单、库存一致性与可复现压测"
+  default_prompt: "使用 $seckill-mall 按项目目标推进商城实现，先检查现有工程并完成当前阶段的代码和验收。"
+policy:
+  allow_implicit_invocation: true

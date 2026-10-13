@@ -1,0 +1,1402 @@
+@import "tailwindcss";
+@theme {
+  --color-drop: var(--color-accent);
+}
+:root {
+  --green: #111;
+  --color-accent: #d62820;
+  --muted: #626262;
+  --line: #e5e5e5;
+  --surface: #f5f5f5;
+  color: #111;
+  font-family:
+    "Arial", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  font-size: 15px;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.04em;
+}
+h1 {
+  font-weight: 800;
+}
+h2 {
+  font-weight: 750;
+}
+h3 {
+  font-weight: 600;
+}
+button,
+input,
+select,
+textarea {
+  border-radius: 0;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline-color: #222;
+}
+.container {
+  max-width: 1536px;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+.utility-bar {
+  background: #111;
+  color: white;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 8px 4%;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.utility-bar > div {
+  display: flex;
+  gap: 25px;
+}
+.sports-header {
+  height: 102px;
+  padding: 0 4%;
+  gap: 25px;
+}
+.sports-brand {
+  font-family: Arial, sans-serif;
+  font-size: 27px;
+  letter-spacing: -0.06em;
+  font-weight: 900;
+  font-style: italic;
+  gap: 0;
+  white-space: nowrap;
+  position: relative;
+  padding-bottom: 15px;
+}
+.sports-brand span {
+  padding: 0 2px;
+  border: 0;
+  font-size: 27px;
+  letter-spacing: -0.15em;
+  font-weight: 900;
+  color: var(--color-accent);
+}
+.sports-brand i {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  font-style: normal;
+  font-weight: 400;
+}
+.sports-header nav {
+  gap: 26px;
+}
+.sports-header nav a {
+  font-weight: 650;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.sale-link {
+  color: var(--color-accent) !important;
+}
+.sports-header nav a[aria-current="page"]:after {
+  background: #111;
+  height: 2px;
+}
+.nav-search {
+  display: flex;
+  position: relative;
+  width: 150px;
+}
+.nav-search input {
+  border: 0;
+  background: #f3f3f3;
+  border-radius: 24px;
+  font-size: 12px;
+  padding: 10px 35px 10px 16px;
+  min-height: 40px;
+}
+.nav-search button {
+  position: absolute;
+  right: 13px;
+  top: 2px;
+  border: 0;
+  background: none;
+  font-size: 26px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+.bag-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: none;
+  padding: 8px;
+}
+.bag-button svg {
+  width: 24px;
+  height: 24px;
+}
+.bag-button span {
+  font-size: 10px;
+  background: #111;
+  color: #fff;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.announcement {
+  background: #f5f5f5;
+  color: #111;
+  padding: 13px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+.announcement a {
+  margin-left: 24px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.17em;
+  color: #626262;
+  font-weight: 650;
+}
+.button {
+  border-radius: 999px;
+  background: #111;
+  border-color: #111;
+  font-size: 14px;
+  font-weight: 650;
+  min-height: 50px;
+  padding: 14px 25px;
+}
+.button:hover:not(:disabled) {
+  background: #303030;
+}
+.button:disabled {
+  opacity: 0.4;
+}
+.secondary {
+  background: #fff;
+  color: #111;
+  border-color: #bbb;
+}
+.secondary:hover:not(:disabled) {
+  background: #eee;
+}
+.underlink {
+  font-size: 13px;
+  border-color: #111;
+}
+.sports-hero {
+  height: 650px;
+  min-height: 500px;
+  max-height: none;
+  background: #111;
+}
+.sports-hero > img {
+  object-position: right center;
+  object-fit:contain;
+  filter: brightness(0.8);
+}
+.sports-hero:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0.18) 58%,
+    transparent
+  );
+  pointer-events: none;
+}
+.sports-hero .hero-copy {
+  z-index: 1;
+  top: 17%;
+  left: 6%;
+  max-width: 700px;
+  color: #fff;
+}
+.sports-hero .eyebrow {
+  color: #ddd;
+  margin-bottom: 22px;
+}
+.sports-hero h1 {
+  font-family: inherit;
+  font-weight: 850;
+  font-size: clamp(42px, 4.6vw, 72px);
+  line-height: 1.12;
+  letter-spacing: -0.055em;
+  margin-bottom: 28px;
+}
+.sports-hero .hero-copy > p:not(.eyebrow) {
+  color: #eee;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.sports-hero .button {
+  background: #fff;
+  color: #111;
+  border-color: #fff;
+  font-size: 13px;
+}
+.sports-hero .outline-light {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+}
+.sports-hero .hero-caption {
+  margin-top: 55px;
+  color: #ddd;
+  font-size: 9px;
+}
+.hero-index {
+  position: absolute;
+  z-index: 2;
+  right: 5%;
+  bottom: 35px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 26px;
+}
+.hero-index span {
+  font-size: 9px;
+  font-weight: 400;
+  margin-left: 16px;
+  letter-spacing: 0.18em;
+}
+.category-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.category-strip a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  gap: 15px;
+  font-size: 20px;
+}
+.category-strip a > span {
+  font-size: 10px;
+  color: #626262;
+}
+.category-strip strong {
+  flex: 1;
+  font-weight: 650;
+}
+.collection {
+  padding-top: 65px;
+  padding-bottom: 65px;
+}
+.section-title h2 {
+  font-size: 36px;
+}
+.section-intro {
+  font-size: 13px;
+  color: #626262;
+  margin: 14px 0 30px;
+}
+.product-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.product-image {
+  background: #f4f4f4;
+  aspect-ratio: 1;
+  border-radius: 0;
+}
+.product-image img {
+  object-fit: contain;
+}
+.tag {
+  background: #fff;
+  color: var(--color-accent);
+  font-size: 10px;
+  padding: 5px 9px;
+  top: 14px;
+  left: 14px;
+}
+.image-arrow {
+  border: 0;
+  background: #fff;
+  width: 31px;
+  height: 31px;
+}
+.card-text {
+  padding-top: 17px;
+}
+.card-text h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 13px;
+}
+.card-text p.shoe-category {
+  font-size: 11px;
+  color: #626262;
+  white-space: normal;
+  margin-bottom: 5px;
+}
+.shoe-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+.shoe-prices strong {
+  font-weight: 750;
+}
+.shoe-prices del {
+  font-size: 12px;
+  color: #626262;
+}
+.saving {
+  font-size: 10px;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+.stock-summary {
+  margin-top: 18px;
+}
+.stock-summary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10px;
+  color: #626262;
+}
+.stock-summary progress {
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin-top: 7px;
+  appearance: none;
+  border: 0;
+  background: #e3e3e3;
+}
+.stock-summary progress::-webkit-progress-bar {
+  background: #e3e3e3;
+}
+.stock-summary progress::-webkit-progress-value {
+  background: var(--color-accent);
+}
+.stock-summary progress::-moz-progress-bar {
+  background: var(--color-accent);
+}
+.card-action {
+  border-top: 1px solid #ddd;
+  padding-top: 12px;
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+}
+.brand-statement {
+  text-align: center;
+  background: #f2f2f2;
+  padding: 80px 24px;
+}
+.brand-statement h2 {
+  font-size: clamp(32px, 4vw, 58px);
+  font-weight: 850;
+  line-height: 1.25;
+  margin-bottom: 20px;
+}
+.brand-statement p:not(.eyebrow) {
+  font-size: 13px;
+  color: #626262;
+  margin-bottom: 25px;
+}
+.sports-footer {
+  background: #111;
+  color: #fff;
+  grid-template-columns: 1.3fr 1.3fr 1fr 1fr;
+  padding: 55px 5% 24px;
+}
+.sports-footer .brand {
+  font-size: 28px;
+  align-items: flex-start;
+}
+.sports-footer .brand span {
+  font-size: 28px;
+}
+.sports-footer p span,
+.sports-footer .footer-bottom {
+  color: #bbb;
+}
+.sports-footer h3 {
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+.sports-footer > div > a {
+  display: block;
+  font-size: 12px;
+  color: #ddd;
+  margin-bottom: 10px;
+}
+.sports-footer .footer-bottom {
+  border-color: #444;
+  grid-column: 1/-1;
+}
+.page-section {
+  padding-top: 42px;
+}
+.catalog-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+.catalog-title h1 {
+  font-size: 36px;
+  margin: 0;
+}
+.catalog-title h1 span {
+  font-size: 16px;
+  font-weight: 400;
+  color: #626262;
+  letter-spacing: 0;
+}
+.sort-label {
+  flex-direction: row;
+  align-items: center;
+  font-size: 11px;
+  gap: 15px;
+  margin: 0;
+  white-space: nowrap;
+}
+.sort-label select {
+  width: 160px;
+  border: 0;
+  font-size: 12px;
+  background: #f5f5f5;
+}
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 36px;
+}
+.catalog-results .product-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 35px 20px;
+}
+.filter-sidebar {
+  font-size: 14px;
+}
+.filter-sidebar fieldset {
+  border: 0;
+  border-top: 1px solid #ddd;
+  padding: 22px 0;
+  margin: 15px 0;
+}
+.filter-sidebar legend {
+  font-size: 14px;
+  font-weight: 650;
+  float: left;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.filter-choice {
+  flex-direction: row;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 13px;
+  gap: 10px;
+  clear: both;
+}
+.filter-choice input {
+  min-height: 0;
+  width: 17px;
+  height: 17px;
+  accent-color: #111;
+}
+.catalog-results > .small {
+  margin-top: 28px;
+}
+.load-more {
+  margin: 35px auto;
+  display: flex;
+}
+.session-tabs {
+  display: flex;
+  gap: 10px;
+  margin: 28px 0 40px;
+  flex-wrap: wrap;
+}
+.session-tabs button {
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 13px;
+  padding: 10px 22px;
+}
+.session-tabs button[aria-pressed="true"] {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+.flash-page h1 {
+  font-size: 48px;
+}
+.flash-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px 20px;
+}
+.drop-time {
+  font-size: 11px;
+  border-top: 3px solid #111;
+  padding-top: 14px;
+  margin-bottom: 14px;
+}
+.drop-time span {
+  display: block;
+  color: #626262;
+  font-size: 10px;
+  margin-top: 5px;
+}
+.gallery {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  min-width: 0;
+}
+.gallery-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 62px;
+  flex-shrink: 0;
+}
+.gallery-thumbs button {
+  border: 1px solid transparent;
+  padding: 0;
+  background: #f5f5f5;
+  aspect-ratio: 1;
+}
+.gallery-thumbs button[aria-pressed="true"] {
+  border-color: #111;
+}
+.gallery-thumbs img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+.sneaker-detail .detail {
+  grid-template-columns: 1.3fr 1fr;
+  gap: 6%;
+}
+.sneaker-detail .detail-image {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  aspect-ratio: 1/1.08;
+  position: relative;
+  overflow: hidden;
+  background: #f4f4f4;
+  flex: 1;
+  min-width: 0;
+}
+.sneaker-detail .detail-image img {
+  object-fit: contain;
+  transition: transform 0.25s;
+}
+.sneaker-detail .detail-image img.zoom {
+  transform: scale(1.6);
+}
+.zoom-hint {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 50%;
+  font-size: 20px;
+}
+.sneaker-detail .detail-copy h1 {
+  font-size: 32px;
+  letter-spacing: -0.03em;
+  font-weight: 750;
+}
+.sneaker-detail .detail-copy > p.muted {
+  font-size: 13px;
+}
+.sneaker-detail .detail-price {
+  font-size: 27px;
+  margin: 20px 0;
+}
+.color-selection {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 30px;
+  font-size: 11px;
+  color: #626262;
+}
+.color-selection img {
+  width: 66px;
+  height: 66px;
+  background: #f5f5f5;
+  object-fit: contain;
+  border: 1px solid #111;
+  border-radius: 4px;
+}
+.size-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+.size-heading .underlink {
+  font-size: 11px;
+}
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.size-grid button {
+  min-height: 45px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.size-grid button[aria-pressed="true"] {
+  border: 2px solid #111;
+  background: #f5f5f5;
+  font-weight: 700;
+}
+.size-grid button:disabled {
+  background: #f5f5f5;
+  color: #626262;
+  opacity: 0.65;
+}
+.size-note {
+  font-size: 10px;
+  color: #626262;
+  margin: 14px 0 22px;
+}
+.sneaker-detail .activity {
+  background: #f5f5f5;
+  border-left: 3px solid var(--color-accent);
+  padding: 18px 22px;
+  margin-bottom: 22px;
+}
+.dot {
+  background: var(--color-accent);
+}
+.countdown {
+  border-color: #ddd;
+}
+.sneaker-detail .buy {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  min-height: 54px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.sneaker-detail .buy:hover:not(:disabled) {
+  background: #b7211a;
+}
+.shoe-description {
+  border-top: 1px solid #ddd;
+  margin-top: 26px;
+  padding-top: 20px;
+  font-size: 13px;
+}
+.shoe-description summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+.shoe-description p {
+  font-size: 12px;
+  color: #626262;
+  margin-top: 18px;
+}
+.bag-drawer {
+  margin: 0 0 0 auto;
+  width: 470px;
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  border: 0;
+  background: #fff;
+  padding: 32px;
+  overflow: auto;
+}
+.bag-drawer::backdrop {
+  background: #0006;
+}
+.bag-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.bag-heading h2 {
+  font-size: 25px;
+  margin: 0;
+}
+.bag-heading h2 span {
+  font-weight: 400;
+  font-size: 16px;
+}
+.bag-heading button {
+  border: 0;
+  background: none;
+  font-size: 26px;
+  width: 35px;
+  height: 35px;
+}
+.bag-row {
+  display: flex;
+  gap: 18px;
+  padding: 24px 0;
+  border-bottom: 1px solid #ddd;
+}
+.bag-row img {
+  width: 115px;
+  height: 120px;
+  object-fit: contain;
+  background: #f5f5f5;
+}
+.bag-row h3 {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.bag-row p {
+  font-size: 11px;
+  color: #626262;
+  margin-bottom: 7px;
+}
+.bag-drawer > .button {
+  margin-top: 30px;
+}
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 50px;
+  margin-top: 35px;
+}
+.cart-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 25px 0;
+  border-top: 1px solid #ddd;
+}
+.cart-row img {
+  width: 110px;
+  height: 120px;
+  object-fit: contain;
+  background: #f5f5f5;
+}
+.cart-row > div {
+  flex: 1;
+  min-width: 200px;
+}
+.cart-row h2 {
+  font-size: 19px;
+  margin-bottom: 10px;
+}
+.cart-row p {
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+.cart-row > .button {
+  margin-left: auto;
+  font-size: 11px;
+  min-height: 40px;
+  padding: 10px 16px;
+}
+.cart-summary {
+  background: #f5f5f5;
+  padding: 25px;
+  align-self: start;
+}
+.cart-summary h2 {
+  font-size: 23px;
+}
+.cart-summary > p {
+  font-size: 12px;
+  color: #626262;
+}
+.cart-summary > div {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #ddd;
+  padding: 20px 0;
+  font-size: 14px;
+}
+.cart-summary strong {
+  font-size: 21px;
+}
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.skeleton-grid > div {
+  aspect-ratio: 1;
+  background: #f4f4f4;
+}
+.notice {
+  background: #f1f1f1;
+}
+.order-row .pill.green {
+  color: #145c32;
+}
+.result-symbol {
+  border-color: #bbb;
+  color: #111;
+}
+.result h1 {
+  font-weight: 700;
+}
+.dialog h2 {
+  font-weight: 750;
+}
+.admin-form,
+.metric-grid > div,
+.empty {
+  background: #f5f5f5;
+}
+.tabs button[aria-pressed="true"] {
+  color: #111;
+  border-color: #111;
+}
+@media (max-width: 1280px) {
+  .sports-header nav {
+    gap: 18px;
+  }
+  .nav-search {
+    width: 120px;
+  }
+  .sports-brand {
+    font-size: 24px;
+  }
+  .sports-brand span {
+    font-size: 24px;
+  }
+  .sports-header {
+    gap: 15px;
+  }
+  .account {
+    gap: 12px;
+  }
+  .sports-hero .hero-copy {
+    max-width: 600px;
+  }
+  .flash-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1024px) {
+  .nav-search {
+    display: none;
+  }
+  .sports-header {
+    height: 90px;
+  }
+  .sports-header nav a {
+    font-size: 12px;
+  }
+  .catalog-layout {
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 25px;
+  }
+  .catalog-results .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .sports-hero {
+    height: 590px;
+  }
+  .sneaker-detail .detail {
+    gap: 4%;
+    grid-template-columns: 1.1fr 1fr;
+  }
+  .gallery-thumbs {
+    width: 45px;
+  }
+  .gallery {
+    gap: 10px;
+  }
+  .cart-layout {
+    grid-template-columns: 1fr 280px;
+    gap: 25px;
+  }
+}
+@media (max-width: 768px) {
+  .sports-header {
+    height: auto;
+    padding: 18px 5% 0;
+    flex-wrap: wrap;
+    min-height: 105px;
+  }
+  .sports-header nav {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 25px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+  }
+  .sports-header nav a {
+    padding: 10px 0 14px;
+  }
+  .sports-brand {
+    font-size: 25px;
+  }
+  .sports-brand span {
+    font-size: 25px;
+  }
+  .sports-hero {
+    height: 590px;
+  }
+  .sports-hero > img {
+    object-position: 66% center;
+    object-fit:cover;
+  }
+  .sports-hero .hero-copy {
+    top: 21%;
+    left: 6%;
+    right: 6%;
+  }
+  .sports-hero h1 {
+    font-size: 46px;
+  }
+  .sports-hero .hero-caption {
+    display: none;
+  }
+  .product-grid,
+  .flash-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 14px;
+  }
+  .category-strip {
+    gap: 15px;
+  }
+  .category-strip a {
+    font-size: 16px;
+    gap: 8px;
+  }
+  .category-strip a > span:first-child {
+    display: none;
+  }
+  .collection {
+    padding-top: 45px;
+    padding-bottom: 45px;
+  }
+  .section-title h2 {
+    font-size: 29px;
+  }
+  .catalog-title h1 {
+    font-size: 29px;
+  }
+  .catalog-layout {
+    grid-template-columns: 1fr;
+  }
+  .filter-sidebar {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  .filter-sidebar > label {
+    flex: 1;
+    min-width: 145px;
+    margin-bottom: 0;
+  }
+  .filter-sidebar fieldset {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    order: 3;
+    padding: 12px 0 0;
+    margin: 0;
+    border: 0;
+  }
+  .filter-sidebar legend {
+    float: none;
+    margin: 0 0 14px;
+    font-size: 12px;
+  }
+  .filter-choice {
+    margin: 0;
+    font-size: 12px;
+  }
+  .filter-sidebar > .underlink {
+    align-self: center;
+    font-size: 11px;
+  }
+  .catalog-results .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sneaker-detail .detail {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .gallery-thumbs {
+    width: 55px;
+  }
+  .sneaker-detail .detail-image {
+    aspect-ratio: 1;
+  }
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+  .cart-row > div {
+    min-width: 140px;
+  }
+  .sports-footer {
+    grid-template-columns: 1fr 1fr;
+  }
+  .sports-footer > .brand,
+  .sports-footer > p {
+    grid-column: 1/-1;
+  }
+  .flash-page h1 {
+    font-size: 38px;
+  }
+  .sort-label {
+    font-size: 10px;
+    gap: 8px;
+  }
+  .sort-label select {
+    width: 130px;
+  }
+}
+@media (max-width: 640px) {
+  .utility-bar {
+    font-size: 8px;
+    padding: 7px 5%;
+    letter-spacing: 0.04em;
+  }
+  .utility-bar > div {
+    gap: 14px;
+  }
+  .announcement {
+    font-size: 9px;
+    padding: 10px;
+  }
+  .announcement a {
+    margin-left: 13px;
+  }
+  .sports-header nav {
+    gap: 24px;
+  }
+  .sports-header .account {
+    font-size: 10px;
+    gap: 11px;
+  }
+  .sports-header .text-button {
+    font-size: 10px;
+  }
+  .bag-button {
+    padding: 3px;
+    gap: 3px;
+  }
+  .bag-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  .sports-brand {
+    font-size: 23px;
+  }
+  .sports-brand span {
+    font-size: 23px;
+  }
+  .sports-brand i {
+    font-size: 7px;
+  }
+  .sports-hero {
+    height: 560px;
+    min-height: 0;
+  }
+  .sports-hero > img {
+    position: static;
+    width: 100%;
+    height: 100%;
+    object-position: 66% center;
+  }
+  .sports-hero:after {
+    top: 0;
+    height: auto;
+    background: linear-gradient(90deg, #000b, #0004);
+  }
+  .sports-hero .hero-copy {
+    top: 22%;
+    left: 6%;
+    right: 5%;
+    max-width: 360px;
+  }
+  .sports-hero .eyebrow {
+    font-size: 9px;
+    margin-bottom: 17px;
+  }
+  .sports-hero h1 {
+    font-size: 40px;
+    line-height: 1.13;
+    letter-spacing: -0.05em;
+    margin-bottom: 22px;
+  }
+  .sports-hero .hero-copy > p:not(.eyebrow) {
+    font-size: 12px;
+    margin-bottom: 26px;
+  }
+  .hero-actions {
+    gap: 9px;
+  }
+  .sports-hero .button {
+    font-size: 11px;
+    padding: 12px 17px;
+    min-height: 42px;
+    gap: 0;
+  }
+  .hero-index {
+    right: 6%;
+    bottom: 25px;
+    font-size: 22px;
+  }
+  .hero-index span {
+    font-size: 8px;
+  }
+  .section-title .underlink {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .section-title h2 {
+    font-size: 25px;
+  }
+  .section-title .eyebrow {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+  }
+  .section-intro {
+    font-size: 11px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+  }
+  .category-strip {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .category-strip a {
+    font-size: 14px;
+  }
+  .category-strip a > span {
+    font-size: 10px;
+  }
+  .product-image {
+    aspect-ratio: 1;
+  }
+  .tag {
+    font-size: 8px;
+    padding: 4px 6px;
+    top: 9px;
+    left: 9px;
+  }
+  .card-text h3 {
+    font-size: 13px;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+  .card-text p.shoe-category {
+    font-size: 9px;
+  }
+  .shoe-prices {
+    font-size: 13px;
+    gap: 6px;
+  }
+  .shoe-prices del {
+    font-size: 10px;
+  }
+  .saving {
+    font-size: 8px;
+  }
+  .stock-summary > div {
+    font-size: 8px;
+    gap: 4px;
+  }
+  .card-action {
+    font-size: 9px;
+  }
+  .brand-statement {
+    padding: 55px 22px;
+  }
+  .brand-statement h2 {
+    font-size: 32px;
+  }
+  .brand-statement p:not(.eyebrow) {
+    font-size: 11px;
+  }
+  .catalog-title {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .catalog-title h1 {
+    font-size: 28px;
+  }
+  .catalog-title h1 span {
+    font-size: 12px;
+  }
+  .sort-label {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .catalog-title {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+  .filter-sidebar {
+    gap: 13px;
+  }
+  .filter-sidebar input,
+  .filter-sidebar select {
+    font-size: 12px;
+    padding: 10px;
+  }
+  .filter-sidebar label {
+    font-size: 11px;
+  }
+  .flash-page h1 {
+    font-size: 32px;
+  }
+  .flash-page > .muted {
+    font-size: 12px;
+  }
+  .session-tabs {
+    gap: 8px;
+    margin: 24px 0;
+  }
+  .session-tabs button {
+    font-size: 11px;
+    padding: 9px 15px;
+  }
+  .drop-time {
+    font-size: 10px;
+  }
+  .drop-time span {
+    font-size: 8px;
+  }
+  .sneaker-detail .detail-copy h1 {
+    font-size: 30px;
+  }
+  .gallery {
+    flex-direction: column-reverse;
+  }
+  .gallery-thumbs {
+    flex-direction: row;
+    width: auto;
+  }
+  .gallery-thumbs button {
+    width: 55px;
+  }
+  .size-grid button {
+    min-height: 44px;
+    font-size: 13px;
+  }
+  .sneaker-detail .activity {
+    padding: 17px 18px;
+  }
+  .sneaker-detail .buy {
+    min-height: 50px;
+    font-size: 13px;
+  }
+  .sneaker-detail .secondary {
+    font-size: 13px;
+  }
+  .cart-row {
+    gap: 15px;
+  }
+  .cart-row img {
+    width: 85px;
+    height: 95px;
+  }
+  .cart-row h2 {
+    font-size: 15px;
+  }
+  .cart-row > strong {
+    margin-left: auto;
+  }
+  .cart-row > .button {
+    min-width: 180px;
+  }
+  .cart-summary {
+    padding: 22px;
+  }
+  .bag-drawer {
+    padding: 25px;
+    max-width: 100%;
+    width: 390px;
+  }
+  .bag-row img {
+    width: 95px;
+    height: 100px;
+  }
+  .skeleton-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sports-footer {
+    padding: 38px 6% 20px;
+  }
+  .sports-footer .brand,
+  .sports-footer .brand span {
+    font-size: 25px;
+  }
+  .sports-footer .footer-bottom {
+    font-size: 8px;
+  }
+  .sports-footer h3 {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

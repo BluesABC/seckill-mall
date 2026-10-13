@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-13T14:16:58Z",
+  "runtime": "Linux",
+  "elapsedSeconds": 62.342,
+  "project": "seckill-mall-s6",
+  "checks": [
+    {
+      "name": "all real containers ready behind Nginx",
+      "status": "PASS"
+    },
+    {
+      "name": "static storefront, CSP, missing asset 404",
+      "status": "PASS"
+    },
+    {
+      "name": "Nginx auth/captcha/C++ official MQ/Java/MySQL order + replay",
+      "status": "PASS"
+    },
+    {
+      "name": "idempotent real MOCK payment behind proxy",
+      "status": "PASS"
+    },
+    {
+      "name": "automatic close and durable Redis/DB stock release",
+      "status": "PASS"
+    },
+    {
+      "name": "repeated seed preserves catalog and live stock",
+      "status": "PASS"
+    },
+    {
+      "name": "client forged forwarding headers cannot select rate-limit identity",
+      "status": "PASS"
+    },
+    {
+      "name": "only loopback gateway is published; app services unprivileged",
+      "status": "PASS"
+    },
+    {
+      "name": "recreated order IP handled by Nginx Docker DNS",
+      "status": "PASS"
+    },
+    {
+      "name": "whole stack restart preserves sessions/payment/orders/stock",
+      "status": "PASS"
+    }
+  ],
+  "orders": 2,
+  "paid": 1,
+  "closed": 1,
+  "mockPayments": 1,
+  "fixtures": "Owned clean stack; captcha answer and expiry injected privately in test Redis/SQL only"
+}

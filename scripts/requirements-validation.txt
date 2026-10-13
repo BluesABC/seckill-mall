@@ -1,0 +1,4 @@
+jsonschema==4.25.1
+lupa==2.6
+sqlglot==27.20.0
+PyYAML==6.0.3

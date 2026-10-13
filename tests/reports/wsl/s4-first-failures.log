@@ -1,0 +1,411 @@
+6.18.54.1-microsoft-standard-WSL2
+openjdk version "21.0.12.1" 2026-08-18
+OpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)
+OpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)
+29.8.2
+ Container seckill-mall-s1-mysql-1 Running 
+ Container seckill-mall-s1-redis-1 Running 
+ Container seckill-mall-s1-mysql-1 Waiting 
+ Container seckill-mall-s1-redis-1 Waiting 
+ Container seckill-mall-s1-mysql-1 Healthy 
+ Container seckill-mall-s1-redis-1 Healthy 
+ Container seckill-mall-mq-namesrv-1 Running 
+ Container seckill-mall-mq-broker-1 Running 
+ Container seckill-mall-mq-prepare-volumes-1 Starting 
+ Container seckill-mall-mq-prepare-volumes-1 Started 
+ Container seckill-mall-mq-prepare-volumes-1 Waiting 
+ Container seckill-mall-mq-prepare-volumes-1 Exited 
+ Container seckill-mall-mq-namesrv-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Healthy 
+ Container seckill-mall-mq-prepare-volumes-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Waiting 
+ Container seckill-mall-mq-broker-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Healthy 
+ Container seckill-mall-mq-prepare-volumes-1 Exited 
+ Container seckill-mall-mq-broker-1 Healthy 
+create topic to 127.0.0.1:10911 success.
+TopicConfig [topicName=seckill_reserved_v1, readQueueNums=4, writeQueueNums=4, perm=RW-, topicFilterType=SINGLE_TAG, topicSysFlag=0, order=false, attributes={+message.type=NORMAL}]
+ Container seckill-mall-mq-namesrv-1 Running 
+ Container seckill-mall-mq-broker-1 Running 
+ Container seckill-mall-mq-prepare-volumes-1 Starting 
+ Container seckill-mall-mq-prepare-volumes-1 Started 
+ Container seckill-mall-mq-prepare-volumes-1 Waiting 
+ Container seckill-mall-mq-prepare-volumes-1 Exited 
+ Container seckill-mall-mq-namesrv-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Healthy 
+ Container seckill-mall-mq-prepare-volumes-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Waiting 
+ Container seckill-mall-mq-broker-1 Waiting 
+ Container seckill-mall-mq-namesrv-1 Healthy 
+ Container seckill-mall-mq-prepare-volumes-1 Exited 
+ Container seckill-mall-mq-broker-1 Healthy 
+create subscription group to 127.0.0.1:10911 success.
+SubscriptionGroupConfig{groupName=mall_order_v1, consumeEnable=true, consumeFromMinEnable=false, consumeBroadcastEnable=false, consumeMessageOrderly=false, retryQueueNums=1, retryMaxTimes=8, groupRetryPolicy=GroupRetryPolicy{type=CUSTOMIZED, exponentialRetryPolicy=null, customizedRetryPolicy=CustomizedRetryPolicy{next=[1000, 2000, 4000, 8000, 16000, 30000, 30000, 30000]}}, brokerId=0, whichBrokerWhenConsumeSlowly=1, notifyConsumerIdsChangedEnable=true, groupSysFlag=0, consumeTimeoutMinute=15, subscriptionDataSet=null, attributes={}}RocketMQ C++ SDK already installed at /mnt/e/c++project/seckill-mall/build/wsl/rocketmq-sdk-install
+-- Found RE2 via pkg-config.
+-- Configuring done (10.3s)
+-- Generating done (2.0s)
+-- Build files have been written to: /mnt/e/c++project/seckill-mall/build/wsl/cpp-s3
+gmake[1]: Warning: File 'CMakeFiles/Makefile2' has modification time 0.79 s in the future
+gmake[2]: Warning: File 'CMakeFiles/contract_tests.dir/progress.make' has modification time 0.6 s in the future
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_core.dir/progress.make' has modification time 0.69 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/contract_tests.dir/progress.make' has modification time 0.14 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 11%] Built target contract_tests
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_mq.dir/progress.make' has modification time 0.097 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_mq.dir/compiler_depend.make' has modification time 0.66 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 23%] Built target mall_mq
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_core.dir/compiler_depend.make' has modification time 0.19 s in the future
+[ 29%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/redis.cpp.o
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_rocketmq_publisher.dir/compiler_depend.make' has modification time 0.49 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 41%] Built target mall_rocketmq_publisher
+[ 47%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/relay.cpp.o
+[ 52%] Linking CXX static library libseckill_core.a
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 58%] Built target seckill_core
+[ 64%] Building CXX object CMakeFiles/relay_probe.dir/tests/relay_probe.cpp.o
+[ 70%] Building CXX object src/seckill/CMakeFiles/seckill_service.dir/main.cpp.o
+[ 76%] Linking CXX executable relay_probe
+[ 76%] Built target relay_probe
+[ 82%] Building CXX object src/seckill/CMakeFiles/seckill_service.dir/service.cpp.o
+[ 88%] Building CXX object src/mq/CMakeFiles/mall_relay_worker.dir/relay_worker.cpp.o
+[ 94%] Linking CXX executable mall_relay_worker
+[ 94%] Built target mall_relay_worker
+[100%] Linking CXX executable seckill_service
+[100%] Built target seckill_service
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+Internal ctest changing into directory: /mnt/e/c++project/seckill-mall/build/wsl/cpp-s3
+Test project /mnt/e/c++project/seckill-mall/build/wsl/cpp-s3
+    Start 1: state_contracts
+1/3 Test #1: state_contracts ..................   Passed    0.01 sec
+    Start 2: seckill_configuration
+2/3 Test #2: seckill_configuration ............   Passed    0.01 sec
+    Start 3: mq_configuration
+3/3 Test #3: mq_configuration .................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   0.11 sec
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.seckillmall:order-service >--------------------
+[INFO] Building order-service 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:resources (default-resources) @ order-service ---
+[INFO] Copying 1 resource from src/main/resources to ../../build/wsl/order-target/classes
+[INFO] Copying 0 resource from src/main/resources to ../../build/wsl/order-target/classes
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.1:compile (default-compile) @ order-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:testResources (default-testResources) @ order-service ---
+[INFO] skip non existing resourceDirectory /mnt/e/c++project/seckill-mall/src/order/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.1:testCompile (default-testCompile) @ order-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.5.6:test (default-test) @ order-service ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.seckillmall.order.HealthControllerTest
+12:53:43.366 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seckillmall.order.HealthControllerTest]: HealthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:53:44.094 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seckillmall.order.OrderApplication for test class com.seckillmall.order.HealthControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-10-13T12:53:46.519+08:00  INFO 2555 --- [order-service] [           main] c.s.order.HealthControllerTest           : Starting HealthControllerTest using Java 21.0.12.1 with PID 2555 (started by lzh in /mnt/e/c++project/seckill-mall/src/order)
+2026-10-13T12:53:46.523+08:00  INFO 2555 --- [order-service] [           main] c.s.order.HealthControllerTest           : No active profile set, falling back to 1 default profile: "default"
+2026-10-13T12:53:51.585+08:00  INFO 2555 --- [order-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-13T12:53:51.585+08:00  INFO 2555 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-13T12:53:51.590+08:00  INFO 2555 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-10-13T12:53:51.658+08:00  INFO 2555 --- [order-service] [           main] c.s.order.HealthControllerTest           : Started HealthControllerTest in 7.084 seconds (process running for 10.55)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/lzh/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.54 s -- in com.seckillmall.order.HealthControllerTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-jar-plugin:3.4.2:jar (default-jar) @ order-service ---
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:3.5.16:repackage (repackage) @ order-service ---
+[INFO] Replacing main artifact /mnt/e/c++project/seckill-mall/build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /mnt/e/c++project/seckill-mall/build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  18.918 s
+[INFO] Finished at: 2026-10-13T12:53:56+08:00
+[INFO] ------------------------------------------------------------------------
+Requirement already satisfied: jsonschema==4.25.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 1)) (4.25.1)
+Requirement already satisfied: lupa==2.6 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 2)) (2.6)
+Requirement already satisfied: sqlglot==27.20.0 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 3)) (27.20.0)
+Requirement already satisfied: PyYAML==6.0.3 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 4)) (6.0.3)
+Requirement already satisfied: redis==5.2.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 1)) (5.2.1)
+Requirement already satisfied: PyMySQL==1.1.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 2)) (1.1.1)
+Requirement already satisfied: cryptography==46.0.2 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 3)) (46.0.2)
+Requirement already satisfied: attrs>=22.2.0 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (26.1.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (0.37.0)
+Requirement already satisfied: rpds-py>=0.7.1 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (2026.9.1)
+Requirement already satisfied: cffi>=2.0.0 in ./build/wsl/venv/lib/python3.12/site-packages (from cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (2.1.1)
+Requirement already satisfied: pycparser in ./build/wsl/venv/lib/python3.12/site-packages (from cffi>=2.0.0->cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (3.11)
+Requirement already satisfied: typing-extensions>=4.4.0 in ./build/wsl/venv/lib/python3.12/site-packages (from referencing>=0.28.4->jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (4.16.0)
+test_01_auth_and_cpp_shared_session (__main__.S4Tests.test_01_auth_and_cpp_shared_session) ... FAIL
+test_02_real_http_to_mysql_order (__main__.S4Tests.test_02_real_http_to_mysql_order) ... ok
+test_03_duplicate_message_same_order (__main__.S4Tests.test_03_duplicate_message_same_order) ... ok
+test_04_order_owner_and_list (__main__.S4Tests.test_04_order_owner_and_list) ... ok
+test_05_mock_payment_idempotent (__main__.S4Tests.test_05_mock_payment_idempotent) ... ok
+test_06_timeout_close_and_release_once (__main__.S4Tests.test_06_timeout_close_and_release_once) ... ok
+test_07_paid_order_never_released (__main__.S4Tests.test_07_paid_order_never_released) ... ok
+test_08_compensate_without_mysql_double_release (__main__.S4Tests.test_08_compensate_without_mysql_double_release) ... ok
+test_09_outbox_survives_redis_failure_and_restart (__main__.S4Tests.test_09_outbox_survives_redis_failure_and_restart) ... FAIL
+test_10_recover_stranded_queued_without_order (__main__.S4Tests.test_10_recover_stranded_queued_without_order) ... ok
+test_11_admin_permissions_catalog_and_allocation (__main__.S4Tests.test_11_admin_permissions_catalog_and_allocation) ... ok
+test_12_activation_never_overwrites_live_stock (__main__.S4Tests.test_12_activation_never_overwrites_live_stock) ... FAIL
+test_13_strict_http_validation (__main__.S4Tests.test_13_strict_http_validation) ... ok
+test_14_disable_revokes_cpp_and_java_session (__main__.S4Tests.test_14_disable_revokes_cpp_and_java_session) ... ok
+test_15_logout_revokes_session (__main__.S4Tests.test_15_logout_revokes_session) ... ok
+test_16_paid_close_concurrency (__main__.S4Tests.test_16_paid_close_concurrency) ... FAIL
+test_17_schema_and_identity_conflict_quarantined (__main__.S4Tests.test_17_schema_and_identity_conflict_quarantined) ... FAIL
+test_18_parallel_stock_never_oversold (__main__.S4Tests.test_18_parallel_stock_never_oversold) ... FAIL
+test_19_background_jobs_and_restart (__main__.S4Tests.test_19_background_jobs_and_restart) ... FAIL
+test_20_mysql_outage_dlq_then_safe_termination (__main__.S4Tests.test_20_mysql_outage_dlq_then_safe_termination) ...  Container seckill-mall-s1-mysql-1 Stopping 
+ Container seckill-mall-s1-mysql-1 Stopped 
+ Container seckill-mall-s1-mysql-1 Starting 
+ Container seckill-mall-s1-mysql-1 Started 
+ Container seckill-mall-s1-mysql-1 Waiting 
+ Container seckill-mall-s1-mysql-1 Healthy 
+FAIL
+
+======================================================================
+FAIL: test_01_auth_and_cpp_shared_session (__main__.S4Tests.test_01_auth_and_cpp_shared_session)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 150, in test_01_auth_and_cpp_shared_session
+    event,token=self.reserve();self.assertEqual(self.status(event,token)[1]['requestState'],'RESERVED')
+                ^^^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 120, in reserve
+    code,accepted=call(self.cpp_port,'POST','/api/seckill/buy',token,body);self.assertEqual(code,202,accepted)
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 409 != 202 : {'code': 'NOT_STARTED', 'message': 'NOT_STARTED', 'retryable': False, 'traceId': 'a3a5650c-c760-46c7-9738-d03d563e39f4'}
+
+======================================================================
+FAIL: test_09_outbox_survives_redis_failure_and_restart (__main__.S4Tests.test_09_outbox_survives_redis_failure_and_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 191, in test_09_outbox_survives_redis_failure_and_restart
+    event,token=self.reserve();self.relay();order=self.order(event,token);hidden=self.key+':hidden';self.cache.rename(self.key,hidden)
+                               ^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 130, in relay
+    self.assertIn(result.returncode,(0,3) if allow_state_conflict else (0,),result.stdout+result.stderr)
+AssertionError: 3 not found in (0,) : [2026-10-13 12:54:41.131] [info] [SchedulerImpl.cpp:38] SchedulerImpl created worker thread 2
+[2026-10-13 12:54:41.132] [info] [ThreadPoolImpl.cpp:34] ThreadPoolImpl created worker threads 2
+[2026-10-13 12:54:41.132] [info] [ClientManagerImpl.cpp:84] ClientManager[ResourceNamespace=] created
+[2026-10-13 12:54:41.134] [info] [ClientManagerImpl.cpp:516] Create a RPC client to [ipv4:127.0.0.1:8081]
+[2026-10-13 12:54:41.142] [info] [SessionImpl.cpp:37] Request client settings to ipv4:127.0.0.1:8081
+[2026-10-13 12:54:41.148] [info] [TelemetryBidiReactor.cpp:158] Receive settings from ipv4:127.0.0.1:8081: client_type: PRODUCER access_point { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } backoff_policy { max_attempts: 3 exponential_backoff { initial { nanos: 10000000 } max { seconds: 1 } multiplier: 2 } } request_timeout { seconds: 5 } publishing { topics { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } max_body_size: 4194304 validate_message_type: true } user_agent { language: CPP version: "5.0.0" platform: "Linux 64-bit" hostname: "DESKTOP-G6VD73J" } metric { }
+[2026-10-13 12:54:41.148] [info] [ClientImpl.cpp:349] Create inflight route query cache for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd
+[2026-10-13 12:54:41.152] [info] [ClientImpl.cpp:499] TopicRouteData for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd has changed. NONE --> topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 1 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 2 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 3 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL
+[2026-10-13 12:54:41.153] [error] [ClientImpl.cpp:238] Unknown metric address scheme
+confirmed=1 pendingRetry=1
+[2026-10-13 12:54:41.186] [info] [ProducerImpl.cpp:51] Producer instance is destructed
+[2026-10-13 12:54:41.186] [info] [ProducerImpl.cpp:80] ProducerImpl stopped
+[2026-10-13 12:54:41.186] [info] [TelemetryBidiReactor.cpp:65] Telemetry stream for ipv4:127.0.0.1:8081 destructed. StreamState=2
+[2026-10-13 12:54:41.187] [info] [ClientManagerImpl.cpp:115] Client manager shutdown
+[2026-10-13 12:54:41.187] [info] [SchedulerImpl.cpp:151] Cancel task[task-id=1, name=heartbeat-task]
+[2026-10-13 12:54:41.194] [info] [ClientManagerImpl.cpp:89] ClientManager[ResourceNamespace=] destructed
+
+
+======================================================================
+FAIL: test_12_activation_never_overwrites_live_stock (__main__.S4Tests.test_12_activation_never_overwrites_live_stock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 213, in test_12_activation_never_overwrites_live_stock
+    self.relay();self.assertTrue(self.order(event)) # Accept requests made before administrative end.
+    ^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 130, in relay
+    self.assertIn(result.returncode,(0,3) if allow_state_conflict else (0,),result.stdout+result.stderr)
+AssertionError: 3 not found in (0,) : [2026-10-13 12:54:44.013] [info] [SchedulerImpl.cpp:38] SchedulerImpl created worker thread 2
+[2026-10-13 12:54:44.013] [info] [ThreadPoolImpl.cpp:34] ThreadPoolImpl created worker threads 2
+[2026-10-13 12:54:44.013] [info] [ClientManagerImpl.cpp:84] ClientManager[ResourceNamespace=] created
+[2026-10-13 12:54:44.015] [info] [ClientManagerImpl.cpp:516] Create a RPC client to [ipv4:127.0.0.1:8081]
+[2026-10-13 12:54:44.022] [info] [SessionImpl.cpp:37] Request client settings to ipv4:127.0.0.1:8081
+[2026-10-13 12:54:44.029] [info] [TelemetryBidiReactor.cpp:158] Receive settings from ipv4:127.0.0.1:8081: client_type: PRODUCER access_point { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } backoff_policy { max_attempts: 3 exponential_backoff { initial { nanos: 10000000 } max { seconds: 1 } multiplier: 2 } } request_timeout { seconds: 5 } publishing { topics { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } max_body_size: 4194304 validate_message_type: true } user_agent { language: CPP version: "5.0.0" platform: "Linux 64-bit" hostname: "DESKTOP-G6VD73J" } metric { }
+[2026-10-13 12:54:44.029] [info] [ClientImpl.cpp:349] Create inflight route query cache for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd
+[2026-10-13 12:54:44.034] [info] [ClientImpl.cpp:499] TopicRouteData for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd has changed. NONE --> topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 1 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 2 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 3 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL
+[2026-10-13 12:54:44.034] [error] [ClientImpl.cpp:238] Unknown metric address scheme
+confirmed=1 pendingRetry=2
+[2026-10-13 12:54:44.081] [info] [ProducerImpl.cpp:51] Producer instance is destructed
+[2026-10-13 12:54:44.081] [info] [ProducerImpl.cpp:80] ProducerImpl stopped
+[2026-10-13 12:54:44.082] [info] [TelemetryBidiReactor.cpp:65] Telemetry stream for ipv4:127.0.0.1:8081 destructed. StreamState=2
+[2026-10-13 12:54:44.082] [info] [ClientManagerImpl.cpp:115] Client manager shutdown
+[2026-10-13 12:54:44.083] [info] [SchedulerImpl.cpp:151] Cancel task[task-id=1, name=heartbeat-task]
+[2026-10-13 12:54:44.089] [info] [ClientManagerImpl.cpp:89] ClientManager[ResourceNamespace=] destructed
+
+
+======================================================================
+FAIL: test_16_paid_close_concurrency (__main__.S4Tests.test_16_paid_close_concurrency)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 228, in test_16_paid_close_concurrency
+    event,token=self.reserve();self.relay();order=self.order(event,token)
+                               ^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 130, in relay
+    self.assertIn(result.returncode,(0,3) if allow_state_conflict else (0,),result.stdout+result.stderr)
+AssertionError: 3 not found in (0,) : [2026-10-13 12:54:44.758] [info] [SchedulerImpl.cpp:38] SchedulerImpl created worker thread 2
+[2026-10-13 12:54:44.759] [info] [ThreadPoolImpl.cpp:34] ThreadPoolImpl created worker threads 2
+[2026-10-13 12:54:44.759] [info] [ClientManagerImpl.cpp:84] ClientManager[ResourceNamespace=] created
+[2026-10-13 12:54:44.761] [info] [ClientManagerImpl.cpp:516] Create a RPC client to [ipv4:127.0.0.1:8081]
+[2026-10-13 12:54:44.772] [info] [SessionImpl.cpp:37] Request client settings to ipv4:127.0.0.1:8081
+[2026-10-13 12:54:44.779] [info] [TelemetryBidiReactor.cpp:158] Receive settings from ipv4:127.0.0.1:8081: client_type: PRODUCER access_point { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } backoff_policy { max_attempts: 3 exponential_backoff { initial { nanos: 10000000 } max { seconds: 1 } multiplier: 2 } } request_timeout { seconds: 5 } publishing { topics { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } max_body_size: 4194304 validate_message_type: true } user_agent { language: CPP version: "5.0.0" platform: "Linux 64-bit" hostname: "DESKTOP-G6VD73J" } metric { }
+[2026-10-13 12:54:44.779] [info] [ClientImpl.cpp:349] Create inflight route query cache for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd
+[2026-10-13 12:54:44.786] [info] [ClientImpl.cpp:499] TopicRouteData for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd has changed. NONE --> topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 1 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 2 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 3 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL
+[2026-10-13 12:54:44.786] [error] [ClientImpl.cpp:238] Unknown metric address scheme
+confirmed=1 pendingRetry=2
+[2026-10-13 12:54:44.833] [info] [ProducerImpl.cpp:51] Producer instance is destructed
+[2026-10-13 12:54:44.833] [info] [ProducerImpl.cpp:80] ProducerImpl stopped
+[2026-10-13 12:54:44.834] [info] [TelemetryBidiReactor.cpp:65] Telemetry stream for ipv4:127.0.0.1:8081 destructed. StreamState=2
+[2026-10-13 12:54:44.834] [info] [ClientManagerImpl.cpp:115] Client manager shutdown
+[2026-10-13 12:54:44.835] [info] [SchedulerImpl.cpp:151] Cancel task[task-id=1, name=heartbeat-task]
+[2026-10-13 12:54:44.842] [info] [ClientManagerImpl.cpp:89] ClientManager[ResourceNamespace=] destructed
+
+
+======================================================================
+FAIL: test_17_schema_and_identity_conflict_quarantined (__main__.S4Tests.test_17_schema_and_identity_conflict_quarantined)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 237, in test_17_schema_and_identity_conflict_quarantined
+    event,token=self.reserve();bad=dict(event,priceFen='1');self.replay_event(bad)
+                                                            ^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 142, in replay_event
+    self.cache.hset(self.key,mapping={'pending:'+event['eventId']:json.dumps(event),'pendingCount':'1'});self.relay(terminal)
+                                                                                                         ^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 130, in relay
+    self.assertIn(result.returncode,(0,3) if allow_state_conflict else (0,),result.stdout+result.stderr)
+AssertionError: 3 not found in (0,) : [2026-10-13 12:54:45.081] [info] [SchedulerImpl.cpp:38] SchedulerImpl created worker thread 2
+[2026-10-13 12:54:45.082] [info] [ThreadPoolImpl.cpp:34] ThreadPoolImpl created worker threads 2
+[2026-10-13 12:54:45.082] [info] [ClientManagerImpl.cpp:84] ClientManager[ResourceNamespace=] created
+[2026-10-13 12:54:45.084] [info] [ClientManagerImpl.cpp:516] Create a RPC client to [ipv4:127.0.0.1:8081]
+[2026-10-13 12:54:45.094] [info] [SessionImpl.cpp:37] Request client settings to ipv4:127.0.0.1:8081
+[2026-10-13 12:54:45.099] [info] [TelemetryBidiReactor.cpp:158] Receive settings from ipv4:127.0.0.1:8081: client_type: PRODUCER access_point { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } backoff_policy { max_attempts: 3 exponential_backoff { initial { nanos: 10000000 } max { seconds: 1 } multiplier: 2 } } request_timeout { seconds: 5 } publishing { topics { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } max_body_size: 4194304 validate_message_type: true } user_agent { language: CPP version: "5.0.0" platform: "Linux 64-bit" hostname: "DESKTOP-G6VD73J" } metric { }
+[2026-10-13 12:54:45.099] [info] [ClientImpl.cpp:349] Create inflight route query cache for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd
+[2026-10-13 12:54:45.104] [info] [ClientImpl.cpp:499] TopicRouteData for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd has changed. NONE --> topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 1 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 2 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 3 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL
+[2026-10-13 12:54:45.104] [error] [ClientImpl.cpp:238] Unknown metric address scheme
+confirmed=1 pendingRetry=2
+[2026-10-13 12:54:45.151] [info] [ProducerImpl.cpp:51] Producer instance is destructed
+[2026-10-13 12:54:45.151] [info] [ProducerImpl.cpp:80] ProducerImpl stopped
+[2026-10-13 12:54:45.157] [info] [TelemetryBidiReactor.cpp:65] Telemetry stream for ipv4:127.0.0.1:8081 destructed. StreamState=2
+[2026-10-13 12:54:45.158] [info] [ClientManagerImpl.cpp:115] Client manager shutdown
+[2026-10-13 12:54:45.158] [info] [SchedulerImpl.cpp:151] Cancel task[task-id=1, name=heartbeat-task]
+[2026-10-13 12:54:45.166] [info] [ClientManagerImpl.cpp:89] ClientManager[ResourceNamespace=] destructed
+
+
+======================================================================
+FAIL: test_18_parallel_stock_never_oversold (__main__.S4Tests.test_18_parallel_stock_never_oversold)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 245, in test_18_parallel_stock_never_oversold
+    self.relay();wait(lambda:self.sql('SELECT COUNT(*) FROM seckill_requests WHERE activity_id=%s',(self.activity,))[0][0]==6)
+    ^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 130, in relay
+    self.assertIn(result.returncode,(0,3) if allow_state_conflict else (0,),result.stdout+result.stderr)
+AssertionError: 3 not found in (0,) : [2026-10-13 12:54:45.477] [info] [SchedulerImpl.cpp:38] SchedulerImpl created worker thread 2
+[2026-10-13 12:54:45.477] [info] [ThreadPoolImpl.cpp:34] ThreadPoolImpl created worker threads 2
+[2026-10-13 12:54:45.478] [info] [ClientManagerImpl.cpp:84] ClientManager[ResourceNamespace=] created
+[2026-10-13 12:54:45.483] [info] [ClientManagerImpl.cpp:516] Create a RPC client to [ipv4:127.0.0.1:8081]
+[2026-10-13 12:54:45.504] [info] [SessionImpl.cpp:37] Request client settings to ipv4:127.0.0.1:8081
+[2026-10-13 12:54:45.512] [info] [TelemetryBidiReactor.cpp:158] Receive settings from ipv4:127.0.0.1:8081: client_type: PRODUCER access_point { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } backoff_policy { max_attempts: 3 exponential_backoff { initial { nanos: 10000000 } max { seconds: 1 } multiplier: 2 } } request_timeout { seconds: 5 } publishing { topics { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } max_body_size: 4194304 validate_message_type: true } user_agent { language: CPP version: "5.0.0" platform: "Linux 64-bit" hostname: "DESKTOP-G6VD73J" } metric { }
+[2026-10-13 12:54:45.512] [info] [ClientImpl.cpp:349] Create inflight route query cache for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd
+[2026-10-13 12:54:45.517] [info] [ClientImpl.cpp:499] TopicRouteData for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd has changed. NONE --> topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 1 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 2 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 3 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL
+[2026-10-13 12:54:45.517] [error] [ClientImpl.cpp:238] Unknown metric address scheme
+confirmed=6 pendingRetry=2
+[2026-10-13 12:54:45.653] [info] [ProducerImpl.cpp:51] Producer instance is destructed
+[2026-10-13 12:54:45.653] [info] [ProducerImpl.cpp:80] ProducerImpl stopped
+[2026-10-13 12:54:45.654] [info] [TelemetryBidiReactor.cpp:65] Telemetry stream for ipv4:127.0.0.1:8081 destructed. StreamState=2
+[2026-10-13 12:54:45.654] [info] [ClientManagerImpl.cpp:115] Client manager shutdown
+[2026-10-13 12:54:45.654] [info] [SchedulerImpl.cpp:151] Cancel task[task-id=1, name=heartbeat-task]
+[2026-10-13 12:54:45.661] [info] [ClientManagerImpl.cpp:89] ClientManager[ResourceNamespace=] destructed
+
+
+======================================================================
+FAIL: test_19_background_jobs_and_restart (__main__.S4Tests.test_19_background_jobs_and_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 250, in test_19_background_jobs_and_restart
+    event,token=self.reserve();self.relay();self.order(event,token);type(self).start_java(jobs=True)
+                               ^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 130, in relay
+    self.assertIn(result.returncode,(0,3) if allow_state_conflict else (0,),result.stdout+result.stderr)
+AssertionError: 3 not found in (0,) : [2026-10-13 12:54:45.917] [info] [SchedulerImpl.cpp:38] SchedulerImpl created worker thread 2
+[2026-10-13 12:54:45.917] [info] [ThreadPoolImpl.cpp:34] ThreadPoolImpl created worker threads 2
+[2026-10-13 12:54:45.918] [info] [ClientManagerImpl.cpp:84] ClientManager[ResourceNamespace=] created
+[2026-10-13 12:54:45.921] [info] [ClientManagerImpl.cpp:516] Create a RPC client to [ipv4:127.0.0.1:8081]
+[2026-10-13 12:54:45.931] [info] [SessionImpl.cpp:37] Request client settings to ipv4:127.0.0.1:8081
+[2026-10-13 12:54:45.937] [info] [TelemetryBidiReactor.cpp:158] Receive settings from ipv4:127.0.0.1:8081: client_type: PRODUCER access_point { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } backoff_policy { max_attempts: 3 exponential_backoff { initial { nanos: 10000000 } max { seconds: 1 } multiplier: 2 } } request_timeout { seconds: 5 } publishing { topics { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } max_body_size: 4194304 validate_message_type: true } user_agent { language: CPP version: "5.0.0" platform: "Linux 64-bit" hostname: "DESKTOP-G6VD73J" } metric { }
+[2026-10-13 12:54:45.937] [info] [ClientImpl.cpp:349] Create inflight route query cache for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd
+[2026-10-13 12:54:45.943] [info] [ClientImpl.cpp:499] TopicRouteData for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd has changed. NONE --> topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 1 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 2 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 3 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL
+[2026-10-13 12:54:45.943] [error] [ClientImpl.cpp:238] Unknown metric address scheme
+confirmed=1 pendingRetry=2
+[2026-10-13 12:54:45.988] [info] [ProducerImpl.cpp:51] Producer instance is destructed
+[2026-10-13 12:54:45.988] [info] [ProducerImpl.cpp:80] ProducerImpl stopped
+[2026-10-13 12:54:45.989] [info] [TelemetryBidiReactor.cpp:65] Telemetry stream for ipv4:127.0.0.1:8081 destructed. StreamState=2
+[2026-10-13 12:54:45.990] [info] [ClientManagerImpl.cpp:115] Client manager shutdown
+[2026-10-13 12:54:45.990] [info] [SchedulerImpl.cpp:151] Cancel task[task-id=1, name=heartbeat-task]
+[2026-10-13 12:54:46.001] [info] [ClientManagerImpl.cpp:89] ClientManager[ResourceNamespace=] destructed
+
+
+======================================================================
+FAIL: test_20_mysql_outage_dlq_then_safe_termination (__main__.S4Tests.test_20_mysql_outage_dlq_then_safe_termination)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 273, in test_20_mysql_outage_dlq_then_safe_termination
+    self.relay();self.assertEqual(self.cache.hget(self.key,'stock'),'9')
+    ^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s4.py", line 130, in relay
+    self.assertIn(result.returncode,(0,3) if allow_state_conflict else (0,),result.stdout+result.stderr)
+AssertionError: 3 not found in (0,) : [2026-10-13 12:54:58.066] [info] [SchedulerImpl.cpp:38] SchedulerImpl created worker thread 2
+[2026-10-13 12:54:58.066] [info] [ThreadPoolImpl.cpp:34] ThreadPoolImpl created worker threads 2
+[2026-10-13 12:54:58.067] [info] [ClientManagerImpl.cpp:84] ClientManager[ResourceNamespace=] created
+[2026-10-13 12:54:58.069] [info] [ClientManagerImpl.cpp:516] Create a RPC client to [ipv4:127.0.0.1:8081]
+[2026-10-13 12:54:58.077] [info] [SessionImpl.cpp:37] Request client settings to ipv4:127.0.0.1:8081
+[2026-10-13 12:54:58.083] [info] [TelemetryBidiReactor.cpp:158] Receive settings from ipv4:127.0.0.1:8081: client_type: PRODUCER access_point { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } backoff_policy { max_attempts: 3 exponential_backoff { initial { nanos: 10000000 } max { seconds: 1 } multiplier: 2 } } request_timeout { seconds: 5 } publishing { topics { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } max_body_size: 4194304 validate_message_type: true } user_agent { language: CPP version: "5.0.0" platform: "Linux 64-bit" hostname: "DESKTOP-G6VD73J" } metric { }
+[2026-10-13 12:54:58.084] [info] [ClientImpl.cpp:349] Create inflight route query cache for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd
+[2026-10-13 12:54:58.088] [info] [ClientImpl.cpp:499] TopicRouteData for topic=mall_s4_02200a99e683498cb16b28d6ace8a7dd has changed. NONE --> topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 1 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 2 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL,topic { name: "mall_s4_02200a99e683498cb16b28d6ace8a7dd" } id: 3 permission: READ_WRITE broker { name: "mall-broker" endpoints { scheme: IPv4 addresses { host: "127.0.0.1" port: 8081 } } } accept_message_types: NORMAL
+[2026-10-13 12:54:58.088] [error] [ClientImpl.cpp:238] Unknown metric address scheme
+confirmed=1 pendingRetry=2
+[2026-10-13 12:54:58.136] [info] [ProducerImpl.cpp:51] Producer instance is destructed
+[2026-10-13 12:54:58.137] [info] [ProducerImpl.cpp:80] ProducerImpl stopped
+[2026-10-13 12:54:58.137] [info] [TelemetryBidiReactor.cpp:65] Telemetry stream for ipv4:127.0.0.1:8081 destructed. StreamState=2
+[2026-10-13 12:54:58.138] [info] [ClientManagerImpl.cpp:115] Client manager shutdown
+[2026-10-13 12:54:58.138] [info] [SchedulerImpl.cpp:151] Cancel task[task-id=1, name=heartbeat-task]
+[2026-10-13 12:54:58.146] [info] [ClientManagerImpl.cpp:89] ClientManager[ResourceNamespace=] destructed
+
+
+----------------------------------------------------------------------
+Ran 20 tests in 77.836s
+
+FAILED (failures=8)
+{"stage": "S4", "platform": "linux", "tests": 20, "failures": 8, "errors": 0, "skipped": 0, "passed": false, "scope": "real HTTP/C++/RocketMQ/Java/MySQL/Redis; MOCK payment, not production capacity"}
+ExitCode=1

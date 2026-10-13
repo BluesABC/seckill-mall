@@ -1,0 +1,11 @@
+{
+  "stage": "S0",
+  "schemaPositive": 1,
+  "schemaNegative": 6,
+  "mysqlStatementsParsed": 10,
+  "luaSyntax": "pass",
+  "markdownLinks": 31,
+  "redisExecution": "not_run",
+  "mysqlExecution": "not_run",
+  "businessLoadTest": "not_run"
+}

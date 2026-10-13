@@ -1,0 +1,1 @@
+{"schemaVersion":1,"eventType":"SECKILL_RESERVED","eventId":"04a7fd99-bdf0-4c3c-a16a-983bc96e3db3","reservationId":"04a7fd99-bdf0-4c3c-a16a-983bc96e3db3","requestId":"43c05877-35b9-485e-a1fd-cf20551223e0","userId":"1","activityId":"1","skuId":"1","epoch":"1","quantity":1,"priceFen":"1990","createdAtMs":"1791792000000","traceId":"s0-contract-example"}

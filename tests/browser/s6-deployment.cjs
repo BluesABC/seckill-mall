@@ -1,0 +1,23 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const {chromium}=require('../../build/wsl/browser/node_modules/playwright');
+(async()=>{
+  const browser=await chromium.launch({headless:true});
+  const page=await browser.newPage({viewport:{width:1440,height:1000}});
+  const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('console',e=>{if(e.type()==='error')errors.push(e.text());});
+  const response=await page.goto(process.env.MALL_WEB_URL||'http://localhost:18080',{waitUntil:'networkidle'});
+  if(response.status()!==200)throw Error('Storefront status');
+  await page.getByText('AERO/01 · 轻量跑鞋',{exact:true}).first().waitFor();
+  const images=await page.locator('img').evaluateAll(nodes=>nodes.map(n=>({src:n.src,loaded:n.complete&&n.naturalWidth>0})));
+  if(images.some(i=>!i.loaded))throw Error('Broken production image');
+  const dir=path.resolve(__dirname,'../reports/wsl/s6-ui');fs.mkdirSync(dir,{recursive:true});
+  await page.screenshot({path:path.join(dir,'desktop.png'),fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  await page.screenshot({path:path.join(dir,'mobile.png'),fullPage:true});
+  if(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+1))throw Error('Horizontal overflow');
+  if(errors.length)throw Error(JSON.stringify(errors));
+  fs.writeFileSync(path.join(dir,'results.json'),JSON.stringify({status:'PASS',origin:page.url(),desktop:true,mobile:true,images:images.length,consoleErrors:errors},null,2));
+  await browser.close();console.log('PASS S6 browser: production assets/CSP/catalog/desktop/mobile');
+})().catch(e=>{console.error(e);process.exit(1)});

@@ -1,0 +1,13 @@
+{
+  "stage": "S1",
+  "platform": "linux",
+  "system": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "mysql": "8.4.11",
+  "redis": "7.2.11",
+  "tests": 28,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": true,
+  "scope": "real storage/Lua/SQL harness; not RocketMQ or Java order service"
+}

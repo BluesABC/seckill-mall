@@ -1,0 +1,54 @@
+{
+  "orders": 2,
+  "uniqueReservations": 2,
+  "successfulMockPayments": 1,
+  "orderStates": {
+    "PAID": 1,
+    "CLOSED": 1
+  },
+  "inventoryColumns": [
+    "activityId",
+    "skuId",
+    "initial",
+    "available",
+    "occupied"
+  ],
+  "inventory": [
+    [
+      1,
+      1,
+      10,
+      9,
+      1
+    ],
+    [
+      2,
+      2,
+      10,
+      10,
+      0
+    ],
+    [
+      3,
+      3,
+      10,
+      10,
+      0
+    ],
+    [
+      4,
+      4,
+      10,
+      10,
+      0
+    ],
+    [
+      5,
+      5,
+      5,
+      5,
+      0
+    ]
+  ],
+  "result": "PASS"
+}

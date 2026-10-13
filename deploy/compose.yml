@@ -1,0 +1,162 @@
+name: seckill-mall-stack
+x-business-env: &business-env
+  MALL_KEY_PREFIX: seckill
+  MALL_REDIS_HOST: redis
+  MALL_REDIS_PORT: '6379'
+  MALL_DB_HOST: mysql
+  MALL_DB_PORT: '3306'
+  MALL_DB_NAME: seckill_mall
+  MALL_DB_USER: mall
+  MALL_DB_PASSWORD: ${MYSQL_PASSWORD:?Generate deploy/.env.stack}
+  MALL_MQ_ENDPOINT: broker:8081
+  MALL_MQ_TOPIC: seckill_reserved_v1
+  MALL_MQ_GROUP: mall_order_v1
+services:
+  redis:
+    image: redis:7.2.11
+    command: [redis-server, --appendonly, 'yes', --appendfsync, always, --maxmemory-policy, noeviction]
+    volumes: [redis-data:/data]
+    networks: [backend]
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Generate deploy/.env.stack}
+      MYSQL_DATABASE: seckill_mall
+      MYSQL_USER: mall
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Generate deploy/.env.stack}
+    volumes: [mysql-data:/var/lib/mysql]
+    networks: [backend]
+    healthcheck:
+      test: [CMD-SHELL, 'MYSQL_PWD="$$MYSQL_PASSWORD" mysql -h 127.0.0.1 -umall seckill_mall -e "SELECT 1" >/dev/null 2>&1']
+      interval: 5s
+      timeout: 3s
+      retries: 40
+      start_period: 30s
+    restart: unless-stopped
+  prepare-mq:
+    image: apache/rocketmq:5.3.2
+    user: '0:0'
+    entrypoint: [sh, -c]
+    command: ['mkdir -p /home/rocketmq/store /home/rocketmq/logs/rocketmqlogs /tmp/namesrv-logs/rocketmqlogs && chown -R 3000:3000 /home/rocketmq/store /home/rocketmq/logs /tmp/namesrv-logs']
+    volumes: [broker-store:/home/rocketmq/store, broker-logs:/home/rocketmq/logs, namesrv-logs:/tmp/namesrv-logs]
+    networks: [backend]
+  namesrv:
+    image: apache/rocketmq:5.3.2
+    command: sh mqnamesrv
+    environment: {JAVA_OPT_EXT: '-Xms128m -Xmx128m -Xmn64m'}
+    volumes: [namesrv-logs:/home/rocketmq/logs]
+    networks: [backend]
+    depends_on: {prepare-mq: {condition: service_completed_successfully}}
+    healthcheck:
+      test: [CMD-SHELL, "timeout 2 bash -c 'exec 3<>/dev/tcp/127.0.0.1/9876'"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+  broker:
+    image: apache/rocketmq:5.3.2
+    command: sh mqbroker --enable-proxy -c /home/rocketmq/broker.conf
+    environment: {NAMESRV_ADDR: 'namesrv:9876', JAVA_OPT_EXT: '-Xms512m -Xmx512m -Xmn128m'}
+    volumes: ['./rocketmq/broker.stack.conf:/home/rocketmq/broker.conf:ro', broker-store:/home/rocketmq/store, broker-logs:/home/rocketmq/logs]
+    networks: [backend]
+    depends_on: {namesrv: {condition: service_healthy}}
+    healthcheck:
+      test: [CMD-SHELL, "timeout 2 bash -c 'exec 3<>/dev/tcp/127.0.0.1/8081'"]
+      interval: 5s
+      timeout: 3s
+      retries: 40
+      start_period: 20s
+    restart: unless-stopped
+  mq-init:
+    image: apache/rocketmq:5.3.2
+    networks: [backend]
+    depends_on: {broker: {condition: service_healthy}}
+    entrypoint: [sh, -c]
+    command:
+      - |
+        count=0
+        until sh mqadmin updateTopic -n namesrv:9876 -b broker:10911 -t seckill_reserved_v1 -r 4 -w 4 -a '+message.type=NORMAL'; do
+          count=$$((count+1)); [ "$$count" -lt 30 ] || exit 1; sleep 2
+        done
+        sh mqadmin updateSubGroup -n namesrv:9876 -b broker:10911 -g mall_order_v1 -r 8 -p '{"type":"CUSTOMIZED","customizedRetryPolicy":{"next":[1000,2000,4000,8000,16000,30000,30000,30000]}}'
+  migrate:
+    image: seckill-mall-tools:local
+    build: {context: .., dockerfile: deploy/Dockerfile.tools}
+    environment: *business-env
+    networks: [backend]
+    depends_on: {mysql: {condition: service_healthy}}
+  order:
+    image: seckill-mall-order:local
+    build: {context: .., dockerfile: deploy/Dockerfile.order}
+    environment:
+      <<: *business-env
+      MALL_BUSINESS_ENABLED: 'true'
+      MALL_ADMIN_USERNAME: ${MALL_ADMIN_USERNAME:-admin}
+      MALL_ADMIN_PASSWORD: ${MALL_ADMIN_PASSWORD:?Generate deploy/.env.stack}
+      ORDER_FORWARD_HEADERS_STRATEGY: native
+      ORDER_TRUSTED_PROXY_REGEX: ${ORDER_TRUSTED_PROXY_REGEX:-172\.30\.85\.10}
+    networks: [backend]
+    depends_on: {migrate: {condition: service_completed_successfully}, mq-init: {condition: service_completed_successfully}, redis: {condition: service_healthy}}
+    healthcheck:
+      test: [CMD, curl, -fsS, http://127.0.0.1:8082/health/ready]
+      interval: 5s
+      timeout: 3s
+      retries: 40
+      start_period: 30s
+    restart: unless-stopped
+    stop_grace_period: 30s
+  seckill:
+    image: seckill-mall-cpp:local
+    build: {context: .., dockerfile: deploy/Dockerfile.cpp}
+    environment:
+      <<: *business-env
+      MALL_TRUSTED_PROXY: ${MALL_GATEWAY_IP:-172.30.85.10}
+    networks: [backend]
+    depends_on: {redis: {condition: service_healthy}, order: {condition: service_healthy}}
+    healthcheck:
+      test: [CMD, curl, -fsS, http://127.0.0.1:8083/health/ready]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+  relay:
+    image: seckill-mall-cpp:local
+    command: [mall_relay_worker, --loop]
+    environment: *business-env
+    networks: [backend]
+    depends_on: {mq-init: {condition: service_completed_successfully}, redis: {condition: service_healthy}, order: {condition: service_healthy}}
+    restart: unless-stopped
+    stop_grace_period: 30s
+  gateway:
+    image: seckill-mall-web:local
+    build: {context: .., dockerfile: deploy/Dockerfile.web}
+    ports: ['127.0.0.1:${MALL_WEB_PORT:-18080}:80']
+    networks:
+      backend: {ipv4_address: '${MALL_GATEWAY_IP:-172.30.85.10}'}
+    depends_on: {seckill: {condition: service_healthy}, order: {condition: service_healthy}}
+    restart: unless-stopped
+  seed:
+    image: seckill-mall-tools:local
+    profiles: [tools]
+    environment:
+      <<: *business-env
+      MALL_ADMIN_USERNAME: ${MALL_ADMIN_USERNAME:-admin}
+      MALL_ADMIN_PASSWORD: ${MALL_ADMIN_PASSWORD:?Generate deploy/.env.stack}
+      MALL_ORDER_URL: http://order:8082
+    networks: [backend]
+    command: [python, scripts/seed-storefront.py]
+networks:
+  backend:
+    ipam: {config: [{subnet: '${MALL_SUBNET:-172.30.85.0/24}'}]}
+volumes:
+  mysql-data:
+  redis-data:
+  broker-store:
+  broker-logs:
+  namesrv-logs:

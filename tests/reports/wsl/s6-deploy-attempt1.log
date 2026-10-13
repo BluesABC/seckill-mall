@@ -1,0 +1,1772 @@
+Tue Oct 13 14:02:06 UTC 2026
+Linux DESKTOP-G6VD73J 6.18.54.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+29.8.2 / 29.8.2
+Docker Compose version v5.6.0
+Python 3.12.3
+Existing env preserved: /mnt/e/c++project/seckill-mall/deploy/.env.stack
+ Image seckill-mall-cpp:local Building 
+ Image seckill-mall-order:local Building 
+ Image seckill-mall-tools:local Building 
+ Image seckill-mall-web:local Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.91kB done
+#1 DONE 0.0s
+
+#2 [seckill internal] load build definition from Dockerfile.cpp
+#2 transferring dockerfile: 2.43kB 0.1s done
+#2 DONE 0.1s
+
+#3 [order internal] load build definition from Dockerfile.order
+#3 transferring dockerfile: 970B 0.1s done
+#3 DONE 0.1s
+
+#4 [migrate internal] load build definition from Dockerfile.tools
+#4 transferring dockerfile: 574B 0.1s done
+#4 DONE 0.1s
+
+#5 [gateway internal] load build definition from Dockerfile.web
+#5 transferring dockerfile: 548B 0.1s done
+#5 DONE 0.2s
+
+#6 [gateway internal] load metadata for docker.io/library/node:22.20.0-bookworm-slim
+#6 ...
+
+#7 [migrate internal] load metadata for docker.io/library/python:3.12.12-slim-bookworm
+#7 DONE 0.1s
+
+#8 [seckill internal] load metadata for docker.io/library/ubuntu:24.04
+#8 DONE 0.1s
+
+#9 [order internal] load metadata for docker.io/library/eclipse-temurin:21-jre-jammy
+#9 DONE 0.1s
+
+#10 [migrate] FROM docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+#10 resolve docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c 0.1s done
+#10 DONE 0.1s
+
+#11 [seckill builder  1/11] FROM docker.io/library/ubuntu:24.04@sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55
+#11 resolve docker.io/library/ubuntu:24.04@sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55 0.1s done
+#11 DONE 0.1s
+
+#12 [seckill builder  2/11] COPY --from=python:3.12.12-slim-bookworm /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+#12 CACHED
+
+#13 [seckill builder  3/11] RUN sed -i "s|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g;s|http://security.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g" /etc/apt/sources.list.d/ubuntu.sources && apt-get -o Acquire::Retries=3 -o Acquire::https::Timeout=30 update && apt-get install -y --no-install-recommends ca-certificates curl cmake g++ make libhiredis-dev libssl-dev nlohmann-json3-dev libpng-dev libgrpc++-dev protobuf-compiler-grpc libprotobuf-dev libabsl-dev zlib1g-dev && rm -rf /var/lib/apt/lists/*
+#13 2.648 Get:1 https://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+#13 4.802 Get:2 https://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+#13 3.137 Get:3 https://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+#13 3.934 Get:4 https://archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+#13 5.135 Get:5 https://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+#13 9.560 Get:6 https://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+#13 9.637 Get:7 https://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]
+#13 9.644 Get:8 https://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+#13 9.659 Get:9 https://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [2231 kB]
+#13 9.795 Get:10 https://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2166 kB]
+#13 9.984 Get:11 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1728 kB]
+#13 10.35 Ign:11 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages
+#13 11.46 Get:12 https://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [61.7 kB]
+#13 11.97 Get:13 https://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.0 kB]
+#13 12.10 Get:14 https://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.0 kB]
+#13 12.23 Get:15 https://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [669 B]
+#13 12.23 Get:16 https://archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1548 kB]
+#13 13.17 Get:17 https://archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [55.6 kB]
+#13 13.18 Get:18 https://archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1409 kB]
+#13 13.32 Get:19 https://archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [2122 kB]
+#13 13.66 Get:11 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1728 kB]
+#13 13.88 Fetched 32.6 MB in 16s (2047 kB/s)
+#13 13.88 Reading package lists...
+#13 15.20 Reading package lists...
+#13 16.80 Building dependency tree...
+#13 17.21 Reading state information...
+#13 18.01 The following additional packages will be installed:
+#13 18.01   binutils binutils-common binutils-x86-64-linux-gnu cmake-data cpp cpp-13
+#13 18.01   cpp-13-x86-64-linux-gnu cpp-x86-64-linux-gnu g++-13 g++-13-x86-64-linux-gnu
+#13 18.01   g++-x86-64-linux-gnu gcc gcc-13 gcc-13-base gcc-13-x86-64-linux-gnu
+#13 18.01   gcc-x86-64-linux-gnu libabsl20220623t64 libarchive13t64 libasan8 libatomic1
+#13 18.01   libbinutils libbrotli1 libc-ares-dev libc-dev-bin libc6-dev libcares2
+#13 18.01   libcc1-0 libcrypt-dev libctf-nobfd0 libctf0 libcurl4t64 libexpat1
+#13 18.01   libgcc-13-dev libgomp1 libgprofng0 libgrpc++1.51t64 libgrpc-dev libgrpc29t64
+#13 18.01   libgssapi-krb5-2 libhiredis1.1.0 libhwasan0 libicu74 libisl23 libitm1
+#13 18.01   libjansson4 libjsoncpp25 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0
+#13 18.01   libldap2 liblsan0 libmpc3 libmpfr6 libnghttp2-14 libpkgconf3 libpng16-16t64
+#13 18.01   libprotobuf-lite32t64 libprotobuf32t64 libprotoc32t64 libpsl5t64
+#13 18.01   libquadmath0 libre2-10 libre2-dev librhash0 librtmp1 libsasl2-2
+#13 18.01   libsasl2-modules-db libsframe1 libssh-4 libssl3t64 libstdc++-13-dev libtsan2
+#13 18.01   libubsan1 libuv1t64 libxml2 linux-libc-dev openssl pkgconf pkgconf-bin
+#13 18.01   protobuf-compiler rpcsvc-proto
+#13 18.02 Suggested packages:
+#13 18.02   binutils-doc gprofng-gui cmake-doc cmake-format elpa-cmake-mode ninja-build
+#13 18.02   cpp-doc gcc-13-locales cpp-13-doc g++-multilib g++-13-multilib gcc-13-doc
+#13 18.02   gcc-multilib manpages-dev autoconf automake libtool flex bison gdb gcc-doc
+#13 18.02   gcc-13-multilib gdb-x86-64-linux-gnu lrzip glibc-doc krb5-doc krb5-user
+#13 18.02   libssl-doc libstdc++-13-doc make-doc protobuf-mode-el
+#13 18.02 Recommended packages:
+#13 18.02   manpages manpages-dev libc-devtools krb5-locales libldap-common libpng-tools
+#13 18.02   publicsuffix libsasl2-modules
+#13 18.33 The following NEW packages will be installed:
+#13 18.33   binutils binutils-common binutils-x86-64-linux-gnu ca-certificates cmake
+#13 18.33   cmake-data cpp cpp-13 cpp-13-x86-64-linux-gnu cpp-x86-64-linux-gnu curl g++
+#13 18.33   g++-13 g++-13-x86-64-linux-gnu g++-x86-64-linux-gnu gcc gcc-13 gcc-13-base
+#13 18.33   gcc-13-x86-64-linux-gnu gcc-x86-64-linux-gnu libabsl-dev libabsl20220623t64
+#13 18.33   libarchive13t64 libasan8 libatomic1 libbinutils libbrotli1 libc-ares-dev
+#13 18.33   libc-dev-bin libc6-dev libcares2 libcc1-0 libcrypt-dev libctf-nobfd0 libctf0
+#13 18.33   libcurl4t64 libexpat1 libgcc-13-dev libgomp1 libgprofng0 libgrpc++-dev
+#13 18.33   libgrpc++1.51t64 libgrpc-dev libgrpc29t64 libgssapi-krb5-2 libhiredis-dev
+#13 18.33   libhiredis1.1.0 libhwasan0 libicu74 libisl23 libitm1 libjansson4
+#13 18.33   libjsoncpp25 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap2
+#13 18.34   liblsan0 libmpc3 libmpfr6 libnghttp2-14 libpkgconf3 libpng-dev
+#13 18.34   libpng16-16t64 libprotobuf-dev libprotobuf-lite32t64 libprotobuf32t64
+#13 18.34   libprotoc32t64 libpsl5t64 libquadmath0 libre2-10 libre2-dev librhash0
+#13 18.34   librtmp1 libsasl2-2 libsasl2-modules-db libsframe1 libssh-4 libssl-dev
+#13 18.34   libstdc++-13-dev libtsan2 libubsan1 libuv1t64 libxml2 linux-libc-dev make
+#13 18.34   nlohmann-json3-dev openssl pkgconf pkgconf-bin protobuf-compiler
+#13 18.34   protobuf-compiler-grpc rpcsvc-proto zlib1g-dev
+#13 18.34 The following packages will be upgraded:
+#13 18.35   libssl3t64
+#13 20.83 1 upgraded, 95 newly installed, 0 to remove and 2 not upgraded.
+#13 20.83 Need to get 119 MB of archives.
+#13 20.83 After this operation, 446 MB of additional disk space will be used.
+#13 20.83 Get:1 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libssl3t64 amd64 3.0.13-0ubuntu3.16 [1945 kB]
+#13 24.28 Get:2 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.16 [1004 kB]
+#13 24.40 Get:3 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 ca-certificates all 20260601~24.04.1 [139 kB]
+#13 24.42 Get:4 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libexpat1 amd64 2.6.1-2ubuntu0.6 [98.9 kB]
+#13 24.43 Get:5 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libkrb5support0 amd64 1.20.1-6ubuntu2.10 [34.9 kB]
+#13 24.43 Get:6 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libk5crypto3 amd64 1.20.1-6ubuntu2.10 [81.9 kB]
+#13 24.44 Get:7 https://archive.ubuntu.com/ubuntu noble/main amd64 libkeyutils1 amd64 1.6.3-3build1 [9490 B]
+#13 24.44 Get:8 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libkrb5-3 amd64 1.20.1-6ubuntu2.10 [348 kB]
+#13 24.47 Get:9 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgssapi-krb5-2 amd64 1.20.1-6ubuntu2.10 [143 kB]
+#13 24.49 Get:10 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libicu74 amd64 74.2-1ubuntu3.1 [10.9 MB]
+#13 25.51 Get:11 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libxml2 amd64 2.9.14+dfsg-1.3ubuntu3.10 [764 kB]
+#13 25.60 Get:12 https://archive.ubuntu.com/ubuntu noble/main amd64 libjansson4 amd64 2.14-2build2 [32.8 kB]
+#13 25.61 Get:13 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libnghttp2-14 amd64 1.59.0-1ubuntu0.4 [74.6 kB]
+#13 25.61 Get:14 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpng16-16t64 amd64 1.6.43-5ubuntu0.7 [189 kB]
+#13 25.67 Get:15 https://archive.ubuntu.com/ubuntu noble/main amd64 libpsl5t64 amd64 0.21.2-1.1build1 [57.1 kB]
+#13 25.68 Get:16 https://archive.ubuntu.com/ubuntu noble/main amd64 libuv1t64 amd64 1.48.0-1.1build1 [97.3 kB]
+#13 25.70 Get:17 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 binutils-common amd64 2.42-4ubuntu2.10 [240 kB]
+#13 25.76 Get:18 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsframe1 amd64 2.42-4ubuntu2.10 [15.7 kB]
+#13 25.76 Get:19 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libbinutils amd64 2.42-4ubuntu2.10 [577 kB]
+#13 25.99 Get:20 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libctf-nobfd0 amd64 2.42-4ubuntu2.10 [98.0 kB]
+#13 26.11 Get:21 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libctf0 amd64 2.42-4ubuntu2.10 [94.5 kB]
+#13 26.11 Get:22 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgprofng0 amd64 2.42-4ubuntu2.10 [849 kB]
+#13 26.18 Get:23 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 binutils-x86-64-linux-gnu amd64 2.42-4ubuntu2.10 [2463 kB]
+#13 26.81 Get:24 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 binutils amd64 2.42-4ubuntu2.10 [18.2 kB]
+#13 26.82 Get:25 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libarchive13t64 amd64 3.7.2-2ubuntu0.9 [383 kB]
+#13 26.91 Get:26 https://archive.ubuntu.com/ubuntu noble/main amd64 libbrotli1 amd64 1.1.0-2build2 [331 kB]
+#13 26.99 Get:27 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-5ubuntu3.1 [20.4 kB]
+#13 27.00 Get:28 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-5ubuntu3.1 [53.2 kB]
+#13 27.00 Get:29 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libldap2 amd64 2.6.10+dfsg-0ubuntu0.24.04.1 [198 kB]
+#13 27.03 Get:30 https://archive.ubuntu.com/ubuntu noble/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build7 [56.3 kB]
+#13 27.03 Get:31 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libssh-4 amd64 0.10.6-2ubuntu0.5 [191 kB]
+#13 27.05 Get:32 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libcurl4t64 amd64 8.5.0-2ubuntu10.15 [343 kB]
+#13 27.21 Get:33 https://archive.ubuntu.com/ubuntu noble/main amd64 libjsoncpp25 amd64 1.9.5-6build1 [82.8 kB]
+#13 27.22 Get:34 https://archive.ubuntu.com/ubuntu noble/main amd64 librhash0 amd64 1.4.3-3build1 [129 kB]
+#13 27.32 Get:35 https://archive.ubuntu.com/ubuntu noble/main amd64 cmake-data all 3.28.3-1build7 [2155 kB]
+#13 27.52 Get:36 https://archive.ubuntu.com/ubuntu noble/main amd64 cmake amd64 3.28.3-1build7 [11.2 MB]
+#13 28.92 Get:37 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 gcc-13-base amd64 13.3.0-6ubuntu2~24.04.1 [51.6 kB]
+#13 28.92 Get:38 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libisl23 amd64 0.26-3build1.1 [680 kB]
+#13 28.99 Get:39 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libmpfr6 amd64 4.2.1-1build1.1 [353 kB]
+#13 29.01 Get:40 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libmpc3 amd64 1.3.1-1build1.1 [54.6 kB]
+#13 29.03 Get:41 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 cpp-13-x86-64-linux-gnu amd64 13.3.0-6ubuntu2~24.04.1 [10.7 MB]
+#13 29.89 Get:42 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 cpp-13 amd64 13.3.0-6ubuntu2~24.04.1 [1042 B]
+#13 29.89 Get:43 https://archive.ubuntu.com/ubuntu noble/main amd64 cpp-x86-64-linux-gnu amd64 4:13.2.0-7ubuntu1 [5326 B]
+#13 29.89 Get:44 https://archive.ubuntu.com/ubuntu noble/main amd64 cpp amd64 4:13.2.0-7ubuntu1 [22.4 kB]
+#13 29.89 Get:45 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 curl amd64 8.5.0-2ubuntu10.15 [227 kB]
+#13 29.91 Get:46 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libcc1-0 amd64 14.2.0-4ubuntu2~24.04.1 [48.0 kB]
+#13 29.91 Get:47 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgomp1 amd64 14.2.0-4ubuntu2~24.04.1 [148 kB]
+#13 29.92 Get:48 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libitm1 amd64 14.2.0-4ubuntu2~24.04.1 [29.7 kB]
+#13 29.93 Get:49 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libatomic1 amd64 14.2.0-4ubuntu2~24.04.1 [10.5 kB]
+#13 29.93 Get:50 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libasan8 amd64 14.2.0-4ubuntu2~24.04.1 [3027 kB]
+#13 30.34 Get:51 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 liblsan0 amd64 14.2.0-4ubuntu2~24.04.1 [1322 kB]
+#13 30.45 Get:52 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libtsan2 amd64 14.2.0-4ubuntu2~24.04.1 [2772 kB]
+#13 30.78 Get:53 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libubsan1 amd64 14.2.0-4ubuntu2~24.04.1 [1184 kB]
+#13 30.92 Get:54 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libhwasan0 amd64 14.2.0-4ubuntu2~24.04.1 [1641 kB]
+#13 31.10 Get:55 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libquadmath0 amd64 14.2.0-4ubuntu2~24.04.1 [153 kB]
+#13 31.12 Get:56 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgcc-13-dev amd64 13.3.0-6ubuntu2~24.04.1 [2681 kB]
+#13 31.41 Get:57 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 gcc-13-x86-64-linux-gnu amd64 13.3.0-6ubuntu2~24.04.1 [21.1 MB]
+#13 30.90 Get:58 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 gcc-13 amd64 13.3.0-6ubuntu2~24.04.1 [494 kB]
+#13 30.96 Get:59 https://archive.ubuntu.com/ubuntu noble/main amd64 gcc-x86-64-linux-gnu amd64 4:13.2.0-7ubuntu1 [1212 B]
+#13 30.96 Get:60 https://archive.ubuntu.com/ubuntu noble/main amd64 gcc amd64 4:13.2.0-7ubuntu1 [5018 B]
+#13 30.96 Get:61 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-dev-bin amd64 2.39-0ubuntu8.9 [20.4 kB]
+#13 30.96 Get:62 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 linux-libc-dev amd64 6.8.0-147.147 [1595 kB]
+#13 31.12 Get:63 https://archive.ubuntu.com/ubuntu noble/main amd64 libcrypt-dev amd64 1:4.4.36-4build1 [112 kB]
+#13 31.13 Get:64 https://archive.ubuntu.com/ubuntu noble/main amd64 rpcsvc-proto amd64 1.4.2-0ubuntu7 [67.4 kB]
+#13 31.14 Get:65 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6-dev amd64 2.39-0ubuntu8.9 [2126 kB]
+#13 31.37 Get:66 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libstdc++-13-dev amd64 13.3.0-6ubuntu2~24.04.1 [2420 kB]
+#13 32.11 Get:67 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 g++-13-x86-64-linux-gnu amd64 13.3.0-6ubuntu2~24.04.1 [12.2 MB]
+#13 33.70 Get:68 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 g++-13 amd64 13.3.0-6ubuntu2~24.04.1 [16.0 kB]
+#13 33.71 Get:69 https://archive.ubuntu.com/ubuntu noble/main amd64 g++-x86-64-linux-gnu amd64 4:13.2.0-7ubuntu1 [964 B]
+#13 33.71 Get:70 https://archive.ubuntu.com/ubuntu noble/main amd64 g++ amd64 4:13.2.0-7ubuntu1 [1100 B]
+#13 33.71 Get:71 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libabsl20220623t64 amd64 20220623.1-3.1ubuntu3.2 [423 kB]
+#13 33.75 Get:72 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libabsl-dev amd64 20220623.1-3.1ubuntu3.2 [1020 kB]
+#13 33.81 Get:73 https://archive.ubuntu.com/ubuntu noble/main amd64 libcares2 amd64 1.27.0-1.0ubuntu1 [73.7 kB]
+#13 33.82 Get:74 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libprotobuf32t64 amd64 3.21.12-8.2ubuntu0.3 [923 kB]
+#13 33.87 Get:75 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libprotoc32t64 amd64 3.21.12-8.2ubuntu0.3 [683 kB]
+#13 33.91 Get:76 https://archive.ubuntu.com/ubuntu noble/main amd64 libre2-10 amd64 20230301-3build1 [168 kB]
+#13 34.15 Get:77 https://archive.ubuntu.com/ubuntu noble/universe amd64 libgrpc29t64 amd64 1.51.1-4.1build5 [2768 kB]
+#13 34.40 Get:78 https://archive.ubuntu.com/ubuntu noble/universe amd64 libgrpc++1.51t64 amd64 1.51.1-4.1build5 [481 kB]
+#13 34.44 Get:79 https://archive.ubuntu.com/ubuntu noble/main amd64 libpkgconf3 amd64 1.8.1-2build1 [30.7 kB]
+#13 34.44 Get:80 https://archive.ubuntu.com/ubuntu noble/main amd64 pkgconf-bin amd64 1.8.1-2build1 [20.7 kB]
+#13 34.44 Get:81 https://archive.ubuntu.com/ubuntu noble/main amd64 pkgconf amd64 1.8.1-2build1 [16.8 kB]
+#13 34.44 Get:82 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g-dev amd64 1:1.3.dfsg-3.1ubuntu2.2 [894 kB]
+#13 34.56 Get:83 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libssl-dev amd64 3.0.13-0ubuntu3.16 [2409 kB]
+#13 34.79 Get:84 https://archive.ubuntu.com/ubuntu noble/main amd64 libc-ares-dev amd64 1.27.0-1.0ubuntu1 [189 kB]
+#13 34.81 Get:85 https://archive.ubuntu.com/ubuntu noble/main amd64 libre2-dev amd64 20230301-3build1 [269 kB]
+#13 34.84 Get:86 https://archive.ubuntu.com/ubuntu noble/universe amd64 libgrpc-dev amd64 1.51.1-4.1build5 [4933 kB]
+#13 35.37 Get:87 https://archive.ubuntu.com/ubuntu noble/universe amd64 libgrpc++-dev amd64 1.51.1-4.1build5 [676 kB]
+#13 35.40 Get:88 https://archive.ubuntu.com/ubuntu noble/universe amd64 libhiredis1.1.0 amd64 1.2.0-6ubuntu3 [41.4 kB]
+#13 35.40 Get:89 https://archive.ubuntu.com/ubuntu noble/universe amd64 libhiredis-dev amd64 1.2.0-6ubuntu3 [78.3 kB]
+#13 35.40 Get:90 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpng-dev amd64 1.6.43-5ubuntu0.7 [265 kB]
+#13 35.42 Get:91 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libprotobuf-lite32t64 amd64 3.21.12-8.2ubuntu0.3 [238 kB]
+#13 35.42 Get:92 https://archive.ubuntu.com/ubuntu noble/main amd64 make amd64 4.3-4.1build2 [180 kB]
+#13 35.55 Get:93 https://archive.ubuntu.com/ubuntu noble/universe amd64 nlohmann-json3-dev all 3.11.3-1 [190 kB]
+#13 35.58 Get:94 https://archive.ubuntu.com/ubuntu noble-updates/universe amd64 protobuf-compiler amd64 3.21.12-8.2ubuntu0.3 [29.0 kB]
+#13 35.58 Get:95 https://archive.ubuntu.com/ubuntu noble/universe amd64 protobuf-compiler-grpc amd64 1.51.1-4.1build5 [38.9 kB]
+#13 35.80 Get:96 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libprotobuf-dev amd64 3.21.12-8.2ubuntu0.3 [1413 kB]
+#13 36.28 debconf: delaying package configuration, since apt-utils is not installed
+#13 36.38 Fetched 119 MB in 20s (5918 kB/s)
+#13 36.44 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4381 files and directories currently installed.)
+#13 36.49 Preparing to unpack .../libssl3t64_3.0.13-0ubuntu3.16_amd64.deb ...
+#13 36.52 Unpacking libssl3t64:amd64 (3.0.13-0ubuntu3.16) over (3.0.13-0ubuntu3.15) ...
+#13 36.75 Setting up libssl3t64:amd64 (3.0.13-0ubuntu3.16) ...
+#13 36.98 Selecting previously unselected package openssl.
+#13 36.98 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4381 files and directories currently installed.)
+#13 36.99 Preparing to unpack .../00-openssl_3.0.13-0ubuntu3.16_amd64.deb ...
+#13 37.04 Unpacking openssl (3.0.13-0ubuntu3.16) ...
+#13 37.27 Selecting previously unselected package ca-certificates.
+#13 37.27 Preparing to unpack .../01-ca-certificates_20260601~24.04.1_all.deb ...
+#13 37.28 Unpacking ca-certificates (20260601~24.04.1) ...
+#13 37.43 Selecting previously unselected package libexpat1:amd64.
+#13 37.43 Preparing to unpack .../02-libexpat1_2.6.1-2ubuntu0.6_amd64.deb ...
+#13 37.44 Unpacking libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+#13 37.54 Selecting previously unselected package libkrb5support0:amd64.
+#13 37.54 Preparing to unpack .../03-libkrb5support0_1.20.1-6ubuntu2.10_amd64.deb ...
+#13 37.56 Unpacking libkrb5support0:amd64 (1.20.1-6ubuntu2.10) ...
+#13 37.68 Selecting previously unselected package libk5crypto3:amd64.
+#13 37.68 Preparing to unpack .../04-libk5crypto3_1.20.1-6ubuntu2.10_amd64.deb ...
+#13 37.70 Unpacking libk5crypto3:amd64 (1.20.1-6ubuntu2.10) ...
+#13 37.77 Selecting previously unselected package libkeyutils1:amd64.
+#13 37.77 Preparing to unpack .../05-libkeyutils1_1.6.3-3build1_amd64.deb ...
+#13 37.78 Unpacking libkeyutils1:amd64 (1.6.3-3build1) ...
+#13 37.86 Selecting previously unselected package libkrb5-3:amd64.
+#13 37.87 Preparing to unpack .../06-libkrb5-3_1.20.1-6ubuntu2.10_amd64.deb ...
+#13 37.88 Unpacking libkrb5-3:amd64 (1.20.1-6ubuntu2.10) ...
+#13 37.97 Selecting previously unselected package libgssapi-krb5-2:amd64.
+#13 37.97 Preparing to unpack .../07-libgssapi-krb5-2_1.20.1-6ubuntu2.10_amd64.deb ...
+#13 37.98 Unpacking libgssapi-krb5-2:amd64 (1.20.1-6ubuntu2.10) ...
+#13 38.05 Selecting previously unselected package libicu74:amd64.
+#13 38.05 Preparing to unpack .../08-libicu74_74.2-1ubuntu3.1_amd64.deb ...
+#13 38.06 Unpacking libicu74:amd64 (74.2-1ubuntu3.1) ...
+#13 38.36 Selecting previously unselected package libxml2:amd64.
+#13 38.36 Preparing to unpack .../09-libxml2_2.9.14+dfsg-1.3ubuntu3.10_amd64.deb ...
+#13 38.37 Unpacking libxml2:amd64 (2.9.14+dfsg-1.3ubuntu3.10) ...
+#13 38.45 Selecting previously unselected package libjansson4:amd64.
+#13 38.45 Preparing to unpack .../10-libjansson4_2.14-2build2_amd64.deb ...
+#13 38.46 Unpacking libjansson4:amd64 (2.14-2build2) ...
+#13 38.53 Selecting previously unselected package libnghttp2-14:amd64.
+#13 38.53 Preparing to unpack .../11-libnghttp2-14_1.59.0-1ubuntu0.4_amd64.deb ...
+#13 38.54 Unpacking libnghttp2-14:amd64 (1.59.0-1ubuntu0.4) ...
+#13 38.62 Selecting previously unselected package libpng16-16t64:amd64.
+#13 38.62 Preparing to unpack .../12-libpng16-16t64_1.6.43-5ubuntu0.7_amd64.deb ...
+#13 38.63 Unpacking libpng16-16t64:amd64 (1.6.43-5ubuntu0.7) ...
+#13 38.70 Selecting previously unselected package libpsl5t64:amd64.
+#13 38.70 Preparing to unpack .../13-libpsl5t64_0.21.2-1.1build1_amd64.deb ...
+#13 38.71 Unpacking libpsl5t64:amd64 (0.21.2-1.1build1) ...
+#13 38.80 Selecting previously unselected package libuv1t64:amd64.
+#13 38.80 Preparing to unpack .../14-libuv1t64_1.48.0-1.1build1_amd64.deb ...
+#13 38.81 Unpacking libuv1t64:amd64 (1.48.0-1.1build1) ...
+#13 38.89 Selecting previously unselected package binutils-common:amd64.
+#13 38.89 Preparing to unpack .../15-binutils-common_2.42-4ubuntu2.10_amd64.deb ...
+#13 38.90 Unpacking binutils-common:amd64 (2.42-4ubuntu2.10) ...
+#13 39.00 Selecting previously unselected package libsframe1:amd64.
+#13 39.00 Preparing to unpack .../16-libsframe1_2.42-4ubuntu2.10_amd64.deb ...
+#13 39.01 Unpacking libsframe1:amd64 (2.42-4ubuntu2.10) ...
+#13 39.08 Selecting previously unselected package libbinutils:amd64.
+#13 39.09 Preparing to unpack .../17-libbinutils_2.42-4ubuntu2.10_amd64.deb ...
+#13 39.10 Unpacking libbinutils:amd64 (2.42-4ubuntu2.10) ...
+#13 39.19 Selecting previously unselected package libctf-nobfd0:amd64.
+#13 39.20 Preparing to unpack .../18-libctf-nobfd0_2.42-4ubuntu2.10_amd64.deb ...
+#13 39.21 Unpacking libctf-nobfd0:amd64 (2.42-4ubuntu2.10) ...
+#13 39.29 Selecting previously unselected package libctf0:amd64.
+#13 39.29 Preparing to unpack .../19-libctf0_2.42-4ubuntu2.10_amd64.deb ...
+#13 39.30 Unpacking libctf0:amd64 (2.42-4ubuntu2.10) ...
+#13 39.40 Selecting previously unselected package libgprofng0:amd64.
+#13 39.40 Preparing to unpack .../20-libgprofng0_2.42-4ubuntu2.10_amd64.deb ...
+#13 39.41 Unpacking libgprofng0:amd64 (2.42-4ubuntu2.10) ...
+#13 39.50 Selecting previously unselected package binutils-x86-64-linux-gnu.
+#13 39.50 Preparing to unpack .../21-binutils-x86-64-linux-gnu_2.42-4ubuntu2.10_amd64.deb ...
+#13 39.51 Unpacking binutils-x86-64-linux-gnu (2.42-4ubuntu2.10) ...
+#13 39.76 Selecting previously unselected package binutils.
+#13 39.76 Preparing to unpack .../22-binutils_2.42-4ubuntu2.10_amd64.deb ...
+#13 39.77 Unpacking binutils (2.42-4ubuntu2.10) ...
+#13 39.85 Selecting previously unselected package libarchive13t64:amd64.
+#13 39.85 Preparing to unpack .../23-libarchive13t64_3.7.2-2ubuntu0.9_amd64.deb ...
+#13 39.86 Unpacking libarchive13t64:amd64 (3.7.2-2ubuntu0.9) ...
+#13 39.95 Selecting previously unselected package libbrotli1:amd64.
+#13 39.95 Preparing to unpack .../24-libbrotli1_1.1.0-2build2_amd64.deb ...
+#13 39.96 Unpacking libbrotli1:amd64 (1.1.0-2build2) ...
+#13 40.04 Selecting previously unselected package libsasl2-modules-db:amd64.
+#13 40.04 Preparing to unpack .../25-libsasl2-modules-db_2.1.28+dfsg1-5ubuntu3.1_amd64.deb ...
+#13 40.05 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#13 40.14 Selecting previously unselected package libsasl2-2:amd64.
+#13 40.15 Preparing to unpack .../26-libsasl2-2_2.1.28+dfsg1-5ubuntu3.1_amd64.deb ...
+#13 40.16 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#13 40.25 Selecting previously unselected package libldap2:amd64.
+#13 40.26 Preparing to unpack .../27-libldap2_2.6.10+dfsg-0ubuntu0.24.04.1_amd64.deb ...
+#13 40.27 Unpacking libldap2:amd64 (2.6.10+dfsg-0ubuntu0.24.04.1) ...
+#13 40.37 Selecting previously unselected package librtmp1:amd64.
+#13 40.38 Preparing to unpack .../28-librtmp1_2.4+20151223.gitfa8646d.1-2build7_amd64.deb ...
+#13 40.39 Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build7) ...
+#13 40.49 Selecting previously unselected package libssh-4:amd64.
+#13 40.49 Preparing to unpack .../29-libssh-4_0.10.6-2ubuntu0.5_amd64.deb ...
+#13 40.50 Unpacking libssh-4:amd64 (0.10.6-2ubuntu0.5) ...
+#13 40.57 Selecting previously unselected package libcurl4t64:amd64.
+#13 40.57 Preparing to unpack .../30-libcurl4t64_8.5.0-2ubuntu10.15_amd64.deb ...
+#13 40.58 Unpacking libcurl4t64:amd64 (8.5.0-2ubuntu10.15) ...
+#13 40.67 Selecting previously unselected package libjsoncpp25:amd64.
+#13 40.67 Preparing to unpack .../31-libjsoncpp25_1.9.5-6build1_amd64.deb ...
+#13 40.68 Unpacking libjsoncpp25:amd64 (1.9.5-6build1) ...
+#13 40.75 Selecting previously unselected package librhash0:amd64.
+#13 40.76 Preparing to unpack .../32-librhash0_1.4.3-3build1_amd64.deb ...
+#13 40.77 Unpacking librhash0:amd64 (1.4.3-3build1) ...
+#13 40.87 Selecting previously unselected package cmake-data.
+#13 40.87 Preparing to unpack .../33-cmake-data_3.28.3-1build7_all.deb ...
+#13 40.90 Unpacking cmake-data (3.28.3-1build7) ...
+#13 41.96 Selecting previously unselected package cmake.
+#13 41.96 Preparing to unpack .../34-cmake_3.28.3-1build7_amd64.deb ...
+#13 41.97 Unpacking cmake (3.28.3-1build7) ...
+#13 42.69 Selecting previously unselected package gcc-13-base:amd64.
+#13 42.69 Preparing to unpack .../35-gcc-13-base_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 42.71 Unpacking gcc-13-base:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+#13 42.81 Selecting previously unselected package libisl23:amd64.
+#13 42.82 Preparing to unpack .../36-libisl23_0.26-3build1.1_amd64.deb ...
+#13 42.83 Unpacking libisl23:amd64 (0.26-3build1.1) ...
+#13 42.96 Selecting previously unselected package libmpfr6:amd64.
+#13 42.96 Preparing to unpack .../37-libmpfr6_4.2.1-1build1.1_amd64.deb ...
+#13 42.98 Unpacking libmpfr6:amd64 (4.2.1-1build1.1) ...
+#13 43.08 Selecting previously unselected package libmpc3:amd64.
+#13 43.09 Preparing to unpack .../38-libmpc3_1.3.1-1build1.1_amd64.deb ...
+#13 43.10 Unpacking libmpc3:amd64 (1.3.1-1build1.1) ...
+#13 43.18 Selecting previously unselected package cpp-13-x86-64-linux-gnu.
+#13 43.19 Preparing to unpack .../39-cpp-13-x86-64-linux-gnu_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 43.20 Unpacking cpp-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+#13 43.53 Selecting previously unselected package cpp-13.
+#13 43.53 Preparing to unpack .../40-cpp-13_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 43.54 Unpacking cpp-13 (13.3.0-6ubuntu2~24.04.1) ...
+#13 43.58 Selecting previously unselected package cpp-x86-64-linux-gnu.
+#13 43.59 Preparing to unpack .../41-cpp-x86-64-linux-gnu_4%3a13.2.0-7ubuntu1_amd64.deb ...
+#13 43.59 Unpacking cpp-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+#13 43.65 Selecting previously unselected package cpp.
+#13 43.66 Preparing to unpack .../42-cpp_4%3a13.2.0-7ubuntu1_amd64.deb ...
+#13 43.67 Unpacking cpp (4:13.2.0-7ubuntu1) ...
+#13 43.72 Selecting previously unselected package curl.
+#13 43.72 Preparing to unpack .../43-curl_8.5.0-2ubuntu10.15_amd64.deb ...
+#13 43.73 Unpacking curl (8.5.0-2ubuntu10.15) ...
+#13 43.88 Selecting previously unselected package libcc1-0:amd64.
+#13 43.89 Preparing to unpack .../44-libcc1-0_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 43.92 Unpacking libcc1-0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 43.99 Selecting previously unselected package libgomp1:amd64.
+#13 43.99 Preparing to unpack .../45-libgomp1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.00 Unpacking libgomp1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.06 Selecting previously unselected package libitm1:amd64.
+#13 44.06 Preparing to unpack .../46-libitm1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.07 Unpacking libitm1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.12 Selecting previously unselected package libatomic1:amd64.
+#13 44.13 Preparing to unpack .../47-libatomic1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.14 Unpacking libatomic1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.19 Selecting previously unselected package libasan8:amd64.
+#13 44.20 Preparing to unpack .../48-libasan8_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.20 Unpacking libasan8:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.36 Selecting previously unselected package liblsan0:amd64.
+#13 44.36 Preparing to unpack .../49-liblsan0_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.37 Unpacking liblsan0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.48 Selecting previously unselected package libtsan2:amd64.
+#13 44.49 Preparing to unpack .../50-libtsan2_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.51 Unpacking libtsan2:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.67 Selecting previously unselected package libubsan1:amd64.
+#13 44.67 Preparing to unpack .../51-libubsan1_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.68 Unpacking libubsan1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.78 Selecting previously unselected package libhwasan0:amd64.
+#13 44.78 Preparing to unpack .../52-libhwasan0_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.79 Unpacking libhwasan0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.88 Selecting previously unselected package libquadmath0:amd64.
+#13 44.89 Preparing to unpack .../53-libquadmath0_14.2.0-4ubuntu2~24.04.1_amd64.deb ...
+#13 44.89 Unpacking libquadmath0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 44.95 Selecting previously unselected package libgcc-13-dev:amd64.
+#13 44.95 Preparing to unpack .../54-libgcc-13-dev_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 44.96 Unpacking libgcc-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+#13 45.17 Selecting previously unselected package gcc-13-x86-64-linux-gnu.
+#13 45.17 Preparing to unpack .../55-gcc-13-x86-64-linux-gnu_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 45.18 Unpacking gcc-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+#13 45.90 Selecting previously unselected package gcc-13.
+#13 45.91 Preparing to unpack .../56-gcc-13_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 45.91 Unpacking gcc-13 (13.3.0-6ubuntu2~24.04.1) ...
+#13 45.97 Selecting previously unselected package gcc-x86-64-linux-gnu.
+#13 45.97 Preparing to unpack .../57-gcc-x86-64-linux-gnu_4%3a13.2.0-7ubuntu1_amd64.deb ...
+#13 45.98 Unpacking gcc-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+#13 46.06 Selecting previously unselected package gcc.
+#13 46.07 Preparing to unpack .../58-gcc_4%3a13.2.0-7ubuntu1_amd64.deb ...
+#13 46.08 Unpacking gcc (4:13.2.0-7ubuntu1) ...
+#13 46.13 Selecting previously unselected package libc-dev-bin.
+#13 46.14 Preparing to unpack .../59-libc-dev-bin_2.39-0ubuntu8.9_amd64.deb ...
+#13 46.15 Unpacking libc-dev-bin (2.39-0ubuntu8.9) ...
+#13 46.20 Selecting previously unselected package linux-libc-dev:amd64.
+#13 46.20 Preparing to unpack .../60-linux-libc-dev_6.8.0-147.147_amd64.deb ...
+#13 46.21 Unpacking linux-libc-dev:amd64 (6.8.0-147.147) ...
+#13 46.56 Selecting previously unselected package libcrypt-dev:amd64.
+#13 46.57 Preparing to unpack .../61-libcrypt-dev_1%3a4.4.36-4build1_amd64.deb ...
+#13 46.58 Unpacking libcrypt-dev:amd64 (1:4.4.36-4build1) ...
+#13 46.64 Selecting previously unselected package rpcsvc-proto.
+#13 46.64 Preparing to unpack .../62-rpcsvc-proto_1.4.2-0ubuntu7_amd64.deb ...
+#13 46.65 Unpacking rpcsvc-proto (1.4.2-0ubuntu7) ...
+#13 46.72 Selecting previously unselected package libc6-dev:amd64.
+#13 46.72 Preparing to unpack .../63-libc6-dev_2.39-0ubuntu8.9_amd64.deb ...
+#13 46.73 Unpacking libc6-dev:amd64 (2.39-0ubuntu8.9) ...
+#13 47.04 Selecting previously unselected package libstdc++-13-dev:amd64.
+#13 47.04 Preparing to unpack .../64-libstdc++-13-dev_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 47.05 Unpacking libstdc++-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+#13 47.57 Selecting previously unselected package g++-13-x86-64-linux-gnu.
+#13 47.58 Preparing to unpack .../65-g++-13-x86-64-linux-gnu_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 47.59 Unpacking g++-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+#13 48.00 Selecting previously unselected package g++-13.
+#13 48.00 Preparing to unpack .../66-g++-13_13.3.0-6ubuntu2~24.04.1_amd64.deb ...
+#13 48.01 Unpacking g++-13 (13.3.0-6ubuntu2~24.04.1) ...
+#13 48.06 Selecting previously unselected package g++-x86-64-linux-gnu.
+#13 48.06 Preparing to unpack .../67-g++-x86-64-linux-gnu_4%3a13.2.0-7ubuntu1_amd64.deb ...
+#13 48.06 Unpacking g++-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+#13 48.11 Selecting previously unselected package g++.
+#13 48.12 Preparing to unpack .../68-g++_4%3a13.2.0-7ubuntu1_amd64.deb ...
+#13 48.12 Unpacking g++ (4:13.2.0-7ubuntu1) ...
+#13 48.19 Selecting previously unselected package libabsl20220623t64:amd64.
+#13 48.20 Preparing to unpack .../69-libabsl20220623t64_20220623.1-3.1ubuntu3.2_amd64.deb ...
+#13 48.20 Unpacking libabsl20220623t64:amd64 (20220623.1-3.1ubuntu3.2) ...
+#13 48.31 Selecting previously unselected package libabsl-dev:amd64.
+#13 48.32 Preparing to unpack .../70-libabsl-dev_20220623.1-3.1ubuntu3.2_amd64.deb ...
+#13 48.32 Unpacking libabsl-dev:amd64 (20220623.1-3.1ubuntu3.2) ...
+#13 48.65 Selecting previously unselected package libcares2:amd64.
+#13 48.65 Preparing to unpack .../71-libcares2_1.27.0-1.0ubuntu1_amd64.deb ...
+#13 48.66 Unpacking libcares2:amd64 (1.27.0-1.0ubuntu1) ...
+#13 48.72 Selecting previously unselected package libprotobuf32t64:amd64.
+#13 48.72 Preparing to unpack .../72-libprotobuf32t64_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#13 48.73 Unpacking libprotobuf32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#13 48.83 Selecting previously unselected package libprotoc32t64:amd64.
+#13 48.83 Preparing to unpack .../73-libprotoc32t64_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#13 48.84 Unpacking libprotoc32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#13 48.94 Selecting previously unselected package libre2-10:amd64.
+#13 48.94 Preparing to unpack .../74-libre2-10_20230301-3build1_amd64.deb ...
+#13 48.95 Unpacking libre2-10:amd64 (20230301-3build1) ...
+#13 49.04 Selecting previously unselected package libgrpc29t64:amd64.
+#13 49.05 Preparing to unpack .../75-libgrpc29t64_1.51.1-4.1build5_amd64.deb ...
+#13 49.06 Unpacking libgrpc29t64:amd64 (1.51.1-4.1build5) ...
+#13 49.23 Selecting previously unselected package libgrpc++1.51t64:amd64.
+#13 49.23 Preparing to unpack .../76-libgrpc++1.51t64_1.51.1-4.1build5_amd64.deb ...
+#13 49.24 Unpacking libgrpc++1.51t64:amd64 (1.51.1-4.1build5) ...
+#13 49.32 Selecting previously unselected package libpkgconf3:amd64.
+#13 49.33 Preparing to unpack .../77-libpkgconf3_1.8.1-2build1_amd64.deb ...
+#13 49.33 Unpacking libpkgconf3:amd64 (1.8.1-2build1) ...
+#13 49.40 Selecting previously unselected package pkgconf-bin.
+#13 49.40 Preparing to unpack .../78-pkgconf-bin_1.8.1-2build1_amd64.deb ...
+#13 49.41 Unpacking pkgconf-bin (1.8.1-2build1) ...
+#13 49.47 Selecting previously unselected package pkgconf:amd64.
+#13 49.47 Preparing to unpack .../79-pkgconf_1.8.1-2build1_amd64.deb ...
+#13 49.48 Unpacking pkgconf:amd64 (1.8.1-2build1) ...
+#13 49.53 Selecting previously unselected package zlib1g-dev:amd64.
+#13 49.54 Preparing to unpack .../80-zlib1g-dev_1%3a1.3.dfsg-3.1ubuntu2.2_amd64.deb ...
+#13 49.55 Unpacking zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.2) ...
+#13 49.61 Selecting previously unselected package libssl-dev:amd64.
+#13 49.61 Preparing to unpack .../81-libssl-dev_3.0.13-0ubuntu3.16_amd64.deb ...
+#13 49.62 Unpacking libssl-dev:amd64 (3.0.13-0ubuntu3.16) ...
+#13 49.81 Selecting previously unselected package libc-ares-dev:amd64.
+#13 49.82 Preparing to unpack .../82-libc-ares-dev_1.27.0-1.0ubuntu1_amd64.deb ...
+#13 49.82 Unpacking libc-ares-dev:amd64 (1.27.0-1.0ubuntu1) ...
+#13 49.89 Selecting previously unselected package libre2-dev:amd64.
+#13 49.89 Preparing to unpack .../83-libre2-dev_20230301-3build1_amd64.deb ...
+#13 49.90 Unpacking libre2-dev:amd64 (20230301-3build1) ...
+#13 50.02 Selecting previously unselected package libgrpc-dev:amd64.
+#13 50.02 Preparing to unpack .../84-libgrpc-dev_1.51.1-4.1build5_amd64.deb ...
+#13 50.03 Unpacking libgrpc-dev:amd64 (1.51.1-4.1build5) ...
+#13 50.36 Selecting previously unselected package libgrpc++-dev:amd64.
+#13 50.36 Preparing to unpack .../85-libgrpc++-dev_1.51.1-4.1build5_amd64.deb ...
+#13 50.37 Unpacking libgrpc++-dev:amd64 (1.51.1-4.1build5) ...
+#13 50.56 Selecting previously unselected package libhiredis1.1.0:amd64.
+#13 50.57 Preparing to unpack .../86-libhiredis1.1.0_1.2.0-6ubuntu3_amd64.deb ...
+#13 50.58 Unpacking libhiredis1.1.0:amd64 (1.2.0-6ubuntu3) ...
+#13 50.63 Selecting previously unselected package libhiredis-dev:amd64.
+#13 50.64 Preparing to unpack .../87-libhiredis-dev_1.2.0-6ubuntu3_amd64.deb ...
+#13 50.65 Unpacking libhiredis-dev:amd64 (1.2.0-6ubuntu3) ...
+#13 50.72 Selecting previously unselected package libpng-dev:amd64.
+#13 50.72 Preparing to unpack .../88-libpng-dev_1.6.43-5ubuntu0.7_amd64.deb ...
+#13 50.73 Unpacking libpng-dev:amd64 (1.6.43-5ubuntu0.7) ...
+#13 50.80 Selecting previously unselected package libprotobuf-lite32t64:amd64.
+#13 50.81 Preparing to unpack .../89-libprotobuf-lite32t64_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#13 50.82 Unpacking libprotobuf-lite32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#13 50.87 Selecting previously unselected package make.
+#13 50.88 Preparing to unpack .../90-make_4.3-4.1build2_amd64.deb ...
+#13 50.88 Unpacking make (4.3-4.1build2) ...
+#13 50.94 Selecting previously unselected package nlohmann-json3-dev.
+#13 50.94 Preparing to unpack .../91-nlohmann-json3-dev_3.11.3-1_all.deb ...
+#13 50.95 Unpacking nlohmann-json3-dev (3.11.3-1) ...
+#13 51.08 Selecting previously unselected package protobuf-compiler.
+#13 51.08 Preparing to unpack .../92-protobuf-compiler_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#13 51.10 Unpacking protobuf-compiler (3.21.12-8.2ubuntu0.3) ...
+#13 51.18 Selecting previously unselected package protobuf-compiler-grpc.
+#13 51.19 Preparing to unpack .../93-protobuf-compiler-grpc_1.51.1-4.1build5_amd64.deb ...
+#13 51.20 Unpacking protobuf-compiler-grpc (1.51.1-4.1build5) ...
+#13 51.30 Selecting previously unselected package libprotobuf-dev:amd64.
+#13 51.31 Preparing to unpack .../94-libprotobuf-dev_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#13 51.32 Unpacking libprotobuf-dev:amd64 (3.21.12-8.2ubuntu0.3) ...
+#13 51.69 Setting up libprotobuf-lite32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#13 51.72 Setting up libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+#13 51.75 Setting up libprotobuf32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#13 51.78 Setting up libkeyutils1:amd64 (1.6.3-3build1) ...
+#13 51.81 Setting up libre2-10:amd64 (20230301-3build1) ...
+#13 51.83 Setting up libbrotli1:amd64 (1.1.0-2build2) ...
+#13 51.86 Setting up libuv1t64:amd64 (1.48.0-1.1build1) ...
+#13 51.88 Setting up binutils-common:amd64 (2.42-4ubuntu2.10) ...
+#13 51.92 Setting up libpsl5t64:amd64 (0.21.2-1.1build1) ...
+#13 51.95 Setting up libnghttp2-14:amd64 (1.59.0-1ubuntu0.4) ...
+#13 51.97 Setting up linux-libc-dev:amd64 (6.8.0-147.147) ...
+#13 52.00 Setting up libctf-nobfd0:amd64 (2.42-4ubuntu2.10) ...
+#13 52.04 Setting up libgomp1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 52.13 Setting up libsframe1:amd64 (2.42-4ubuntu2.10) ...
+#13 52.17 Setting up libjansson4:amd64 (2.14-2build2) ...
+#13 52.21 Setting up libkrb5support0:amd64 (1.20.1-6ubuntu2.10) ...
+#13 52.26 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#13 52.29 Setting up libpkgconf3:amd64 (1.8.1-2build1) ...
+#13 52.32 Setting up rpcsvc-proto (1.4.2-0ubuntu7) ...
+#13 52.34 Setting up gcc-13-base:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+#13 52.37 Setting up make (4.3-4.1build2) ...
+#13 52.39 Setting up libmpfr6:amd64 (4.2.1-1build1.1) ...
+#13 52.42 Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build7) ...
+#13 52.44 Setting up libquadmath0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 52.47 Setting up libssl-dev:amd64 (3.0.13-0ubuntu3.16) ...
+#13 52.50 Setting up libpng16-16t64:amd64 (1.6.43-5ubuntu0.7) ...
+#13 52.52 Setting up libcares2:amd64 (1.27.0-1.0ubuntu1) ...
+#13 52.55 Setting up libmpc3:amd64 (1.3.1-1build1.1) ...
+#13 52.58 Setting up libc-ares-dev:amd64 (1.27.0-1.0ubuntu1) ...
+#13 52.61 Setting up libatomic1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 52.64 Setting up libjsoncpp25:amd64 (1.9.5-6build1) ...
+#13 52.66 Setting up pkgconf-bin (1.8.1-2build1) ...
+#13 52.68 Setting up libk5crypto3:amd64 (1.20.1-6ubuntu2.10) ...
+#13 52.70 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#13 52.72 Setting up libubsan1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 52.74 Setting up libicu74:amd64 (74.2-1ubuntu3.1) ...
+#13 52.77 Setting up libhwasan0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 52.79 Setting up librhash0:amd64 (1.4.3-3build1) ...
+#13 52.81 Setting up libcrypt-dev:amd64 (1:4.4.36-4build1) ...
+#13 52.84 Setting up libasan8:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 52.86 Setting up cmake-data (3.28.3-1build7) ...
+#13 52.89 Setting up libkrb5-3:amd64 (1.20.1-6ubuntu2.10) ...
+#13 52.91 Setting up libabsl20220623t64:amd64 (20220623.1-3.1ubuntu3.2) ...
+#13 52.94 Setting up nlohmann-json3-dev (3.11.3-1) ...
+#13 52.96 Setting up libtsan2:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 52.98 Setting up libprotoc32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#13 53.00 Setting up libbinutils:amd64 (2.42-4ubuntu2.10) ...
+#13 53.03 Setting up libisl23:amd64 (0.26-3build1.1) ...
+#13 53.06 Setting up libc-dev-bin (2.39-0ubuntu8.9) ...
+#13 53.08 Setting up libre2-dev:amd64 (20230301-3build1) ...
+#13 53.11 Setting up openssl (3.0.13-0ubuntu3.16) ...
+#13 53.14 Setting up libhiredis1.1.0:amd64 (1.2.0-6ubuntu3) ...
+#13 53.17 Setting up libxml2:amd64 (2.9.14+dfsg-1.3ubuntu3.10) ...
+#13 53.19 Setting up libcc1-0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 53.21 Setting up libldap2:amd64 (2.6.10+dfsg-0ubuntu0.24.04.1) ...
+#13 53.23 Setting up liblsan0:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 53.26 Setting up libitm1:amd64 (14.2.0-4ubuntu2~24.04.1) ...
+#13 53.28 Setting up libctf0:amd64 (2.42-4ubuntu2.10) ...
+#13 53.31 Setting up libhiredis-dev:amd64 (1.2.0-6ubuntu3) ...
+#13 53.33 Setting up protobuf-compiler (3.21.12-8.2ubuntu0.3) ...
+#13 53.35 Setting up cpp-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+#13 53.38 Setting up pkgconf:amd64 (1.8.1-2build1) ...
+#13 53.40 Setting up ca-certificates (20260601~24.04.1) ...
+#13 54.48 Updating certificates in /etc/ssl/certs...
+#13 55.69 rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+#13 55.71 121 added, 0 removed; done.
+#13 55.77 Setting up libgprofng0:amd64 (2.42-4ubuntu2.10) ...
+#13 55.81 Setting up libgrpc29t64:amd64 (1.51.1-4.1build5) ...
+#13 55.83 Setting up libgssapi-krb5-2:amd64 (1.20.1-6ubuntu2.10) ...
+#13 55.87 Setting up libabsl-dev:amd64 (20220623.1-3.1ubuntu3.2) ...
+#13 55.94 Setting up libssh-4:amd64 (0.10.6-2ubuntu0.5) ...
+#13 55.96 Setting up libgcc-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+#13 55.99 Setting up libc6-dev:amd64 (2.39-0ubuntu8.9) ...
+#13 56.02 Setting up libarchive13t64:amd64 (3.7.2-2ubuntu0.9) ...
+#13 56.04 Setting up libstdc++-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1) ...
+#13 56.06 Setting up binutils-x86-64-linux-gnu (2.42-4ubuntu2.10) ...
+#13 56.09 Setting up cpp-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+#13 56.11 Setting up cpp-13 (13.3.0-6ubuntu2~24.04.1) ...
+#13 56.14 Setting up libcurl4t64:amd64 (8.5.0-2ubuntu10.15) ...
+#13 56.17 Setting up gcc-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+#13 56.20 Setting up libgrpc++1.51t64:amd64 (1.51.1-4.1build5) ...
+#13 56.22 Setting up binutils (2.42-4ubuntu2.10) ...
+#13 56.25 Setting up protobuf-compiler-grpc (1.51.1-4.1build5) ...
+#13 56.28 Setting up gcc-13 (13.3.0-6ubuntu2~24.04.1) ...
+#13 56.30 Setting up zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.2) ...
+#13 56.32 Setting up cpp (4:13.2.0-7ubuntu1) ...
+#13 56.39 Setting up cmake (3.28.3-1build7) ...
+#13 56.42 Setting up curl (8.5.0-2ubuntu10.15) ...
+#13 56.45 Setting up g++-13-x86-64-linux-gnu (13.3.0-6ubuntu2~24.04.1) ...
+#13 56.47 Setting up gcc-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+#13 56.49 Setting up libpng-dev:amd64 (1.6.43-5ubuntu0.7) ...
+#13 56.51 Setting up libgrpc-dev:amd64 (1.51.1-4.1build5) ...
+#13 56.53 Setting up gcc (4:13.2.0-7ubuntu1) ...
+#13 56.57 Setting up libprotobuf-dev:amd64 (3.21.12-8.2ubuntu0.3) ...
+#13 56.59 Setting up libgrpc++-dev:amd64 (1.51.1-4.1build5) ...
+#13 56.61 Setting up g++-x86-64-linux-gnu (4:13.2.0-7ubuntu1) ...
+#13 56.64 Setting up g++-13 (13.3.0-6ubuntu2~24.04.1) ...
+#13 56.66 Setting up g++ (4:13.2.0-7ubuntu1) ...
+#13 56.68 update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+#13 56.68 update-alternatives: warning: skip creation of /usr/share/man/man1/c++.1.gz because associated file /usr/share/man/man1/g++.1.gz (of link group c++) doesn't exist
+#13 56.69 Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+#13 56.79 Processing triggers for ca-certificates (20260601~24.04.1) ...
+#13 56.80 Updating certificates in /etc/ssl/certs...
+#13 57.49 0 added, 0 removed; done.
+#13 57.49 Running hooks in /etc/ca-certificates/update.d...
+#13 57.50 done.
+#13 DONE 57.6s
+
+#14 [seckill builder  4/11] WORKDIR /project
+#14 DONE 0.2s
+
+#15 [seckill stage-1  3/10] RUN sed -i "s|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g;s|http://security.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g" /etc/apt/sources.list.d/ubuntu.sources && apt-get -o Acquire::Retries=3 -o Acquire::https::Timeout=30 update && apt-get install -y --no-install-recommends ca-certificates curl libhiredis-dev libssl-dev libpng-dev libgrpc++-dev libprotobuf-dev libabsl-dev zlib1g-dev && rm -rf /var/lib/apt/lists/* && useradd -m -u 10001 mall
+#15 1.655 Get:1 https://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+#15 3.001 Get:2 https://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+#15 3.416 Get:3 https://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+#15 3.845 Get:4 https://archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+#15 4.273 Get:5 https://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+#15 4.242 Get:6 https://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]
+#15 4.242 Get:7 https://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+#15 4.246 Get:8 https://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+#15 4.427 Get:9 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1728 kB]
+#15 4.522 Get:10 https://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [61.7 kB]
+#15 4.527 Get:11 https://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [2231 kB]
+#15 4.647 Get:12 https://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2166 kB]
+#15 4.757 Get:13 https://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.0 kB]
+#15 4.757 Get:14 https://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [669 B]
+#15 4.762 Get:15 https://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.0 kB]
+#15 4.763 Get:16 https://archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [2122 kB]
+#15 4.928 Get:17 https://archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1548 kB]
+#15 4.999 Get:18 https://archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [55.6 kB]
+#15 5.002 Get:19 https://archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1409 kB]
+#15 5.769 Fetched 33.6 MB in 8s (4303 kB/s)
+#15 5.769 Reading package lists...
+#15 7.544 Reading package lists...
+#15 9.265 Building dependency tree...
+#15 9.962 Reading state information...
+#15 11.05 The following additional packages will be installed:
+#15 11.05   libabsl20220623t64 libbrotli1 libc-ares-dev libc-dev-bin libc6-dev libcares2
+#15 11.05   libcrypt-dev libcurl4t64 libgrpc++1.51t64 libgrpc-dev libgrpc29t64
+#15 11.05   libgssapi-krb5-2 libhiredis1.1.0 libk5crypto3 libkeyutils1 libkrb5-3
+#15 11.05   libkrb5support0 libldap2 libnghttp2-14 libpkgconf3 libpng16-16t64
+#15 11.05   libprotobuf-lite32t64 libprotobuf32t64 libprotoc32t64 libpsl5t64 libre2-10
+#15 11.05   libre2-dev librtmp1 libsasl2-2 libsasl2-modules-db libssh-4 libssl3t64
+#15 11.06   linux-libc-dev openssl pkgconf pkgconf-bin rpcsvc-proto
+#15 11.06 Suggested packages:
+#15 11.06   glibc-doc manpages-dev krb5-doc krb5-user libssl-doc
+#15 11.06 Recommended packages:
+#15 11.06   g++ manpages manpages-dev libc-devtools krb5-locales libldap-common
+#15 11.06   libpng-tools publicsuffix libsasl2-modules
+#15 11.27 The following NEW packages will be installed:
+#15 11.28   ca-certificates curl libabsl-dev libabsl20220623t64 libbrotli1 libc-ares-dev
+#15 11.28   libc-dev-bin libc6-dev libcares2 libcrypt-dev libcurl4t64 libgrpc++-dev
+#15 11.28   libgrpc++1.51t64 libgrpc-dev libgrpc29t64 libgssapi-krb5-2 libhiredis-dev
+#15 11.28   libhiredis1.1.0 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap2
+#15 11.28   libnghttp2-14 libpkgconf3 libpng-dev libpng16-16t64 libprotobuf-dev
+#15 11.28   libprotobuf-lite32t64 libprotobuf32t64 libprotoc32t64 libpsl5t64 libre2-10
+#15 11.28   libre2-dev librtmp1 libsasl2-2 libsasl2-modules-db libssh-4 libssl-dev
+#15 11.28   linux-libc-dev openssl pkgconf pkgconf-bin rpcsvc-proto zlib1g-dev
+#15 11.29 The following packages will be upgraded:
+#15 11.29   libssl3t64
+#15 14.67 1 upgraded, 45 newly installed, 0 to remove and 2 not upgraded.
+#15 14.67 Need to get 27.4 MB of archives.
+#15 14.67 After this operation, 130 MB of additional disk space will be used.
+#15 14.67 Get:1 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libssl3t64 amd64 3.0.13-0ubuntu3.16 [1945 kB]
+#15 20.37 Get:2 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 openssl amd64 3.0.13-0ubuntu3.16 [1004 kB]
+#15 23.49 Get:3 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 ca-certificates all 20260601~24.04.1 [139 kB]
+#15 23.95 Get:4 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libkrb5support0 amd64 1.20.1-6ubuntu2.10 [34.9 kB]
+#15 24.33 Get:5 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libk5crypto3 amd64 1.20.1-6ubuntu2.10 [81.9 kB]
+#15 24.97 Get:6 https://archive.ubuntu.com/ubuntu noble/main amd64 libkeyutils1 amd64 1.6.3-3build1 [9490 B]
+#15 25.56 Get:7 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libkrb5-3 amd64 1.20.1-6ubuntu2.10 [348 kB]
+#15 26.46 Get:8 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libgssapi-krb5-2 amd64 1.20.1-6ubuntu2.10 [143 kB]
+#15 26.87 Get:9 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libnghttp2-14 amd64 1.59.0-1ubuntu0.4 [74.6 kB]
+#15 27.43 Get:10 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpng16-16t64 amd64 1.6.43-5ubuntu0.7 [189 kB]
+#15 28.79 Get:11 https://archive.ubuntu.com/ubuntu noble/main amd64 libpsl5t64 amd64 0.21.2-1.1build1 [57.1 kB]
+#15 29.41 Get:12 https://archive.ubuntu.com/ubuntu noble/main amd64 libbrotli1 amd64 1.1.0-2build2 [331 kB]
+#15 30.36 Get:13 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsasl2-modules-db amd64 2.1.28+dfsg1-5ubuntu3.1 [20.4 kB]
+#15 31.02 Get:14 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsasl2-2 amd64 2.1.28+dfsg1-5ubuntu3.1 [53.2 kB]
+#15 31.86 Get:15 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libldap2 amd64 2.6.10+dfsg-0ubuntu0.24.04.1 [198 kB]
+#15 30.45 Get:16 https://archive.ubuntu.com/ubuntu noble/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build7 [56.3 kB]
+#15 31.37 Get:17 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libssh-4 amd64 0.10.6-2ubuntu0.5 [191 kB]
+#15 32.75 Get:18 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libcurl4t64 amd64 8.5.0-2ubuntu10.15 [343 kB]
+#15 33.73 Get:19 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 curl amd64 8.5.0-2ubuntu10.15 [227 kB]
+#15 34.58 Get:20 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libabsl20220623t64 amd64 20220623.1-3.1ubuntu3.2 [423 kB]
+#15 36.10 Get:21 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libabsl-dev amd64 20220623.1-3.1ubuntu3.2 [1020 kB]
+#15 37.83 Get:22 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc-dev-bin amd64 2.39-0ubuntu8.9 [20.4 kB]
+#15 38.33 Get:23 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 linux-libc-dev amd64 6.8.0-147.147 [1595 kB]
+#15 40.61 Get:24 https://archive.ubuntu.com/ubuntu noble/main amd64 libcrypt-dev amd64 1:4.4.36-4build1 [112 kB]
+#15 41.14 Get:25 https://archive.ubuntu.com/ubuntu noble/main amd64 rpcsvc-proto amd64 1.4.2-0ubuntu7 [67.4 kB]
+#15 41.63 Get:26 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libc6-dev amd64 2.39-0ubuntu8.9 [2126 kB]
+#15 43.83 Get:27 https://archive.ubuntu.com/ubuntu noble/main amd64 libcares2 amd64 1.27.0-1.0ubuntu1 [73.7 kB]
+#15 44.27 Get:28 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libprotobuf32t64 amd64 3.21.12-8.2ubuntu0.3 [923 kB]
+#15 45.23 Get:29 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libprotoc32t64 amd64 3.21.12-8.2ubuntu0.3 [683 kB]
+#15 46.02 Get:30 https://archive.ubuntu.com/ubuntu noble/main amd64 libre2-10 amd64 20230301-3build1 [168 kB]
+#15 46.54 Get:31 https://archive.ubuntu.com/ubuntu noble/universe amd64 libgrpc29t64 amd64 1.51.1-4.1build5 [2768 kB]
+#15 48.43 Get:32 https://archive.ubuntu.com/ubuntu noble/universe amd64 libgrpc++1.51t64 amd64 1.51.1-4.1build5 [481 kB]
+#15 49.04 Get:33 https://archive.ubuntu.com/ubuntu noble/main amd64 libpkgconf3 amd64 1.8.1-2build1 [30.7 kB]
+#15 49.44 Get:34 https://archive.ubuntu.com/ubuntu noble/main amd64 pkgconf-bin amd64 1.8.1-2build1 [20.7 kB]
+#15 50.07 Get:35 https://archive.ubuntu.com/ubuntu noble/main amd64 pkgconf amd64 1.8.1-2build1 [16.8 kB]
+#15 50.50 Get:36 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g-dev amd64 1:1.3.dfsg-3.1ubuntu2.2 [894 kB]
+#15 51.44 Get:37 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libssl-dev amd64 3.0.13-0ubuntu3.16 [2409 kB]
+#15 53.02 Get:38 https://archive.ubuntu.com/ubuntu noble/main amd64 libc-ares-dev amd64 1.27.0-1.0ubuntu1 [189 kB]
+#15 53.55 Get:39 https://archive.ubuntu.com/ubuntu noble/main amd64 libre2-dev amd64 20230301-3build1 [269 kB]
+#15 54.15 Get:40 https://archive.ubuntu.com/ubuntu noble/universe amd64 libgrpc-dev amd64 1.51.1-4.1build5 [4933 kB]
+#15 58.06 Get:41 https://archive.ubuntu.com/ubuntu noble/universe amd64 libgrpc++-dev amd64 1.51.1-4.1build5 [676 kB]
+#15 59.31 Get:42 https://archive.ubuntu.com/ubuntu noble/universe amd64 libhiredis1.1.0 amd64 1.2.0-6ubuntu3 [41.4 kB]
+#15 57.93 Get:43 https://archive.ubuntu.com/ubuntu noble/universe amd64 libhiredis-dev amd64 1.2.0-6ubuntu3 [78.3 kB]
+#15 58.24 Get:44 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpng-dev amd64 1.6.43-5ubuntu0.7 [265 kB]
+#15 58.72 Get:45 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libprotobuf-lite32t64 amd64 3.21.12-8.2ubuntu0.3 [238 kB]
+#15 59.15 Get:46 https://archive.ubuntu.com/ubuntu noble-updates/main amd64 libprotobuf-dev amd64 3.21.12-8.2ubuntu0.3 [1413 kB]
+#15 59.95 debconf: delaying package configuration, since apt-utils is not installed
+#15 60.02 Fetched 27.4 MB in 53s (513 kB/s)
+#15 60.06 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4381 files and directories currently installed.)
+#15 60.07 Preparing to unpack .../libssl3t64_3.0.13-0ubuntu3.16_amd64.deb ...
+#15 60.10 Unpacking libssl3t64:amd64 (3.0.13-0ubuntu3.16) over (3.0.13-0ubuntu3.15) ...
+#15 60.31 Setting up libssl3t64:amd64 (3.0.13-0ubuntu3.16) ...
+#15 60.41 Selecting previously unselected package openssl.
+#15 60.41 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4381 files and directories currently installed.)
+#15 60.41 Preparing to unpack .../00-openssl_3.0.13-0ubuntu3.16_amd64.deb ...
+#15 60.42 Unpacking openssl (3.0.13-0ubuntu3.16) ...
+#15 60.53 Selecting previously unselected package ca-certificates.
+#15 60.53 Preparing to unpack .../01-ca-certificates_20260601~24.04.1_all.deb ...
+#15 60.54 Unpacking ca-certificates (20260601~24.04.1) ...
+#15 60.66 Selecting previously unselected package libkrb5support0:amd64.
+#15 60.66 Preparing to unpack .../02-libkrb5support0_1.20.1-6ubuntu2.10_amd64.deb ...
+#15 60.67 Unpacking libkrb5support0:amd64 (1.20.1-6ubuntu2.10) ...
+#15 60.75 Selecting previously unselected package libk5crypto3:amd64.
+#15 60.75 Preparing to unpack .../03-libk5crypto3_1.20.1-6ubuntu2.10_amd64.deb ...
+#15 60.76 Unpacking libk5crypto3:amd64 (1.20.1-6ubuntu2.10) ...
+#15 60.82 Selecting previously unselected package libkeyutils1:amd64.
+#15 60.83 Preparing to unpack .../04-libkeyutils1_1.6.3-3build1_amd64.deb ...
+#15 60.83 Unpacking libkeyutils1:amd64 (1.6.3-3build1) ...
+#15 60.90 Selecting previously unselected package libkrb5-3:amd64.
+#15 60.90 Preparing to unpack .../05-libkrb5-3_1.20.1-6ubuntu2.10_amd64.deb ...
+#15 60.91 Unpacking libkrb5-3:amd64 (1.20.1-6ubuntu2.10) ...
+#15 60.99 Selecting previously unselected package libgssapi-krb5-2:amd64.
+#15 60.99 Preparing to unpack .../06-libgssapi-krb5-2_1.20.1-6ubuntu2.10_amd64.deb ...
+#15 61.00 Unpacking libgssapi-krb5-2:amd64 (1.20.1-6ubuntu2.10) ...
+#15 61.08 Selecting previously unselected package libnghttp2-14:amd64.
+#15 61.08 Preparing to unpack .../07-libnghttp2-14_1.59.0-1ubuntu0.4_amd64.deb ...
+#15 61.09 Unpacking libnghttp2-14:amd64 (1.59.0-1ubuntu0.4) ...
+#15 61.16 Selecting previously unselected package libpng16-16t64:amd64.
+#15 61.16 Preparing to unpack .../08-libpng16-16t64_1.6.43-5ubuntu0.7_amd64.deb ...
+#15 61.17 Unpacking libpng16-16t64:amd64 (1.6.43-5ubuntu0.7) ...
+#15 61.26 Selecting previously unselected package libpsl5t64:amd64.
+#15 61.26 Preparing to unpack .../09-libpsl5t64_0.21.2-1.1build1_amd64.deb ...
+#15 61.27 Unpacking libpsl5t64:amd64 (0.21.2-1.1build1) ...
+#15 61.34 Selecting previously unselected package libbrotli1:amd64.
+#15 61.34 Preparing to unpack .../10-libbrotli1_1.1.0-2build2_amd64.deb ...
+#15 61.36 Unpacking libbrotli1:amd64 (1.1.0-2build2) ...
+#15 61.42 Selecting previously unselected package libsasl2-modules-db:amd64.
+#15 61.42 Preparing to unpack .../11-libsasl2-modules-db_2.1.28+dfsg1-5ubuntu3.1_amd64.deb ...
+#15 61.43 Unpacking libsasl2-modules-db:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#15 61.49 Selecting previously unselected package libsasl2-2:amd64.
+#15 61.49 Preparing to unpack .../12-libsasl2-2_2.1.28+dfsg1-5ubuntu3.1_amd64.deb ...
+#15 61.50 Unpacking libsasl2-2:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#15 61.57 Selecting previously unselected package libldap2:amd64.
+#15 61.57 Preparing to unpack .../13-libldap2_2.6.10+dfsg-0ubuntu0.24.04.1_amd64.deb ...
+#15 61.58 Unpacking libldap2:amd64 (2.6.10+dfsg-0ubuntu0.24.04.1) ...
+#15 61.65 Selecting previously unselected package librtmp1:amd64.
+#15 61.65 Preparing to unpack .../14-librtmp1_2.4+20151223.gitfa8646d.1-2build7_amd64.deb ...
+#15 61.66 Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build7) ...
+#15 61.74 Selecting previously unselected package libssh-4:amd64.
+#15 61.75 Preparing to unpack .../15-libssh-4_0.10.6-2ubuntu0.5_amd64.deb ...
+#15 61.75 Unpacking libssh-4:amd64 (0.10.6-2ubuntu0.5) ...
+#15 61.82 Selecting previously unselected package libcurl4t64:amd64.
+#15 61.83 Preparing to unpack .../16-libcurl4t64_8.5.0-2ubuntu10.15_amd64.deb ...
+#15 61.84 Unpacking libcurl4t64:amd64 (8.5.0-2ubuntu10.15) ...
+#15 61.91 Selecting previously unselected package curl.
+#15 61.91 Preparing to unpack .../17-curl_8.5.0-2ubuntu10.15_amd64.deb ...
+#15 61.92 Unpacking curl (8.5.0-2ubuntu10.15) ...
+#15 61.98 Selecting previously unselected package libabsl20220623t64:amd64.
+#15 61.98 Preparing to unpack .../18-libabsl20220623t64_20220623.1-3.1ubuntu3.2_amd64.deb ...
+#15 62.00 Unpacking libabsl20220623t64:amd64 (20220623.1-3.1ubuntu3.2) ...
+#15 62.08 Selecting previously unselected package libabsl-dev:amd64.
+#15 62.09 Preparing to unpack .../19-libabsl-dev_20220623.1-3.1ubuntu3.2_amd64.deb ...
+#15 62.09 Unpacking libabsl-dev:amd64 (20220623.1-3.1ubuntu3.2) ...
+#15 62.35 Selecting previously unselected package libc-dev-bin.
+#15 62.35 Preparing to unpack .../20-libc-dev-bin_2.39-0ubuntu8.9_amd64.deb ...
+#15 62.36 Unpacking libc-dev-bin (2.39-0ubuntu8.9) ...
+#15 62.41 Selecting previously unselected package linux-libc-dev:amd64.
+#15 62.41 Preparing to unpack .../21-linux-libc-dev_6.8.0-147.147_amd64.deb ...
+#15 62.42 Unpacking linux-libc-dev:amd64 (6.8.0-147.147) ...
+#15 62.74 Selecting previously unselected package libcrypt-dev:amd64.
+#15 62.75 Preparing to unpack .../22-libcrypt-dev_1%3a4.4.36-4build1_amd64.deb ...
+#15 62.76 Unpacking libcrypt-dev:amd64 (1:4.4.36-4build1) ...
+#15 62.81 Selecting previously unselected package rpcsvc-proto.
+#15 62.81 Preparing to unpack .../23-rpcsvc-proto_1.4.2-0ubuntu7_amd64.deb ...
+#15 62.82 Unpacking rpcsvc-proto (1.4.2-0ubuntu7) ...
+#15 62.88 Selecting previously unselected package libc6-dev:amd64.
+#15 62.88 Preparing to unpack .../24-libc6-dev_2.39-0ubuntu8.9_amd64.deb ...
+#15 62.89 Unpacking libc6-dev:amd64 (2.39-0ubuntu8.9) ...
+#15 63.16 Selecting previously unselected package libcares2:amd64.
+#15 63.16 Preparing to unpack .../25-libcares2_1.27.0-1.0ubuntu1_amd64.deb ...
+#15 63.17 Unpacking libcares2:amd64 (1.27.0-1.0ubuntu1) ...
+#15 63.23 Selecting previously unselected package libprotobuf32t64:amd64.
+#15 63.23 Preparing to unpack .../26-libprotobuf32t64_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#15 63.24 Unpacking libprotobuf32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#15 63.33 Selecting previously unselected package libprotoc32t64:amd64.
+#15 63.33 Preparing to unpack .../27-libprotoc32t64_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#15 63.34 Unpacking libprotoc32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#15 63.41 Selecting previously unselected package libre2-10:amd64.
+#15 63.42 Preparing to unpack .../28-libre2-10_20230301-3build1_amd64.deb ...
+#15 63.42 Unpacking libre2-10:amd64 (20230301-3build1) ...
+#15 63.48 Selecting previously unselected package libgrpc29t64:amd64.
+#15 63.48 Preparing to unpack .../29-libgrpc29t64_1.51.1-4.1build5_amd64.deb ...
+#15 63.49 Unpacking libgrpc29t64:amd64 (1.51.1-4.1build5) ...
+#15 63.65 Selecting previously unselected package libgrpc++1.51t64:amd64.
+#15 63.65 Preparing to unpack .../30-libgrpc++1.51t64_1.51.1-4.1build5_amd64.deb ...
+#15 63.66 Unpacking libgrpc++1.51t64:amd64 (1.51.1-4.1build5) ...
+#15 63.75 Selecting previously unselected package libpkgconf3:amd64.
+#15 63.75 Preparing to unpack .../31-libpkgconf3_1.8.1-2build1_amd64.deb ...
+#15 63.76 Unpacking libpkgconf3:amd64 (1.8.1-2build1) ...
+#15 63.81 Selecting previously unselected package pkgconf-bin.
+#15 63.81 Preparing to unpack .../32-pkgconf-bin_1.8.1-2build1_amd64.deb ...
+#15 63.82 Unpacking pkgconf-bin (1.8.1-2build1) ...
+#15 63.88 Selecting previously unselected package pkgconf:amd64.
+#15 63.88 Preparing to unpack .../33-pkgconf_1.8.1-2build1_amd64.deb ...
+#15 63.89 Unpacking pkgconf:amd64 (1.8.1-2build1) ...
+#15 63.95 Selecting previously unselected package zlib1g-dev:amd64.
+#15 63.95 Preparing to unpack .../34-zlib1g-dev_1%3a1.3.dfsg-3.1ubuntu2.2_amd64.deb ...
+#15 63.96 Unpacking zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.2) ...
+#15 64.02 Selecting previously unselected package libssl-dev:amd64.
+#15 64.03 Preparing to unpack .../35-libssl-dev_3.0.13-0ubuntu3.16_amd64.deb ...
+#15 64.03 Unpacking libssl-dev:amd64 (3.0.13-0ubuntu3.16) ...
+#15 64.26 Selecting previously unselected package libc-ares-dev:amd64.
+#15 64.26 Preparing to unpack .../36-libc-ares-dev_1.27.0-1.0ubuntu1_amd64.deb ...
+#15 64.27 Unpacking libc-ares-dev:amd64 (1.27.0-1.0ubuntu1) ...
+#15 64.34 Selecting previously unselected package libre2-dev:amd64.
+#15 64.34 Preparing to unpack .../37-libre2-dev_20230301-3build1_amd64.deb ...
+#15 64.35 Unpacking libre2-dev:amd64 (20230301-3build1) ...
+#15 64.42 Selecting previously unselected package libgrpc-dev:amd64.
+#15 64.42 Preparing to unpack .../38-libgrpc-dev_1.51.1-4.1build5_amd64.deb ...
+#15 64.43 Unpacking libgrpc-dev:amd64 (1.51.1-4.1build5) ...
+#15 64.76 Selecting previously unselected package libgrpc++-dev:amd64.
+#15 64.76 Preparing to unpack .../39-libgrpc++-dev_1.51.1-4.1build5_amd64.deb ...
+#15 64.77 Unpacking libgrpc++-dev:amd64 (1.51.1-4.1build5) ...
+#15 64.93 Selecting previously unselected package libhiredis1.1.0:amd64.
+#15 64.93 Preparing to unpack .../40-libhiredis1.1.0_1.2.0-6ubuntu3_amd64.deb ...
+#15 64.94 Unpacking libhiredis1.1.0:amd64 (1.2.0-6ubuntu3) ...
+#15 65.00 Selecting previously unselected package libhiredis-dev:amd64.
+#15 65.00 Preparing to unpack .../41-libhiredis-dev_1.2.0-6ubuntu3_amd64.deb ...
+#15 65.00 Unpacking libhiredis-dev:amd64 (1.2.0-6ubuntu3) ...
+#15 65.07 Selecting previously unselected package libpng-dev:amd64.
+#15 65.07 Preparing to unpack .../42-libpng-dev_1.6.43-5ubuntu0.7_amd64.deb ...
+#15 65.08 Unpacking libpng-dev:amd64 (1.6.43-5ubuntu0.7) ...
+#15 65.15 Selecting previously unselected package libprotobuf-lite32t64:amd64.
+#15 65.15 Preparing to unpack .../43-libprotobuf-lite32t64_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#15 65.16 Unpacking libprotobuf-lite32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#15 65.22 Selecting previously unselected package libprotobuf-dev:amd64.
+#15 65.22 Preparing to unpack .../44-libprotobuf-dev_3.21.12-8.2ubuntu0.3_amd64.deb ...
+#15 65.23 Unpacking libprotobuf-dev:amd64 (3.21.12-8.2ubuntu0.3) ...
+#15 65.43 Setting up libprotobuf-lite32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#15 65.45 Setting up libprotobuf32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#15 65.48 Setting up libkeyutils1:amd64 (1.6.3-3build1) ...
+#15 65.51 Setting up libre2-10:amd64 (20230301-3build1) ...
+#15 65.54 Setting up libbrotli1:amd64 (1.1.0-2build2) ...
+#15 65.56 Setting up libpsl5t64:amd64 (0.21.2-1.1build1) ...
+#15 65.58 Setting up libnghttp2-14:amd64 (1.59.0-1ubuntu0.4) ...
+#15 65.60 Setting up linux-libc-dev:amd64 (6.8.0-147.147) ...
+#15 65.62 Setting up libkrb5support0:amd64 (1.20.1-6ubuntu2.10) ...
+#15 65.65 Setting up libsasl2-modules-db:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#15 65.67 Setting up libpkgconf3:amd64 (1.8.1-2build1) ...
+#15 65.70 Setting up rpcsvc-proto (1.4.2-0ubuntu7) ...
+#15 65.72 Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build7) ...
+#15 65.74 Setting up libssl-dev:amd64 (3.0.13-0ubuntu3.16) ...
+#15 65.77 Setting up libpng16-16t64:amd64 (1.6.43-5ubuntu0.7) ...
+#15 65.79 Setting up libcares2:amd64 (1.27.0-1.0ubuntu1) ...
+#15 65.81 Setting up libc-ares-dev:amd64 (1.27.0-1.0ubuntu1) ...
+#15 65.84 Setting up pkgconf-bin (1.8.1-2build1) ...
+#15 65.88 Setting up libk5crypto3:amd64 (1.20.1-6ubuntu2.10) ...
+#15 65.90 Setting up libsasl2-2:amd64 (2.1.28+dfsg1-5ubuntu3.1) ...
+#15 65.94 Setting up libcrypt-dev:amd64 (1:4.4.36-4build1) ...
+#15 65.98 Setting up libkrb5-3:amd64 (1.20.1-6ubuntu2.10) ...
+#15 66.01 Setting up libabsl20220623t64:amd64 (20220623.1-3.1ubuntu3.2) ...
+#15 66.03 Setting up libprotoc32t64:amd64 (3.21.12-8.2ubuntu0.3) ...
+#15 66.05 Setting up libc-dev-bin (2.39-0ubuntu8.9) ...
+#15 66.08 Setting up libre2-dev:amd64 (20230301-3build1) ...
+#15 66.10 Setting up openssl (3.0.13-0ubuntu3.16) ...
+#15 66.14 Setting up libhiredis1.1.0:amd64 (1.2.0-6ubuntu3) ...
+#15 66.16 Setting up libldap2:amd64 (2.6.10+dfsg-0ubuntu0.24.04.1) ...
+#15 66.18 Setting up libhiredis-dev:amd64 (1.2.0-6ubuntu3) ...
+#15 66.21 Setting up pkgconf:amd64 (1.8.1-2build1) ...
+#15 66.23 Setting up ca-certificates (20260601~24.04.1) ...
+#15 67.08 Updating certificates in /etc/ssl/certs...
+#15 68.46 rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+#15 68.48 121 added, 0 removed; done.
+#15 68.56 Setting up libgrpc29t64:amd64 (1.51.1-4.1build5) ...
+#15 68.59 Setting up libgssapi-krb5-2:amd64 (1.20.1-6ubuntu2.10) ...
+#15 68.62 Setting up libabsl-dev:amd64 (20220623.1-3.1ubuntu3.2) ...
+#15 68.65 Setting up libssh-4:amd64 (0.10.6-2ubuntu0.5) ...
+#15 68.68 Setting up libc6-dev:amd64 (2.39-0ubuntu8.9) ...
+#15 68.71 Setting up libcurl4t64:amd64 (8.5.0-2ubuntu10.15) ...
+#15 68.73 Setting up libgrpc++1.51t64:amd64 (1.51.1-4.1build5) ...
+#15 68.75 Setting up zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.2) ...
+#15 68.78 Setting up curl (8.5.0-2ubuntu10.15) ...
+#15 68.80 Setting up libpng-dev:amd64 (1.6.43-5ubuntu0.7) ...
+#15 68.82 Setting up libgrpc-dev:amd64 (1.51.1-4.1build5) ...
+#15 68.85 Setting up libprotobuf-dev:amd64 (3.21.12-8.2ubuntu0.3) ...
+#15 68.87 Setting up libgrpc++-dev:amd64 (1.51.1-4.1build5) ...
+#15 68.89 Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+#15 68.94 Processing triggers for ca-certificates (20260601~24.04.1) ...
+#15 68.95 Updating certificates in /etc/ssl/certs...
+#15 69.75 0 added, 0 removed; done.
+#15 69.75 Running hooks in /etc/ca-certificates/update.d...
+#15 69.75 done.
+#15 DONE 70.0s
+
+#16 [seckill internal] load .dockerignore
+#16 transferring context: 173B 0.1s done
+#16 DONE 0.1s
+
+#17 [seckill internal] load build context
+#17 ...
+
+#18 [gateway internal] load metadata for docker.io/library/nginx:1.28.0-alpine
+#18 DONE 0.4s
+
+#19 [migrate internal] load build context
+#19 transferring context: 786B 0.4s done
+#19 DONE 0.5s
+
+#20 [migrate 4/8] RUN pip install --no-cache-dir -r scripts/requirements-integration.txt
+#20 CACHED
+
+#21 [migrate 2/8] WORKDIR /project
+#21 CACHED
+
+#22 [migrate 3/8] COPY scripts/requirements-integration.txt scripts/requirements-integration.txt
+#22 CACHED
+
+#23 [migrate 5/8] COPY scripts/data.py scripts/data.py
+#23 CACHED
+
+#24 [migrate 6/8] COPY scripts/sql scripts/sql
+#24 CACHED
+
+#25 [migrate 7/8] COPY scripts/seed-storefront.py scripts/seed-storefront.py
+#25 CACHED
+
+#26 [migrate 8/8] COPY src/seckill/lua src/seckill/lua
+#26 CACHED
+
+#27 [migrate] exporting to image
+#27 exporting layers 0.0s done
+#27 exporting manifest sha256:d47272c0a4a482f1f2a6c95deaf1a35cb67cf1ecd9178d70f870a454696a4bfe 0.0s done
+#27 exporting config sha256:8daace62466a7a5ffb183154827ab1f364ee1dce832d5d38af2ae8a6107ef96e
+#27 exporting config sha256:8daace62466a7a5ffb183154827ab1f364ee1dce832d5d38af2ae8a6107ef96e 0.0s done
+#27 exporting attestation manifest sha256:c5a3774dbf12b3f84b2ee3beab0f9dde10c0d39b9440d03d6d563c7529332afd
+#27 ...
+
+#28 [seckill builder  5/11] COPY scripts/setup-rocketmq-sdk-wsl.sh scripts/setup-rocketmq-sdk-wsl.sh
+#28 DONE 0.1s
+
+#17 [seckill internal] load build context
+#17 transferring context: 402.23kB 0.7s done
+#17 DONE 0.7s
+
+#27 [migrate] exporting to image
+#27 exporting attestation manifest sha256:c5a3774dbf12b3f84b2ee3beab0f9dde10c0d39b9440d03d6d563c7529332afd 0.0s done
+#27 exporting manifest list sha256:0d2fca3399a7b299255e3429f7632fe88d51918f3dc026b51160996580f1eae0 0.1s done
+#27 naming to docker.io/library/seckill-mall-tools:local done
+#27 unpacking to docker.io/library/seckill-mall-tools:local 0.0s done
+#27 DONE 0.4s
+
+#29 [seckill builder  6/11] RUN bash scripts/setup-rocketmq-sdk-wsl.sh
+#29 0.311   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+#29 0.311                                  Dload  Upload   Total   Spent    Left  Speed
+#29 0.311   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0100  277k    0  277k    0     0  89192      0 --:--:--  0:00:03 --:--:-- 89183100  734k    0  734k    0     0   175k      0 --:--:--  0:00:04 --:--:--  175k100 1592k    0 1592k    0     0   305k      0 --:--:--  0:00:05 --:--:--  375k100 2385k    0 2385k    0     0   385k      0 --:--:--  0:00:06 --:--:--  553k100 3110k    0 3110k    0     0   432k      0 --:--:--  0:00:07 --:--:--  621k100 4387k    0 4387k    0     0   536k      0 --:--:--  0:00:08 --:--:--  822k100 5885k    0 5885k    0     0   638k      0 --:--:--  0:00:09 --:--:-- 1024k100 6296k    0 6296k    0     0   667k      0 --:--:--  0:00:09 --:--:-- 1113k
+#29 8.097   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+#29 8.097                                  Dload  Upload   Total   Spent    Left  Speed
+#29 8.097   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2133    0  2133    0     0   2099      0 --:--:--  0:00:01 --:--:--  2101100 30478    0 30478    0     0  24524      0 --:--:--  0:00:01 --:--:-- 24559
+#29 9.456 /project/build/wsl/tooling/rocketmq-clients.tar.gz: OK
+#29 9.460 /project/build/wsl/tooling/rocketmq-apis.tar.gz: OK
+#29 10.42 -- The CXX compiler identification is GNU 13.3.0
+#29 10.45 -- Detecting CXX compiler ABI info
+#29 10.70 -- Detecting CXX compiler ABI info - done
+#29 10.71 -- Check for working CXX compiler: /usr/bin/c++ - skipped
+#29 10.72 -- Detecting CXX compile features
+#29 10.72 -- Detecting CXX compile features - done
+#29 10.96 -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found suitable version "3.21.12", minimum required is "3.19") 
+#29 10.98 -- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.3")  
+#29 11.06 -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+#29 11.07 -- Found c-ares: /usr/lib/x86_64-linux-gnu/cmake/c-ares/c-ares-config.cmake (found version "1.27.0") 
+#29 11.07 -- Found Threads: TRUE  
+#29 11.09 -- Found PkgConfig: /usr/bin/pkg-config (found version "1.8.1") 
+#29 11.16 -- Found RE2 via pkg-config.
+#29 11.19 -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found suitable version "3.0.13", minimum required is "1.1")  
+#29 11.29 -- Configuring done (1.0s)
+#29 11.54 -- Generating done (0.2s)
+#29 11.56 -- Build files have been written to: /project/build/wsl/rocketmq-sdk-build
+#29 11.63 [  1%] Running cpp protocol buffer compiler on apache/rocketmq/v2/service.proto
+#29 11.65 [  1%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/common/internal/CMakeFiles/opencensus_common_hostname.dir/hostname.cc.o
+#29 11.74 [  1%] Running grpc protocol buffer compiler on apache/rocketmq/v2/admin.proto
+#29 11.77 [  2%] Running cpp protocol buffer compiler on apache/rocketmq/v2/admin.proto
+#29 11.80 [  3%] Running grpc protocol buffer compiler on apache/rocketmq/v2/definition.proto
+#29 11.86 [  3%] Running cpp protocol buffer compiler on apache/rocketmq/v2/definition.proto
+#29 11.92 [  3%] Running grpc protocol buffer compiler on apache/rocketmq/v2/service.proto
+#29 12.05 [  4%] Building CXX object proto/CMakeFiles/proto.dir/apache/rocketmq/v2/admin.pb.cc.o
+#29 12.35 [  5%] Linking CXX static library libopencensus_common_hostname.a
+#29 12.41 [  5%] Built target opencensus_common_hostname
+#29 12.42 [  6%] Building CXX object proto/CMakeFiles/proto.dir/apache/rocketmq/v2/definition.pb.cc.o
+#29 13.64 [  6%] Building CXX object proto/CMakeFiles/proto.dir/apache/rocketmq/v2/service.pb.cc.o
+#29 20.62 [  7%] Building CXX object proto/CMakeFiles/proto.dir/apache/rocketmq/v2/admin.grpc.pb.cc.o
+#29 23.23 [  7%] Building CXX object proto/CMakeFiles/proto.dir/apache/rocketmq/v2/definition.grpc.pb.cc.o
+#29 25.60 [  8%] Building CXX object proto/CMakeFiles/proto.dir/apache/rocketmq/v2/service.grpc.pb.cc.o
+#29 25.78 [  8%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/common/internal/CMakeFiles/opencensus_common_random.dir/random.cc.o
+#29 26.49 [  9%] Linking CXX static library libopencensus_common_random.a
+#29 26.55 [  9%] Built target opencensus_common_random
+#29 26.58 [  9%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/common/internal/CMakeFiles/opencensus_common_varint.dir/varint.cc.o
+#29 26.90 [ 10%] Linking CXX static library libopencensus_common_varint.a
+#29 26.95 [ 10%] Built target opencensus_common_varint
+#29 26.98 [ 11%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_span_context.dir/internal/span_context.cc.o
+#29 27.52 [ 11%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_span_context.dir/internal/span_id.cc.o
+#29 28.10 [ 12%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_span_context.dir/internal/trace_id.cc.o
+#29 28.69 [ 12%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_span_context.dir/internal/trace_options.cc.o
+#29 29.36 [ 13%] Linking CXX static library libopencensus_trace_span_context.a
+#29 29.42 [ 13%] Built target opencensus_trace_span_context
+#29 29.45 [ 14%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/tags/CMakeFiles/opencensus_tags.dir/internal/tag_key.cc.o
+#29 28.19 [ 14%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/tags/CMakeFiles/opencensus_tags.dir/internal/tag_map.cc.o
+#29 29.88 [ 15%] Linking CXX static library libopencensus_tags.a
+#29 29.93 [ 15%] Built target opencensus_tags
+#29 29.97 [ 15%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_cloud_trace_context.dir/internal/cloud_trace_context.cc.o
+#29 30.61 [ 16%] Linking CXX static library libopencensus_trace_cloud_trace_context.a
+#29 30.66 [ 16%] Built target opencensus_trace_cloud_trace_context
+#29 30.69 [ 16%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/aggregation.cc.o
+#29 31.22 [ 17%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/aggregation_window.cc.o
+#29 31.88 [ 17%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/bucket_boundaries.cc.o
+#29 32.79 [ 18%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/delta_producer.cc.o
+#29 33.97 [ 18%] Linking CXX static library libproto.a
+#29 34.08 [ 18%] Built target proto
+#29 34.13 [ 18%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/tags/CMakeFiles/opencensus_tags_grpc_tags_bin.dir/internal/grpc_tags_bin.cc.o
+#29 34.88 [ 19%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/distribution.cc.o
+#29 35.14 [ 20%] Linking CXX static library libopencensus_tags_grpc_tags_bin.a
+#29 35.20 [ 20%] Built target opencensus_tags_grpc_tags_bin
+#29 35.23 [ 21%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_b3.dir/internal/b3.cc.o
+#29 35.53 [ 21%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/measure.cc.o
+#29 35.83 [ 22%] Linking CXX static library libopencensus_trace_b3.a
+#29 35.87 [ 22%] Built target opencensus_trace_b3
+#29 35.90 [ 22%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_grpc_trace_bin.dir/internal/grpc_trace_bin.cc.o
+#29 36.20 [ 23%] Linking CXX static library libopencensus_trace_grpc_trace_bin.a
+#29 36.24 [ 23%] Built target opencensus_trace_grpc_trace_bin
+#29 36.25 [ 24%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/measure_data.cc.o
+#29 36.26 [ 24%] Running cpp protocol buffer compiler on opencensus/proto/stats/v1/stats.proto
+#29 36.29 [ 25%] Running grpc protocol buffer compiler on opencensus/proto/agent/common/v1/common.proto
+#29 36.32 [ 25%] Running cpp protocol buffer compiler on opencensus/proto/agent/common/v1/common.proto
+#29 36.34 [ 25%] Running grpc protocol buffer compiler on opencensus/proto/agent/metrics/v1/metrics_service.proto
+#29 36.37 [ 26%] Running cpp protocol buffer compiler on opencensus/proto/agent/metrics/v1/metrics_service.proto
+#29 36.39 [ 27%] Running grpc protocol buffer compiler on opencensus/proto/metrics/v1/metrics.proto
+#29 36.42 [ 28%] Running cpp protocol buffer compiler on opencensus/proto/metrics/v1/metrics.proto
+#29 36.46 [ 29%] Running grpc protocol buffer compiler on opencensus/proto/resource/v1/resource.proto
+#29 36.48 [ 30%] Running cpp protocol buffer compiler on opencensus/proto/resource/v1/resource.proto
+#29 36.50 [ 30%] Running grpc protocol buffer compiler on opencensus/proto/stats/v1/stats.proto
+#29 36.64 [ 30%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/stats/v1/stats.pb.cc.o
+#29 36.91 [ 30%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/measure_descriptor.cc.o
+#29 37.39 [ 31%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/measure_registry.cc.o
+#29 38.01 [ 31%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/measure_registry_impl.cc.o
+#29 38.60 [ 32%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/metrics/v1/metrics.pb.cc.o
+#29 39.45 [ 33%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/set_aggregation_window.cc.o
+#29 40.21 [ 33%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/stats_exporter.cc.o
+#29 41.95 [ 34%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/stats_manager.cc.o
+#29 43.41 [ 34%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/agent/metrics/v1/metrics_service.pb.cc.o
+#29 43.72 [ 35%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/view.cc.o
+#29 44.89 [ 36%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/agent/common/v1/common.pb.cc.o
+#29 44.98 [ 36%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/view_data.cc.o
+#29 46.18 [ 37%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/view_data_impl.cc.o
+#29 48.75 [ 37%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/resource/v1/resource.pb.cc.o
+#29 49.07 [ 37%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_core.dir/internal/view_descriptor.cc.o
+#29 50.62 [ 38%] Linking CXX static library libopencensus_stats_core.a
+#29 50.68 [ 38%] Built target opencensus_stats_core
+#29 50.71 [ 39%] Building CXX object source/scheduler/CMakeFiles/scheduler.dir/SchedulerImpl.cpp.o
+#29 52.14 [ 40%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/stats/v1/stats.grpc.pb.cc.o
+#29 54.34 [ 40%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/metrics/v1/metrics.grpc.pb.cc.o
+#29 56.64 [ 41%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/agent/metrics/v1/metrics_service.grpc.pb.cc.o
+#29 59.47 [ 42%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/agent/common/v1/common.grpc.pb.cc.o
+#29 61.72 [ 42%] Building CXX object third_party/opencensus/proto/CMakeFiles/opencensus_proto.dir/opencensus/proto/resource/v1/resource.grpc.pb.cc.o
+#29 63.83 [ 43%] Linking CXX static library libopencensus_proto.a
+#29 63.90 [ 43%] Built target opencensus_proto
+#29 63.93 [ 44%] Building CXX object source/base/CMakeFiles/base.dir/Configuration.cpp.o
+#29 64.35 [ 44%] Building CXX object source/base/CMakeFiles/base.dir/ConfigurationDefaults.cpp.o
+#29 64.43 [ 45%] Building CXX object source/base/CMakeFiles/base.dir/CredentialsProvider.cpp.o
+#29 65.13 [ 45%] Built target scheduler
+#29 65.16 [ 45%] Building CXX object source/admin/CMakeFiles/admin.dir/AdminFacade.cpp.o
+#29 67.64 [ 46%] Building CXX object source/admin/CMakeFiles/admin.dir/AdminServerImpl.cpp.o
+#29 78.10 [ 46%] Building CXX object source/base/CMakeFiles/base.dir/ErrorCategory.cpp.o
+#29 78.44 [ 47%] Building CXX object source/base/CMakeFiles/base.dir/ErrorCode.cpp.o
+#29 78.66 [ 48%] Building CXX object source/base/CMakeFiles/base.dir/FilterExpression.cpp.o
+#29 79.19 [ 48%] Building CXX object source/base/CMakeFiles/base.dir/Message.cpp.o
+#29 80.04 [ 49%] Building CXX object source/base/CMakeFiles/base.dir/MessageExt.cpp.o
+#29 82.85 [ 49%] Building CXX object source/admin/CMakeFiles/admin.dir/AdminServiceImpl.cpp.o
+#29 84.02 [ 49%] Building CXX object source/base/CMakeFiles/base.dir/MetadataConstants.cpp.o
+#29 84.08 [ 50%] Building CXX object source/base/CMakeFiles/base.dir/MixAll.cpp.o
+#29 83.11 /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp: In static member function 'static bool rocketmq::MixAll::md5(const std::string&, std::string&)':
+#29 83.11 /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp:175:11: warning: 'int MD5_Init(MD5_CTX*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 83.11   175 |   MD5_Init(&ctx);
+#29 83.11       |   ~~~~~~~~^~~~~~
+#29 83.11 In file included from /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp:29:
+#29 83.11 /usr/include/openssl/md5.h:49:27: note: declared here
+#29 83.11    49 | OSSL_DEPRECATEDIN_3_0 int MD5_Init(MD5_CTX *c);
+#29 83.11       |                           ^~~~~~~~
+#29 83.11 /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp:176:13: warning: 'int MD5_Update(MD5_CTX*, const void*, size_t)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 83.11   176 |   MD5_Update(&ctx, data.data(), data.length());
+#29 83.11       |   ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#29 83.11 /usr/include/openssl/md5.h:50:27: note: declared here
+#29 83.11    50 | OSSL_DEPRECATEDIN_3_0 int MD5_Update(MD5_CTX *c, const void *data, size_t len);
+#29 83.11       |                           ^~~~~~~~~~
+#29 83.11 /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp:178:26: warning: 'int MD5_Final(unsigned char*, MD5_CTX*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 83.11   178 |   int success = MD5_Final(md, &ctx);
+#29 83.11       |                 ~~~~~~~~~^~~~~~~~~~
+#29 83.11 /usr/include/openssl/md5.h:51:27: note: declared here
+#29 83.11    51 | OSSL_DEPRECATEDIN_3_0 int MD5_Final(unsigned char *md, MD5_CTX *c);
+#29 83.11       |                           ^~~~~~~~~
+#29 83.11 /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp: In static member function 'static bool rocketmq::MixAll::sha1(const std::string&, std::string&)':
+#29 83.11 /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp:190:12: warning: 'int SHA1_Init(SHA_CTX*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 83.11   190 |   SHA1_Init(&ctx);
+#29 83.11       |   ~~~~~~~~~^~~~~~
+#29 83.11 In file included from /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp:30:
+#29 83.11 /usr/include/openssl/sha.h:49:27: note: declared here
+#29 83.11    49 | OSSL_DEPRECATEDIN_3_0 int SHA1_Init(SHA_CTX *c);
+#29 83.11       |                           ^~~~~~~~~
+#29 83.12 /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp:191:14: warning: 'int SHA1_Update(SHA_CTX*, const void*, size_t)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 83.12   191 |   SHA1_Update(&ctx, data.data(), data.length());
+#29 83.12       |   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#29 83.12 /usr/include/openssl/sha.h:50:27: note: declared here
+#29 83.12    50 | OSSL_DEPRECATEDIN_3_0 int SHA1_Update(SHA_CTX *c, const void *data, size_t len);
+#29 83.12       |                           ^~~~~~~~~~~
+#29 83.12 /project/build/wsl/rocketmq-sdk-src/cpp/source/base/MixAll.cpp:192:13: warning: 'int SHA1_Final(unsigned char*, SHA_CTX*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 83.12   192 |   SHA1_Final(out, &ctx);
+#29 83.12       |   ~~~~~~~~~~^~~~~~~~~~~
+#29 83.12 /usr/include/openssl/sha.h:51:27: note: declared here
+#29 83.12    51 | OSSL_DEPRECATEDIN_3_0 int SHA1_Final(unsigned char *md, SHA_CTX *c);
+#29 83.12       |                           ^~~~~~~~~~
+#29 93.05 [ 50%] Building CXX object source/base/CMakeFiles/base.dir/Protocol.cpp.o
+#29 93.15 [ 50%] Built target admin
+#29 93.18 [ 50%] Building CXX object source/concurrent/CMakeFiles/concurrent.dir/CountdownLatch.cpp.o
+#29 101.0 [ 51%] Building CXX object source/base/CMakeFiles/base.dir/ThreadPoolImpl.cpp.o
+#29 104.3 [ 51%] Built target concurrent
+#29 104.3 [ 52%] Building CXX object source/log/CMakeFiles/log.dir/LoggerImpl.cpp.o
+#29 113.0 [ 52%] Building CXX object source/base/CMakeFiles/base.dir/UniqueIdGenerator.cpp.o
+#29 116.1 [ 52%] Built target log
+#29 116.1 [ 53%] Building CXX object source/base/CMakeFiles/base.dir/UtilAll.cpp.o
+#29 124.3 [ 53%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_trace_context.dir/internal/trace_context.cc.o
+#29 125.0 [ 54%] Linking CXX static library libopencensus_trace_trace_context.a
+#29 125.1 [ 54%] Built target opencensus_trace_trace_context
+#29 125.1 [ 54%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_test_utils.dir/testing/test_utils.cc.o
+#29 126.6 [ 55%] Linking CXX static library libopencensus_stats_test_utils.a
+#29 126.7 [ 55%] Built target opencensus_stats_test_utils
+#29 126.7 [ 56%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/annotation.cc.o
+#29 127.5 [ 56%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/attribute_list.cc.o
+#29 128.1 [ 57%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/attribute_value.cc.o
+#29 128.5 [ 57%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/attribute_value_ref.cc.o
+#29 129.1 [ 58%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/context_util.cc.o
+#29 129.3 [ 58%] Built target base
+#29 129.3 [ 58%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/link.cc.o
+#29 129.9 [ 59%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/local_span_store.cc.o
+#29 129.9 [ 60%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/local_span_store_impl.cc.o
+#29 130.8 [ 60%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/message_event.cc.o
+#29 131.6 [ 61%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/running_span_store.cc.o
+#29 132.7 [ 61%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/running_span_store_impl.cc.o
+#29 132.8 [ 62%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/sampler.cc.o
+#29 133.2 [ 62%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/span.cc.o
+#29 134.4 [ 63%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/span_data.cc.o
+#29 134.7 [ 64%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/span_exporter.cc.o
+#29 135.3 [ 64%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/span_exporter_impl.cc.o
+#29 135.6 [ 65%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/span_impl.cc.o
+#29 137.3 [ 65%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/status.cc.o
+#29 137.8 [ 66%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/trace_config.cc.o
+#29 137.8 [ 66%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/trace_config_impl.cc.o
+#29 138.2 [ 67%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace.dir/internal/with_span.cc.o
+#29 138.9 [ 67%] Linking CXX static library libopencensus_trace.a
+#29 139.0 [ 67%] Built target opencensus_trace
+#29 139.0 [ 68%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/exporters/trace/stdout/CMakeFiles/opencensus_exporters_trace_stdout.dir/internal/stdout_exporter.cc.o
+#29 139.0 [ 68%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/context/CMakeFiles/opencensus_context.dir/internal/context.cc.o
+#29 138.9 [ 69%] Linking CXX static library libopencensus_exporters_trace_stdout.a
+#29 137.3 [ 69%] Built target opencensus_exporters_trace_stdout
+#29 137.3 [ 69%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/context/CMakeFiles/opencensus_context.dir/internal/with_context.cc.o
+#29 138.1 [ 70%] Linking CXX static library libopencensus_context.a
+#29 138.1 [ 70%] Built target opencensus_context
+#29 138.1 [ 71%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/tags/CMakeFiles/opencensus_tags_context_util.dir/internal/context_util.cc.o
+#29 138.1 [ 71%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/tags/CMakeFiles/opencensus_tags_with_tag_map.dir/internal/with_tag_map.cc.o
+#29 138.9 [ 72%] Linking CXX static library libopencensus_tags_context_util.a
+#29 138.9 [ 72%] Built target opencensus_tags_context_util
+#29 138.9 [ 72%] Linking CXX static library libopencensus_tags_with_tag_map.a
+#29 139.0 [ 72%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_context_util.dir/internal/context_util.cc.o
+#29 139.0 [ 72%] Built target opencensus_tags_with_tag_map
+#29 139.0 [ 72%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/trace/CMakeFiles/opencensus_trace_with_span.dir/internal/with_span.cc.o
+#29 139.7 [ 73%] Linking CXX static library libopencensus_trace_context_util.a
+#29 139.7 [ 73%] Built target opencensus_trace_context_util
+#29 139.7 [ 73%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/stats/CMakeFiles/opencensus_stats_recording.dir/internal/recording.cc.o
+#29 139.8 [ 74%] Linking CXX static library libopencensus_trace_with_span.a
+#29 139.8 [ 74%] Built target opencensus_trace_with_span
+#29 140.6 [ 75%] Linking CXX static library libopencensus_stats_recording.a
+#29 140.7 [ 75%] Built target opencensus_stats_recording
+#29 140.7 [ 76%] Building CXX object source/client/CMakeFiles/client.dir/ClientManagerImpl.cpp.o
+#29 140.7 [ 76%] Building CXX object third_party/opencensus/0.5.0-alpha/opencensus/exporters/stats/stdout/CMakeFiles/opencensus_exporters_stats_stdout.dir/internal/stdout_exporter.cc.o
+#29 142.4 [ 77%] Linking CXX static library libopencensus_exporters_stats_stdout.a
+#29 142.5 [ 77%] Built target opencensus_exporters_stats_stdout
+#29 142.5 [ 77%] Building CXX object source/client/CMakeFiles/client.dir/LogInterceptor.cpp.o
+#29 154.9 [ 78%] Building CXX object source/client/CMakeFiles/client.dir/LogInterceptorFactory.cpp.o
+#29 155.5 [ 78%] Building CXX object source/client/CMakeFiles/client.dir/ReceiveMessageStreamReader.cpp.o
+#29 164.9 [ 79%] Building CXX object source/client/CMakeFiles/client.dir/RpcClientImpl.cpp.o
+#29 169.3 [ 79%] Building CXX object source/client/CMakeFiles/client.dir/SessionImpl.cpp.o
+#29 178.0 [ 80%] Building CXX object source/client/CMakeFiles/client.dir/Signature.cpp.o
+#29 184.0 [ 81%] Building CXX object source/client/CMakeFiles/client.dir/TelemetryBidiReactor.cpp.o
+#29 192.4 [ 81%] Building CXX object source/client/CMakeFiles/client.dir/TlsHelper.cpp.o
+#29 193.0 /project/build/wsl/rocketmq-sdk-src/cpp/source/client/TlsHelper.cpp: In static member function 'static std::string rocketmq::TlsHelper::sign(const std::string&, const std::string&)':
+#29 193.0 /project/build/wsl/rocketmq-sdk-src/cpp/source/client/TlsHelper.cpp:28:31: warning: 'HMAC_CTX* HMAC_CTX_new()' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 193.0    28 |   HMAC_CTX* ctx = HMAC_CTX_new();
+#29 193.0       |                   ~~~~~~~~~~~~^~
+#29 193.0 In file included from /project/build/wsl/rocketmq-sdk-src/cpp/source/client/TlsHelper.cpp:23:
+#29 193.0 /usr/include/openssl/hmac.h:33:33: note: declared here
+#29 193.0    33 | OSSL_DEPRECATEDIN_3_0 HMAC_CTX *HMAC_CTX_new(void);
+#29 193.0       |                                 ^~~~~~~~~~~~
+#29 193.0 /project/build/wsl/rocketmq-sdk-src/cpp/source/client/TlsHelper.cpp:29:15: warning: 'int HMAC_Init_ex(HMAC_CTX*, const void*, int, const EVP_MD*, ENGINE*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 193.0    29 |   HMAC_Init_ex(ctx, access_secret.c_str(), access_secret.length(), EVP_sha1(), nullptr);
+#29 193.0       |   ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#29 193.0 /usr/include/openssl/hmac.h:43:27: note: declared here
+#29 193.0    43 | OSSL_DEPRECATEDIN_3_0 int HMAC_Init_ex(HMAC_CTX *ctx, const void *key, int len,
+#29 193.0       |                           ^~~~~~~~~~~~
+#29 193.0 /project/build/wsl/rocketmq-sdk-src/cpp/source/client/TlsHelper.cpp:30:14: warning: 'int HMAC_Update(HMAC_CTX*, const unsigned char*, size_t)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 193.0    30 |   HMAC_Update(ctx, reinterpret_cast<const unsigned char*>(content.c_str()), content.length());
+#29 193.0       |   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#29 193.0 /usr/include/openssl/hmac.h:45:27: note: declared here
+#29 193.0    45 | OSSL_DEPRECATEDIN_3_0 int HMAC_Update(HMAC_CTX *ctx, const unsigned char *data,
+#29 193.0       |                           ^~~~~~~~~~~
+#29 193.0 /project/build/wsl/rocketmq-sdk-src/cpp/source/client/TlsHelper.cpp:33:13: warning: 'int HMAC_Final(HMAC_CTX*, unsigned char*, unsigned int*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 193.0    33 |   HMAC_Final(ctx, result, &len);
+#29 193.0       |   ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+#29 193.0 /usr/include/openssl/hmac.h:47:27: note: declared here
+#29 193.0    47 | OSSL_DEPRECATEDIN_3_0 int HMAC_Final(HMAC_CTX *ctx, unsigned char *md,
+#29 193.0       |                           ^~~~~~~~~~
+#29 193.0 /project/build/wsl/rocketmq-sdk-src/cpp/source/client/TlsHelper.cpp:34:16: warning: 'void HMAC_CTX_free(HMAC_CTX*)' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+#29 193.0    34 |   HMAC_CTX_free(ctx);
+#29 193.0       |   ~~~~~~~~~~~~~^~~~~
+#29 193.0 /usr/include/openssl/hmac.h:35:28: note: declared here
+#29 193.0    35 | OSSL_DEPRECATEDIN_3_0 void HMAC_CTX_free(HMAC_CTX *ctx);
+#29 193.0       |                            ^~~~~~~~~~~~~
+#29 193.1 [ 82%] Building CXX object source/client/CMakeFiles/client.dir/TopicAssignmentInfo.cpp.o
+#29 204.8 [ 82%] Built target client
+#29 204.8 [ 84%] Building CXX object source/stats/CMakeFiles/rocketmq_stats.dir/ConsumeStats.cpp.o
+#29 204.8 [ 84%] Building CXX object source/trace/CMakeFiles/rocketmq_trace.dir/TracingUtility.cpp.o
+#29 206.1 [ 85%] Building CXX object source/stats/CMakeFiles/rocketmq_stats.dir/MetricBidiReactor.cpp.o
+#29 218.3 [ 85%] Built target rocketmq_trace
+#29 218.3 [ 85%] Building CXX object source/stats/CMakeFiles/rocketmq_stats.dir/OpencensusExporter.cpp.o
+#29 221.0 [ 86%] Building CXX object source/stats/CMakeFiles/rocketmq_stats.dir/OpencensusHandler.cpp.o
+#29 231.4 [ 86%] Building CXX object source/stats/CMakeFiles/rocketmq_stats.dir/PublishStats.cpp.o
+#29 232.6 [ 87%] Building CXX object source/stats/CMakeFiles/rocketmq_stats.dir/StdoutHandler.cpp.o
+#29 233.2 [ 87%] Building CXX object source/stats/CMakeFiles/rocketmq_stats.dir/Tag.cpp.o
+#29 234.4 [ 87%] Built target rocketmq_stats
+#29 234.4 [ 88%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/AsyncReceiveMessageCallback.cpp.o
+#29 234.4 [ 88%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/ClientImpl.cpp.o
+#29 254.9 [ 89%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/ConsumeMessageServiceImpl.cpp.o
+#29 ...
+
+#30 [migrate] resolving provenance for metadata file
+#30 DONE 0.0s
+
+#6 [gateway internal] load metadata for docker.io/library/node:22.20.0-bookworm-slim
+#6 DONE 1.7s
+
+#31 [order internal] load metadata for docker.io/library/maven:3.9.11-eclipse-temurin-21
+#31 ...
+
+#16 [gateway internal] load .dockerignore
+#16 transferring context: 173B 0.1s done
+#16 DONE 0.1s
+
+#32 [gateway internal] load build context
+#32 DONE 0.0s
+
+#33 [gateway stage-1 1/5] FROM docker.io/library/nginx:1.28.0-alpine@sha256:30f1c0d78e0ad60901648be663a710bdadf19e4c10ac6782c235200619158284
+#33 resolve docker.io/library/nginx:1.28.0-alpine@sha256:30f1c0d78e0ad60901648be663a710bdadf19e4c10ac6782c235200619158284 0.1s done
+#33 DONE 0.1s
+
+#34 [gateway builder 1/6] FROM docker.io/library/node:22.20.0-bookworm-slim@sha256:b21fe589dfbe5cc39365d0544b9be3f1f33f55f3c86c87a76ff65a02f8f5848e
+#34 resolve docker.io/library/node:22.20.0-bookworm-slim@sha256:b21fe589dfbe5cc39365d0544b9be3f1f33f55f3c86c87a76ff65a02f8f5848e 0.1s done
+#34 DONE 0.1s
+
+#32 [gateway internal] load build context
+#32 ...
+
+#16 [order internal] load .dockerignore
+#16 transferring context: 173B 0.1s done
+#16 DONE 0.1s
+
+#31 [order internal] load metadata for docker.io/library/maven:3.9.11-eclipse-temurin-21
+#31 DONE 2.9s
+
+#32 [gateway internal] load build context
+#32 ...
+
+#35 [order builder 1/5] FROM docker.io/library/maven:3.9.11-eclipse-temurin-21@sha256:6fdc855a6ed81d288ca7ca37ac6ff5e9308b612485c0801d70b25a858c83d237
+#35 resolve docker.io/library/maven:3.9.11-eclipse-temurin-21@sha256:6fdc855a6ed81d288ca7ca37ac6ff5e9308b612485c0801d70b25a858c83d237 0.2s done
+#35 DONE 0.2s
+
+#32 [gateway internal] load build context
+#32 ...
+
+#36 [order stage-1 1/5] FROM docker.io/library/eclipse-temurin:21-jre-jammy@sha256:61d6c7b34d36aee3f45d043101259f97f3c6d428dc2a6f75513789983c5e254f
+#36 resolve docker.io/library/eclipse-temurin:21-jre-jammy@sha256:61d6c7b34d36aee3f45d043101259f97f3c6d428dc2a6f75513789983c5e254f 0.2s done
+#36 DONE 0.2s
+
+#32 [gateway internal] load build context
+#32 transferring context: 15.86MB 1.4s done
+#32 DONE 1.4s
+
+#37 [gateway stage-1 2/5] COPY deploy/nginx/nginx.conf /etc/nginx/nginx.conf
+#37 CACHED
+
+#38 [gateway builder 4/6] RUN npm ci --no-audit --no-fund
+#38 CACHED
+
+#39 [gateway stage-1 3/5] COPY deploy/nginx/proxy.conf /etc/nginx/proxy.conf
+#39 CACHED
+
+#40 [gateway stage-1 4/5] COPY deploy/nginx/security.conf /etc/nginx/security.conf
+#40 CACHED
+
+#41 [gateway builder 3/6] COPY src/web/package*.json ./
+#41 CACHED
+
+#42 [gateway builder 6/6] RUN npm run build
+#42 CACHED
+
+#43 [gateway builder 2/6] WORKDIR /app
+#43 CACHED
+
+#44 [gateway builder 5/6] COPY src/web/ ./
+#44 CACHED
+
+#45 [gateway stage-1 5/5] COPY --from=builder /app/dist /usr/share/nginx/html
+#45 CACHED
+
+#46 [gateway] exporting to image
+#46 exporting layers 0.0s done
+#46 exporting manifest sha256:806929e3aa5b6ba71ceb0c9a4df44185e7e949d0e49f5e78cca97b4e4e285c93 0.1s done
+#46 exporting config sha256:934f951388c6ce86ce835635218feb2695c44d665b6d2e72da4637bd50d6bc5a
+#46 exporting config sha256:934f951388c6ce86ce835635218feb2695c44d665b6d2e72da4637bd50d6bc5a 0.1s done
+#46 exporting attestation manifest sha256:84ef17747de7250c697e331d20b30828694db575f4a9c4c5e71bef75abb6e880
+#46 exporting attestation manifest sha256:84ef17747de7250c697e331d20b30828694db575f4a9c4c5e71bef75abb6e880 0.1s done
+#46 exporting manifest list sha256:6c6dac2af590202178442c9bf594a9bd65835c04a6592d5e86263fda27dd982a
+#46 exporting manifest list sha256:6c6dac2af590202178442c9bf594a9bd65835c04a6592d5e86263fda27dd982a 0.1s done
+#46 naming to docker.io/library/seckill-mall-web:local done
+#46 unpacking to docker.io/library/seckill-mall-web:local 0.0s done
+#46 DONE 0.5s
+
+#47 [order internal] load build context
+#47 ...
+
+#48 [gateway] resolving provenance for metadata file
+#48 DONE 0.0s
+
+#47 [order internal] load build context
+#47 transferring context: 95.41kB 1.3s done
+#47 DONE 1.4s
+
+#49 [order stage-1 3/5] WORKDIR /app
+#49 CACHED
+
+#50 [order builder 4/5] COPY src/order/src src/order/src
+#50 CACHED
+
+#51 [order builder 2/5] WORKDIR /project
+#51 CACHED
+
+#52 [order builder 5/5] RUN --mount=type=cache,target=/root/.m2 mvn -B -Dmaven.wagon.http.retryHandler.count=3 -f src/order/pom.xml verify
+#52 CACHED
+
+#53 [order stage-1 4/5] COPY --from=builder /project/src/order/target/order-service-0.1.0-SNAPSHOT.jar /app/order.jar
+#53 CACHED
+
+#54 [order stage-1 2/5] RUN sed -i "s|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g;s|http://security.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g" /etc/apt/sources.list && apt-get -o Acquire::Retries=3 -o Acquire::https::Timeout=30 update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/* && useradd -m -u 10001 mall
+#54 CACHED
+
+#55 [order builder 3/5] COPY src/order/pom.xml src/order/pom.xml
+#55 CACHED
+
+#56 [order stage-1 5/5] COPY src/seckill/lua /app/lua
+#56 CACHED
+
+#57 [order] exporting to image
+#57 exporting layers 0.0s done
+#57 exporting manifest sha256:706d5b44df19d759279e0234e68008e2fd0287081a2b1015637b2bac21bac746 0.0s done
+#57 exporting config sha256:9de3f12d63b480dd7ab3ab4f13dbc74674de00ca795df364c66e3e5e7486d0db
+#57 exporting config sha256:9de3f12d63b480dd7ab3ab4f13dbc74674de00ca795df364c66e3e5e7486d0db 0.0s done
+#57 exporting attestation manifest sha256:7f9bd6a2d9adb1265783dd70f7da21ef29605ad5d8c94814b5acc7e8041a9a50 0.1s done
+#57 exporting manifest list sha256:fbe093c9263f462df7cc36c01bed2a7711a80eab943a10e64ec1d84fe1a2f646
+#57 exporting manifest list sha256:fbe093c9263f462df7cc36c01bed2a7711a80eab943a10e64ec1d84fe1a2f646 0.1s done
+#57 naming to docker.io/library/seckill-mall-order:local done
+#57 unpacking to docker.io/library/seckill-mall-order:local 0.0s done
+#57 DONE 0.4s
+
+#29 [seckill builder  6/11] RUN bash scripts/setup-rocketmq-sdk-wsl.sh
+#29 ...
+
+#58 [order] resolving provenance for metadata file
+#58 DONE 0.0s
+
+#29 [seckill builder  6/11] RUN bash scripts/setup-rocketmq-sdk-wsl.sh
+#29 261.6 [ 89%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/ConsumeTask.cpp.o
+#29 275.7 [ 90%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/FifoContext.cpp.o
+#29 276.5 [ 91%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/FifoProducer.cpp.o
+#29 279.4 [ 91%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/FifoProducerImpl.cpp.o
+#29 294.4 [ 92%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/FifoProducerPartition.cpp.o
+#29 296.7 [ 92%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/MessageGroupQueueSelector.cpp.o
+#29 300.2 [ 93%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/NamingScheme.cpp.o
+#29 302.0 [ 93%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/ProcessQueueImpl.cpp.o
+#29 308.9 [ 94%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/Producer.cpp.o
+#29 319.9 [ 95%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/ProducerImpl.cpp.o
+#29 325.7 [ 95%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/PushConsumer.cpp.o
+#29 338.1 [ 96%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/PushConsumerImpl.cpp.o
+#29 341.2 [ 96%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/SendContext.cpp.o
+#29 357.8 [ 97%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/SimpleConsumer.cpp.o
+#29 358.6 [ 97%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/SimpleConsumerImpl.cpp.o
+#29 365.7 In file included from /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/format.h:48,
+#29 365.7                  from /project/build/wsl/rocketmq-sdk-src/cpp/source/base/include/Protocol.h:20,
+#29 365.7                  from /project/build/wsl/rocketmq-sdk-src/cpp/source/client/include/ClientConfig.h:24,
+#29 365.7                  from /project/build/wsl/rocketmq-sdk-src/cpp/source/client/include/Client.h:21,
+#29 365.7                  from /project/build/wsl/rocketmq-sdk-src/cpp/source/rocketmq/include/ClientImpl.h:26,
+#29 365.7                  from /project/build/wsl/rocketmq-sdk-src/cpp/source/rocketmq/include/SimpleConsumerImpl.h:21,
+#29 365.7                  from /project/build/wsl/rocketmq-sdk-src/cpp/source/rocketmq/SimpleConsumerImpl.cpp:18:
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h: In substitution of 'template<class T, class Context> using fmt::v9::detail::mapped_type_constant = fmt::v9::detail::type_constant<decltype (fmt::v9::detail::arg_mapper<Context>().map(declval<const T&>())), typename Context::char_type> [with T = rocketmq::State; Context = fmt::v9::basic_format_context<fmt::v9::appender, char>]':
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1705:68:   required from 'constexpr long long unsigned int fmt::v9::detail::encode_types() [with Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; Arg = rocketmq::State; Args = {rocketmq::State}]'
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1862:58:   required from 'constexpr const long long unsigned int fmt::v9::format_arg_store<fmt::v9::basic_format_context<fmt::v9::appender, char>, rocketmq::State, rocketmq::State>::desc'
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1975:63:   required from 'constexpr fmt::v9::basic_format_args<Context>::basic_format_args(const fmt::v9::format_arg_store<Context, Args ...>&) [with Args = {rocketmq::State, rocketmq::State}; Context = fmt::v9::basic_format_context<fmt::v9::appender, char>]'
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/spdlog/1.10.0/include/spdlog/logger.h:370:36:   required from 'void spdlog::logger::log_(spdlog::source_loc, spdlog::level::level_enum, spdlog::string_view_t, Args&& ...) [with Args = {rocketmq::State, rocketmq::State}; spdlog::string_view_t = fmt::v9::basic_string_view<char>]'
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/spdlog/1.10.0/include/spdlog/logger.h:90:13:   required from 'void spdlog::logger::log(spdlog::source_loc, spdlog::level::level_enum, fmt::v9::format_string<T ...>, Args&& ...) [with Args = {rocketmq::State, rocketmq::State}; fmt::v9::format_string<T ...> = fmt::v9::basic_format_string<char, rocketmq::State, rocketmq::State>]'
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/source/rocketmq/SimpleConsumerImpl.cpp:84:5:   required from here
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1511:53: warning: 'decltype (declval<fmt::v9::detail::arg_mapper<Context> >().map(static_cast<fmt::v9::underlying_t<T> >(val))) fmt::v9::detail::arg_mapper<Context>::map(const T&) [with T = rocketmq::State; typename std::enable_if<((((std::is_enum<U>::value && std::is_convertible<T, int>::value) && (! fmt::v9::detail::has_format_as<T>::value)) && (! std::is_constructible<typename Context::formatter_type<T> >::value)) && (! fmt::v9::detail::has_fallback_formatter<T, typename Context::char_type>::value)), int>::type <anonymous> = 0; Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; decltype (declval<fmt::v9::detail::arg_mapper<Context> >().map(static_cast<fmt::v9::underlying_t<T> >(val))) = unsigned int; fmt::v9::detail::arg_mapper<Context> = fmt::v9::detail::arg_mapper<fmt::v9::basic_format_context<fmt::v9::appender, char> >; fmt::v9::underlying_t<T> = unsigned char]' is deprecated [-Wdeprecated-declarations]
+#29 365.7  1511 |     type_constant<decltype(arg_mapper<Context>().map(std::declval<const T&>())),
+#29 365.7       |                            ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+#29 365.7 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1451:48: note: declared here
+#29 365.7  1451 |   FMT_DEPRECATED FMT_CONSTEXPR FMT_INLINE auto map(const T& val)
+#29 365.7       |                                                ^~~
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h: In instantiation of 'fmt::v9::detail::value<Context> fmt::v9::detail::make_value(T&&) [with Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; T = rocketmq::State&]':
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1753:29:   required from 'fmt::v9::detail::value<Context> fmt::v9::detail::make_arg(T&&) [with bool IS_PACKED = true; Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; type <anonymous> = fmt::v9::detail::type::uint_type; T = rocketmq::State; typename std::enable_if<C, int>::type <anonymous> = 0]'
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1877:77:   required from 'fmt::v9::format_arg_store<Context, Args>::format_arg_store(T&& ...) [with T = {rocketmq::State, rocketmq::State}; Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; Args = {rocketmq::State, rocketmq::State}]'
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1894:38:   required from 'constexpr fmt::v9::format_arg_store<Context, typename std::remove_cv<typename std::remove_reference<Args>::type>::type ...> fmt::v9::make_format_args(Args&& ...) [with Context = basic_format_context<appender, char>; Args = {rocketmq::State, rocketmq::State}]'
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/spdlog/1.10.0/include/spdlog/logger.h:370:68:   required from 'void spdlog::logger::log_(spdlog::source_loc, spdlog::level::level_enum, spdlog::string_view_t, Args&& ...) [with Args = {rocketmq::State, rocketmq::State}; spdlog::string_view_t = fmt::v9::basic_string_view<char>]'
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/spdlog/1.10.0/include/spdlog/logger.h:90:13:   required from 'void spdlog::logger::log(spdlog::source_loc, spdlog::level::level_enum, fmt::v9::format_string<T ...>, Args&& ...) [with Args = {rocketmq::State, rocketmq::State}; fmt::v9::format_string<T ...> = fmt::v9::basic_format_string<char, rocketmq::State, rocketmq::State>]'
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/source/rocketmq/SimpleConsumerImpl.cpp:84:5:   required from here
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1711:46: warning: 'decltype (declval<fmt::v9::detail::arg_mapper<Context> >().map(static_cast<fmt::v9::underlying_t<T> >(val))) fmt::v9::detail::arg_mapper<Context>::map(const T&) [with T = rocketmq::State; typename std::enable_if<((((std::is_enum<U>::value && std::is_convertible<T, int>::value) && (! fmt::v9::detail::has_format_as<T>::value)) && (! std::is_constructible<typename Context::formatter_type<T> >::value)) && (! fmt::v9::detail::has_fallback_formatter<T, typename Context::char_type>::value)), int>::type <anonymous> = 0; Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; decltype (declval<fmt::v9::detail::arg_mapper<Context> >().map(static_cast<fmt::v9::underlying_t<T> >(val))) = unsigned int; fmt::v9::detail::arg_mapper<Context> = fmt::v9::detail::arg_mapper<fmt::v9::basic_format_context<fmt::v9::appender, char> >; fmt::v9::underlying_t<T> = unsigned char]' is deprecated [-Wdeprecated-declarations]
+#29 366.4  1711 |   const auto& arg = arg_mapper<Context>().map(std::forward<T>(val));
+#29 366.4       |                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+#29 366.4 /project/build/wsl/rocketmq-sdk-src/cpp/third_party/fmt/9.0.0/include/fmt/core.h:1451:48: note: declared here
+#29 366.4  1451 |   FMT_DEPRECATED FMT_CONSTEXPR FMT_INLINE auto map(const T& val)
+#29 366.4       |                                                ^~~
+#29 371.5 [ 98%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/StaticNameServerResolver.cpp.o
+#29 378.1 [ 98%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/TopicPublishInfo.cpp.o
+#29 383.3 [ 99%] Building CXX object source/rocketmq/CMakeFiles/impl.dir/TransactionImpl.cpp.o
+#29 397.2 [ 99%] Built target impl
+#29 397.3 [100%] Linking CXX static library ../librocketmq.a
+#29 397.3 [100%] Linking CXX shared library ../librocketmq.so
+#29 397.8 [100%] Built target rocketmq
+#29 398.5 [100%] Built target rocketmq_shared
+#29 398.7 -- Install configuration: "Release"
+#29 398.7 -- Installing: /project/build/wsl/rocketmq-sdk-install/lib/librocketmq.so.5.1.0
+#29 398.7 -- Installing: /project/build/wsl/rocketmq-sdk-install/lib/librocketmq.so.5
+#29 398.7 -- Installing: /project/build/wsl/rocketmq-sdk-install/lib/librocketmq.so
+#29 398.7 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq
+#29 398.7 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/SimpleConsumer.h
+#29 398.7 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/PushConsumer.h
+#29 398.7 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/State.h
+#29 398.7 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/MessageListener.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/RocketMQ.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/MQClientException.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/FilterExpression.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/BackoffPolicy.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/TransactionState.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/Producer.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/AdminServer.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/FifoProducer.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/Message.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/Credentials.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/ConsumeResult.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/RecallReceipt.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/ErrorCategory.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/TransactionChecker.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/CredentialsProvider.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/Transaction.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/ExpressionType.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/ConfigurationDefaults.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/Configuration.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/SendReceipt.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/Logger.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/Executor.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/SendCallback.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/include/rocketmq/ErrorCode.h
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/lib/cmake/rocketmq/rocketmq-targets.cmake
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/lib/cmake/rocketmq/rocketmq-targets-release.cmake
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/lib/cmake/rocketmq/rocketmq-config.cmake
+#29 398.8 -- Installing: /project/build/wsl/rocketmq-sdk-install/lib/cmake/rocketmq/rocketmq-config-version.cmake
+#29 DONE 398.8s
+
+#59 [seckill builder  7/11] COPY CMakeLists.txt ./
+#59 DONE 0.1s
+
+#60 [seckill builder  8/11] COPY src/seckill src/seckill
+#60 DONE 0.1s
+
+#61 [seckill builder  9/11] COPY src/mq src/mq
+#61 DONE 0.1s
+
+#62 [seckill builder 10/11] COPY third_party third_party
+#62 DONE 0.1s
+
+#63 [seckill builder 11/11] RUN cmake -S . -B build/cpp -DBUILD_TESTING=OFF -DMALL_WITH_ROCKETMQ=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/project/build/wsl/rocketmq-sdk-install && cmake --build build/cpp -j2
+#63 0.451 -- The CXX compiler identification is GNU 13.3.0
+#63 0.479 -- Detecting CXX compiler ABI info
+#63 0.632 -- Detecting CXX compiler ABI info - done
+#63 0.648 -- Check for working CXX compiler: /usr/bin/c++ - skipped
+#63 0.649 -- Detecting CXX compile features
+#63 0.651 -- Detecting CXX compile features - done
+#63 0.736 -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+#63 0.753 -- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.3")  
+#63 0.768 -- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.43") 
+#63 0.770 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+#63 0.936 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+#63 0.939 -- Found Threads: TRUE  
+#63 0.945 -- Found nlohmann_json: /usr/share/cmake/nlohmann_json/nlohmann_jsonConfig.cmake (found suitable version "3.11.3", minimum required is "3.11") 
+#63 1.003 -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found version "3.21.12") 
+#63 1.019 -- Found c-ares: /usr/lib/x86_64-linux-gnu/cmake/c-ares/c-ares-config.cmake (found version "1.27.0") 
+#63 1.033 -- Found PkgConfig: /usr/bin/pkg-config (found version "1.8.1") 
+#63 1.118 -- Found RE2 via pkg-config.
+#63 1.128 -- Configuring done (0.8s)
+#63 1.176 -- Generating done (0.0s)
+#63 1.181 -- Build files have been written to: /project/build/cpp
+#63 1.272 [  7%] Building CXX object src/mq/CMakeFiles/mall_mq.dir/main.cpp.o
+#63 1.272 [ 15%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/redis.cpp.o
+#63 1.950 [ 23%] Linking CXX executable mall_mq
+#63 2.147 [ 23%] Built target mall_mq
+#63 2.181 [ 30%] Building CXX object src/mq/CMakeFiles/mall_rocketmq_publisher.dir/rocketmq_publisher.cpp.o
+#63 3.592 [ 38%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/captcha.cpp.o
+#63 4.526 [ 46%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/relay.cpp.o
+#63 5.101 [ 53%] Linking CXX static library libmall_rocketmq_publisher.a
+#63 5.157 [ 53%] Built target mall_rocketmq_publisher
+#63 10.31 [ 61%] Linking CXX static library libseckill_core.a
+#63 10.36 [ 61%] Built target seckill_core
+#63 10.39 [ 76%] Building CXX object src/mq/CMakeFiles/mall_relay_worker.dir/relay_worker.cpp.o
+#63 10.39 [ 76%] Building CXX object src/seckill/CMakeFiles/seckill_service.dir/main.cpp.o
+#63 11.12 [ 84%] Building CXX object src/seckill/CMakeFiles/seckill_service.dir/service.cpp.o
+#63 12.89 [ 92%] Linking CXX executable mall_relay_worker
+#63 13.47 [ 92%] Built target mall_relay_worker
+#63 30.36 [100%] Linking CXX executable seckill_service
+#63 30.59 [100%] Built target seckill_service
+#63 DONE 30.6s
+
+#64 [seckill stage-1  4/10] COPY --from=builder /project/build/wsl/rocketmq-sdk-install/lib/ /usr/local/lib/
+#64 DONE 0.1s
+
+#65 [seckill stage-1  5/10] COPY --from=builder /project/build/wsl/rocketmq-sdk-src/LICENSE /usr/share/licenses/rocketmq/LICENSE
+#65 DONE 0.1s
+
+#66 [seckill stage-1  6/10] RUN ldconfig
+#66 DONE 0.3s
+
+#67 [seckill stage-1  7/10] COPY --from=builder /project/build/cpp/src/seckill/seckill_service /usr/local/bin/
+#67 DONE 0.1s
+
+#68 [seckill stage-1  8/10] COPY --from=builder /project/build/cpp/src/mq/mall_relay_worker /usr/local/bin/
+#68 DONE 0.1s
+
+#69 [seckill stage-1  9/10] COPY src/seckill/lua /app/lua
+#69 DONE 0.1s
+
+#70 [seckill stage-1 10/10] WORKDIR /home/mall
+#70 DONE 0.1s
+
+#71 [seckill] exporting to image
+#71 exporting layers
+#71 exporting layers 7.6s done
+#71 exporting manifest sha256:87b4701e268926b9af2c1a88fcb39567f15aad01becd0dd5f140fea731ffa53a 0.0s done
+#71 exporting config sha256:38d855327c149fdc6aeda02904687a46227479f4f755f5313cdd6c58ac865533 0.0s done
+#71 exporting attestation manifest sha256:ed95643f33be7ccf7a18a412efd72d49e5379226ecc7fa9fc4ae32f9aaa4be8b
+#71 exporting attestation manifest sha256:ed95643f33be7ccf7a18a412efd72d49e5379226ecc7fa9fc4ae32f9aaa4be8b 0.1s done
+#71 exporting manifest list sha256:25f1ac93a6458e9f7c37acdafa2d3dbff82aacee07726d58b41d3ee5e287e6cc 0.0s done
+#71 naming to docker.io/library/seckill-mall-cpp:local 0.0s done
+#71 unpacking to docker.io/library/seckill-mall-cpp:local
+#71 unpacking to docker.io/library/seckill-mall-cpp:local 2.4s done
+#71 DONE 10.2s
+
+#72 [seckill] resolving provenance for metadata file
+#72 DONE -0.8s
+ Image seckill-mall-order:local Built 
+ Image seckill-mall-web:local Built 
+ Image seckill-mall-cpp:local Built 
+ Image seckill-mall-tools:local Built 
+ Volume seckill-mall-s6_redis-data Creating 
+ Volume seckill-mall-s6_mysql-data Creating 
+ Volume seckill-mall-s6_namesrv-logs Creating 
+ Volume seckill-mall-s6_broker-logs Creating 
+ Volume seckill-mall-s6_broker-logs Creating 
+ Volume seckill-mall-s6_redis-data Creating 
+ Volume seckill-mall-s6_namesrv-logs Creating 
+ Volume seckill-mall-s6_mysql-data Creating 
+ Volume seckill-mall-s6_broker-store Creating 
+ Network seckill-mall-s6_backend Creating 
+ Volume seckill-mall-s6_broker-store Creating 
+ Network seckill-mall-s6_backend Creating 
+ Volume seckill-mall-s6_broker-logs Created 
+ Volume seckill-mall-s6_broker-logs Created 
+ Volume seckill-mall-s6_mysql-data Created 
+ Volume seckill-mall-s6_mysql-data Created 
+ Volume seckill-mall-s6_namesrv-logs Created 
+ Volume seckill-mall-s6_namesrv-logs Created 
+ Volume seckill-mall-s6_redis-data Created 
+ Volume seckill-mall-s6_redis-data Created 
+ Volume seckill-mall-s6_broker-store Created 
+ Volume seckill-mall-s6_broker-store Created 
+ Network seckill-mall-s6_backend Created 
+ Network seckill-mall-s6_backend Created 
+ Container seckill-mall-s6-mysql-1 Creating 
+ Container seckill-mall-s6-redis-1 Creating 
+ Container seckill-mall-s6-prepare-mq-1 Creating 
+ Container seckill-mall-s6-redis-1 Created 
+ Container seckill-mall-s6-mysql-1 Created 
+ Container seckill-mall-s6-migrate-1 Creating 
+ Container seckill-mall-s6-prepare-mq-1 Created 
+ Container seckill-mall-s6-namesrv-1 Creating 
+ Container seckill-mall-s6-migrate-1 Created 
+ Container seckill-mall-s6-namesrv-1 Created 
+ Container seckill-mall-s6-broker-1 Creating 
+ Container seckill-mall-s6-broker-1 Created 
+ Container seckill-mall-s6-mq-init-1 Creating 
+ Container seckill-mall-s6-mq-init-1 Created 
+ Container seckill-mall-s6-order-1 Creating 
+ Container seckill-mall-s6-order-1 Created 
+ Container seckill-mall-s6-relay-1 Creating 
+ Container seckill-mall-s6-seckill-1 Creating 
+ Container seckill-mall-s6-relay-1 Created 
+ Container seckill-mall-s6-seckill-1 Created 
+ Container seckill-mall-s6-gateway-1 Creating 
+ Container seckill-mall-s6-gateway-1 Created 
+ Container seckill-mall-s6-prepare-mq-1 Starting 
+ Container seckill-mall-s6-mysql-1 Starting 
+ Container seckill-mall-s6-redis-1 Starting 
+ Container seckill-mall-s6-prepare-mq-1 Started 
+ Container seckill-mall-s6-prepare-mq-1 Waiting 
+ Container seckill-mall-s6-mysql-1 Started 
+ Container seckill-mall-s6-mysql-1 Waiting 
+ Container seckill-mall-s6-prepare-mq-1 Exited 
+ Container seckill-mall-s6-namesrv-1 Starting 
+ Container seckill-mall-s6-redis-1 Started 
+ Container seckill-mall-s6-namesrv-1 Started 
+ Container seckill-mall-s6-namesrv-1 Waiting 
+ Container seckill-mall-s6-namesrv-1 Healthy 
+ Container seckill-mall-s6-broker-1 Starting 
+ Container seckill-mall-s6-broker-1 Started 
+ Container seckill-mall-s6-broker-1 Waiting 
+ Container seckill-mall-s6-broker-1 Healthy 
+ Container seckill-mall-s6-mq-init-1 Starting 
+ Container seckill-mall-s6-mq-init-1 Started 
+ Container seckill-mall-s6-mysql-1 Healthy 
+ Container seckill-mall-s6-migrate-1 Starting 
+ Container seckill-mall-s6-migrate-1 Started 
+ Container seckill-mall-s6-redis-1 Waiting 
+ Container seckill-mall-s6-migrate-1 Waiting 
+ Container seckill-mall-s6-mq-init-1 Waiting 
+ Container seckill-mall-s6-redis-1 Healthy 
+ Container seckill-mall-s6-migrate-1 Exited 
+ Container seckill-mall-s6-mq-init-1 Exited 
+ Container seckill-mall-s6-order-1 Starting 
+ Container seckill-mall-s6-order-1 Started 
+ Container seckill-mall-s6-mq-init-1 Waiting 
+ Container seckill-mall-s6-redis-1 Waiting 
+ Container seckill-mall-s6-order-1 Waiting 
+ Container seckill-mall-s6-order-1 Waiting 
+ Container seckill-mall-s6-redis-1 Waiting 
+ Container seckill-mall-s6-redis-1 Healthy 
+ Container seckill-mall-s6-mq-init-1 Exited 
+ Container seckill-mall-s6-redis-1 Healthy 
+ Container seckill-mall-s6-order-1 Healthy 
+ Container seckill-mall-s6-relay-1 Starting 
+ Container seckill-mall-s6-order-1 Healthy 
+ Container seckill-mall-s6-seckill-1 Starting 
+ Container seckill-mall-s6-relay-1 Started 
+ Container seckill-mall-s6-seckill-1 Started 
+ Container seckill-mall-s6-seckill-1 Waiting 
+ Container seckill-mall-s6-order-1 Waiting 
+ Container seckill-mall-s6-order-1 Healthy 
+ Container seckill-mall-s6-seckill-1 Healthy 
+ Container seckill-mall-s6-gateway-1 Starting 
+ Container seckill-mall-s6-gateway-1 Started 
+ Container seckill-mall-s6-relay-1 Waiting 
+ Container seckill-mall-s6-gateway-1 Waiting 
+ Container seckill-mall-s6-prepare-mq-1 Waiting 
+ Container seckill-mall-s6-seckill-1 Waiting 
+ Container seckill-mall-s6-namesrv-1 Waiting 
+ Container seckill-mall-s6-broker-1 Waiting 
+ Container seckill-mall-s6-migrate-1 Waiting 
+ Container seckill-mall-s6-mysql-1 Waiting 
+ Container seckill-mall-s6-redis-1 Waiting 
+ Container seckill-mall-s6-mq-init-1 Waiting 
+ Container seckill-mall-s6-order-1 Waiting 
+ Container seckill-mall-s6-seckill-1 Healthy 
+ Container seckill-mall-s6-namesrv-1 Healthy 
+ Container seckill-mall-s6-broker-1 Healthy 
+ Container seckill-mall-s6-relay-1 Healthy 
+ Container seckill-mall-s6-redis-1 Healthy 
+ Container seckill-mall-s6-migrate-1 Exited 
+ Container seckill-mall-s6-order-1 Healthy 
+ Container seckill-mall-s6-prepare-mq-1 Exited 
+ Container seckill-mall-s6-mq-init-1 Exited 
+ Container seckill-mall-s6-mysql-1 Healthy 
+ Container seckill-mall-s6-gateway-1 Healthy 
+ Container seckill-mall-s6-seed-run-b9bf232f62a6 Creating 
+ Container seckill-mall-s6-seed-run-b9bf232f62a6 Created 
+Seeded 4 original sneaker SKUs and real activities
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 1485, in _path_importer_cache
+KeyError: 'tests'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "tests/test_s6.py", line 2, in <module>
+    import hashlib,http.client,json,os,subprocess,time,uuid
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1322, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 1262, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1528, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1500, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1487, in _path_importer_cache
+  File "<frozen importlib._bootstrap_external>", line 1463, in _path_hooks
+  File "<frozen importlib._bootstrap_external>", line 1689, in path_hook_for_FileFinder
+  File "<frozen importlib._bootstrap_external>", line 1579, in __init__
+  File "<frozen importlib._bootstrap_external>", line 190, in _path_abspath
+FileNotFoundError: [Errno 2] No such file or directory
+PASS all real containers ready behind Nginx
+PASS static storefront, CSP, missing asset 404
+PASS Nginx auth/captcha/C++ official MQ/Java/MySQL order + replay
+PASS idempotent real MOCK payment behind proxy
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s6.py", line 71, in <module>
+    sql(f"UPDATE orders SET expires_at_ms=1 WHERE id='{second['orderId']}'")
+  File "/mnt/e/c++project/seckill-mall/tests/test_s6.py", line 30, in sql
+    return dc('exec','-T','mysql','sh','-c','MYSQL_PWD="$MYSQL_PASSWORD" mysql -umall seckill_mall -N -B -e "$1"','sh',query).strip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/test_s6.py", line 10, in dc
+    def dc(*args):return subprocess.run(CMD+list(args),check=True,text=True,capture_output=True).stdout
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['docker', 'compose', '-p', 'seckill-mall-s6', '--env-file', '/mnt/e/c++project/seckill-mall/deploy/.env.stack', '-f', '/mnt/e/c++project/seckill-mall/deploy/compose.yml', 'exec', '-T', 'mysql', 'sh', '-c', 'MYSQL_PWD="$MYSQL_PASSWORD" mysql -umall seckill_mall -N -B -e "$1"', 'sh', "UPDATE orders SET expires_at_ms=1 WHERE id='5896dcc5-ff82-4022-90de-73a515dee589'"]' returned non-zero exit status 1.

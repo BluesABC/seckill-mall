@@ -1,0 +1,12 @@
+build
+**/node_modules
+**/target
+**/dist
+.git
+**/.env
+**/.env.*
+!deploy/.env.stack.example
+tests/reports
+UI
+**/__pycache__
+**/*.log

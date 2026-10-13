@@ -1,0 +1,8 @@
+{
+  "platform": "linux",
+  "redisCrash": "SIGKILL",
+  "aofConfirmed": true,
+  "stockQualificationRequestPendingRecovered": true,
+  "replayAfterRestart": true,
+  "scope": "single Redis process crash; not disk loss or failover"
+}

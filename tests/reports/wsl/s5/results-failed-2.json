@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-13T06:35:09.873Z",
+  "runtime": "linux",
+  "node": "v22.20.0",
+  "browser": "141.0.7390.37",
+  "elapsedSeconds": 30.158,
+  "checks": [
+    {
+      "name": "desktop real catalog, original assets, accessibility",
+      "status": "PASS"
+    },
+    {
+      "name": "catalog search, empty results and price sort",
+      "status": "PASS"
+    },
+    {
+      "name": "register/login modal and keyboard focus",
+      "status": "PASS"
+    },
+    {
+      "name": "real captcha -> C++ -> RocketMQ -> MySQL order, stable request on lost response",
+      "status": "PASS"
+    },
+    {
+      "name": "mock payment, duplicate-click guard and authoritative paid state",
+      "status": "PASS"
+    },
+    {
+      "name": "second real order, expiry close and no payment action",
+      "status": "PASS"
+    },
+    {
+      "name": "sold-out display disables buy (private cache fixture, restored)",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile real detail and homepage: layout, accessibility, images",
+      "status": "PASS"
+    },
+    {
+      "name": "USER frontend guard and backend forbidden",
+      "status": "PASS"
+    },
+    {
+      "name": "ADMIN goods create/edit, activity create/activate/end, users, orders, recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "execution failure",
+      "status": "FAIL",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('alert')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for getByRole('alert')\n\n    at Proxy.<anonymous> (/mnt/e/c++project/seckill-mall/build/wsl/browser/node_modules/playwright/lib/matchers/expect.js:221:24)\n    at file:///mnt/e/c++project/seckill-mall/tests/browser/s5.mjs:31:320\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:453:9)\n    at process.callbackTrampoline (node:internal/async_hooks:130:17)\n    at async check (file:///mnt/e/c++project/seckill-mall/tests/browser/s5.mjs:11:30)\n    at async file:///mnt/e/c++project/seckill-mall/tests/browser/s5.mjs:31:2"
+    }
+  ],
+  "fixtures": "captcha answer fixed privately in owned Redis; expiry/SOLD_OUT controlled privately; lost response injected after real accepted HTTP response"
+}

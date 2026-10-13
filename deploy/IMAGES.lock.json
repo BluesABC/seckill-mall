@@ -1,0 +1,7 @@
+{
+  "verifiedAt": "2026-10-12",
+  "scope": "S1/S3 development integration on linux/amd64; compose tags still tracked here",
+  "mysql": {"tag":"mysql:8.4","serverVersion":"8.4.11","repoDigest":"mysql@sha256:6ea90827b1100f8f2ae306a539f86d2c264a26ed435a2a9f75551dd5c3aeb242"},
+  "redis": {"tag":"redis:7.2.11","serverVersion":"7.2.11","repoDigest":"redis@sha256:76dc61f6ca42748060aa86080ef8393d0c118660db0a1dead26c2b8e94bf601b"},
+  "rocketmq": {"tag":"apache/rocketmq:5.3.2","repoDigest":"apache/rocketmq@sha256:4a80ff5cd4b0a3d3ef6dc338ce2028a85bd995648cb3aa5c3e753746d2dbc587","role":"single Broker + embedded Proxy + NameServer","diskFlush":"SYNC_FLUSH","replication":"none"}
+}

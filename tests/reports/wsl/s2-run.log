@@ -1,0 +1,78 @@
+ Container seckill-mall-s1-redis-1 Running 
+ Container seckill-mall-s1-redis-1 Waiting 
+ Container seckill-mall-s1-redis-1 Healthy 
+-- Configuring done (7.5s)
+-- Generating done (2.3s)
+-- Build files have been written to: /mnt/e/c++project/seckill-mall/build/wsl/cpp
+[ 15%] Built target contract_tests
+[ 30%] Built target mall_mq
+[ 38%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/redis.cpp.o
+[ 46%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/relay.cpp.o
+[ 53%] Linking CXX static library libseckill_core.a
+[ 61%] Built target seckill_core
+[ 69%] Building CXX object CMakeFiles/relay_probe.dir/tests/relay_probe.cpp.o
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_service.dir/compiler_depend.make' has modification time 1 s in the future
+[ 76%] Building CXX object src/seckill/CMakeFiles/seckill_service.dir/main.cpp.o
+[ 84%] Linking CXX executable relay_probe
+[ 84%] Built target relay_probe
+[ 92%] Building CXX object src/seckill/CMakeFiles/seckill_service.dir/service.cpp.o
+[100%] Linking CXX executable seckill_service
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target seckill_service
+Internal ctest changing into directory: /mnt/e/c++project/seckill-mall/build/wsl/cpp
+Test project /mnt/e/c++project/seckill-mall/build/wsl/cpp
+    Start 1: state_contracts
+1/3 Test #1: state_contracts ..................   Passed    0.01 sec
+    Start 2: seckill_configuration
+2/3 Test #2: seckill_configuration ............   Passed    0.01 sec
+    Start 3: mq_configuration
+3/3 Test #3: mq_configuration .................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   0.12 sec
+Requirement already satisfied: jsonschema==4.25.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 1)) (4.25.1)
+Requirement already satisfied: lupa==2.6 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 2)) (2.6)
+Requirement already satisfied: sqlglot==27.20.0 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 3)) (27.20.0)
+Requirement already satisfied: PyYAML==6.0.3 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 4)) (6.0.3)
+Requirement already satisfied: redis==5.2.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 1)) (5.2.1)
+Requirement already satisfied: PyMySQL==1.1.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 2)) (1.1.1)
+Requirement already satisfied: cryptography==46.0.2 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 3)) (46.0.2)
+Requirement already satisfied: attrs>=22.2.0 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (26.1.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (0.37.0)
+Requirement already satisfied: rpds-py>=0.7.1 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (2026.9.1)
+Requirement already satisfied: cffi>=2.0.0 in ./build/wsl/venv/lib/python3.12/site-packages (from cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (2.1.1)
+Requirement already satisfied: pycparser in ./build/wsl/venv/lib/python3.12/site-packages (from cffi>=2.0.0->cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (3.11)
+Requirement already satisfied: typing-extensions>=4.4.0 in ./build/wsl/venv/lib/python3.12/site-packages (from referencing>=0.28.4->jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (4.16.0)
+test_aof_reply_lost_query_and_replay (__main__.S2Tests.test_aof_reply_lost_query_and_replay) ... ok
+test_auth_missing_invalid_expired_revoked (__main__.S2Tests.test_auth_missing_invalid_expired_revoked) ... ok
+test_blacklist_ip_and_user (__main__.S2Tests.test_blacklist_ip_and_user) ... ok
+test_captcha_wrong_answer_and_attempt_limit (__main__.S2Tests.test_captcha_wrong_answer_and_attempt_limit) ... ok
+test_challenge_one_use (__main__.S2Tests.test_challenge_one_use) ... ok
+test_concurrent_inventory (__main__.S2Tests.test_concurrent_inventory) ... ok
+test_concurrent_same_request (__main__.S2Tests.test_concurrent_same_request) ... ok
+test_dependency_outage (__main__.S2Tests.test_dependency_outage) ... ok
+test_duplicate_query_rejected (__main__.S2Tests.test_duplicate_query_rejected) ... ok
+test_graceful_shutdown_releases_port (__main__.S2Tests.test_graceful_shutdown_releases_port) ... ok
+test_health_and_activity_info (__main__.S2Tests.test_health_and_activity_info) ... ok
+test_ip_limit_ignores_forwarded_spoof (__main__.S2Tests.test_ip_limit_ignores_forwarded_spoof) ... ok
+test_metrics_admin_only (__main__.S2Tests.test_metrics_admin_only) ... ok
+test_pending_backpressure (__main__.S2Tests.test_pending_backpressure) ... ok
+test_proof_bound_user_request_and_activity (__main__.S2Tests.test_proof_bound_user_request_and_activity) ... ok
+test_proof_expired_and_tampered (__main__.S2Tests.test_proof_expired_and_tampered) ... ok
+test_relay_outcomes_preserve_or_confirm_pending (__main__.S2Tests.test_relay_outcomes_preserve_or_confirm_pending) ... ok
+test_replay_after_proof_expiry (__main__.S2Tests.test_replay_after_proof_expiry) ... ok
+test_request_lookup_ownership_and_no_fabricated_order (__main__.S2Tests.test_request_lookup_ownership_and_no_fabricated_order) ... ok
+test_same_user_different_requests (__main__.S2Tests.test_same_user_different_requests) ... ok
+test_unknown_fields_ids_json_and_body_limit (__main__.S2Tests.test_unknown_fields_ids_json_and_body_limit) ... ok
+test_user_rate_limit (__main__.S2Tests.test_user_rate_limit) ... ok
+test_valid_buy_has_pending_no_order (__main__.S2Tests.test_valid_buy_has_pending_no_order) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 10.779s
+
+OK
+{"stage": "S2", "platform": "linux", "tests": 23, "failures": 0, "errors": 0, "skipped": 0, "passed": true, "scope": "C++ HTTP + real Redis; relay probe test-only; no RocketMQ/Java order"}
+{"stage": "S0", "platform": "linux", "schemaPositive": 1, "schemaNegative": 6, "mysqlStatementsParsed": 10, "luaSyntax": "pass", "markdownLinks": 136, "redisExecution": "not_run", "mysqlExecution": "not_run", "businessLoadTest": "not_run"}
+PASS S2 HTTP/Redis stage; actual RocketMQ adapter is S3.

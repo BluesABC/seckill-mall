@@ -1,0 +1,70 @@
+WSL S1 started 2026-10-13T05:21:28Z
+Python 3.12.3
+29.8.2
+Requirement already satisfied: jsonschema==4.25.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 1)) (4.25.1)
+Requirement already satisfied: lupa==2.6 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 2)) (2.6)
+Requirement already satisfied: sqlglot==27.20.0 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 3)) (27.20.0)
+Requirement already satisfied: PyYAML==6.0.3 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 4)) (6.0.3)
+Requirement already satisfied: redis==5.2.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 1)) (5.2.1)
+Requirement already satisfied: PyMySQL==1.1.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 2)) (1.1.1)
+Requirement already satisfied: cryptography==46.0.2 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-integration.txt (line 3)) (46.0.2)
+Requirement already satisfied: attrs>=22.2.0 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (26.1.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (0.37.0)
+Requirement already satisfied: rpds-py>=0.7.1 in ./build/wsl/venv/lib/python3.12/site-packages (from jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (2026.9.1)
+Requirement already satisfied: cffi>=2.0.0 in ./build/wsl/venv/lib/python3.12/site-packages (from cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (2.1.1)
+Requirement already satisfied: pycparser in ./build/wsl/venv/lib/python3.12/site-packages (from cffi>=2.0.0->cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (3.11)
+Requirement already satisfied: typing-extensions>=4.4.0 in ./build/wsl/venv/lib/python3.12/site-packages (from referencing>=0.28.4->jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (4.16.0)
+ Container seckill-mall-s1-redis-1 Running 
+ Container seckill-mall-s1-mysql-1 Running 
+ Container seckill-mall-s1-redis-1 Waiting 
+ Container seckill-mall-s1-mysql-1 Waiting 
+ Container seckill-mall-s1-redis-1 Healthy 
+ Container seckill-mall-s1-mysql-1 Healthy 
+APPLIED
+ALREADY_SEEDED
+['ALREADY_INITIALIZED']
+test_closed_order_released_once (__main__.S1Tests.test_closed_order_released_once) ... ok
+test_concurrent_inventory_no_oversell (__main__.S1Tests.test_concurrent_inventory_no_oversell) ... ok
+test_concurrent_one_user_one_reservation (__main__.S1Tests.test_concurrent_one_user_one_reservation) ... ok
+test_concurrent_release_once_and_preserve_qualification (__main__.S1Tests.test_concurrent_release_once_and_preserve_qualification) ... ok
+test_invalid_argument_no_side_effect (__main__.S1Tests.test_invalid_argument_no_side_effect) ... ok
+test_invalid_user_and_uuid_no_side_effect (__main__.S1Tests.test_invalid_user_and_uuid_no_side_effect) ... ok
+test_migration_drift_rejected (__main__.S1Tests.test_migration_drift_rejected) ... ok
+test_migration_replay (__main__.S1Tests.test_migration_replay) ... ok
+test_mysql_constraints_and_transaction_rollback (__main__.S1Tests.test_mysql_constraints_and_transaction_rollback) ... ok
+test_mysql_duplicate_messages_and_business_qualification (__main__.S1Tests.test_mysql_duplicate_messages_and_business_qualification) ... ok
+test_mysql_expired_payment_blocked (__main__.S1Tests.test_mysql_expired_payment_blocked) ... ok
+test_mysql_parallel_stock_guard (__main__.S1Tests.test_mysql_parallel_stock_guard) ... ok
+test_not_started_ended_and_not_ready (__main__.S1Tests.test_not_started_ended_and_not_ready) ... ok
+test_paid_order_never_released (__main__.S1Tests.test_paid_order_never_released) ... ok
+test_preheat_rejects_active_or_partial_stock (__main__.S1Tests.test_preheat_rejects_active_or_partial_stock) ... ok
+test_preload_cannot_overwrite (__main__.S1Tests.test_preload_cannot_overwrite) ... ok
+test_preload_invalid_no_side_effect (__main__.S1Tests.test_preload_invalid_no_side_effect) ... ok
+test_real_redis_aof_confirmation (__main__.S1Tests.test_real_redis_aof_confirmation) ... ok
+test_release_event_collision_rejected (__main__.S1Tests.test_release_event_collision_rejected) ... ok
+test_release_requires_termination (__main__.S1Tests.test_release_requires_termination) ... ok
+test_release_wrong_reservation_or_epoch (__main__.S1Tests.test_release_wrong_reservation_or_epoch) ... ok
+test_same_request_replay (__main__.S1Tests.test_same_request_replay) ... ok
+test_same_user_different_request (__main__.S1Tests.test_same_user_different_request) ... ok
+test_seed_replay_does_not_reset_stock (__main__.S1Tests.test_seed_replay_does_not_reset_stock) ... ok
+test_terminal_request_cannot_regress (__main__.S1Tests.test_terminal_request_cannot_regress) ... ok
+test_valid_reservation_and_event (__main__.S1Tests.test_valid_reservation_and_event) ... ok
+test_wrong_epoch_no_side_effect (__main__.S1Tests.test_wrong_epoch_no_side_effect) ... ok
+test_wrong_type_no_side_effect (__main__.S1Tests.test_wrong_type_no_side_effect) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 3.127s
+
+OK
+{"stage": "S1", "platform": "linux", "system": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39", "mysql": "8.4.11", "redis": "7.2.11", "tests": 28, "failures": 0, "errors": 0, "skipped": 0, "passed": true, "scope": "real storage/Lua/SQL harness; not RocketMQ or Java order service"}
+ Container seckill-mall-s1-redis-1 Starting 
+ Container seckill-mall-s1-redis-1 Started 
+ Container seckill-mall-s1-redis-1 Waiting 
+ Container seckill-mall-s1-redis-1 Healthy 
+ Container seckill-mall-s1-redis-1 Running 
+ Container seckill-mall-s1-redis-1 Waiting 
+ Container seckill-mall-s1-redis-1 Healthy 
+{"platform": "linux", "redisCrash": "SIGKILL", "aofConfirmed": true, "stockQualificationRequestPendingRecovered": true, "replayAfterRestart": true, "scope": "single Redis process crash; not disk loss or failover"}
+{"stage": "S0", "platform": "linux", "schemaPositive": 1, "schemaNegative": 6, "mysqlStatementsParsed": 10, "luaSyntax": "pass", "markdownLinks": 81, "redisExecution": "not_run", "mysqlExecution": "not_run", "businessLoadTest": "not_run"}
+PASS S1: real MySQL/Redis integration; no RocketMQ/order-service/full mall acceptance.
