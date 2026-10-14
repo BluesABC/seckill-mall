@@ -1040,8 +1040,8 @@ onUnmounted(() => {
             :autocomplete="register ? 'new-password' : 'current-password'"
             type="password"
             required
-            minlength="12"
-            placeholder="至少 12 个字符"
+            :minlength="register ? 12 : 1"
+            :placeholder="register ? '至少 12 个字符' : '请输入密码'"
         /></label>
         <p v-if="authError" class="error" role="alert">{{ authError }}</p>
         <button class="button full" :disabled="authBusy">
