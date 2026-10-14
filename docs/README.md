@@ -16,6 +16,8 @@
 
 工程基线已记录在 [COMPONENTS.md](COMPONENTS.md)。默认开发模拟支付，核心契约v1.0.0；正式容量与HA需实际验证。
 
+生产候选规模、性能/SLO、HA、安全和a11y验收目标见[临时基线目标v0.1](BASELINE-TARGETS-v0.1.md)。其中暂定值仅供继续设计和压测，不能当成生产承诺；每项状态、测量口径和复查条件均在该文档标明。
+
 ## 快速开始
 
 数据/缓存、C++HTTP、真实RocketMQ、Java认证/商品/活动/事务订单/MOCK支付/关闭/补偿与Vue运动鞋商城可运行。阶段验收状态以[PROGRESS](PROGRESS.md)为准。前端本地展厅、开发代理与WSL浏览器测试见[前端运行说明](FRONTEND-RUNTIME.md)，订单独立启动见[订单说明](ORDER-RUNTIME.md)。S6完整容器已验收，启动见[部署说明](DEPLOYMENT.md)；S7本机故障/容量与S8消费者恢复见[进度报告](PROGRESS.md#验证记录)、[S7验收报告](../tests/reports/S7-acceptance.md)、[S8验收报告](../tests/reports/S8-acceptance.md)、[容量报告](BENCHMARK.md)与[演示流程](DEMO.md)。

@@ -18,6 +18,7 @@
 | S11 RocketMQ强制终止恢复诊断 | 完成（根因未解决） | T044 | V015：默认配置基线+回滚后3/3均最终CLEAN；30秒Proxy配置无改善并已撤回 | 继续围绕Consumer重连和队列分配采集根因证据 |
 | S12 非视觉验证码替代 | 完成 | T045 | V016：C++/Redis 24/24、两套CTest 3/3、商城浏览器17/17、屏幕阅读器题真实RocketMQ/MySQL交易和SQL守恒通过 | 后续S13已改进Consumer强停恢复 |
 | S13 RocketMQ强停消息恢复 | 完成 | T046 | V017：识别60秒消息不可见期；调`defaultInvisibleTimeMills`为30秒后真实订单恢复8.539/50.979/52.755秒、库存对账CLEAN 3/3 | 本机验收完成；生产恢复SLA/HA目标待明确 |
+| 临时生产目标 v0.1 | 已冻结（暂定） | — | [基线文档](BASELINE-TARGETS-v0.1.md)：容量/SLO/HA/TLS/支付/a11y目标、置信度、复查条件与上线门禁；未构成生产承诺 | 等待业务/平台补充P0输入，后续复核为v0.2 |
 
 ## 验证记录
 
@@ -50,6 +51,7 @@
 - V016，2026-10-14：[S12验收](../tests/reports/S12-acceptance.md)。C++/Redis真实接口24/24、C++/MQ配置CTest各3/3、Java verify、Vue生产构建、商城Chromium17/17全部通过；第二笔真实文字题抢购经RocketMQ/MySQL建单并超时关闭，答案不下发，SQL核对2笔唯一订单/PAID1/CLOSED1/库存守恒通过。自动axe通过；NVDA/JAWS人工读屏未做。
 
 - V017，2026-10-14：[S13验收](../tests/reports/S13-acceptance.md)。定位RocketMQ 5.3.2 Proxy的60秒消息不可见期；非因`channelExpiredTimeout`通道成员配置。设置`defaultInvisibleTimeMills=30000`后硬停订单服务，三轮真实受理订单8.539/50.979/52.755秒进入PENDING_PAYMENT且只读库存对账CLEAN；默认基线74.321秒。WSL真实Broker/Proxy/Java/MySQL，脚本退出0。生产SLA与HA未验证。
+- V018，2026-10-14：[临时基线目标v0.1](BASELINE-TARGETS-v0.1.md)冻结为小规模试运行设计草案。所有暂定值有口径、依据、置信度和复查触发条件；低置信度项附验证方法。容量延迟目标未被当前S7本机报告证明，支付/HA/TLS/读屏上线门禁仍未通过。
 
 公开交付：[BluesABC/seckill-mall](https://github.com/BluesABC/seckill-mall)，PUBLIC、main，初始提交32f2a8d已核对远端一致。日常Compose项目已启动，localhost:18080就绪与四款商品读取通过；最终S6测试卷保留、测试容器已停止。
 
@@ -59,6 +61,6 @@
 
 ## 当前断点
 
-CHECKPOINT: S13-V017-将RocketMQ Proxy消息不可见租约调整至30秒；WSL真实订单服务强停三轮8.539/50.979/52.755秒恢复并CLEAN；S12-V016文字验证码完整浏览器交易验收通过。
-NEXT: S0–S13本机阶段完成；生产流量/恢复SLA、RocketMQ HA、TLS与真实支付渠道仍待明确目标。
-STATUS: S0–S13本机阶段完成；生产容量/HA/SLA、真实支付与人工读屏认证仍未验证。
+CHECKPOINT: V018-临时基线目标v0.1已冻结为暂定草案；明确容量/SLO/HA/TLS/支付/a11y门禁和低置信度验证方法。
+NEXT: 收集文档第4节P0业务与支付输入；以真实预约/投放和云资源数据复核为v0.2。性能门禁当前未达标，不得视为生产就绪。
+STATUS: S0–S13本机阶段完成；v0.1不是生产承诺；生产容量/HA/SLA、真实支付、外部安全扫描与人工NVDA/JAWS仍未验证。
