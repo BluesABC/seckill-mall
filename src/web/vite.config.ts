@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import tailwindcss from '@tailwindcss/vite';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, ".", "MALL_");
+  const webPort = Number(env.MALL_WEB_PORT) || 5173;
   const proxy = {
     "/api/seckill": {
       target: env.MALL_SECKILL_ORIGIN || "http://127.0.0.1:8083",
@@ -11,7 +12,7 @@ export default defineConfig(({ mode }) => {
   };
   return {
     plugins: [vue(),tailwindcss()],
-    server: { host: "127.0.0.1", port: 5173, strictPort: true, proxy },
-    preview: { host: "127.0.0.1", port: 5173, strictPort: true, proxy },
+    server: { host: "127.0.0.1", port: webPort, strictPort: true, proxy },
+    preview: { host: "127.0.0.1", port: webPort, strictPort: true, proxy },
   };
 });

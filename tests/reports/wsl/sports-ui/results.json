@@ -1,9 +1,9 @@
 {
-  "date": "2026-10-13T12:32:04.065Z",
+  "date": "2026-10-14T08:44:07.808Z",
   "runtime": "linux",
   "node": "v22.20.0",
   "browser": "141.0.7390.37",
-  "elapsedSeconds": 40.361,
+  "elapsedSeconds": 44.398,
   "checks": [
     {
       "name": "desktop real catalog, original assets, accessibility",
@@ -11,6 +11,10 @@
     },
     {
       "name": "catalog search, empty results and price sort",
+      "status": "PASS"
+    },
+    {
+      "name": "server catalog pagination loads every matching product",
       "status": "PASS"
     },
     {

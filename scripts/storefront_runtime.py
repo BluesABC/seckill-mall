@@ -19,6 +19,7 @@ class Runtime:
         self.topic='mall_s5_'+uuid.uuid4().hex
         self.group='mall_s5_'+uuid.uuid4().hex
         self.java_port=port(); self.cpp_port=port()
+        self.web_port=int(os.environ.get('MALL_WEB_PORT','5173'))
         self.processes=[];self.logs=[];self.created=False
         self.password='S5-local-demo-'+uuid.uuid4().hex[:16]
         self.cache=redis.Redis(port=16379,decode_responses=True,socket_timeout=5)
@@ -29,8 +30,8 @@ class Runtime:
     def setup(self):
         with socket.socket() as probe:
             probe.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-            try:probe.bind(('127.0.0.1',5173))
-            except OSError as error:raise RuntimeError('Port 5173 is in use; stop your own showroom or choose a free environment first') from error
+            try:probe.bind(('127.0.0.1',self.web_port))
+            except OSError as error:raise RuntimeError(f'Port {self.web_port} is in use; choose a free MALL_WEB_PORT') from error
         with connect() as db:
             with db.cursor() as cur:cur.execute(f'CREATE DATABASE `{self.database}` CHARACTER SET utf8mb4')
         self.created=True
@@ -57,8 +58,8 @@ class Runtime:
         self.start([str(ROOT/'build/wsl/cpp-s3/src/mq/mall_relay_worker'),'--loop'],'relay')
         viteenv=dict(self.env,MALL_ORDER_ORIGIN=f'http://127.0.0.1:{self.java_port}',MALL_SECKILL_ORIGIN=f'http://127.0.0.1:{self.cpp_port}')
         self.start(['node','node_modules/vite/bin/vite.js','preview'],'web',ROOT/'build/wsl/web',viteenv)
-        wait(lambda:call(5173,'GET','/api/goods')[0]==200)
-        config={'pid':os.getpid(),'baseUrl':'http://127.0.0.1:5173','javaPort':self.java_port,'prefix':self.prefix,'database':self.database,'password':self.password,'items':self.items}
+        wait(lambda:call(self.web_port,'GET','/api/goods')[0]==200)
+        config={'pid':os.getpid(),'baseUrl':f'http://127.0.0.1:{self.web_port}','webPort':self.web_port,'javaPort':self.java_port,'prefix':self.prefix,'database':self.database,'password':self.password,'items':self.items}
         path=ROOT/'build/wsl/s5-runtime.json';path.write_text(json.dumps(config,ensure_ascii=False));path.chmod(0o600)
         return config
     def cleanup(self):
@@ -108,7 +109,7 @@ if __name__=='__main__':
             (ROOT/'tests/reports/wsl/sports-ui/sql.json').write_text(json.dumps(result,indent=2))
             print('PASS S5 SQL: unique orders, real payment records, stock conservation',flush=True)
         else:
-            print('Showroom http://localhost:5173; local admin credentials in build/wsl/s5-runtime.json; Ctrl+C cleans owned DB/cache. Never deploy this root/test configuration.',flush=True)
+            print(f'Showroom http://localhost:{self.web_port}; local admin credentials in build/wsl/s5-runtime.json; Ctrl+C cleans owned DB/cache. Never deploy this root/test configuration.',flush=True)
             while True:
                 if any(p.poll() is not None for p in runtime.processes):raise RuntimeError('Showroom service exited')
                 time.sleep(1)

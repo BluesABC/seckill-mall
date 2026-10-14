@@ -3,11 +3,12 @@ import {
   expect,
 } from "../../build/wsl/browser/node_modules/@playwright/test/index.mjs";
 import AxeBuilder from "../../build/wsl/browser/node_modules/@axe-core/playwright/dist/index.mjs";
-import { readFile, mkdir, writeFile } from "node:fs/promises";
+import { readFile, mkdir, unlink, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 const config = JSON.parse(await readFile(process.env.S5_CONFIG, "utf8"));
 const report = "tests/reports/wsl/sports-ui";
 await mkdir(report, { recursive: true });
+await unlink(report + "/failure.png").catch(() => {});
 const browser = await chromium.launch();
 const context = await browser.newContext({
   viewport: { width: 1440, height: 1000 },
@@ -129,6 +130,25 @@ try {
       "STREET/03 · 城市休闲鞋",
     );
     await a11y();
+  });
+  await check("server catalog pagination loads every matching product", async () => {
+    fixture("catalog");
+    try {
+      await navigate("/catalog");
+      await page.getByLabel("寻找好物").fill("PAGINATIONCHECK");
+      await expect(page.locator(".catalog-title h1")).toContainText("(25)");
+      await expect(page.locator(".product-card")).toHaveCount(12);
+      await page.getByRole("button", { name: "加载更多鞋款" }).click();
+      await expect(page.locator(".product-card")).toHaveCount(24);
+      await page.getByRole("button", { name: "加载更多鞋款" }).click();
+      await expect(page.locator(".product-card")).toHaveCount(25);
+      await expect(page.getByRole("button", { name: "加载更多鞋款" })).toHaveCount(0);
+      await expect(page.getByText("已加载 25 / 25 款")).toBeVisible();
+      await a11y();
+    } finally {
+      fixture("clear-catalog");
+      await page.reload();
+    }
   });
   await check("register/login modal and keyboard focus", async () => {
     await registerUser("browser_" + Date.now());

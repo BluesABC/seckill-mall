@@ -1,23 +1,32 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, onUnmounted, ref, watch } from "vue";
 import ShoeCard from "./ShoeCard.vue";
 import { date, type Goods, type Activity } from "./api";
 const props = defineProps<{
   page: string;
   goods: Goods[];
+  catalogItems: Goods[];
+  catalogTotal: number;
+  catalogHasMore: boolean;
+  catalogLoading: boolean;
+  catalogError: string;
   activities: Activity[];
   loading: boolean;
   error: string;
   category: string;
   initialSearch: string;
 }>();
-defineEmits<{ reload: [] }>();
+const emit = defineEmits<{
+  reload: [];
+  "catalog-change": [query: { q: string; category: string; maxPriceFen: string; sort: string }];
+  "catalog-more": [];
+}>();
 const search = ref(props.initialSearch),
   category = ref(props.category || ""),
   sort = ref("featured"),
   maxPrice = ref(""),
-  limit = ref(8),
   sessionFilter = ref("all");
+let catalogTimer: ReturnType<typeof setTimeout> | undefined;
 watch(
   () => props.initialSearch,
   (v) => (search.value = v),
@@ -26,32 +35,22 @@ watch(
   () => props.category,
   (v) => (category.value = v),
 );
-watch([search, category, sort, maxPrice], () => (limit.value = 8));
+watch([search, category, sort, maxPrice], () => {
+  clearTimeout(catalogTimer);
+  catalogTimer = setTimeout(() => emit("catalog-change", {
+    q: search.value.trim(),
+    category: category.value,
+    maxPriceFen: maxPrice.value ? (BigInt(maxPrice.value) * 100n).toString() : "",
+    sort: sort.value,
+  }), 250);
+});
+onUnmounted(() => clearTimeout(catalogTimer));
 const unique = computed(() =>
   props.goods.filter(
     (g, i, a) => a.findIndex((x) => x.goodsId === g.goodsId) === i,
   ),
 );
-const items = computed(() => {
-  let list = unique.value.filter(
-    (g) =>
-      (!category.value || g.category === category.value) &&
-      (!search.value ||
-        g.title.toLowerCase().includes(search.value.toLowerCase()) ||
-        g.description.includes(search.value)) &&
-      (!maxPrice.value || BigInt(g.priceFen) <= BigInt(maxPrice.value) * 100n),
-  );
-  if (sort.value !== "featured")
-    list = [...list].sort(
-      (a, b) =>
-        (BigInt(a.priceFen) === BigInt(b.priceFen)
-          ? 0
-          : BigInt(a.priceFen) < BigInt(b.priceFen)
-            ? -1
-            : 1) * (sort.value === "low" ? 1 : -1),
-    );
-  return list;
-});
+const items = computed(() => props.catalogItems);
 const activity = (g: Goods) =>
   props.activities.find((a) => a.skuId === g.skuId && a.status === "ACTIVE") ||
   props.activities.find((a) => a.skuId === g.skuId && a.status === "READY");
@@ -157,7 +156,7 @@ const drops = computed(() =>
     <p class="eyebrow">FIND YOUR NEXT PAIR</p>
     <div class="catalog-title">
       <h1 tabindex="-1">
-        运动鞋款 <span>({{ items.length }})</span>
+        运动鞋款 <span>({{ catalogTotal }})</span>
       </h1>
       <label class="sort-label"
         >排列方式<select v-model="sort">
@@ -207,8 +206,12 @@ const drops = computed(() =>
         </button>
       </aside>
       <div class="catalog-results">
-        <div v-if="loading" class="empty" role="status">正在加载鞋款…</div>
-        <div v-else-if="error" class="empty error" role="alert">
+        <div v-if="catalogLoading && !items.length" class="empty" role="status">正在加载鞋款…</div>
+        <div v-else-if="catalogError" class="empty error" role="alert">
+          {{ catalogError }}<button @click="$emit('reload')">重新加载</button>
+        </div>
+        <div v-else-if="loading && !items.length" class="empty" role="status">正在加载鞋款…</div>
+        <div v-else-if="error && !items.length" class="empty error" role="alert">
           {{ error }}<button @click="$emit('reload')">重新加载</button>
         </div>
         <div v-else-if="!items.length" class="empty">
@@ -216,22 +219,22 @@ const drops = computed(() =>
         </div>
         <div v-else class="product-grid">
           <ShoeCard
-            v-for="g in items.slice(0, limit)"
+            v-for="g in items"
             :key="g.goodsId"
             :goods="g"
             :activity="activity(g)"
           />
         </div>
         <button
-          v-if="items.length > limit"
+          v-if="catalogHasMore"
           class="button load-more"
-          @click="limit += 8"
+          :disabled="catalogLoading"
+          @click="$emit('catalog-more')"
         >
-          加载更多鞋款
+          {{ catalogLoading ? "正在加载…" : "加载更多鞋款" }}
         </button>
         <p class="small muted">
-          当前显示 {{ Math.min(limit, items.length) }} / {{ items.length }} 款 ·
-          服务端最多返回 100 条 SKU
+          已加载 {{ items.length }} / {{ catalogTotal }} 款
         </p>
       </div>
     </div>

@@ -51,6 +51,15 @@ public class Api {
   public Object goods() {
     return Map.of("items", catalog.products());
   }
+  @GetMapping("/api/goods/catalog")
+  public Object goodsPage(@RequestParam Map<String, String> p) {
+    if (!Set.of("q", "category", "maxPriceFen", "sort", "page", "size")
+            .containsAll(p.keySet())) {
+      throw new Fault(400, "INVALID_ARGUMENT");
+    }
+    return catalog.productPage(p.getOrDefault("q", ""), p.getOrDefault("category", ""),
+        p.get("maxPriceFen"), p.getOrDefault("sort", "featured"), p.get("page"), p.get("size"));
+  }
   @GetMapping("/api/goods/{id}")
   public Object good(@PathVariable String id) {
     return catalog.product(Input.id(id));

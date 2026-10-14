@@ -43,8 +43,8 @@ OpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharin
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.seckillmall.order.HealthControllerTest
-14:42:45.328 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seckillmall.order.HealthControllerTest]: HealthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-14:42:46.395 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seckillmall.order.OrderApplication for test class com.seckillmall.order.HealthControllerTest
+16:40:11.412 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seckillmall.order.HealthControllerTest]: HealthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:40:12.335 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seckillmall.order.OrderApplication for test class com.seckillmall.order.HealthControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -55,19 +55,19 @@ OpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharin
 
  :: Spring Boot ::               (v3.5.16)
 
-2026-10-13T14:42:48.612+08:00  INFO 17137 --- [order-service] [           main] c.s.order.HealthControllerTest           : Starting HealthControllerTest using Java 21.0.12.1 with PID 17137 (started by lzh in /mnt/e/c++project/seckill-mall/src/order)
-2026-10-13T14:42:48.617+08:00  INFO 17137 --- [order-service] [           main] c.s.order.HealthControllerTest           : No active profile set, falling back to 1 default profile: "default"
-2026-10-13T14:42:55.416+08:00  INFO 17137 --- [order-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-10-13T14:42:55.417+08:00  INFO 17137 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-10-13T14:42:55.423+08:00  INFO 17137 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
-2026-10-13T14:42:55.582+08:00  INFO 17137 --- [order-service] [           main] c.s.order.HealthControllerTest           : Started HealthControllerTest in 8.776 seconds (process running for 14.011)
+2026-10-14T16:40:14.918+08:00  INFO 130741 --- [order-service] [           main] c.s.order.HealthControllerTest           : Starting HealthControllerTest using Java 21.0.12.1 with PID 130741 (started by lzh in /mnt/e/c++project/seckill-mall/src/order)
+2026-10-14T16:40:14.922+08:00  INFO 130741 --- [order-service] [           main] c.s.order.HealthControllerTest           : No active profile set, falling back to 1 default profile: "default"
+2026-10-14T16:40:18.223+08:00  INFO 130741 --- [order-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-14T16:40:18.224+08:00  INFO 130741 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-14T16:40:18.230+08:00  INFO 130741 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
+2026-10-14T16:40:18.314+08:00  INFO 130741 --- [order-service] [           main] c.s.order.HealthControllerTest           : Started HealthControllerTest in 5.493 seconds (process running for 12.332)
 Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
 WARNING: A Java agent has been loaded dynamically (/home/lzh/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
 WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
 WARNING: Dynamic loading of agents will be disallowed by default in a future release
-OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.97 s -- in com.seckillmall.order.HealthControllerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.22 s -- in com.seckillmall.order.HealthControllerTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -82,35 +82,39 @@ OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader clas
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  23.450 s
-[INFO] Finished at: 2026-10-13T14:43:01+08:00
+[INFO] Total time:  19.657 s
+[INFO] Finished at: 2026-10-14T16:40:24+08:00
 [INFO] ------------------------------------------------------------------------
 
-added 45 packages in 31s
+added 70 packages in 36s
 
 > seckill-mall-web@0.1.0 build
 > vue-tsc --noEmit && vite build
 
 vite v7.1.9 building for production...
 transforming...
-✓ 16 modules transformed.
+✓ 24 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                   0.53 kB │ gzip:  0.41 kB
-dist/assets/index-BkD_OAHA.css   16.03 kB │ gzip:  4.31 kB
-dist/assets/index-CfpSi-0_.js   101.66 kB │ gzip: 38.48 kB
-✓ built in 2.51s
+dist/index.html                   0.54 kB │ gzip:  0.41 kB
+dist/assets/index-Bl6rjvOU.css   38.86 kB │ gzip:  9.04 kB
+dist/assets/index-BJIW4Ffl.js   120.32 kB │ gzip: 45.02 kB
+✓ built in 4.29s
 
-added 6 packages in 25s
+added 6 packages in 29s
 PASS desktop real catalog, original assets, accessibility
 PASS catalog search, empty results and price sort
+PASS server catalog pagination loads every matching product
 PASS register/login modal and keyboard focus
+PASS size selection, gallery, persisted bag and cart boundary
 PASS wrong captcha, refresh and stable request identity
 PASS real captcha -> C++ -> RocketMQ -> MySQL order, stable request on lost response
 PASS mock payment, duplicate-click guard and authoritative paid state
 PASS second real order, expiry close and no payment action
 PASS sold-out display disables buy (private cache fixture, restored)
+PASS compensating and failed request UI (explicit response fixture)
 PASS mobile real detail and homepage: layout, accessibility, images
+PASS sport filters, flash sessions and responsive breakpoints
 PASS USER frontend guard and backend forbidden
 PASS ADMIN goods create/edit, activity create/activate/end, users, orders, recovery
 PASS API outage displays actionable error instead of fake catalog

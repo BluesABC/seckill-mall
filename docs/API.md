@@ -1,6 +1,6 @@
 # API v1 核心契约
 
-核心契约版本1.0.0，S2于2026-10-12新增凭证接口，S4于2026-10-13实现Java业务。C++承担活动缓存查询、验证码/令牌和预扣；Java业务启用后承担账号、商品/活动管理、MySQL订单查询与MOCK支付。阶段验收状态以PROGRESS为准。
+核心契约版本1.1.0，S2于2026-10-12新增凭证接口，S4于2026-10-13实现Java业务，S9增加公共目录分页。C++承担活动缓存查询、验证码/令牌和预扣；Java业务启用后承担账号、商品/活动管理、MySQL订单查询与MOCK支付。阶段验收状态以PROGRESS为准。
 
 S4已通过真实业务验收：Java业务启用后承担账号、商品/活动管理、MySQL权威查询和MOCK支付；具体运行见[订单运行说明](ORDER-RUNTIME.md)，证据见[S4报告](../tests/reports/S4-acceptance.md)。
 
@@ -30,7 +30,7 @@ JSON未知字段/重复字段、重复查询键和非规范查询键拒绝400，
 
 ## S4 Java基础接口
 
-所有写接口拒绝未知/重复JSON字段，body至多16KiB；数字ID、金额分、时间使用十进制字符串。列表当前最多100项，分页扩展在后续实际需要时实现。Java独立8082，C++8083，统一代理在S5/S6。
+所有写接口拒绝未知/重复JSON字段，body至多16KiB；数字ID、金额分、时间使用十进制字符串。首页、活动和其他现有列表接口保留各自上限；公共商品目录使用显式分页。Java独立8082，C++8083，统一代理在S5/S6。
 
 | 方法与路径 | 权限 | 请求/行为 |
 | --- | --- | --- |
@@ -38,7 +38,8 @@ JSON未知字段/重复字段、重复查询键和非规范查询键拒绝400，
 | POST /api/auth/login | 公开，IP/账号限流 | 同上；200，token/userId/role/expiresAtMs |
 | GET /api/auth/me | 已登录 | userId、role |
 | POST /api/auth/logout | 已登录 | 撤销当前会话 |
-| GET /api/goods | 公开 | items含goodsId/skuId/title/description/imageUrl/priceFen |
+| GET /api/goods | 公开 | 首批最多100个展示SKU：items含goodsId/skuId/title/description/imageUrl/priceFen |
+| GET /api/goods/catalog | 公开 | 服务端筛选、排序和分页公共商品目录 |
 | GET /api/goods/{id} | 公开 | 当前商品的SKU列表items |
 | GET /api/activities | 公开 | READY/ACTIVE/ENDED活动及SKU、时间、价格、DB展示库存 |
 | GET /api/orders | 本人 | 本人的订单列表 |
@@ -57,6 +58,12 @@ JSON未知字段/重复字段、重复查询键和非规范查询键拒绝400，
 username为3–64位ASCII字母/数字/下划线/连字符；password至少12字符、UTF-8至多72字节。登录失败统一401，不暴露用户是否存在。注册限制每IP10分钟15次，登录每IP10分钟80次、每账号30次。商品imageUrl为空或`/assets/...`项目资源路径；不接收任意HTML/远程图片URL。活动价不得高于SKU标价，stock正整数且≤100000000。
 
 Java订单查询/支付沿用本文核心契约，依赖错误返回503。`requestState=COMPENSATING`直到Redis回补经持久化屏障成功后才变FAILED；订单创建、支付、关闭均以MySQL已提交状态为准。MOCK支付接口不调用真实支付渠道。新错误码：409 CONFLICT/INSUFFICIENT_STOCK/ACTIVITY_CONFLICT/CACHE_CONFLICT/SELF_DISABLE_FORBIDDEN。
+
+公共目录`GET /api/goods/catalog`支持可选`q`（标题/描述，最多80字符）、`category`（跑步/篮球/休闲/训练）、`maxPriceFen`、`sort`（featured/low/high）、`page`（从0起，默认0）、`size`（默认12，最大48）。返回`items/page/size/total/hasMore`；每件商品以最早SKU作为目录卡片，详情仍可读取该商品全部SKU。页码和大小非法或超过上限时返回400。排序稳定：精选按商品ID倒序，价格排序按价格后再按商品ID倒序。
+
+```json
+{"items":[{"goodsId":"108","skuId":"141","title":"AERO/01 · 轻量跑鞋","description":"轻量鞋款","imageUrl":"/assets/shoe-run-v1.png","priceFen":"89900","sizeEu":"42","category":"跑步","colorway":"白 / 荧光黄","unallocatedStock":"30"}],"page":0,"size":12,"total":105,"hasMore":true}
+```
 
 ### C++ GET /api/seckill/info
 

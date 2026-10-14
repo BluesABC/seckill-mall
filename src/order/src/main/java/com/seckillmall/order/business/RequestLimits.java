@@ -16,7 +16,7 @@ public class RequestLimits extends OncePerRequestFilter {
       return;
     }
     if (r.getQueryString() != null
-        && (r.getQueryString().contains("%")
+        && (hasNonCanonicalParameterName(r.getQueryString())
             || Arrays.stream(r.getParameterMap().values().toArray(String[][] ::new))
                    .anyMatch(v -> v.length != 1))) {
       reject(response, 400, "INVALID_ARGUMENT");
@@ -51,6 +51,13 @@ public class RequestLimits extends OncePerRequestFilter {
         return new BufferedReader(new InputStreamReader(getInputStream(), StandardCharsets.UTF_8));
       }
     }, response);
+  }
+  private static boolean hasNonCanonicalParameterName(String query) {
+    if (query.isEmpty()) return false;
+    return Arrays.stream(query.split("&", -1)).map(pair -> {
+      int separator = pair.indexOf('=');
+      return separator < 0 ? pair : pair.substring(0, separator);
+    }).anyMatch(key -> !key.matches("[A-Za-z][A-Za-z0-9_-]*"));
   }
   private static void reject(HttpServletResponse response, int status, String code)
       throws IOException {

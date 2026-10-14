@@ -11,6 +11,7 @@ import sys
 import time
 import unittest
 import uuid
+from urllib.parse import urlencode
 from pathlib import Path
 import redis
 
@@ -295,6 +296,42 @@ class S4Tests(unittest.TestCase):
     def test_22_bounded_sigterm_shutdown(self):
         type(self).stop_process(self.java)
         self.assertIsNotNone(self.java.poll());self.assertEqual(self.forced_stops,[],'Java shutdown required SIGKILL')
+
+    def test_23_public_catalog_filters_and_pages_beyond_100_products(self):
+        fixture_name='S9_PAGE_'+uuid.uuid4().hex[:10]
+        categories=('跑步','篮球','休闲','训练')
+        with connect(self.database) as db:
+            with db.cursor() as cur:
+                cur.executemany(
+                    'INSERT INTO goods(title,description,image_url) VALUES(%s,%s,%s)',
+                    [(f'{fixture_name}_{i:03d}', 'catalog pagination fixture', '/assets/fixture.webp') for i in range(105)])
+                cur.execute('SELECT id FROM goods WHERE title LIKE %s ORDER BY id DESC', (fixture_name+'_%',))
+                goods_ids=[row[0] for row in cur.fetchall()]
+                cur.executemany(
+                    'INSERT INTO skus(goods_id,price_fen,unallocated_stock,size_eu,category,colorway) VALUES(%s,%s,1,%s,%s,%s)',
+                    [(gid, 10000+(i%11)*1000, '42', categories[i%4], '黑 / 白') for i,gid in enumerate(goods_ids)])
+            db.commit()
+
+        pages=[]
+        for page in range(5):
+            query=urlencode({'q':fixture_name,'page':page,'size':24})
+            code,result=self.api('GET','/api/goods/catalog?'+query)
+            self.assertEqual(code,200,result)
+            self.assertEqual(result['total'],105)
+            self.assertEqual(result['page'],page)
+            self.assertEqual(result['size'],24)
+            self.assertEqual(result['hasMore'],page<4)
+            pages.extend(result['items'])
+        ids=[item['goodsId'] for item in pages]
+        self.assertEqual(len(ids),105)
+        self.assertEqual(len(set(ids)),105)
+        code,filtered=self.api('GET','/api/goods/catalog?'+urlencode({'q':fixture_name,'category':'跑步','maxPriceFen':'50000','sort':'low','size':48}))
+        self.assertEqual(code,200,filtered)
+        self.assertTrue(filtered['total']>0)
+        self.assertTrue(all(item['category']=='跑步' and int(item['priceFen'])<=50000 for item in filtered['items']))
+        self.assertEqual([int(item['priceFen']) for item in filtered['items']],sorted(int(item['priceFen']) for item in filtered['items']))
+        for query in ('page=-1','size=49','sort=arbitrary','maxPriceFen=0'):
+            self.assertEqual(self.api('GET','/api/goods/catalog?'+query)[0],400,query)
 
 if __name__=='__main__':
     REPORT.mkdir(parents=True,exist_ok=True)

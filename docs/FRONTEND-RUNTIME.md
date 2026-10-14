@@ -22,7 +22,7 @@ build/wsl/venv/bin/python scripts/storefront_runtime.py
 | 地址（hash） | 功能 |
 | --- | --- |
 | `#/` | 原创跑者主视觉、真实鞋款/秒杀、运动类别 |
-| `#/catalog` | 关键词/运动类别/价格筛选、排序/加载更多、加载/空/失败状态 |
+| `#/catalog` | 服务端关键词/运动类别/价格筛选、排序与分页加载更多、加载/空/失败状态 |
 | `#/product/{goodsId}` | 鞋款画廊/尺码、活动价格/时间、服务端校时倒计时、售罄与未开启禁用、验证码 |
 | `#/request/{requestId}` | 同一请求轮询；未知受理结果保留 ID，允许继续查询/重新验证同一请求 |
 | `#/order/{orderId}` | Java 权威订单状态、支付截止、MOCK 支付、关闭状态 |
@@ -35,7 +35,7 @@ build/wsl/venv/bin/python scripts/storefront_runtime.py
 
 首次抢购先保存 requestId，再换取验证码和绑定凭证。并发点击由 busy 阻止，提交前标记请求在途。网络断开或 5xx **不能直接判失败**；继续查询原 ID，刷新页面仍保留。新验证码/重试仍使用同一 ID。请求轮询从 500ms 退避到 3s，120 秒暂停并提供继续查询；切页中止定时器和请求。PENDING_PAYMENT 每 3 秒查询一次，也在 120 秒暂停。支付使用按用户/订单持久的 idempotencyKey，异常后先查权威订单。
 
-后台只显示管理员页面，同时服务端检查 ADMIN。新增只读 `/api/admin/goods` 返回含隐藏商品的列表，避免下架后无法在页面重新上架。各列表仍受后端 100 条限制，尚未提供分页；恢复页面提供实际端点操作，空队列不能当作已验证前端重放了失败消息。
+后台只显示管理员页面，同时服务端检查 ADMIN。新增只读 `/api/admin/goods` 返回含隐藏商品的列表，避免下架后无法在页面重新上架。公共目录由 `/api/goods/catalog` 提供服务端分页，默认每页12件、最大48件，并在数据库执行搜索、类别/价格筛选和排序；活动、订单及管理列表仍各有100条上限。恢复页面提供实际端点操作，空队列不能当作已验证前端重放了失败消息。
 
 ## 浏览器验收
 
@@ -54,6 +54,6 @@ sudo apt-get install -y fonts-noto-cjk
 
 固定 Playwright 1.56.1、axe-core/playwright 4.11.0 和 Linux Chromium，依赖/浏览器与 Windows 隔离。测试会创建自身数据并清理；验证码答案、超时和售罄的确定性条件只在测试拥有的 Redis/SQL 私下设置，没有应用绕过端点。丢失响应在真实 `/buy` 已接受后由浏览器拦截；订单、MQ 与支付记录仍是真实链路。API 失败呈现测试使用单独明确的响应注入。
 
-截图与逐项结果见 `tests/reports/wsl/s5/`，阶段结论见 `tests/reports/S5-acceptance.md`。桌面 1440×1000，移动 390×844。自动 axe 检查不等于完整无障碍认证；当前图片验证码没有语音替代，属于已知限制。
+截图与逐项结果见 `tests/reports/wsl/s5/`，阶段结论见 `tests/reports/S5-acceptance.md`，分页回归见`tests/reports/S9-acceptance.md`。桌面 1440×1000，移动 390×844。WSL浏览器验收端口可通过`MALL_WEB_PORT`指定，默认15173，不会占用本机展厅5173。自动 axe 检查不等于完整无障碍认证；当前图片验证码没有语音替代，属于已知限制。
 
 工具行为参照 [Playwright 浏览器安装](https://playwright.dev/docs/browsers)、[Vite 开发代理](https://vite.dev/config/server-options#server-proxy) 与 [preview 代理](https://vite.dev/config/preview-options#preview-proxy)。

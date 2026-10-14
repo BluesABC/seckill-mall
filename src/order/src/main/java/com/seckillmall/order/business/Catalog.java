@@ -20,6 +20,66 @@ public final class Catalog {
         .map(Store::wire)
         .toList();
   }
+  public Map<String, Object> productPage(
+      String query, String category, String maxPriceFen, String sort, String pageText,
+      String sizeText) {
+    if (query.length() > 80 || !Set.of("", "跑步", "篮球", "休闲", "训练").contains(category)
+        || !Set.of("featured", "low", "high").contains(sort))
+      throw new Fault(400, "INVALID_ARGUMENT");
+    long page = pageText == null ? 0 : pageIndex(pageText);
+    long size = sizeText == null ? 12 : Input.id(sizeText);
+    if (page > 1_000_000 || size > 48)
+      throw new Fault(400, "INVALID_ARGUMENT");
+    long maxPrice = maxPriceFen == null || maxPriceFen.isEmpty()
+        ? 0 : Input.id(maxPriceFen);
+    long offset = page * size;
+    StringBuilder filters = new StringBuilder("WHERE g.enabled=1");
+    List<Object> args = new ArrayList<>();
+    if (!category.isEmpty()) {
+      filters.append(" AND s.category=?");
+      args.add(category);
+    }
+    if (maxPrice > 0) {
+      filters.append(" AND s.price_fen<=?");
+      args.add(maxPrice);
+    }
+    if (!query.isEmpty()) {
+      String pattern = "%" + query.replace("\\", "\\\\")
+                             .replace("%", "\\%")
+                             .replace("_", "\\_") + "%";
+      filters.append(" AND (g.title LIKE ? OR g.description LIKE ?)");
+      args.add(pattern);
+      args.add(pattern);
+    }
+    Object[] params = args.toArray();
+    long total = store.db.queryForObject(
+        "SELECT COUNT(*) FROM goods g JOIN skus s ON s.id=(SELECT MIN(s2.id) FROM skus s2 "
+        + "WHERE s2.goods_id=g.id) " + filters, Long.class, params);
+    String ordering = switch (sort) {
+      case "low" -> "ORDER BY s.price_fen ASC,g.id DESC";
+      case "high" -> "ORDER BY s.price_fen DESC,g.id DESC";
+      default -> "ORDER BY g.id DESC";
+    };
+    var items = store.db.queryForList(
+            "SELECT g.id AS goodsId,g.title,g.description,g.image_url AS imageUrl,s.id AS skuId,"
+            + "s.size_eu AS sizeEu,s.category,s.colorway,s.price_fen AS priceFen,s.unallocated_stock "
+            + "AS unallocatedStock FROM goods g JOIN skus s ON s.id=(SELECT MIN(s2.id) FROM "
+            + "skus s2 WHERE s2.goods_id=g.id) " + filters + " " + ordering + " LIMIT ? OFFSET ?",
+            concat(params, size, offset))
+        .stream().map(Store::wire).toList();
+    return Map.of("items", items, "page", page, "size", size, "total", total,
+        "hasMore", offset + items.size() < total);
+  }
+  private static Object[] concat(Object[] values, Object... extra) {
+    Object[] all = Arrays.copyOf(values, values.length + extra.length);
+    System.arraycopy(extra, 0, all, values.length, extra.length);
+    return all;
+  }
+  private static long pageIndex(String value) {
+    if (value == null || !value.matches("0|[1-9][0-9]{0,6}"))
+      throw new Fault(400, "INVALID_ARGUMENT");
+    return Long.parseLong(value);
+  }
   public Map<String, Object> product(long id) {
     var rows =
         store.db.queryForList("SELECT g.id AS goodsId,g.title,g.description,g.image_url AS "

@@ -6,6 +6,7 @@ source scripts/env-wsl.sh
 mkdir -p tests/reports/wsl build/wsl/browser
 exec > >(tee tests/reports/wsl/s5-run.log) 2>&1
 trap 'result=$?; echo "ExitCode=$result"' EXIT
+export MALL_WEB_PORT="${MALL_WEB_PORT:-15173}"
 cat /etc/os-release
 uname -r
 node --version

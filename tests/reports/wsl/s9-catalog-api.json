@@ -1,0 +1,17 @@
+{
+  "platform": "WSL2 Ubuntu",
+  "project": "seckill-mall-s7",
+  "products": 105,
+  "pageSize": 24,
+  "pageSizes": [
+    24,
+    24,
+    24,
+    24,
+    9
+  ],
+  "duplicateGoodsAcrossPages": false,
+  "filtersAndPriceSort": "PASS",
+  "invalidInputs": 6,
+  "status": "PASS"
+}

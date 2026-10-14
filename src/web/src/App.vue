@@ -26,6 +26,12 @@ import "./sports.css";
 const session = ref<Session | null>(readSession()),
   route = ref(decodeRoute()),
   goods = ref<Goods[]>([]),
+  catalogItems = ref<Goods[]>([]),
+  catalogTotal = ref(0),
+  catalogPage = ref(-1),
+  catalogHasMore = ref(false),
+  catalogLoading = ref(false),
+  catalogError = ref(""),
   activities = ref<Activity[]>([]),
   loading = ref(true),
   error = ref(""),
@@ -39,6 +45,9 @@ const session = ref<Session | null>(readSession()),
   offset = ref(0),
   pollNote = ref(""),
   refreshing = ref(false);
+type CatalogQuery = { q: string; category: string; maxPriceFen: string; sort: string };
+const catalogQuery = ref<CatalogQuery>({ q: "", category: "", maxPriceFen: "", sort: "featured" });
+let catalogRequest = 0;
 const authOpen = ref(false),
   register = ref(false),
   username = ref(""),
@@ -207,6 +216,12 @@ function decodeRoute(){try{return decodeURI(location.hash.slice(1)||'/')}catch{r
 async function loadCatalog() {
   loading.value = true;
   error.value = "";
+  const query: CatalogQuery = {
+    q: search.value.trim(),
+    category: page.value === "catalog" ? id.value : "",
+    maxPriceFen: "",
+    sort: "featured",
+  };
   try {
     const [g, a] = await Promise.all([
       api<{ items: Goods[] }>("/api/goods"),
@@ -214,11 +229,57 @@ async function loadCatalog() {
     ]);
     goods.value = g.items;
     activities.value = a.items;
+    await fetchCatalog(query);
   } catch (e) {
     error.value = message(e);
   } finally {
     loading.value = false;
   }
+}
+async function fetchCatalog(query: CatalogQuery, append = false) {
+  if (append && catalogLoading.value) return;
+  const request = ++catalogRequest;
+  const pageNumber = append ? catalogPage.value + 1 : 0;
+  catalogQuery.value = query;
+  if (!append) {
+    catalogItems.value = [];
+    catalogTotal.value = 0;
+    catalogHasMore.value = false;
+    catalogPage.value = -1;
+  }
+  catalogLoading.value = true;
+  catalogError.value = "";
+  const params = new URLSearchParams({
+    q: query.q,
+    category: query.category,
+    maxPriceFen: query.maxPriceFen,
+    sort: query.sort,
+    page: String(pageNumber),
+    size: "12",
+  });
+  try {
+    const result = await api<{
+      items: Goods[]; page: number; size: number; total: number; hasMore: boolean;
+    }>(`/api/goods/catalog?${params}`);
+    if (request !== catalogRequest) return;
+    catalogItems.value = append ? [...catalogItems.value, ...result.items] : result.items;
+    const known = new Set(goods.value.map((g) => g.skuId));
+    goods.value = [...goods.value, ...result.items.filter((g) => !known.has(g.skuId))];
+    catalogPage.value = result.page;
+    catalogTotal.value = result.total;
+    catalogHasMore.value = result.hasMore;
+  } catch (e) {
+    if (request === catalogRequest) catalogError.value = message(e);
+  } finally {
+    if (request === catalogRequest) catalogLoading.value = false;
+  }
+}
+function changeCatalog(query: CatalogQuery) {
+  search.value = query.q;
+  void fetchCatalog(query);
+}
+function loadMoreCatalog() {
+  void fetchCatalog(catalogQuery.value, true);
 }
 async function loadInfo() {
   info.value = null;
@@ -508,7 +569,18 @@ async function loadPage() {
   stopPoll();
   order.value = null;
   pollNote.value = "";
-  if (page.value === "product") await loadInfo();
+  if (page.value === "product") {
+    if (!product.value && id.value) {
+      try {
+        const result = await api<{ items: Goods[] }>(`/api/goods/${encodeURIComponent(id.value)}`);
+        const known = new Set(goods.value.map((g) => g.skuId));
+        goods.value = [...goods.value, ...result.items.filter((g) => !known.has(g.skuId))];
+      } catch (e) {
+        error.value = message(e);
+      }
+    }
+    if (product.value) await loadInfo();
+  }
   if (page.value === "orders") await loadOrders();
   if (page.value === "request" || page.value === "order") {
     if (await requireSession()) void poll();
@@ -519,7 +591,12 @@ async function loadPage() {
     ?.focus({ preventScroll: true });
   window.scrollTo({ top: 0, behavior: "instant" });
 }
-watch(route, loadPage);
+watch(route, () => {
+  void loadPage();
+  if (page.value === "catalog") {
+    void fetchCatalog({ ...catalogQuery.value, category: id.value });
+  }
+});
 watch([authOpen, captchaOpen], async () => {
   await nextTick();
   if (authOpen.value || captchaOpen.value) {
@@ -639,12 +716,19 @@ onUnmounted(() => {
       v-if="['home', 'catalog', 'flash'].includes(page)"
       :page="page"
       :goods="goods"
+      :catalog-items="catalogItems"
+      :catalog-total="catalogTotal"
+      :catalog-has-more="catalogHasMore"
+      :catalog-loading="catalogLoading"
+      :catalog-error="catalogError"
       :activities="activities"
       :loading="loading"
       :error="error"
       :category="page === 'catalog' ? id : ''"
       :initial-search="search"
       @reload="loadCatalog"
+      @catalog-change="changeCatalog"
+      @catalog-more="loadMoreCatalog"
     />
     <template v-else-if="page === 'product'">
       <div v-if="loading" class="empty" role="status">正在加载鞋款…</div>

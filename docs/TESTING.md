@@ -67,3 +67,7 @@ S3原生依赖增加`libgrpc++-dev protobuf-compiler-grpc libprotobuf-dev libabs
 ## S8 WSL 消费者优雅重启
 
 `bash scripts/test-s8-wsl.sh`使用已存在且独立的`seckill-mall-s7`项目/随机`.env.s7`，只停止/启动该项目order容器并新建私有SKU/用户/订单；不触碰日常`seckill-mall-stack`或`seckill-mall-s1`。需WSL Docker可用、S7完整栈运行、Python标准库。三轮均以真实C++预扣、RocketMQ积压、Java消费者恢复和MySQL订单查询为证，并逐轮只读对账；任一订单超过20秒或consumer.close超时即失败。该入口用SIGTERM和30秒Compose宽限，不代表SIGKILL恢复。
+
+## S9 WSL 公共目录分页
+
+`bash scripts/test-s9-wsl.sh`先运行完整S5真实浏览器验收（测试展厅使用15173端口和独立临时数据库/Redis前缀），再在独立S7订单栈插入105个带唯一前缀的测试商品，验证公共目录连续分页、搜索、类别/价格筛选、排序、无重项、参数拒绝与清理后库存对账。测试商品在`finally`中删除，不更改S7订单或活动数据。WSL入口会启动既有测试基础服务但不重建或清除卷。
