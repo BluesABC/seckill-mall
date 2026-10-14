@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-14",
+  "checks": [
+    "bounded read-only clean reconciliation",
+    "relay outage distinguishes in-flight/aged alarm and recovers without overselling",
+    "injected stock drift is reported; checker makes no writes",
+    "lost ledger refuses purchases and cannot reset durable inventory",
+    "hard-bounded consumer stop restores queued order and replay is unique",
+    "broker outage retains Redis reservation until official SDK recovery",
+    "database outage is unavailable, not clean; durable order recovers",
+    "Redis unavailable returns unknown/503; AOF crash preserves reservation and replay",
+    "MOCK payment replay and autonomous close conserve stock after faults",
+    "real retry exhaustion/DLQ and durable termination fence reject late original event"
+  ],
+  "timingsSeconds": {
+    "relayRestartSeconds": 1.09,
+    "consumerRestartSeconds": 75.945,
+    "brokerRestartSeconds": 13.923,
+    "databaseRestartSeconds": 12.038,
+    "redisRestartSeconds": 5.358
+  },
+  "elapsedSecondsInThisInvocation": 123.964,
+  "resumedDlqOnly": true,
+  "dlqRetryLimit": 2,
+  "loadRetryLimit": 8,
+  "recoveryObservationDeadlineSeconds": 180,
+  "dlqObservationDeadlineSeconds": 240,
+  "final": {
+    "status": "CLEAN",
+    "readOnly": true,
+    "graceSeconds": 1800,
+    "orders": 5,
+    "ledgers": [
+      {
+        "activityId": "1",
+        "skuId": "1",
+        "initial": 10,
+        "dbAvailable": 10,
+        "redisAvailable": 10,
+        "held": 0,
+        "activeOrders": 0,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      },
+      {
+        "activityId": "2",
+        "skuId": "2",
+        "initial": 10,
+        "dbAvailable": 10,
+        "redisAvailable": 10,
+        "held": 0,
+        "activeOrders": 0,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      },
+      {
+        "activityId": "3",
+        "skuId": "3",
+        "initial": 10,
+        "dbAvailable": 10,
+        "redisAvailable": 10,
+        "held": 0,
+        "activeOrders": 0,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      },
+      {
+        "activityId": "4",
+        "skuId": "4",
+        "initial": 10,
+        "dbAvailable": 10,
+        "redisAvailable": 10,
+        "held": 0,
+        "activeOrders": 0,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      },
+      {
+        "activityId": "5",
+        "skuId": "5",
+        "initial": 20,
+        "dbAvailable": 19,
+        "redisAvailable": 19,
+        "held": 1,
+        "activeOrders": 1,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      },
+      {
+        "activityId": "6",
+        "skuId": "6",
+        "initial": 2,
+        "dbAvailable": 2,
+        "redisAvailable": 2,
+        "held": 0,
+        "activeOrders": 0,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      },
+      {
+        "activityId": "7",
+        "skuId": "7",
+        "initial": 2,
+        "dbAvailable": 2,
+        "redisAvailable": 2,
+        "held": 0,
+        "activeOrders": 0,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      },
+      {
+        "activityId": "8",
+        "skuId": "8",
+        "initial": 2,
+        "dbAvailable": 2,
+        "redisAvailable": 2,
+        "held": 0,
+        "activeOrders": 0,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      }
+    ],
+    "alerts": [],
+    "movingSnapshots": [],
+    "outbox": [],
+    "mqFailures": [],
+    "atMs": 1791957286944
+  },
+  "fixtures": "Owned S7 only: SQL users/Redis sessions/captcha digest/aged reservation/stock drift/quarantine marker proving late payload consumption; no public bypass routes"
+}

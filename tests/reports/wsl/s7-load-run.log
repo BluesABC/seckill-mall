@@ -1,0 +1,17 @@
+PASS load pending-send-cap-128 accepted 128 persisted 128 ingressQps 4.04 orderP95Ms 42394
+PASS load cold-cpp-process-warm-storage accepted 64 persisted 64 ingressQps 5.997 orderP95Ms 4861
+PASS load hot-ramp-4-run1 accepted 64 persisted 64 ingressQps 15.052 orderP95Ms 2029
+PASS load hot-ramp-16-run1 accepted 64 persisted 64 ingressQps 4.45 orderP95Ms 5070
+PASS load hot-ramp-64-run1 accepted 64 persisted 64 ingressQps 4.425 orderP95Ms 14517
+PASS load hot-ramp-4-run2 accepted 64 persisted 64 ingressQps 15.178 orderP95Ms 2199
+PASS load hot-ramp-16-run2 accepted 64 persisted 64 ingressQps 6.112 orderP95Ms 5020
+PASS load hot-ramp-64-run2 accepted 64 persisted 64 ingressQps 4.214 orderP95Ms 15894
+PASS load hot-oversubscription accepted 24 persisted 24 ingressQps 4.017 orderP95Ms 5341
+PASS load multi-activity-burst accepted 128 persisted 128 ingressQps 4.153 orderP95Ms 9161
+PASS load sustained-20rps-10s accepted 200 persisted 200 ingressQps 4.508 orderP95Ms 9207
+PASS load database outage: accepted/persisted 48, no overselling
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/load_s7.py", line 97, in <module>
+    assert 429 in gates and 200 in gates
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

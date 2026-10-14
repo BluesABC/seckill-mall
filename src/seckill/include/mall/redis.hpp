@@ -26,6 +26,8 @@ public:
   Redis(const Redis &) = delete;
   Redis &operator=(const Redis &) = delete;
   Reply command(const std::vector<std::string> &args);
+  // Only this read-only connectivity probe may retry after a broken socket.
+  void probe();
   Reply eval(const std::string &script, const std::vector<std::string> &keys,
              const std::vector<std::string> &args);
 

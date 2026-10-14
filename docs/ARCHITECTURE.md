@@ -116,6 +116,8 @@ Vue 3/TypeScript 实现拾间概念商城，`App.vue` 负责 hash 页面、认�
 
 ## S6 容器部署
 
+S7引入独立只读对账程序：MySQL一致性快照与版本复查、Redis前后账本快照，按未释放唯一预留/未关闭订单解释差额，并检查pending发送、持久outbox及消费失败。变化中的快照返回INCONCLUSIVE，依赖不可达返回UNAVAILABLE，不执行重置/库存修复；明细见[OPERATIONS](OPERATIONS.md)。C++请求开始用可安全重试的PING刷新线程旧连接，实际变更命令不自动重试。
+
 浏览器 → 回环地址 Nginx → C++ 秒杀 / Java 业务 → Redis、MySQL；C++ relay 经 Broker Proxy 投递，Java 官方 SDK 消费。所有业务容器在独立 backend bridge 内，只有 Nginx 发布宿主端口。Dockerfile 从源码构建并保留 Linux ABI；C++/Java 使用 UID10001，Lua 随镜像分发。
 
 首次启动一次性服务负责持久化卷权限、RocketMQ topic/消费组、校验式增量 SQL 迁移；随后按真实就绪检查启动业务。种子只对空商品库执行，不改写既有订单/库存。Redis AOF、MySQL、Broker store 和日志使用命名卷。Nginx 使用 Docker DNS 解析服务重建后的地址，不自动重试交易请求。

@@ -3,6 +3,7 @@ WORKDIR /project
 COPY scripts/requirements-integration.txt scripts/requirements-integration.txt
 RUN pip install --no-cache-dir -r scripts/requirements-integration.txt
 COPY scripts/data.py scripts/data.py
+COPY scripts/reconcile.py scripts/reconcile.py
 COPY scripts/sql scripts/sql
 COPY scripts/seed-storefront.py scripts/seed-storefront.py
 COPY src/seckill/lua src/seckill/lua

@@ -202,6 +202,9 @@ public:
       response.set_header("X-Trace-Id", trace);
       try {
         if (guarded) {
+          // Refresh each worker's socket before any rate-limit/proof/reservation write.
+          // A mutation's unknown result is never retried here.
+          redis().probe();
           auto client_ip=req.remote_addr;
           if(!config.trusted_proxy.empty()&&req.remote_addr==config.trusted_proxy){
             if(req.get_header_value_count("X-Real-IP")!=1)throw ApiError(400,"INVALID_ARGUMENT");

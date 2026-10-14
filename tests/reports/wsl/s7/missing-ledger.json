@@ -1,0 +1,66 @@
+{
+  "status": "ALERT",
+  "readOnly": true,
+  "graceSeconds": 1800,
+  "orders": 1,
+  "ledgers": [
+    {
+      "activityId": "1",
+      "skuId": "1",
+      "initial": 10,
+      "dbAvailable": 10,
+      "redisAvailable": 10,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "2",
+      "skuId": "2",
+      "initial": 10,
+      "dbAvailable": 10,
+      "redisAvailable": 10,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "3",
+      "skuId": "3",
+      "initial": 10,
+      "dbAvailable": 10,
+      "redisAvailable": 10,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "4",
+      "skuId": "4",
+      "initial": 10,
+      "dbAvailable": 10,
+      "redisAvailable": 10,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    }
+  ],
+  "alerts": [
+    {
+      "code": "MISSING_LEDGER",
+      "activityId": "5"
+    }
+  ],
+  "movingSnapshots": [],
+  "outbox": [],
+  "mqFailures": [],
+  "atMs": 1791955854776
+}

@@ -1,0 +1,2 @@
+PASS standard Nginx per-IP rejection gate {'200': 91, '429': 109}
+PASS S7 load and downstream recovery

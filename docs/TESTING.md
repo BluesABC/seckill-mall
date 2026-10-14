@@ -55,3 +55,11 @@ S3原生依赖增加`libgrpc++-dev protobuf-compiler-grpc libprotobuf-dev libabs
 验收所有请求经Nginx：认证/私有验证码夹具/真实抢购与MQ订单、重复受理/支付、自动关闭与回补、重复种子、可信代理与转发头伪造、私有端口/非root、Java容器重建DNS、整个业务栈重启后会话和订单/库存持久化。重启后读取既有事实不等于重新下单恢复SLA；S7另行测量。生产页面另用原生Chromium检查CSP下资源、真实商品、桌面/手机布局与控制台错误。
 
 证据为 `tests/reports/wsl/s6-deploy.log` / `s6-deploy.json` 与 `s6-ui/`。完整验收报告随阶段结束添加；HTTP API/页面验收不能代替容量压测或生产HA。日常启动/保留卷停止见[部署说明](DEPLOYMENT.md)。
+
+## S7 WSL 故障与容量
+
+`bash scripts/test-s7-wsl.sh`：独立seckill-mall-s7、18081、172.30.87/24、随机本机env；拒绝复用既有卷，保留验收数据。Python3标准库驱动真实Nginx→C++→RocketMQ→Java→MySQL，不调用Windows工具，不改日常数据。入口从源码构建后执行`tests/test_s7.py`与`tests/load_s7.py`。依赖Docker/Python与已有构建镜像网络，无额外压测器依赖。
+
+检查只读对账/在途宽限/注入差异/丢失账本、relay/consumer/Broker/DB/Redis停机与AOF强杀、支付关闭、真实DLQ与终止后原事件重放。用户已选择本机基线：阶梯4/16/64并发重复两次，单热点超量、多个活动、10秒持续流量、下游DB停机、128待发送有界拒绝与标准40r/s限流分开测。每次等待账本收敛，并核对实际接受的requestId是否落库，记录HTTP与端到端分位。
+
+原始证据`tests/reports/wsl/s7/`及`s7-load-run.log`、`s7-finalize-run.log`、`s7-run.log`；夹具说明/故障恢复口径/限流差别见[OPERATIONS](OPERATIONS.md)。C++连接恢复改动另跑`bash scripts/test-s2.sh`，S1存储/AOF另跑`bash scripts/test-s1.sh`。本轮分开运行故障/DLQ和容量/收尾，未将其描述成全新卷聚合入口一次退出0；测试卷保留，聚合入口需在新隔离卷重新验证。当前是本机探索，不是注册/登录/验证码或生产HA/小时级稳定性验收。

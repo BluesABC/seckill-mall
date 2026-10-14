@@ -1,0 +1,119 @@
+{
+  "status": "ALERT",
+  "readOnly": true,
+  "graceSeconds": 1800,
+  "orders": 5,
+  "ledgers": [
+    {
+      "activityId": "1",
+      "skuId": "1",
+      "initial": 10,
+      "dbAvailable": 10,
+      "redisAvailable": 10,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "2",
+      "skuId": "2",
+      "initial": 10,
+      "dbAvailable": 10,
+      "redisAvailable": 10,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "3",
+      "skuId": "3",
+      "initial": 10,
+      "dbAvailable": 10,
+      "redisAvailable": 10,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "4",
+      "skuId": "4",
+      "initial": 10,
+      "dbAvailable": 10,
+      "redisAvailable": 10,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "5",
+      "skuId": "5",
+      "initial": 20,
+      "dbAvailable": 19,
+      "redisAvailable": 19,
+      "held": 1,
+      "activeOrders": 1,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "6",
+      "skuId": "6",
+      "initial": 2,
+      "dbAvailable": 2,
+      "redisAvailable": 2,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "7",
+      "skuId": "7",
+      "initial": 2,
+      "dbAvailable": 2,
+      "redisAvailable": 2,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    },
+    {
+      "activityId": "8",
+      "skuId": "8",
+      "initial": 2,
+      "dbAvailable": 2,
+      "redisAvailable": 2,
+      "held": 0,
+      "activeOrders": 0,
+      "inTransit": 0,
+      "pendingSend": 0,
+      "oldestInTransitSeconds": 0
+    }
+  ],
+  "alerts": [
+    {
+      "code": "MQ_QUARANTINED",
+      "activityId": null
+    }
+  ],
+  "movingSnapshots": [],
+  "outbox": [],
+  "mqFailures": [
+    {
+      "state": "QUARANTINED",
+      "count": 1
+    }
+  ],
+  "atMs": 1791957277126
+}

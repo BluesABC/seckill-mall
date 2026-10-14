@@ -1,0 +1,19 @@
+OffsetID:            AC1E570500002A9F0000000000013CA0
+Topic:               %DLQ%mall_order_v1
+Tags:                [SECKILL_RESERVED]
+Keys:                [5726f0e1-d121-423b-8d2c-65cd1f61d675 8:8]
+Queue ID:            0
+Queue Offset:        1
+CommitLog Offset:    81056
+Reconsume Times:     4
+Born Timestamp:      2026-10-14 05:53:17,688
+Store Timestamp:     2026-10-14 05:54:17,675
+Born Host:           172.30.87.5:10911
+Store Host:          172.30.87.5:10911
+System Flag:         0
+Properties:          {ORIGIN_MESSAGE_ID=AC1E570500002A9F00000000000134DB, RETRY_TOPIC=%RETRY%mall_order_v1_seckill_reserved_v1, MSG_REGION=DefaultRegion, UNIQ_KEY=01C23F8B95E88900010AE0B2CD00000000, CLUSTER=MallStackCluster, 1ST_POP_TIME=1791957203765, PGROUP=seckill_reserved_v1, mallEventId=5726f0e1-d121-423b-8d2c-65cd1f61d675, RECONSUME_TIME=0, mallActivitySku=8:8, DELAY=0, TAGS=SECKILL_RESERVED, __BORNHOST=c68aba0bfdae, BORN_TIMESTAMP=1791957197688, KEYS=5726f0e1-d121-423b-8d2c-65cd1f61d675 8:8, WAIT=false, TRACE_ON=true}
+Message Body Path:   /tmp/rocketmq/msgbodys/01C23F8B95E88900010AE0B2CD00000000
+Message Body:        {"eventId": "5726f0e1-d121-423b-8d2c-65cd1f61d675", "activityId": "8", "epoch": "1", "schemaVersion": 1, "userId": "47", "createdAtMs": "1791955385141", "quantity": 1, "reservationId": "5726f0e1-d121-423b-8d2c-65cd1f61d675", "priceFen": "9000", "skuId": "8", "traceId": "17a4dc43-8bec-49a9-a9e6-6dba3a33eddf", "eventType": "SECKILL_RESERVED", "requestId": "49389087-ed8d-4a08-bc97-8b09fc76c33f"}
+
+
+WARN: No Consumer

@@ -1,24 +1,26 @@
  Container seckill-mall-s1-redis-1 Running 
  Container seckill-mall-s1-redis-1 Waiting 
  Container seckill-mall-s1-redis-1 Healthy 
--- Configuring done (7.5s)
--- Generating done (2.3s)
+-- Configuring done (6.2s)
+-- Generating done (2.2s)
 -- Build files have been written to: /mnt/e/c++project/seckill-mall/build/wsl/cpp
-[ 15%] Built target contract_tests
-[ 30%] Built target mall_mq
-[ 38%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/redis.cpp.o
-[ 46%] Building CXX object src/seckill/CMakeFiles/seckill_core.dir/relay.cpp.o
-[ 53%] Linking CXX static library libseckill_core.a
-[ 61%] Built target seckill_core
-[ 69%] Building CXX object CMakeFiles/relay_probe.dir/tests/relay_probe.cpp.o
-gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_service.dir/compiler_depend.make' has modification time 1 s in the future
-[ 76%] Building CXX object src/seckill/CMakeFiles/seckill_service.dir/main.cpp.o
-[ 84%] Linking CXX executable relay_probe
-[ 84%] Built target relay_probe
-[ 92%] Building CXX object src/seckill/CMakeFiles/seckill_service.dir/service.cpp.o
-[100%] Linking CXX executable seckill_service
+gmake[1]: Warning: File 'CMakeFiles/Makefile2' has modification time 0.64 s in the future
+gmake[2]: Warning: File 'CMakeFiles/contract_tests.dir/progress.make' has modification time 0.46 s in the future
+gmake[2]: Warning: File 'src/seckill/CMakeFiles/seckill_core.dir/progress.make' has modification time 0.5 s in the future
 gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/contract_tests.dir/compiler_depend.make' has modification time 0.5 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 15%] Built target contract_tests
+gmake[2]: Warning: File 'src/mq/CMakeFiles/mall_mq.dir/compiler_depend.make' has modification time 0.43 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 30%] Built target mall_mq
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 61%] Built target seckill_core
+gmake[2]: Warning: File 'CMakeFiles/relay_probe.dir/compiler_depend.make' has modification time 0.3 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 76%] Built target relay_probe
 [100%] Built target seckill_service
+gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
 Internal ctest changing into directory: /mnt/e/c++project/seckill-mall/build/wsl/cpp
 Test project /mnt/e/c++project/seckill-mall/build/wsl/cpp
     Start 1: state_contracts
@@ -30,7 +32,7 @@ Test project /mnt/e/c++project/seckill-mall/build/wsl/cpp
 
 100% tests passed, 0 tests failed out of 3
 
-Total Test time (real) =   0.12 sec
+Total Test time (real) =   0.13 sec
 Requirement already satisfied: jsonschema==4.25.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 1)) (4.25.1)
 Requirement already satisfied: lupa==2.6 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 2)) (2.6)
 Requirement already satisfied: sqlglot==27.20.0 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 3)) (27.20.0)
@@ -70,9 +72,9 @@ test_user_rate_limit (__main__.S2Tests.test_user_rate_limit) ... ok
 test_valid_buy_has_pending_no_order (__main__.S2Tests.test_valid_buy_has_pending_no_order) ... ok
 
 ----------------------------------------------------------------------
-Ran 23 tests in 10.779s
+Ran 23 tests in 9.182s
 
 OK
 {"stage": "S2", "platform": "linux", "tests": 23, "failures": 0, "errors": 0, "skipped": 0, "passed": true, "scope": "C++ HTTP + real Redis; relay probe test-only; no RocketMQ/Java order"}
-{"stage": "S0", "platform": "linux", "schemaPositive": 1, "schemaNegative": 6, "mysqlStatementsParsed": 10, "luaSyntax": "pass", "markdownLinks": 136, "redisExecution": "not_run", "mysqlExecution": "not_run", "businessLoadTest": "not_run"}
+{"stage": "S0", "platform": "linux", "schemaPositive": 1, "schemaNegative": 6, "mysqlStatementsParsed": 10, "luaSyntax": "pass", "markdownLinks": 156, "redisExecution": "not_run", "mysqlExecution": "not_run", "businessLoadTest": "not_run"}
 PASS S2 HTTP/Redis stage; actual RocketMQ adapter is S3.

@@ -1,0 +1,10 @@
+# Private acceptance profile: elevated ingress limits, unchanged auth/Lua/MQ/SQL.
+services:
+  gateway:
+    volumes: ['../build/wsl/s7-nginx.conf:/etc/nginx/nginx.conf:ro']
+  seckill:
+    environment:
+      MALL_IP_LIMIT: '10000'
+      MALL_USER_LIMIT: '100'
+      MALL_PROOF_LIMIT: '10'
+      MALL_MAX_PENDING: '128'

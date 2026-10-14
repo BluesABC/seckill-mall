@@ -1,0 +1,4 @@
+popLongPollingForceNotifyInterval                 =  800
+popReviveMaxAttemptTimes                          =  16
+popCkStayBufferTime                               =  10000
+popCkStayBufferTimeOut                            =  3000

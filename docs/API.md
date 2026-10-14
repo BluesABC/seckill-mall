@@ -158,6 +158,8 @@ ADMIN `PATCH /api/admin/skus/{id}`严格body `{sizeEu,category,colorway}`。size
 
 ## S6 同源部署入口
 
+S7补充：C++业务线程在任何写操作前进行PING连通探测，旧连接断开仅重试该只读探测一次；Lua/库存/WAITAOF未知结果依然不重试。既有404账本缺失、503 BACKPRESSURE/ORDER_SERVICE_UNAVAILABLE/ACCEPTANCE_UNKNOWN契约保持。对账为运维CLI，无新增公开HTTP接口，输出与退出码见[OPERATIONS](OPERATIONS.md)。
+
 默认浏览器地址 http://localhost:18080。业务路径/请求响应保持上述契约：`/api/seckill/*` 路由 C++，其余 `/api/*` 路由 Java。`/health/live` 为 Nginx 存活，`/health/order` / `/health/seckill` 为对应上游就绪，不代表完整容量达标。Nginx API/IP限流可能返回 HTTP429；请求体上限16KiB，超限413。客户端仍使用原 requestId 查询受理结果，不自动换ID重试。
 
 Nginx覆盖客户端转发头，后端仅信任配置的单个网关IP；默认直连不信任。API/CAPTCHA不缓存；访问日志不记录查询参数、Bearer或请求体。部署配置和私有端口见[DEPLOYMENT](DEPLOYMENT.md)。

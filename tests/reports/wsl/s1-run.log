@@ -1,4 +1,4 @@
-WSL S1 started 2026-10-13T05:21:28Z
+WSL S1 started 2026-10-14T06:17:23Z
 Python 3.12.3
 29.8.2
 Requirement already satisfied: jsonschema==4.25.1 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-validation.txt (line 1)) (4.25.1)
@@ -15,12 +15,13 @@ Requirement already satisfied: rpds-py>=0.7.1 in ./build/wsl/venv/lib/python3.12
 Requirement already satisfied: cffi>=2.0.0 in ./build/wsl/venv/lib/python3.12/site-packages (from cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (2.1.1)
 Requirement already satisfied: pycparser in ./build/wsl/venv/lib/python3.12/site-packages (from cffi>=2.0.0->cryptography==46.0.2->-r scripts/requirements-integration.txt (line 3)) (3.11)
 Requirement already satisfied: typing-extensions>=4.4.0 in ./build/wsl/venv/lib/python3.12/site-packages (from referencing>=0.28.4->jsonschema==4.25.1->-r scripts/requirements-validation.txt (line 1)) (4.16.0)
- Container seckill-mall-s1-redis-1 Running 
- Container seckill-mall-s1-mysql-1 Running 
- Container seckill-mall-s1-redis-1 Waiting 
- Container seckill-mall-s1-mysql-1 Waiting 
- Container seckill-mall-s1-redis-1 Healthy 
- Container seckill-mall-s1-mysql-1 Healthy 
+ Container seckill-mall-s1-redis-1 Running
+ Container seckill-mall-s1-mysql-1 Starting
+ Container seckill-mall-s1-mysql-1 Started
+ Container seckill-mall-s1-mysql-1 Waiting
+ Container seckill-mall-s1-redis-1 Waiting
+ Container seckill-mall-s1-redis-1 Healthy
+ Container seckill-mall-s1-mysql-1 Healthy
 APPLIED
 ALREADY_SEEDED
 ['ALREADY_INITIALIZED']
@@ -54,17 +55,17 @@ test_wrong_epoch_no_side_effect (__main__.S1Tests.test_wrong_epoch_no_side_effec
 test_wrong_type_no_side_effect (__main__.S1Tests.test_wrong_type_no_side_effect) ... ok
 
 ----------------------------------------------------------------------
-Ran 28 tests in 3.127s
+Ran 28 tests in 3.772s
 
 OK
 {"stage": "S1", "platform": "linux", "system": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39", "mysql": "8.4.11", "redis": "7.2.11", "tests": 28, "failures": 0, "errors": 0, "skipped": 0, "passed": true, "scope": "real storage/Lua/SQL harness; not RocketMQ or Java order service"}
- Container seckill-mall-s1-redis-1 Starting 
- Container seckill-mall-s1-redis-1 Started 
- Container seckill-mall-s1-redis-1 Waiting 
- Container seckill-mall-s1-redis-1 Healthy 
- Container seckill-mall-s1-redis-1 Running 
- Container seckill-mall-s1-redis-1 Waiting 
- Container seckill-mall-s1-redis-1 Healthy 
+ Container seckill-mall-s1-redis-1 Starting
+ Container seckill-mall-s1-redis-1 Started
+ Container seckill-mall-s1-redis-1 Waiting
+ Container seckill-mall-s1-redis-1 Healthy
+ Container seckill-mall-s1-redis-1 Running
+ Container seckill-mall-s1-redis-1 Waiting
+ Container seckill-mall-s1-redis-1 Healthy
 {"platform": "linux", "redisCrash": "SIGKILL", "aofConfirmed": true, "stockQualificationRequestPendingRecovered": true, "replayAfterRestart": true, "scope": "single Redis process crash; not disk loss or failover"}
-{"stage": "S0", "platform": "linux", "schemaPositive": 1, "schemaNegative": 6, "mysqlStatementsParsed": 10, "luaSyntax": "pass", "markdownLinks": 81, "redisExecution": "not_run", "mysqlExecution": "not_run", "businessLoadTest": "not_run"}
+{"stage": "S0", "platform": "linux", "schemaPositive": 1, "schemaNegative": 6, "mysqlStatementsParsed": 10, "luaSyntax": "pass", "markdownLinks": 156, "redisExecution": "not_run", "mysqlExecution": "not_run", "businessLoadTest": "not_run"}
 PASS S1: real MySQL/Redis integration; no RocketMQ/order-service/full mall acceptance.

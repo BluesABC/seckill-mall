@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "bounded read-only clean reconciliation",
+    "relay outage distinguishes in-flight/aged alarm and recovers without overselling",
+    "injected stock drift is reported; checker makes no writes",
+    "lost ledger refuses purchases and cannot reset durable inventory",
+    "hard-bounded consumer stop restores queued order and replay is unique",
+    "broker outage retains Redis reservation until official SDK recovery",
+    "database outage is unavailable, not clean; durable order recovers",
+    "Redis unavailable returns unknown/503; AOF crash preserves reservation and replay",
+    "MOCK payment replay and autonomous close conserve stock after faults"
+  ],
+  "timingsSeconds": {
+    "relayRestartSeconds": 1.09,
+    "consumerRestartSeconds": 75.945,
+    "brokerRestartSeconds": 13.923,
+    "databaseRestartSeconds": 12.038,
+    "redisRestartSeconds": 5.358
+  }
+}

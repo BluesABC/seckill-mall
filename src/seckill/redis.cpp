@@ -62,6 +62,18 @@ void Redis::ensure_connected() {
     throw RedisFailure("Redis timeout configuration failed");
   }
 }
+void Redis::probe() {
+  for (int attempt = 0; attempt < 2; ++attempt) {
+    try {
+      auto reply = command({"PING"});
+      if (reply->type == REDIS_REPLY_STATUS && text(reply.get()) == "PONG")
+        return;
+      throw RedisFailure("Redis not ready");
+    } catch (const RedisFailure &) {
+      if (attempt == 1) throw;
+    }
+  }
+}
 Reply Redis::command(const std::vector<std::string> &args) {
   ensure_connected();
   std::vector<const char *> argv;

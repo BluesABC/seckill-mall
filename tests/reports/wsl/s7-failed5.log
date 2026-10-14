@@ -1,0 +1,456 @@
+Wed Oct 14 05:13:29 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+Linux DESKTOP-G6VD73J 6.18.54.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+29.8.2 / 29.8.2
+12 CPUs / 7995183104 bytes
+Docker Compose version v5.6.0
+Python 3.12.3
+56f485353e6495852d518c23a2b8d094f3925ed9
+Existing env preserved: /mnt/e/c++project/seckill-mall/deploy/.env.s7
+ Image seckill-mall-tools:local Building
+ Image seckill-mall-web:local Building
+ Image seckill-mall-cpp:local Building
+ Image seckill-mall-order:local Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.91kB done
+#1 DONE 0.0s
+
+#2 [seckill internal] load build definition from Dockerfile.cpp
+#2 transferring dockerfile: 2.43kB 0.1s done
+#2 DONE 0.1s
+
+#3 [order internal] load build definition from Dockerfile.order
+#3 transferring dockerfile: 970B 0.0s done
+#3 DONE 0.1s
+
+#4 [gateway internal] load build definition from Dockerfile.web
+#4 transferring dockerfile: 548B 0.0s done
+#4 DONE 0.1s
+
+#5 [migrate internal] load build definition from Dockerfile.tools
+#5 transferring dockerfile: 621B 0.1s done
+#5 DONE 0.1s
+
+#6 [order internal] load metadata for docker.io/library/eclipse-temurin:21-jre-jammy
+#6 DONE 0.1s
+
+#7 [migrate internal] load metadata for docker.io/library/python:3.12.12-slim-bookworm
+#7 DONE 0.1s
+
+#8 [seckill internal] load metadata for docker.io/library/ubuntu:24.04
+#8 DONE 0.1s
+
+#9 [migrate internal] load .dockerignore
+#9 transferring context: 173B 0.0s done
+#9 DONE 0.1s
+
+#10 [seckill internal] load build context
+#10 DONE 0.0s
+
+#11 [seckill 1/9] FROM docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c
+#11 resolve docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c 0.1s done
+#11 resolve docker.io/library/python:3.12.12-slim-bookworm@sha256:593bd06efe90efa80dc4eee3948be7c0fde4134606dd40d8dd8dbcade98e669c 0.1s done
+#11 DONE 0.1s
+
+#12 [seckill builder  1/11] FROM docker.io/library/ubuntu:24.04@sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55
+#12 resolve docker.io/library/ubuntu:24.04@sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55 0.1s done
+#12 DONE 0.1s
+
+#13 [migrate internal] load build context
+#13 transferring context: 34.28kB 0.3s done
+#13 DONE 0.3s
+
+#14 [migrate 8/9] COPY scripts/seed-storefront.py scripts/seed-storefront.py
+#14 CACHED
+
+#15 [migrate 3/9] COPY scripts/requirements-integration.txt scripts/requirements-integration.txt
+#15 CACHED
+
+#16 [migrate 7/9] COPY scripts/sql scripts/sql
+#16 CACHED
+
+#17 [migrate 5/9] COPY scripts/data.py scripts/data.py
+#17 CACHED
+
+#18 [migrate 2/9] WORKDIR /project
+#18 CACHED
+
+#19 [migrate 4/9] RUN pip install --no-cache-dir -r scripts/requirements-integration.txt
+#19 CACHED
+
+#20 [migrate 6/9] COPY scripts/reconcile.py scripts/reconcile.py
+#20 CACHED
+
+#21 [migrate 9/9] COPY src/seckill/lua src/seckill/lua
+#21 CACHED
+
+#22 [migrate] exporting to image
+#22 exporting layers done
+#22 exporting manifest sha256:e328bb9ce1692496f50eae00cdf44955fac13c101cb2e0a37650065539a784e6 done
+#22 exporting config sha256:cd2cde02322eb2cdecbc8aeac93c3a3d877fed9b21e6e33cf1f24733abf22e03 done
+#22 exporting attestation manifest sha256:13ce8a1ce66ab05fe8daef1bcb2799aadbbd1581a440d1b423a109eead261bf5 0.0s done
+#22 exporting manifest list sha256:60a935449dc739723edab740d2457aa94694b191080fab24dae625be1fb953db 0.0s done
+#22 naming to docker.io/library/seckill-mall-tools:local done
+#22 unpacking to docker.io/library/seckill-mall-tools:local
+#22 unpacking to docker.io/library/seckill-mall-tools:local 0.0s done
+#22 DONE 0.2s
+
+#10 [seckill internal] load build context
+#10 transferring context: 1.95kB 0.5s done
+#10 DONE 0.6s
+
+#23 [seckill builder  2/11] COPY --from=python:3.12.12-slim-bookworm /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+#23 CACHED
+
+#24 [seckill builder 11/11] RUN cmake -S . -B build/cpp -DBUILD_TESTING=OFF -DMALL_WITH_ROCKETMQ=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/project/build/wsl/rocketmq-sdk-install && cmake --build build/cpp -j2
+#24 CACHED
+
+#25 [seckill builder  9/11] COPY src/mq src/mq
+#25 CACHED
+
+#26 [seckill stage-1  4/10] COPY --from=builder /project/build/wsl/rocketmq-sdk-install/lib/ /usr/local/lib/
+#26 CACHED
+
+#27 [seckill stage-1  7/10] COPY --from=builder /project/build/cpp/src/seckill/seckill_service /usr/local/bin/
+#27 CACHED
+
+#28 [seckill builder  7/11] COPY CMakeLists.txt ./
+#28 CACHED
+
+#29 [seckill builder  4/11] WORKDIR /project
+#29 CACHED
+
+#30 [seckill stage-1  9/10] COPY src/seckill/lua /app/lua
+#30 CACHED
+
+#31 [seckill builder  8/11] COPY src/seckill src/seckill
+#31 CACHED
+
+#32 [seckill builder 10/11] COPY third_party third_party
+#32 CACHED
+
+#33 [seckill builder  6/11] RUN bash scripts/setup-rocketmq-sdk-wsl.sh
+#33 CACHED
+
+#34 [seckill stage-1  3/10] RUN sed -i "s|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g;s|http://security.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g" /etc/apt/sources.list.d/ubuntu.sources && apt-get -o Acquire::Retries=3 -o Acquire::https::Timeout=30 update && apt-get install -y --no-install-recommends ca-certificates curl libhiredis-dev libssl-dev libpng-dev libgrpc++-dev libprotobuf-dev libabsl-dev zlib1g-dev && rm -rf /var/lib/apt/lists/* && useradd -m -u 10001 mall
+#34 CACHED
+
+#35 [seckill builder  5/11] COPY scripts/setup-rocketmq-sdk-wsl.sh scripts/setup-rocketmq-sdk-wsl.sh
+#35 CACHED
+
+#36 [seckill stage-1  8/10] COPY --from=builder /project/build/cpp/src/mq/mall_relay_worker /usr/local/bin/
+#36 CACHED
+
+#37 [seckill stage-1  6/10] RUN ldconfig
+#37 CACHED
+
+#38 [seckill stage-1  5/10] COPY --from=builder /project/build/wsl/rocketmq-sdk-src/LICENSE /usr/share/licenses/rocketmq/LICENSE
+#38 CACHED
+
+#39 [seckill builder  3/11] RUN sed -i "s|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g;s|http://security.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g" /etc/apt/sources.list.d/ubuntu.sources && apt-get -o Acquire::Retries=3 -o Acquire::https::Timeout=30 update && apt-get install -y --no-install-recommends ca-certificates curl cmake g++ make libhiredis-dev libssl-dev nlohmann-json3-dev libpng-dev libgrpc++-dev protobuf-compiler-grpc libprotobuf-dev libabsl-dev zlib1g-dev && rm -rf /var/lib/apt/lists/*
+#39 CACHED
+
+#40 [seckill stage-1 10/10] WORKDIR /home/mall
+#40 CACHED
+
+#41 [order internal] load metadata for docker.io/library/maven:3.9.11-eclipse-temurin-21
+#41 ...
+
+#42 [migrate] resolving provenance for metadata file
+#42 DONE 0.0s
+
+#43 [seckill] exporting to image
+#43 exporting layers done
+#43 exporting manifest sha256:33848bcf87157fac39b2838b8e85b09591cd86fc1fd24f44cbf579243efbab35 done
+#43 exporting config sha256:0da94496176444cf08ceba7f5e72cdf521a2e41e32a21e4281e4afbaf5d1e71b done
+#43 exporting attestation manifest sha256:b7ce3a62d81d5c8a96e06f81be0db75e91dd78e4f4e830652176f5e2d22b22ce 0.0s done
+#43 exporting manifest list sha256:44df860904f052f2698c76d9980297f750eb2623b15ad13bc84a8774c590a4a1 0.0s done
+#43 naming to docker.io/library/seckill-mall-cpp:local 0.0s done
+#43 unpacking to docker.io/library/seckill-mall-cpp:local 0.0s done
+#43 DONE 0.2s
+
+#44 [gateway internal] load metadata for docker.io/library/node:22.20.0-bookworm-slim
+#44 ...
+
+#45 [seckill] resolving provenance for metadata file
+#45 DONE 0.0s
+
+#46 [gateway internal] load metadata for docker.io/library/nginx:1.28.0-alpine
+#46 ...
+
+#44 [gateway internal] load metadata for docker.io/library/node:22.20.0-bookworm-slim
+#44 DONE 1.9s
+
+#41 [order internal] load metadata for docker.io/library/maven:3.9.11-eclipse-temurin-21
+#41 DONE 1.9s
+
+#9 [order internal] load .dockerignore
+#9 CACHED
+
+#47 [order internal] load build context
+#47 ...
+
+#48 [order stage-1 1/5] FROM docker.io/library/eclipse-temurin:21-jre-jammy@sha256:61d6c7b34d36aee3f45d043101259f97f3c6d428dc2a6f75513789983c5e254f
+#48 resolve docker.io/library/eclipse-temurin:21-jre-jammy@sha256:61d6c7b34d36aee3f45d043101259f97f3c6d428dc2a6f75513789983c5e254f 0.1s done
+#48 DONE 0.1s
+
+#49 [order builder 1/5] FROM docker.io/library/maven:3.9.11-eclipse-temurin-21@sha256:6fdc855a6ed81d288ca7ca37ac6ff5e9308b612485c0801d70b25a858c83d237
+#49 resolve docker.io/library/maven:3.9.11-eclipse-temurin-21@sha256:6fdc855a6ed81d288ca7ca37ac6ff5e9308b612485c0801d70b25a858c83d237 0.1s done
+#49 DONE 0.1s
+
+#47 [order internal] load build context
+#47 transferring context: 83.74kB 0.5s done
+#47 DONE 0.5s
+
+#50 [order builder 5/5] RUN --mount=type=cache,target=/root/.m2 mvn -B -Dmaven.wagon.http.retryHandler.count=3 -f src/order/pom.xml verify
+#50 CACHED
+
+#51 [order builder 3/5] COPY src/order/pom.xml src/order/pom.xml
+#51 CACHED
+
+#52 [order stage-1 3/5] WORKDIR /app
+#52 CACHED
+
+#53 [order builder 4/5] COPY src/order/src src/order/src
+#53 CACHED
+
+#54 [order builder 2/5] WORKDIR /project
+#54 CACHED
+
+#55 [order stage-1 2/5] RUN sed -i "s|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g;s|http://security.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g" /etc/apt/sources.list && apt-get -o Acquire::Retries=3 -o Acquire::https::Timeout=30 update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/* && useradd -m -u 10001 mall
+#55 CACHED
+
+#56 [order stage-1 4/5] COPY --from=builder /project/src/order/target/order-service-0.1.0-SNAPSHOT.jar /app/order.jar
+#56 CACHED
+
+#57 [order stage-1 5/5] COPY src/seckill/lua /app/lua
+#57 CACHED
+
+#58 [order] exporting to image
+#58 exporting layers done
+#58 exporting manifest sha256:a56c2e4bcae2e81a33ee6959192e1ea79f99b2f1602fe3b147269c6a6bb90fae done
+#58 exporting config sha256:61a95b412501fd0085af06204452eb32a794308b8f6fffe7766f2ee0873fef6b
+#58 exporting config sha256:61a95b412501fd0085af06204452eb32a794308b8f6fffe7766f2ee0873fef6b done
+#58 exporting attestation manifest sha256:0345cf5d2329a8282f8880619c01715fff23c4377240b5cc1ee491d7c74be40e 0.0s done
+#58 exporting manifest list sha256:608696d15dda5ab6f11507a3d67c42df2a2b172c830e300e01f4a362fbcbfac1 0.0s done
+#58 naming to docker.io/library/seckill-mall-order:local done
+#58 unpacking to docker.io/library/seckill-mall-order:local 0.0s done
+#58 DONE 0.2s
+
+#46 [gateway internal] load metadata for docker.io/library/nginx:1.28.0-alpine
+#46 ...
+
+#59 [order] resolving provenance for metadata file
+#59 DONE 0.0s
+
+#46 [gateway internal] load metadata for docker.io/library/nginx:1.28.0-alpine
+#46 DONE 3.2s
+
+#9 [gateway internal] load .dockerignore
+#9 CACHED
+
+#60 [gateway stage-1 1/5] FROM docker.io/library/nginx:1.28.0-alpine@sha256:30f1c0d78e0ad60901648be663a710bdadf19e4c10ac6782c235200619158284
+#60 resolve docker.io/library/nginx:1.28.0-alpine@sha256:30f1c0d78e0ad60901648be663a710bdadf19e4c10ac6782c235200619158284 0.1s done
+#60 DONE 0.1s
+
+#61 [gateway builder 1/6] FROM docker.io/library/node:22.20.0-bookworm-slim@sha256:b21fe589dfbe5cc39365d0544b9be3f1f33f55f3c86c87a76ff65a02f8f5848e
+#61 resolve docker.io/library/node:22.20.0-bookworm-slim@sha256:b21fe589dfbe5cc39365d0544b9be3f1f33f55f3c86c87a76ff65a02f8f5848e 0.1s done
+#61 DONE 0.1s
+
+#62 [gateway internal] load build context
+#62 transferring context: 15.86MB 0.7s done
+#62 DONE 0.7s
+
+#63 [gateway stage-1 4/5] COPY deploy/nginx/security.conf /etc/nginx/security.conf
+#63 CACHED
+
+#64 [gateway stage-1 2/5] COPY deploy/nginx/nginx.conf /etc/nginx/nginx.conf
+#64 CACHED
+
+#65 [gateway builder 4/6] RUN npm ci --no-audit --no-fund
+#65 CACHED
+
+#66 [gateway builder 2/6] WORKDIR /app
+#66 CACHED
+
+#67 [gateway builder 5/6] COPY src/web/ ./
+#67 CACHED
+
+#68 [gateway builder 3/6] COPY src/web/package*.json ./
+#68 CACHED
+
+#69 [gateway stage-1 3/5] COPY deploy/nginx/proxy.conf /etc/nginx/proxy.conf
+#69 CACHED
+
+#70 [gateway builder 6/6] RUN npm run build
+#70 CACHED
+
+#71 [gateway stage-1 5/5] COPY --from=builder /app/dist /usr/share/nginx/html
+#71 CACHED
+
+#72 [gateway] exporting to image
+#72 exporting layers done
+#72 exporting manifest sha256:66c0c41e7281976801cd0bcf6cd1f86c5c2eac1757f3eb0e28588defb1879d89 done
+#72 exporting config sha256:73690470c55d013eafbafde41ce4c77cd49b59ac716fb275e59dcfe715e03ab6 done
+#72 exporting attestation manifest sha256:8b6be2bc0a2d3c4e9ae336f1277f57e79f9d613bf4810665d9a54d2eb51b43cf 0.0s done
+#72 exporting manifest list sha256:20fbceac7d8cf1317a9a05859c045bf804c88adcbbe4797b7749a126fe49a0b2 0.0s done
+#72 naming to docker.io/library/seckill-mall-web:local
+#72 naming to docker.io/library/seckill-mall-web:local done
+#72 unpacking to docker.io/library/seckill-mall-web:local 0.0s done
+#72 DONE 0.2s
+
+#73 [gateway] resolving provenance for metadata file
+#73 DONE 0.0s
+ Image seckill-mall-tools:local Built
+ Image seckill-mall-cpp:local Built
+ Image seckill-mall-web:local Built
+ Image seckill-mall-order:local Built
+ Volume seckill-mall-s7_mysql-data Creating
+ Volume seckill-mall-s7_redis-data Creating
+ Volume seckill-mall-s7_mysql-data Creating
+ Volume seckill-mall-s7_redis-data Creating
+ Volume seckill-mall-s7_broker-logs Creating
+ Volume seckill-mall-s7_broker-logs Creating
+ Network seckill-mall-s7_backend Creating
+ Volume seckill-mall-s7_broker-store Creating
+ Volume seckill-mall-s7_namesrv-logs Creating
+ Network seckill-mall-s7_backend Creating
+ Volume seckill-mall-s7_broker-store Creating
+ Volume seckill-mall-s7_namesrv-logs Creating
+ Volume seckill-mall-s7_namesrv-logs Created
+ Volume seckill-mall-s7_namesrv-logs Created
+ Volume seckill-mall-s7_broker-store Created
+ Volume seckill-mall-s7_broker-store Created
+ Volume seckill-mall-s7_mysql-data Created
+ Volume seckill-mall-s7_mysql-data Created
+ Volume seckill-mall-s7_broker-logs Created
+ Volume seckill-mall-s7_broker-logs Created
+ Volume seckill-mall-s7_redis-data Created
+ Volume seckill-mall-s7_redis-data Created
+ Network seckill-mall-s7_backend Created
+ Network seckill-mall-s7_backend Created
+ Container seckill-mall-s7-mysql-1 Creating
+ Container seckill-mall-s7-redis-1 Creating
+ Container seckill-mall-s7-prepare-mq-1 Creating
+ Container seckill-mall-s7-mysql-1 Created
+ Container seckill-mall-s7-migrate-1 Creating
+ Container seckill-mall-s7-prepare-mq-1 Created
+ Container seckill-mall-s7-namesrv-1 Creating
+ Container seckill-mall-s7-redis-1 Created
+ Container seckill-mall-s7-migrate-1 Created
+ Container seckill-mall-s7-namesrv-1 Created
+ Container seckill-mall-s7-broker-1 Creating
+ Container seckill-mall-s7-broker-1 Created
+ Container seckill-mall-s7-mq-init-1 Creating
+ Container seckill-mall-s7-mq-init-1 Created
+ Container seckill-mall-s7-order-1 Creating
+ Container seckill-mall-s7-order-1 Created
+ Container seckill-mall-s7-seckill-1 Creating
+ Container seckill-mall-s7-relay-1 Creating
+ Container seckill-mall-s7-relay-1 Created
+ Container seckill-mall-s7-seckill-1 Created
+ Container seckill-mall-s7-gateway-1 Creating
+ Container seckill-mall-s7-gateway-1 Created
+ Container seckill-mall-s7-mysql-1 Starting
+ Container seckill-mall-s7-prepare-mq-1 Starting
+ Container seckill-mall-s7-redis-1 Starting
+ Container seckill-mall-s7-mysql-1 Started
+ Container seckill-mall-s7-mysql-1 Waiting
+ Container seckill-mall-s7-prepare-mq-1 Started
+ Container seckill-mall-s7-prepare-mq-1 Waiting
+ Container seckill-mall-s7-redis-1 Started
+ Container seckill-mall-s7-prepare-mq-1 Exited
+ Container seckill-mall-s7-namesrv-1 Starting
+ Container seckill-mall-s7-namesrv-1 Started
+ Container seckill-mall-s7-namesrv-1 Waiting
+ Container seckill-mall-s7-namesrv-1 Healthy
+ Container seckill-mall-s7-broker-1 Starting
+ Container seckill-mall-s7-broker-1 Started
+ Container seckill-mall-s7-broker-1 Waiting
+ Container seckill-mall-s7-broker-1 Healthy
+ Container seckill-mall-s7-mq-init-1 Starting
+ Container seckill-mall-s7-mq-init-1 Started
+ Container seckill-mall-s7-mysql-1 Healthy
+ Container seckill-mall-s7-migrate-1 Starting
+ Container seckill-mall-s7-migrate-1 Started
+ Container seckill-mall-s7-migrate-1 Waiting
+ Container seckill-mall-s7-mq-init-1 Waiting
+ Container seckill-mall-s7-redis-1 Waiting
+ Container seckill-mall-s7-redis-1 Healthy
+ Container seckill-mall-s7-migrate-1 Exited
+ Container seckill-mall-s7-mq-init-1 Exited
+ Container seckill-mall-s7-order-1 Starting
+ Container seckill-mall-s7-order-1 Started
+ Container seckill-mall-s7-order-1 Waiting
+ Container seckill-mall-s7-mq-init-1 Waiting
+ Container seckill-mall-s7-redis-1 Waiting
+ Container seckill-mall-s7-redis-1 Waiting
+ Container seckill-mall-s7-order-1 Waiting
+ Container seckill-mall-s7-redis-1 Healthy
+ Container seckill-mall-s7-redis-1 Healthy
+ Container seckill-mall-s7-mq-init-1 Exited
+ Container seckill-mall-s7-order-1 Healthy
+ Container seckill-mall-s7-seckill-1 Starting
+ Container seckill-mall-s7-order-1 Healthy
+ Container seckill-mall-s7-relay-1 Starting
+ Container seckill-mall-s7-seckill-1 Started
+ Container seckill-mall-s7-seckill-1 Waiting
+ Container seckill-mall-s7-order-1 Waiting
+ Container seckill-mall-s7-relay-1 Started
+ Container seckill-mall-s7-order-1 Healthy
+ Container seckill-mall-s7-seckill-1 Healthy
+ Container seckill-mall-s7-gateway-1 Starting
+ Container seckill-mall-s7-gateway-1 Started
+ Container seckill-mall-s7-prepare-mq-1 Waiting
+ Container seckill-mall-s7-seckill-1 Waiting
+ Container seckill-mall-s7-namesrv-1 Waiting
+ Container seckill-mall-s7-relay-1 Waiting
+ Container seckill-mall-s7-mysql-1 Waiting
+ Container seckill-mall-s7-gateway-1 Waiting
+ Container seckill-mall-s7-broker-1 Waiting
+ Container seckill-mall-s7-migrate-1 Waiting
+ Container seckill-mall-s7-redis-1 Waiting
+ Container seckill-mall-s7-mq-init-1 Waiting
+ Container seckill-mall-s7-order-1 Waiting
+ Container seckill-mall-s7-mq-init-1 Exited
+ Container seckill-mall-s7-namesrv-1 Healthy
+ Container seckill-mall-s7-broker-1 Healthy
+ Container seckill-mall-s7-redis-1 Healthy
+ Container seckill-mall-s7-migrate-1 Exited
+ Container seckill-mall-s7-order-1 Healthy
+ Container seckill-mall-s7-mysql-1 Healthy
+ Container seckill-mall-s7-seckill-1 Healthy
+ Container seckill-mall-s7-relay-1 Healthy
+ Container seckill-mall-s7-prepare-mq-1 Exited
+ Container seckill-mall-s7-gateway-1 Healthy
+ Container seckill-mall-s7-seed-run-8811009946f5 Creating
+ Container seckill-mall-s7-seed-run-8811009946f5 Created
+Seeded 4 original sneaker SKUs and real activities
+PASS bounded read-only clean reconciliation
+PASS relay outage distinguishes in-flight/aged alarm and recovers without overselling
+PASS injected stock drift is reported; checker makes no writes
+PASS lost ledger refuses purchases and cannot reset durable inventory
+PASS hard-bounded consumer stop restores queued order and replay is unique
+PASS broker outage retains Redis reservation until official SDK recovery
+PASS database outage is unavailable, not clean; durable order recovers
+PASS Redis unavailable returns unknown/503; AOF crash preserves reservation and replay
+PASS MOCK payment replay and autonomous close conserve stock after faults
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s7.py", line 85, in <module>
+    try:wait(lambda:dlq()>baseline,240)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/stack_client.py", line 35, in wait
+    raise AssertionError('Recovery deadline exceeded: '+str(last))
+AssertionError: Recovery deadline exceeded: False
