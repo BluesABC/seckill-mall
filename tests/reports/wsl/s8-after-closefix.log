@@ -1,0 +1,57 @@
+{
+  "method": "SIGTERM graceful stop -t30, close wait 20s",
+  "orderServiceStopSeconds": 6.389,
+  "accepted": 202,
+  "events": [
+    {
+      "at": 0.592,
+      "event": "consumer-metrics",
+      "values": {
+        "received": null,
+        "confirmed": null,
+        "failed": null,
+        "lastWorkerError": null
+      }
+    },
+    {
+      "at": 5.721,
+      "event": "consumer-metrics",
+      "values": {
+        "received": 0,
+        "confirmed": 0,
+        "failed": 0,
+        "lastWorkerError": "STARTING"
+      }
+    },
+    {
+      "at": 6.839,
+      "event": "health-ready"
+    },
+    {
+      "at": 6.839,
+      "event": "consumer-metrics",
+      "values": {
+        "received": 0,
+        "confirmed": 0,
+        "failed": 0,
+        "lastWorkerError": "NONE"
+      }
+    },
+    {
+      "at": 7.709,
+      "event": "consumer-metrics",
+      "values": {
+        "received": 1,
+        "confirmed": 1,
+        "failed": 0,
+        "lastWorkerError": "NONE"
+      }
+    },
+    {
+      "at": 7.709,
+      "event": "order-visible"
+    }
+  ],
+  "orderVisibleAfterStartSeconds": 7.709,
+  "reconciliation": "CLEAN"
+}

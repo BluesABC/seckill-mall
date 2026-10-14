@@ -18,7 +18,7 @@
 
 ## 快速开始
 
-数据/缓存、C++HTTP、真实RocketMQ、Java认证/商品/活动/事务订单/MOCK支付/关闭/补偿与Vue运动鞋商城可运行。阶段验收状态以[PROGRESS](PROGRESS.md)为准。前端本地展厅、开发代理与WSL浏览器测试见[前端运行说明](FRONTEND-RUNTIME.md)，订单独立启动见[订单说明](ORDER-RUNTIME.md)。S6完整容器已验收，启动见[部署说明](DEPLOYMENT.md)；S7本机故障与容量基线见[验收报告](../tests/reports/S7-acceptance.md)、[容量报告](BENCHMARK.md)、[演示流程](DEMO.md)。
+数据/缓存、C++HTTP、真实RocketMQ、Java认证/商品/活动/事务订单/MOCK支付/关闭/补偿与Vue运动鞋商城可运行。阶段验收状态以[PROGRESS](PROGRESS.md)为准。前端本地展厅、开发代理与WSL浏览器测试见[前端运行说明](FRONTEND-RUNTIME.md)，订单独立启动见[订单说明](ORDER-RUNTIME.md)。S6完整容器已验收，启动见[部署说明](DEPLOYMENT.md)；S7本机故障/容量与S8消费者恢复见[进度报告](PROGRESS.md#验证记录)、[S7验收报告](../tests/reports/S7-acceptance.md)、[S8验收报告](../tests/reports/S8-acceptance.md)、[容量报告](BENCHMARK.md)与[演示流程](DEMO.md)。
 
 工作目录为 `E:/c++project/seckill-mall`；推荐WSL2 Ubuntu，C++/Java21/Node均有原生工具和测试入口；Windows可做补充开发。先读PROGRESS和TODO。
 

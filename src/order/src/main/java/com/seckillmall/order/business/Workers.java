@@ -31,6 +31,7 @@ public final class Workers implements AutoCloseable {
   private final Map<String, Cursor<Map.Entry<Object, Object>>> requests = new LinkedHashMap<>();
   private final AtomicLong received = new AtomicLong(), confirmed = new AtomicLong(),
                            failed = new AtomicLong();
+  private static final long CONSUMER_CLOSE_WAIT_SECONDS = 20;
   Workers(Store s, Cache c, Orders o, String endpoint, String topic, String group, long recoveryAge,
       boolean jobs) {
     if (recoveryAge < 1000)
@@ -236,7 +237,10 @@ public final class Workers implements AutoCloseable {
                 throw new CompletionException(e);
               }
             })
-            .get(5, TimeUnit.SECONDS);
+            // SDK close timed out at five seconds in S7; delivery resumed about
+            // 74 seconds after restart. Give it 20 seconds to unregister within
+            // Compose's 30-second stop grace period, then verify the effect.
+            .get(CONSUMER_CLOSE_WAIT_SECONDS, TimeUnit.SECONDS);
       } catch (ExecutionException | TimeoutException e) {
         System.err.println(
             "order-consumer shutdown pending; committed transactions remain replay-safe");

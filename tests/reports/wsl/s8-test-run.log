@@ -1,0 +1,5 @@
+PASS S8 graceful restart {"attempt": 1, "stopSeconds": 13.144, "orderAccepted": true, "orderServiceReadySeconds": 10.404, "orderVisibleSeconds": 10.97, "consumerCloseTimedOut": false, "reconciliation": "CLEAN"}
+PASS S8 graceful restart {"attempt": 2, "stopSeconds": 14.66, "orderAccepted": true, "orderServiceReadySeconds": 11.097, "orderVisibleSeconds": 12.212, "consumerCloseTimedOut": false, "reconciliation": "CLEAN"}
+PASS S8 graceful restart {"attempt": 3, "stopSeconds": 15.133, "orderAccepted": true, "orderServiceReadySeconds": 13.289, "orderVisibleSeconds": 14.51, "consumerCloseTimedOut": false, "reconciliation": "CLEAN"}
+PASS S8 graceful consumer recovery 3/3
+ExitCode=0

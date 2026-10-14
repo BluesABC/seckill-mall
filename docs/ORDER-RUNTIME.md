@@ -37,6 +37,6 @@ outbox保持PENDING直到Redis状态/回补经同连接WAITAOF确认；未知结
 
 每轮最多关闭100单、同步100个outbox、重试20条错误、扫描500个Hash字段；扫描游标跨轮保持，最多10个ledger游标。多实例使用DB行锁与唯一约束；当前开发环境单Redis、单Broker，生产水平扩展、告警及全量对账在S7验收。
 
-业务消费者默认4个消费线程（MALL_MQ_CONSUMER_THREADS允许1–64）、SDK缓存限流阈值256条/4MiB，JDBC连接池12个连接。SDK在途批次可能让缓存短暂超过阈值，这不是严格堆内存上限。SDK初始化和Proxy可达不表示所有消息立即可消费；本机重启用例曾观测82.082秒后恢复投递，测试观测窗口120秒。库存/终止记录保持安全，生产恢复时延与SDK/Proxy在途请求优化留S7。
+业务消费者默认4个消费线程（MALL_MQ_CONSUMER_THREADS允许1–64）、SDK缓存限流阈值256条/4MiB，JDBC连接池12个连接。SDK在途批次可能让缓存短暂超过阈值，这不是严格堆内存上限。Spring关闭PushConsumer最多等待20秒注销，完整Compose将order容器`stop_grace_period`设30秒；优雅部署请保留该宽限。WSL三轮真实优雅重启中订单10.970/12.212/14.510秒可查，见V012。约1秒强停/SIGKILL可能阻断SDK注销并等待Broker清理旧成员，S7约75.945秒；强杀恢复和生产SLA未验证。
 
 接口与权限见[API](API.md)，阶段测试执行`bash scripts/test-s4.sh`，不要与其他共享实例的故障测试并行。测试使用随机数据库/Redis前缀/Topic/消费组；会短暂停止本项目专用MySQL验证DLQ与恢复，不删开发数据卷。

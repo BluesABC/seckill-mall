@@ -1,0 +1,71 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -------------------< com.seckillmall:order-service >--------------------
+[INFO] Building order-service 0.1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:3.3.1:resources (default-resources) @ order-service ---
+[INFO] Copying 1 resource from src/main/resources to ../../build/wsl/order-target/classes
+[INFO] Copying 0 resource from src/main/resources to ../../build/wsl/order-target/classes
+[INFO]
+[INFO] --- maven-compiler-plugin:3.14.1:compile (default-compile) @ order-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 19 source files with javac [debug parameters release 21] to ../../build/wsl/order-target/classes
+[INFO]
+[INFO] --- maven-resources-plugin:3.3.1:testResources (default-testResources) @ order-service ---
+[INFO] skip non existing resourceDirectory /mnt/e/c++project/seckill-mall/src/order/src/test/resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.14.1:testCompile (default-testCompile) @ order-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to ../../build/wsl/order-target/test-classes
+[INFO]
+[INFO] --- maven-surefire-plugin:3.5.6:test (default-test) @ order-service ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.seckillmall.order.HealthControllerTest
+14:43:25.845 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seckillmall.order.HealthControllerTest]: HealthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:43:26.236 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seckillmall.order.OrderApplication for test class com.seckillmall.order.HealthControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-10-14T14:43:27.538+08:00  INFO 114839 --- [order-service] [           main] c.s.order.HealthControllerTest           : Starting HealthControllerTest using Java 21.0.12.1 with PID 114839 (started by lzh in /mnt/e/c++project/seckill-mall/src/order)
+2026-10-14T14:43:27.543+08:00  INFO 114839 --- [order-service] [           main] c.s.order.HealthControllerTest           : No active profile set, falling back to 1 default profile: "default"
+2026-10-14T14:43:34.201+08:00  INFO 114839 --- [order-service] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-14T14:43:34.201+08:00  INFO 114839 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-14T14:43:34.206+08:00  INFO 114839 --- [order-service] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-10-14T14:43:34.283+08:00  INFO 114839 --- [order-service] [           main] c.s.order.HealthControllerTest           : Started HealthControllerTest in 9.455 seconds (process running for 14.515)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/lzh/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.31 s -- in com.seckillmall.order.HealthControllerTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- maven-jar-plugin:3.4.2:jar (default-jar) @ order-service ---
+[INFO] Building jar: /mnt/e/c++project/seckill-mall/build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- spring-boot-maven-plugin:3.5.16:repackage (repackage) @ order-service ---
+[INFO] Replacing main artifact /mnt/e/c++project/seckill-mall/build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /mnt/e/c++project/seckill-mall/build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  33.837 s
+[INFO] Finished at: 2026-10-14T14:43:44+08:00
+[INFO] ------------------------------------------------------------------------

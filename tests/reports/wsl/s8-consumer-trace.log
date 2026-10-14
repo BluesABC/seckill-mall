@@ -1,0 +1,46 @@
+{
+  "method": "SIGTERM graceful stop -t30",
+  "accepted": 200,
+  "events": [
+    {
+      "at": 7.082,
+      "event": "consumer-metrics",
+      "values": {
+        "received": 0,
+        "confirmed": 0,
+        "failed": 0,
+        "lastWorkerError": "STARTING"
+      }
+    },
+    {
+      "at": 8.285,
+      "event": "health-ready"
+    },
+    {
+      "at": 8.285,
+      "event": "consumer-metrics",
+      "values": {
+        "received": 0,
+        "confirmed": 0,
+        "failed": 0,
+        "lastWorkerError": "NONE"
+      }
+    },
+    {
+      "at": 74.531,
+      "event": "consumer-metrics",
+      "values": {
+        "received": 1,
+        "confirmed": 1,
+        "failed": 0,
+        "lastWorkerError": "NONE"
+      }
+    },
+    {
+      "at": 74.531,
+      "event": "order-visible"
+    }
+  ],
+  "orderVisibleAfterStartSeconds": 74.531,
+  "reconciliation": "CLEAN"
+}

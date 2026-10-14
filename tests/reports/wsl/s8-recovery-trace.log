@@ -1,0 +1,26 @@
+{
+  "method": "SIGTERM graceful stop -t30",
+  "accepted": 202,
+  "pendingAtSend": 0,
+  "consumerMetricsBefore": {
+    "received": 1,
+    "lastWorkerError": "NONE",
+    "outboxPending": 0,
+    "compensating": 0,
+    "failed": 0,
+    "confirmed": 1,
+    "quarantined": 0
+  },
+  "events": [
+    {
+      "at": 7.676,
+      "event": "health-ready"
+    },
+    {
+      "at": 73.898,
+      "event": "order-visible"
+    }
+  ],
+  "mqProgressAfter": "#Topic                                                            #Broker Name                      #QID  #Broker Offset        #Consumer Offset      #Diff                #Inflight           #LastTime\n%RETRY%mall_order_v1_seckill_reserved_v1                          mall-stack-broker                 0     30                    30                    0                    0                    2026-10-14 06:34:21\nseckill_reserved_v1                                               mall-stack-broker                 0     251                   251                   0                    0                    2026-10-14 06:33:18\nseckill_reserved_v1                                               mall-stack-broker                 1     288                   288                   0                    0                    2026-10-14 06:31:18\nseckill_reserved_v1                                               mall-stack-broker                 2     302                   302                   0                    0                    2026-10-14 06:08:14\nseckill_reserved_v1                                               mall-stack-broker                 3     274                   274                   0                    0                    2026-10-14 06:08:14\n\nConsume TPS: 0.00\nConsume Diff Total: 0\nConsume Inflight Total: 0\n",
+  "reconciliation": "CLEAN"
+}

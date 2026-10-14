@@ -1,0 +1,10 @@
+{
+  "method": "SIGTERM graceful stop -t30",
+  "stopSeconds": 6.067,
+  "buyAccepted": true,
+  "dockerStartCommandSeconds": 0.622,
+  "healthAfterStartSeconds": 9.756,
+  "orderVisibleAfterStartSeconds": 76.542,
+  "state": "PENDING_PAYMENT",
+  "reconciliation": "CLEAN"
+}
