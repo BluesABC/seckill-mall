@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import {
   api,
   date,
@@ -39,7 +39,24 @@ const goodsForm = reactive({
     ends: "",
   });
 const adminGoods = ref<(Goods & { enabled: unknown })[]>([]);
+const styleGoods = computed(() =>
+  [...new Map(adminGoods.value.map((g) => [g.goodsId, g])).values()],
+);
+const skuForm = reactive({ goodsId: "", sizeEu: "", stock: "30" });
 const attrs = reactive({ skuId: "", sizeEu: "", category: "", colorway: "" });
+async function createSku() {
+  if (!skuForm.goodsId || !/^(?:3[5-9]|4[0-9]|50)(?:\.5)?$/.test(skuForm.sizeEu)) {
+    error.value = "请选择鞋款并输入 35–50 的 EU 尺码（可用半码）。";
+    return;
+  }
+  if (await action(`/api/admin/goods/${skuForm.goodsId}/skus`, {
+    sizeEu: skuForm.sizeEu,
+    stock: skuForm.stock,
+  })) {
+    skuForm.sizeEu = "";
+    await load();
+  }
+}
 async function saveAttrs() {
   if (
     await action(
@@ -225,7 +242,20 @@ function display(key: string, value: unknown) {
     <p v-if="error" class="error" role="alert">{{ error }}</p>
     <p v-if="success" class="success" role="status">{{ success }}</p>
     <template v-if="tab === 'goods'"
-      ><details class="admin-attributes">
+      ><form class="admin-form" @submit.prevent="createSku">
+        <h2>为现有鞋款增加尺码</h2>
+        <p class="small muted">新尺码会建立独立 SKU 和库存，沿用该鞋款的价格、类别与配色；之后可在活动页单独划拨库存。</p>
+        <div class="form-grid">
+          <label>鞋款<select v-model="skuForm.goodsId" required>
+            <option value="" disabled>选择鞋款</option>
+            <option v-for="g in styleGoods" :key="g.goodsId" :value="g.goodsId">{{ g.title }}</option>
+          </select></label>
+          <label>EU 尺码<input v-model="skuForm.sizeEu" required inputmode="decimal" pattern="(?:3[5-9]|4[0-9]|50)(?:[.]5)?" placeholder="例如 39.5" /></label>
+          <label>初始库存<input v-model="skuForm.stock" required inputmode="numeric" pattern="[1-9][0-9]*" /></label>
+        </div>
+        <button class="button" :disabled="busy">新增尺码 SKU</button>
+      </form>
+      <details class="admin-attributes">
         <summary>维护鞋款尺码与运动属性</summary>
         <form class="admin-form" @submit.prevent="saveAttrs">
           <label
@@ -243,7 +273,7 @@ function display(key: string, value: unknown) {
             >
               <option value="" disabled>选择鞋款</option>
               <option v-for="g in adminGoods" :key="g.skuId" :value="g.skuId">
-                {{ g.title }} · {{ g.skuId }}
+                {{ g.title }} · EU {{ g.sizeEu || "未设置" }} · SKU {{ g.skuId }}
               </option>
             </select></label
           >
@@ -328,6 +358,7 @@ function display(key: string, value: unknown) {
             <tr>
               <th>名称</th>
               <th>SKU</th>
+              <th>尺码</th>
               <th>价格</th>
               <th>未分配库存</th>
               <th>操作</th>
@@ -340,6 +371,7 @@ function display(key: string, value: unknown) {
                 <small>{{ isEnabled(g.enabled) ? "在售" : "已下架" }}</small>
               </td>
               <td>{{ g.skuId }}</td>
+              <td>EU {{ g.sizeEu || "—" }}</td>
               <td>¥ {{ money(g.priceFen) }}</td>
               <td>{{ g.unallocatedStock }}</td>
               <td>

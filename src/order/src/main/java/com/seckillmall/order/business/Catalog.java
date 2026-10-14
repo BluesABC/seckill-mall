@@ -15,7 +15,7 @@ public final class Catalog {
         .queryForList(
             "SELECT g.id AS goodsId,g.title,g.description,g.image_url AS imageUrl,s.id AS "
             + "skuId,s.size_eu AS sizeEu,s.category,s.colorway,s.price_fen AS priceFen,s.unallocated_stock AS unallocatedStock FROM goods g "
-            + "JOIN skus s ON s.goods_id=g.id WHERE g.enabled=1 ORDER BY g.id DESC LIMIT 100")
+            + "JOIN skus s ON s.goods_id=g.id WHERE g.enabled=1 ORDER BY g.id DESC,s.id ASC LIMIT 100")
         .stream()
         .map(Store::wire)
         .toList();
@@ -84,7 +84,7 @@ public final class Catalog {
     var rows =
         store.db.queryForList("SELECT g.id AS goodsId,g.title,g.description,g.image_url AS "
                               + "imageUrl,s.id AS skuId,s.size_eu AS sizeEu,s.category,s.colorway,s.price_fen AS priceFen FROM goods g JOIN "
-                              + "skus s ON s.goods_id=g.id WHERE g.id=? AND g.enabled=1",
+                              + "skus s ON s.goods_id=g.id WHERE g.id=? AND g.enabled=1 ORDER BY s.id",
             id);
     if (rows.isEmpty())
       throw new Fault(404, "NOT_FOUND");
@@ -118,6 +118,32 @@ public final class Catalog {
           store.insert("INSERT INTO skus(goods_id,price_fen,unallocated_stock) VALUES(?,?,?)",
               goods, price, stock);
       return Map.of("goodsId", Long.toString(goods), "skuId", Long.toString(sku));
+    });
+  }
+  public Map<String, Object> createSku(long goodsId, JsonNode b) {
+    Input.fields(b, "sizeEu", "stock");
+    String size = Input.text(b, "sizeEu", 1, 8);
+    if (!size.matches("(?:3[5-9]|4[0-9]|50)(?:\\.5)?"))
+      throw new Fault(400, "INVALID_ARGUMENT");
+    int stock = Input.stock(b, "stock");
+    return store.transaction(() -> {
+      if (store.one("SELECT id FROM goods WHERE id=? FOR UPDATE", goodsId) == null)
+        throw new Fault(404, "NOT_FOUND");
+      if (store.db.queryForObject(
+              "SELECT COUNT(*) FROM skus WHERE goods_id=? AND size_eu=?", Long.class,
+              goodsId, size) > 0)
+        throw new Fault(409, "SKU_SIZE_EXISTS");
+      var base = store.one(
+          "SELECT price_fen,category,colorway FROM skus WHERE goods_id=? ORDER BY id LIMIT 1",
+          goodsId);
+      if (base == null)
+        throw new Fault(404, "NOT_FOUND");
+      long sku = store.insert(
+          "INSERT INTO skus(goods_id,price_fen,unallocated_stock,size_eu,category,colorway) "
+          + "VALUES(?,?,?,?,?,?)", goodsId, base.get("price_fen"), stock, size,
+          base.get("category"), base.get("colorway"));
+      return Map.of("goodsId", Long.toString(goodsId), "skuId", Long.toString(sku),
+          "sizeEu", size, "unallocatedStock", Integer.toString(stock));
     });
   }
   public void updateProduct(long id, JsonNode b) {

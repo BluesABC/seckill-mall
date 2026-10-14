@@ -18,21 +18,8 @@ const zoom = ref(false),
   showGuide = ref(false),
   view = ref("side");
 const sizes = computed(() =>
-  [
-    ...new Set([
-      "38.5",
-      "39",
-      "40",
-      "40.5",
-      "41",
-      "42",
-      "42.5",
-      "43",
-      "44",
-      "45",
-      ...props.variants.map((g) => g.sizeEu).filter((s): s is string => !!s),
-    ]),
-  ].sort((a, b) => Number(a) - Number(b)),
+  [...new Set(props.variants.map((g) => g.sizeEu).filter((s): s is string => !!s))]
+    .sort((a, b) => Number(a) - Number(b)),
 );
 const variant = (size: string) => props.variants.find((g) => g.sizeEu === size);
 function choose(size: string) {
@@ -137,7 +124,7 @@ function choose(size: string) {
           {{
             sizeChosen ? "已选择 EU " + goods.sizeEu : "请先选择已上架的尺码"
           }}
-          · 灰色尺码暂未上架
+          · 仅显示已建立独立库存的尺码
         </p>
         <div v-if="activity" class="activity">
           <div>

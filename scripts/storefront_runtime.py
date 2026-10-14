@@ -55,6 +55,14 @@ class Runtime:
             code,a=call(self.java_port,'POST','/api/admin/activities',self.admin,{'name':'DROP 01 · 限时发售','skuId':g['skuId'],'stock':'10','priceFen':deal,'startsAtMs':str(now-60000),'endsAtMs':str(now+86400000)});assert code==201,a
             assert call(self.java_port,'POST',f'/api/admin/activities/{a["activityId"]}/activate',self.admin,{'skuId':g['skuId']})[0]==200
             self.items.append(dict(g,**a,title=title,sizeEu=size))
+            low, high = (35, 42) if 'WOMEN' in title else (39, 46)
+            all_sizes = [f'{n // 2}{".5" if n % 2 else ""}' for n in range(low * 2, high * 2 + 1)]
+            for variant_size in all_sizes:
+                if variant_size == size:
+                    continue
+                code,variant=call(self.java_port,'POST',f'/api/admin/goods/{g["goodsId"]}/skus',self.admin,{'sizeEu':variant_size,'stock':'30'});assert code==201,variant
+                code,va=call(self.java_port,'POST','/api/admin/activities',self.admin,{'name':'DROP 01 · 限时发售','skuId':variant['skuId'],'stock':'10','priceFen':deal,'startsAtMs':str(now-60000),'endsAtMs':str(now+86400000)});assert code==201,va
+                assert call(self.java_port,'POST',f'/api/admin/activities/{va["activityId"]}/activate',self.admin,{'skuId':variant['skuId']})[0]==200
         self.start([str(ROOT/'build/wsl/cpp-s3/src/mq/mall_relay_worker'),'--loop'],'relay')
         viteenv=dict(self.env,MALL_ORDER_ORIGIN=f'http://127.0.0.1:{self.java_port}',MALL_SECKILL_ORIGIN=f'http://127.0.0.1:{self.cpp_port}')
         self.start(['node','node_modules/vite/bin/vite.js','preview'],'web',ROOT/'build/wsl/web',viteenv)

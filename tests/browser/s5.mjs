@@ -207,7 +207,9 @@ try {
       ).toBeDisabled();
       await expect(
         page.getByRole("button", { name: "尺码 40", exact: true }),
-      ).toBeDisabled();
+      ).toBeEnabled();
+      await page.getByRole("button", { name: "尺码 40", exact: true }).click();
+      await expect(page.getByRole("status").filter({ hasText: "已选择 EU 40" })).toBeVisible();
       await page.getByRole("button", { name: "尺码 42", exact: true }).click();
       await page.getByRole("button", { name: "查看鞋面细节" }).click();
       await expect(page.locator(".detail-image img")).toHaveClass(/zoom/);
@@ -512,36 +514,38 @@ try {
         .innerText();
       await page.getByText("维护鞋款尺码与运动属性", { exact: true }).click();
       await page.getByLabel("属性 SKU").selectOption(createdSku);
-      await page.getByLabel("EU 尺码").fill("40");
+      await page.getByLabel("EU 尺码", { exact: true }).last().fill("40");
       await page.getByLabel("运动类别").selectOption("训练");
       await page.getByLabel("配色", { exact: true }).fill("黑白");
       await page.getByRole("button", { name: "保存鞋款属性" }).click();
+      const addSizeForm = page.locator("form.admin-form").first();
+      await addSizeForm.getByLabel("鞋款").selectOption({ label: "后台创建的训练鞋" });
+      await addSizeForm.getByLabel("EU 尺码", { exact: true }).fill("40.5");
+      await addSizeForm.getByLabel("初始库存").fill("8");
+      await addSizeForm.getByRole("button", { name: "新增尺码 SKU" }).click();
+      await expect(
+        page.locator("tr").filter({ hasText: "后台创建的训练鞋" }).getByText("EU 40.5", { exact: true }),
+      ).toBeVisible();
+      await page.screenshot({ path: report + "/desktop-admin-sizes.png", fullPage: true });
+      const createdRows = page.locator("tr").filter({ hasText: "后台创建的训练鞋" });
       await page
-        .locator("tr")
-        .filter({ hasText: "后台创建的训练鞋" })
+        .locator("tr").filter({ hasText: "后台创建的训练鞋" }).first()
         .getByRole("button", { name: "编辑 / 下架" })
         .click();
       await page.getByLabel("商品说明").fill("编辑保存成功。");
       await page.getByLabel("在商城展示").uncheck();
       await page.getByRole("button", { name: "保存商品" }).click();
       await expect(
-        page
-          .locator("tr")
-          .filter({ hasText: "后台创建的训练鞋" })
-          .getByText("已下架", { exact: true }),
+        createdRows.getByText("已下架", { exact: true }).first(),
       ).toBeVisible();
       await page
-        .locator("tr")
-        .filter({ hasText: "后台创建的训练鞋" })
+        .locator("tr").filter({ hasText: "后台创建的训练鞋" }).first()
         .getByRole("button", { name: "编辑 / 下架" })
         .click();
       await page.getByLabel("在商城展示").check();
       await page.getByRole("button", { name: "保存商品" }).click();
       await expect(
-        page
-          .locator("tr")
-          .filter({ hasText: "后台创建的训练鞋" })
-          .getByText("在售", { exact: true }),
+        createdRows.getByText("在售", { exact: true }).first(),
       ).toBeVisible();
       await page.getByRole("button", { name: "活动", exact: true }).click();
       await page.getByLabel("活动名称").fill("浏览器新活动");
@@ -551,7 +555,7 @@ try {
         .filter({ hasText: "后台创建的训练鞋" });
       await page
         .getByLabel("商品 SKU")
-        .selectOption(await goodsOption.getAttribute("value"));
+        .selectOption(await goodsOption.first().getAttribute("value"));
       await page.getByLabel("活动库存").fill("5");
       await page.getByLabel("活动价（分）").fill("11900");
       const fmt = (d) => {

@@ -109,13 +109,20 @@ public class Api {
     admin(r);
     return catalog.createProduct(b);
   }
+  @PostMapping("/api/admin/goods/{id}/skus")
+  @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
+  public Object createSku(@PathVariable String id, @RequestBody JsonNode b,
+      HttpServletRequest r) {
+    admin(r);
+    return catalog.createSku(Input.id(id), b);
+  }
   @GetMapping("/api/admin/goods")
   public Object adminGoods(HttpServletRequest r) {
     admin(r);
     return Map.of("items", store.db.queryForList(
         "SELECT g.id AS goodsId,g.title,g.description,g.image_url AS imageUrl,g.enabled,"
         + "s.id AS skuId,s.size_eu AS sizeEu,s.category,s.colorway,s.price_fen AS priceFen,s.unallocated_stock AS unallocatedStock "
-        + "FROM goods g JOIN skus s ON s.goods_id=g.id ORDER BY g.id DESC LIMIT 100")
+        + "FROM goods g JOIN skus s ON s.goods_id=g.id ORDER BY g.id DESC,s.id ASC LIMIT 100")
         .stream().map(Store::wire).toList());
   }
   @PatchMapping("/api/admin/skus/{id}")
@@ -126,8 +133,12 @@ public class Api {
     if(!Set.of("","跑步","篮球","休闲","训练").contains(category))throw new Fault(400,"INVALID_ARGUMENT");
     long sku=Input.id(id);
     store.transaction(()->{
-      if(store.one("SELECT id FROM skus WHERE id=? FOR UPDATE",sku)==null)throw new Fault(404,"NOT_FOUND");
+      var existing=store.one("SELECT goods_id FROM skus WHERE id=? FOR UPDATE",sku);
+      if(existing==null)throw new Fault(404,"NOT_FOUND");
+      long goodsId=Store.number(existing,"goods_id");
+      store.one("SELECT id FROM goods WHERE id=? FOR UPDATE",goodsId);
       if(store.db.queryForObject("SELECT COUNT(*) FROM activity_stock WHERE sku_id=?",Long.class,sku)>0)throw new Fault(409,"SKU_IN_USE");
+      if(!size.isEmpty()&&store.db.queryForObject("SELECT COUNT(*) FROM skus WHERE goods_id=? AND size_eu=? AND id<>?",Long.class,goodsId,size,sku)>0)throw new Fault(409,"SKU_SIZE_EXISTS");
       store.db.update("UPDATE skus SET size_eu=?,category=?,colorway=? WHERE id=?",size,category,color,sku);return null;
     });
     return Map.of("status","UPDATED");

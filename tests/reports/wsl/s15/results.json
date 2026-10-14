@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-14T16:21:42.439Z",
+  "runtime": "linux",
+  "node": "v22.20.0",
+  "browser": "141.0.7390.37",
+  "elapsedSeconds": 77.724,
+  "checks": [
+    {
+      "name": "desktop real catalog, optimized WebP assets, accessibility",
+      "status": "PASS"
+    },
+    {
+      "name": "catalog search, empty results and price sort",
+      "status": "PASS"
+    },
+    {
+      "name": "server catalog pagination loads every matching product",
+      "status": "PASS"
+    },
+    {
+      "name": "register/login modal and keyboard focus",
+      "status": "PASS"
+    },
+    {
+      "name": "size selection, gallery, persisted bag and cart boundary",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong captcha, refresh and stable request identity",
+      "status": "PASS"
+    },
+    {
+      "name": "real captcha -> C++ -> RocketMQ -> MySQL order, stable request on lost response",
+      "status": "PASS"
+    },
+    {
+      "name": "mock payment, duplicate-click guard and authoritative paid state",
+      "status": "PASS"
+    },
+    {
+      "name": "screen-reader math challenge -> real order, expiry close and no payment action",
+      "status": "PASS"
+    },
+    {
+      "name": "sold-out display disables buy (private cache fixture, restored)",
+      "status": "PASS"
+    },
+    {
+      "name": "compensating and failed request UI (explicit response fixture)",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile real detail and homepage: layout, accessibility, images",
+      "status": "PASS"
+    },
+    {
+      "name": "sport filters, flash sessions and responsive breakpoints",
+      "status": "PASS"
+    },
+    {
+      "name": "USER frontend guard and backend forbidden",
+      "status": "PASS"
+    },
+    {
+      "name": "ADMIN goods create/edit, activity create/activate/end, users, orders, recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "API outage displays actionable error instead of fake catalog",
+      "status": "PASS"
+    },
+    {
+      "name": "no browser JavaScript exceptions",
+      "status": "PASS"
+    }
+  ],
+  "fixtures": "captcha answer fixed privately in owned Redis; expiry/SOLD_OUT controlled privately; lost response injected after real accepted HTTP response; COMPENSATING/FAILED UI responses and goods 503 are explicitly injected, not claimed as real backend failures"
+}

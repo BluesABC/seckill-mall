@@ -3,7 +3,7 @@ set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
 [[ "$(uname -s)" == Linux ]] || { echo 'Run in WSL/Linux'; exit 2; }
-export MALL_STACK_PROJECT=seckill-mall-s6
+export MALL_STACK_PROJECT="${MALL_STACK_PROJECT:-seckill-mall-s6}"
 export MALL_STACK_ENV="${MALL_STACK_ENV:-$root/deploy/.env.stack}"
 mkdir -p tests/reports/wsl
 exec > >(tee tests/reports/wsl/s6-deploy.log) 2>&1
@@ -16,8 +16,8 @@ python3 --version
 python3 scripts/prepare-deploy.py --path "$MALL_STACK_ENV"
 dc=(docker compose -p "$MALL_STACK_PROJECT" --env-file "$MALL_STACK_ENV" -f deploy/compose.yml)
 # Refuse existing volumes: this acceptance requires fresh, owned data.
-if [[ -n "$(docker volume ls -q --filter label=com.docker.compose.project=seckill-mall-s6)" ]]; then
-  echo 'S6 test volumes already exist. Preserve/inspect them; use a new clean test environment before rerunning.'
+if [[ -n "$(docker volume ls -q --filter label=com.docker.compose.project="$MALL_STACK_PROJECT")" ]]; then
+  echo "$MALL_STACK_PROJECT test volumes already exist. Preserve/inspect them; use a new clean test environment before rerunning."
   exit 2
 fi
 "${dc[@]}" config --quiet

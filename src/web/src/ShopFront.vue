@@ -63,7 +63,7 @@ const drops = computed(() =>
       activity: a,
       goods: props.goods.find((g) => g.skuId === a.skuId),
     }))
-    .filter((x) => x.goods),
+    .filter((x, i, all) => x.goods && all.findIndex((y) => y.goods?.goodsId === x.goods?.goodsId) === i),
 );
 </script>
 <template>

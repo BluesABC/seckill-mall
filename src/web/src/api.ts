@@ -141,6 +141,7 @@ export function date(ms: string | null | undefined) {
 }
 const messages: Record<string, string> = {
   SKU_IN_USE:'该 SKU 已参与活动，尺码与配色已锁定。请创建新的鞋款 SKU。',
+  SKU_SIZE_EXISTS: '该鞋款已存在这个尺码。',
   UNAUTHORIZED: "请登录后继续。",
   FORBIDDEN: "当前账号没有此操作权限。",
   SOLD_OUT: "这件好物已售罄。",

@@ -97,7 +97,7 @@ const page = computed(() => route.value.split("/")[1] || "home"),
       ) || activities.value.find((a) => a.skuId === product.value?.skuId),
   ),
   featured = computed(() => {
-    let list = goods.value.filter(
+    let list = [...new Map(goods.value.map((g) => [g.goodsId, g])).values()].filter(
       (g) =>
         g.title.includes(search.value) || g.description.includes(search.value),
     );

@@ -40,8 +40,13 @@ check('static storefront, CSP, missing asset 404',lambda:(
     (_ for _ in ()).throw(AssertionError()) if 'SNKR//DROP' not in call('GET','/')[1] else None,
     (_ for _ in ()).throw(AssertionError()) if call('GET','/assets/missing.png')[0]!=404 else None,
     (_ for _ in ()).throw(AssertionError()) if 'Content-Security-Policy' not in call('GET','/')[2] else None))
-products=call('GET','/api/goods')[1]['items'];assert len(products)==4
+products=call('GET','/api/goods')[1]['items'];assert len(products)==60
+assert len({p['goodsId'] for p in products})==4
+assert all(p.get('sizeEu') for p in products)
 activities=call('GET','/api/activities')[1]['items']
+assert len(activities)==60
+assert {a['skuId'] for a in activities}=={p['skuId'] for p in products}
+assert all(a['status']=='ACTIVE' for a in activities)
 code,login,_=call('POST','/api/auth/login',{'username':settings['MALL_ADMIN_USERNAME'],'password':settings['MALL_ADMIN_PASSWORD']});assert code==200,login
 admin=login['token'];username='s6_'+uuid.uuid4().hex[:16];pwd='S6-fixture-'+uuid.uuid4().hex
 assert call('POST','/api/auth/register',{'username':username,'password':pwd})[0]==201

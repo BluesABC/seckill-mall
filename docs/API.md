@@ -1,6 +1,6 @@
 # API v1 核心契约
 
-核心契约版本1.1.0，S2于2026-10-12新增凭证接口，S4于2026-10-13实现Java业务，S9增加公共目录分页。C++承担活动缓存查询、验证码/令牌和预扣；Java业务启用后承担账号、商品/活动管理、MySQL订单查询与MOCK支付。阶段验收状态以PROGRESS为准。
+核心契约版本1.2.0，S2于2026-10-12新增凭证接口，S4于2026-10-13实现Java业务，S9增加公共目录分页，S15增加管理员尺码SKU创建接口。C++承担活动缓存查询、验证码/令牌和预扣；Java业务启用后承担账号、商品/活动管理、MySQL订单查询与MOCK支付。阶段验收状态以PROGRESS为准。
 
 S4已通过真实业务验收：Java业务启用后承担账号、商品/活动管理、MySQL权威查询和MOCK支付；具体运行见[订单运行说明](ORDER-RUNTIME.md)，证据见[S4报告](../tests/reports/S4-acceptance.md)。
 
@@ -166,7 +166,9 @@ C++ GET /health/live为进程UP；GET /health/ready检查Redis可达及AOF=alway
 
 ADMIN `PATCH /api/admin/skus/{id}`严格body `{sizeEu,category,colorway}`。sizeEu允许空或35–50及半码，category允许空/跑步/篮球/休闲/训练，colorway≤64字符。库存父行锁下若任何activity_stock已引用SKU返回409 SKU_IN_USE；否则仅更新展示属性，不改变库存/价格。USER403、未知SKU404、无效值400。服务就绪需002和003迁移；运行前用data.py migrate应用新增迁移，不改历史SQL。
 
-前端真实尺码绑定skuId；清单不扣库存，quantity仍1；支付和受理保持原契约。仅维护展示属性不意味着已实现普通购物车/合单结算或多规格创建端点。
+ADMIN `POST /api/admin/goods/{id}/skus`严格body `{sizeEu,stock}`，201返回`goodsId/skuId/sizeEu/unallocatedStock`。尺码必填且为35–50范围（含半码），库存为1–100,000,000；在事务中锁鞋款行、拒绝同鞋款重复尺码（409 `SKU_SIZE_EXISTS`），新SKU继承鞋款首SKU的标价、类别与配色，库存独立且未分配。USER403、未知鞋款404、参数非法400。创建新尺码不影响原SKU/活动；新SKU需在活动页单独分配活动库存并激活。SKU新增和未分配SKU的属性维护均锁定鞋款行并检查尺码唯一，所有经管理API的同款变更串行执行。
+
+前端尺码按钮只展示该鞋款真实存在的SKU；尺码变体使用独立skuId和未分配库存，可分别建活动并购买。清单不扣库存，quantity仍1；支付和受理保持原契约。后台已支持新增尺码SKU，不支持跨尺码库存共享或合单结算。
 
 ## S6 同源部署入口
 

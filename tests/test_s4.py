@@ -84,7 +84,9 @@ class S4Tests(unittest.TestCase):
     def stop_process(cls,process):
         if process.poll() is None:
             process.terminate()
-            try:process.wait(timeout=20)
+            # Spring's configured RocketMQ consumer close grace is 20 seconds;
+            # leave room for the remaining lifecycle hooks before declaring SIGKILL.
+            try:process.wait(timeout=35)
             except subprocess.TimeoutExpired:
                 cls.forced_stops.append(process.pid);process.kill();process.wait()
     @classmethod
@@ -107,6 +109,7 @@ class S4Tests(unittest.TestCase):
         now=int(self.sql('SELECT CAST(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3))*1000 AS UNSIGNED)')[0][0])
         code,product=self.admin_api('POST','/api/admin/goods',{'title':'精品测试商品','description':'S4 owned fixture','imageUrl':'/assets/fixture.webp','priceFen':'1990','stock':'30'});self.assertEqual(code,201,product)
         self.goods=product['goodsId'];self.sku=product['skuId']
+        self.assertEqual(self.admin_api('PATCH',f'/api/admin/skus/{self.sku}',{'sizeEu':'42','category':'跑步','colorway':'黑 / 白'})[0],200)
         code,activity=self.admin_api('POST','/api/admin/activities',{'name':'真实秒杀测试','skuId':self.sku,'stock':'10','priceFen':'1990','startsAtMs':str(now-60000),'endsAtMs':str(now+3600000)});self.assertEqual(code,201,activity)
         self.activity=activity['activityId'];self.key=f'{self.prefix}:{{{self.activity}:{self.sku}}}:ledger'
         self.assertEqual(self.admin_api('POST',f'/api/admin/activities/{self.activity}/activate',{'skuId':self.sku})[0],200)
@@ -216,6 +219,17 @@ class S4Tests(unittest.TestCase):
         self.assertTrue(self.api('GET','/api/goods')[1]['items']);self.assertEqual(self.api('GET','/api/goods/'+self.goods)[0],200)
         self.assertTrue(self.api('GET','/api/activities')[1]['items']);self.assertEqual(self.api('POST',f'/api/admin/activities/{self.activity}/activate',{'skuId':self.sku})[0],403)
         self.assertEqual(self.admin_api('POST','/api/admin/activities',{'name':'too much','skuId':self.sku,'stock':'100','priceFen':'1990','startsAtMs':str(int(time.time()*1000)),'endsAtMs':str(int(time.time()*1000)+5000)})[0],409)
+        code,variant=self.admin_api('POST',f'/api/admin/goods/{self.goods}/skus',{'sizeEu':'42.5','stock':'12'})
+        self.assertEqual(code,201,variant)
+        self.assertEqual(variant['unallocatedStock'],'12')
+        variants=self.api('GET',f'/api/goods/{self.goods}')[1]['items']
+        self.assertEqual(len(variants),2)
+        self.assertEqual({x['sizeEu'] for x in variants},{'42','42.5'})
+        self.assertEqual(next(x for x in variants if x['skuId']==variant['skuId'])['category'],'跑步')
+        self.assertEqual(self.admin_api('POST',f'/api/admin/goods/{self.goods}/skus',{'sizeEu':'42.5','stock':'5'})[0],409)
+        self.assertEqual(self.admin_api('PATCH',f'/api/admin/skus/{variant["skuId"]}',{'sizeEu':'42','category':'跑步','colorway':'黑 / 白'})[0],409)
+        self.assertEqual(self.admin_api('POST',f'/api/admin/goods/{self.goods}/skus',{'sizeEu':'51','stock':'5'})[0],400)
+        self.assertEqual(self.api('POST',f'/api/admin/goods/{self.goods}/skus',{'sizeEu':'43','stock':'5'})[0],403)
     def test_12_activation_never_overwrites_live_stock(self):
         event,_=self.reserve();self.assertEqual(self.admin_api('POST',f'/api/admin/activities/{self.activity}/activate',{'skuId':self.sku})[0],200);self.assertEqual(self.cache.hget(self.key,'stock'),'9')
         self.assertEqual(self.admin_api('POST',f'/api/admin/activities/{self.activity}/end',{'skuId':self.sku})[0],200)
@@ -293,11 +307,7 @@ class S4Tests(unittest.TestCase):
         replies=[self.api('POST','/api/auth/login',{'username':name,'password':PASSWORD})[0] for _ in range(31)]
         self.assertEqual(replies[:30],[401]*30);self.assertEqual(replies[-1],429)
 
-    def test_22_bounded_sigterm_shutdown(self):
-        type(self).stop_process(self.java)
-        self.assertIsNotNone(self.java.poll());self.assertEqual(self.forced_stops,[],'Java shutdown required SIGKILL')
-
-    def test_23_public_catalog_filters_and_pages_beyond_100_products(self):
+    def test_22_public_catalog_filters_and_pages_beyond_100_products(self):
         fixture_name='S9_PAGE_'+uuid.uuid4().hex[:10]
         categories=('跑步','篮球','休闲','训练')
         with connect(self.database) as db:
@@ -332,6 +342,10 @@ class S4Tests(unittest.TestCase):
         self.assertEqual([int(item['priceFen']) for item in filtered['items']],sorted(int(item['priceFen']) for item in filtered['items']))
         for query in ('page=-1','size=49','sort=arbitrary','maxPriceFen=0'):
             self.assertEqual(self.api('GET','/api/goods/catalog?'+query)[0],400,query)
+
+    def test_23_bounded_sigterm_shutdown(self):
+        type(self).stop_process(self.java)
+        self.assertIsNotNone(self.java.poll());self.assertEqual(self.forced_stops,[],'Java shutdown required SIGKILL')
 
 if __name__=='__main__':
     REPORT.mkdir(parents=True,exist_ok=True)

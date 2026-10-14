@@ -51,7 +51,7 @@ S3原生依赖增加`libgrpc++-dev protobuf-compiler-grpc libprotobuf-dev libabs
 
 ## S6 WSL 完整容器验收
 
-`bash scripts/test-s6-wsl.sh` 从源码构建 C++/官方 SDK、Java verify、Vue类型与生产构建、Python迁移工具，在独立 `seckill-mall-s6` 的干净命名卷上启动 Redis/MySQL/RocketMQ/业务/Nginx。需要Docker、Python3、Node22与S5所述Linux浏览器系统依赖，所有工具为WSL原生版本。入口拒绝已有测试卷，不会清空业务数据；生成随机本机 `.env.stack`，不提交密钥。
+`bash scripts/test-s6-wsl.sh` 从源码构建 C++/官方 SDK、Java verify、Vue类型与生产构建、Python迁移工具，在独立 `seckill-mall-s6` 的干净命名卷上启动 Redis/MySQL/RocketMQ/业务/Nginx。需要Docker、Python3、Node22与S5所述Linux浏览器系统依赖，所有工具为WSL原生版本。入口拒绝已有测试卷，不会清空业务数据；生成随机本机 `.env.stack`，不提交密钥。若默认测试项目/端口已被保留或占用，可在确认网络和回环端口空闲后通过`MALL_STACK_PROJECT`、`MALL_STACK_ENV`指定新的项目与本地env文件；每个新测试项目使用独立命名卷，历史卷始终保留。
 
 验收所有请求经Nginx：认证/私有验证码夹具/真实抢购与MQ订单、重复受理/支付、自动关闭与回补、重复种子、可信代理与转发头伪造、私有端口/非root、Java容器重建DNS、整个业务栈重启后会话和订单/库存持久化。重启后读取既有事实不等于重新下单恢复SLA；S7另行测量。生产页面另用原生Chromium检查CSP下资源、真实商品、桌面/手机布局与控制台错误。
 
