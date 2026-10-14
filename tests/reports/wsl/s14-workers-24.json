@@ -1,0 +1,1940 @@
+{
+  "date": "2026-10-14",
+  "workers": 24,
+  "usersPerRound": 64,
+  "rounds": [
+    {
+      "name": "S14-W24-R1-7bfbf1ad",
+      "workers": 24,
+      "users": 64,
+      "concurrency": 64,
+      "ingressSeconds": 4.49,
+      "acceptedQps": 14.253,
+      "httpLatencyMs": {
+        "p50": 2260.145,
+        "p95": 4425.876,
+        "p99": 4427.554
+      },
+      "orderLatencyMs": {
+        "p50": 2624.909,
+        "p95": 5609.909,
+        "p99": 5700.909
+      },
+      "mysqlClockOffsetMs": 107.091,
+      "databaseRowLockWaitsBefore": "Innodb_row_lock_time\t198963\nInnodb_row_lock_waits\t2180\nThreads_connected\t13\nThreads_running\t2",
+      "databaseRowLockWaitsAfter": "Innodb_row_lock_time\t206128\nInnodb_row_lock_waits\t2249\nThreads_connected\t13\nThreads_running\t2",
+      "reconciliation": "CLEAN",
+      "createdAtWindowMs": [
+        1791986857779,
+        1791986863116
+      ],
+      "startWallMs": 1791986857258
+    },
+    {
+      "name": "S14-W24-R2-c3753d30",
+      "workers": 24,
+      "users": 64,
+      "concurrency": 64,
+      "ingressSeconds": 4.408,
+      "acceptedQps": 14.52,
+      "httpLatencyMs": {
+        "p50": 2209.592,
+        "p95": 4327.845,
+        "p99": 4335.498
+      },
+      "orderLatencyMs": {
+        "p50": 2536.363,
+        "p95": 4455.363,
+        "p99": 4534.363
+      },
+      "mysqlClockOffsetMs": 97.637,
+      "databaseRowLockWaitsBefore": "Innodb_row_lock_time\t206128\nInnodb_row_lock_waits\t2249\nThreads_connected\t13\nThreads_running\t2",
+      "databaseRowLockWaitsAfter": "Innodb_row_lock_time\t212211\nInnodb_row_lock_waits\t2312\nThreads_connected\t13\nThreads_running\t2",
+      "reconciliation": "CLEAN",
+      "createdAtWindowMs": [
+        1791986882625,
+        1791986886866
+      ],
+      "startWallMs": 1791986882204
+    },
+    {
+      "name": "S14-W24-R3-697851fd",
+      "workers": 24,
+      "users": 64,
+      "concurrency": 64,
+      "ingressSeconds": 4.488,
+      "acceptedQps": 14.259,
+      "httpLatencyMs": {
+        "p50": 2258.0,
+        "p95": 4405.783,
+        "p99": 4414.311
+      },
+      "orderLatencyMs": {
+        "p50": 2883.078,
+        "p95": 6524.078,
+        "p99": 6624.078
+      },
+      "mysqlClockOffsetMs": 99.922,
+      "databaseRowLockWaitsBefore": "Innodb_row_lock_time\t212211\nInnodb_row_lock_waits\t2312\nThreads_connected\t13\nThreads_running\t3",
+      "databaseRowLockWaitsAfter": "Innodb_row_lock_time\t220555\nInnodb_row_lock_waits\t2378\nThreads_connected\t13\nThreads_running\t2",
+      "reconciliation": "CLEAN",
+      "createdAtWindowMs": [
+        1791986908288,
+        1791986914471
+      ],
+      "startWallMs": 1791986907686
+    }
+  ],
+  "medianOrderP95Ms": 5609.909,
+  "allCLEAN": true,
+  "verifiedContainerWorkers": 24,
+  "resourceSamples": [
+    {
+      "atMs": 1791986846464,
+      "containers": [
+        {
+          "BlockIO": "8.19kB / 0B",
+          "CPUPerc": "0.37%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.03%",
+          "MemUsage": "2.133MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.61kB / 1.05kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.6MB / 0B",
+          "CPUPerc": "2.54%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "659MB / 135MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.25MB",
+          "CPUPerc": "0.80%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.11%",
+          "MemUsage": "389.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "239MB / 45.3MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 173MB",
+          "CPUPerc": "3.18%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.07MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "189MB / 1.26GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.22GB",
+          "CPUPerc": "1.34%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.91%",
+          "MemUsage": "450.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.5MB / 71MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 177MB",
+          "CPUPerc": "20.68%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.49%",
+          "MemUsage": "875.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.76MB / 5.01MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986849688,
+      "containers": [
+        {
+          "BlockIO": "8.19kB / 0B",
+          "CPUPerc": "6.75%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.08%",
+          "MemUsage": "5.984MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "41.4kB / 72.9kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.6MB / 0B",
+          "CPUPerc": "2.08%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "659MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.25MB",
+          "CPUPerc": "1.33%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "388.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "240MB / 45.3MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 173MB",
+          "CPUPerc": "60.04%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.24%",
+          "MemUsage": "17.93MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "190MB / 1.26GB",
+          "PIDs": "11"
+        },
+        {
+          "BlockIO": "140MB / 1.23GB",
+          "CPUPerc": "9.97%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.90%",
+          "MemUsage": "450.2MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.5MB / 71MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 177MB",
+          "CPUPerc": "21.16%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.77MB / 5.02MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986853044,
+      "containers": [
+        {
+          "BlockIO": "217kB / 0B",
+          "CPUPerc": "6.77%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.09%",
+          "MemUsage": "6.859MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "113kB / 214kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.6MB / 0B",
+          "CPUPerc": "1.89%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "660MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.25MB",
+          "CPUPerc": "7.45%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "389.1MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "240MB / 45.4MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 174MB",
+          "CPUPerc": "62.77%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.36%",
+          "MemUsage": "27.73MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "190MB / 1.26GB",
+          "PIDs": "19"
+        },
+        {
+          "BlockIO": "140MB / 1.23GB",
+          "CPUPerc": "1.30%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.91%",
+          "MemUsage": "450.3MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.5MB / 71MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 177MB",
+          "CPUPerc": "28.72%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.49%",
+          "MemUsage": "876.3MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.77MB / 5.02MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986856262,
+      "containers": [
+        {
+          "BlockIO": "295kB / 0B",
+          "CPUPerc": "5.64%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.10%",
+          "MemUsage": "7.457MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "154kB / 292kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.6MB / 0B",
+          "CPUPerc": "1.70%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.39MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "661MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.25MB",
+          "CPUPerc": "1.64%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "389MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "240MB / 45.4MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 175MB",
+          "CPUPerc": "63.73%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.65MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "190MB / 1.26GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.23GB",
+          "CPUPerc": "1.05%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.90%",
+          "MemUsage": "449.8MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.5MB / 71MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 177MB",
+          "CPUPerc": "32.91%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.49%",
+          "MemUsage": "876.1MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.77MB / 5.02MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986857077,
+      "containers": [
+        {
+          "BlockIO": "295kB / 0B",
+          "CPUPerc": "7.65%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.09%",
+          "MemUsage": "7.129MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "227kB / 428kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.6MB / 0B",
+          "CPUPerc": "2.69%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.39MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "661MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.25MB",
+          "CPUPerc": "1.75%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "388.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "240MB / 45.4MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 175MB",
+          "CPUPerc": "46.02%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.20%",
+          "MemUsage": "15.13MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "190MB / 1.26GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.23GB",
+          "CPUPerc": "11.58%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.91%",
+          "MemUsage": "450.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.5MB / 71MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 178MB",
+          "CPUPerc": "25.06%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.77MB / 5.02MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986860217,
+      "containers": [
+        {
+          "BlockIO": "295kB / 0B",
+          "CPUPerc": "10.67%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.10%",
+          "MemUsage": "7.426MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "692kB / 595kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "5.03%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.5MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "662MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.25MB",
+          "CPUPerc": "15.79%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.11%",
+          "MemUsage": "390MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "241MB / 45.7MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 176MB",
+          "CPUPerc": "8.23%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.36MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "190MB / 1.27GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.23GB",
+          "CPUPerc": "20.84%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.92%",
+          "MemUsage": "451.1MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.6MB / 71.2MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 180MB",
+          "CPUPerc": "139.15%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.49%",
+          "MemUsage": "876.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.85MB / 5.09MB",
+          "PIDs": "381"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986863359,
+      "containers": [
+        {
+          "BlockIO": "295kB / 0B",
+          "CPUPerc": "5.25%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.10%",
+          "MemUsage": "7.5MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.04MB / 652kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "4.18%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "662MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.25MB",
+          "CPUPerc": "21.22%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.13%",
+          "MemUsage": "391.2MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "241MB / 46MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 176MB",
+          "CPUPerc": "8.74%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.46MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "191MB / 1.27GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.23GB",
+          "CPUPerc": "27.26%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.92%",
+          "MemUsage": "451.3MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.8MB / 71.6MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 181MB",
+          "CPUPerc": "38.73%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.50%",
+          "MemUsage": "876.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.89MB / 5.12MB",
+          "PIDs": "381"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986866493,
+      "containers": [
+        {
+          "BlockIO": "295kB / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.10%",
+          "MemUsage": "7.445MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.05MB / 654kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.03%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.73MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "663MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.28MB",
+          "CPUPerc": "1.22%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "388.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "242MB / 46MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 177MB",
+          "CPUPerc": "4.73%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "15.86MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "191MB / 1.27GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.25GB",
+          "CPUPerc": "14.19%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.92%",
+          "MemUsage": "451.2MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.8MB / 72.4MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 183MB",
+          "CPUPerc": "16.57%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.89MB / 5.13MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986869608,
+      "containers": [
+        {
+          "BlockIO": "295kB / 0B",
+          "CPUPerc": "5.36%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.10%",
+          "MemUsage": "7.934MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.06MB / 687kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "1.13%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.48MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "663MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.32MB",
+          "CPUPerc": "0.95%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "388.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "242MB / 46.1MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 177MB",
+          "CPUPerc": "8.48%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.24%",
+          "MemUsage": "18.26MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "191MB / 1.27GB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "140MB / 1.25GB",
+          "CPUPerc": "1.81%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.89%",
+          "MemUsage": "449.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.9MB / 72.4MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 183MB",
+          "CPUPerc": "28.83%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.49%",
+          "MemUsage": "876MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.89MB / 5.13MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986873061,
+      "containers": [
+        {
+          "BlockIO": "963kB / 0B",
+          "CPUPerc": "12.60%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "9.652MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.11MB / 771kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "1.75%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "664MB / 136MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.32MB",
+          "CPUPerc": "2.25%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "388.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "242MB / 46.1MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 177MB",
+          "CPUPerc": "73.20%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.45MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "191MB / 1.27GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.25GB",
+          "CPUPerc": "6.54%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.88%",
+          "MemUsage": "448.5MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.9MB / 72.4MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 183MB",
+          "CPUPerc": "40.77%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.89MB / 5.13MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986876257,
+      "containers": [
+        {
+          "BlockIO": "1.2MB / 0B",
+          "CPUPerc": "7.90%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.14%",
+          "MemUsage": "10.32MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.17MB / 898kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.08%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.48MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "665MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.32MB",
+          "CPUPerc": "8.19%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "388.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "243MB / 46.1MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 178MB",
+          "CPUPerc": "63.14%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.24%",
+          "MemUsage": "18.34MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "191MB / 1.27GB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "140MB / 1.25GB",
+          "CPUPerc": "1.62%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.88%",
+          "MemUsage": "448.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.9MB / 72.4MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 183MB",
+          "CPUPerc": "28.35%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.50%",
+          "MemUsage": "876.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.89MB / 5.13MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986879475,
+      "containers": [
+        {
+          "BlockIO": "1.28MB / 0B",
+          "CPUPerc": "6.93%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "9.809MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.23MB / 1MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "3.35%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.48MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "665MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.32MB",
+          "CPUPerc": "0.80%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.10%",
+          "MemUsage": "388.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "243MB / 46.1MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 178MB",
+          "CPUPerc": "77.56%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.25%",
+          "MemUsage": "19.41MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "191MB / 1.27GB",
+          "PIDs": "11"
+        },
+        {
+          "BlockIO": "140MB / 1.25GB",
+          "CPUPerc": "1.51%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.88%",
+          "MemUsage": "448.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.9MB / 72.4MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 183MB",
+          "CPUPerc": "31.76%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.50%",
+          "MemUsage": "876.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.9MB / 5.13MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986882772,
+      "containers": [
+        {
+          "BlockIO": "1.28MB / 0B",
+          "CPUPerc": "12.02%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "10.17MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.44MB / 1.16MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.70%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.23%",
+          "MemUsage": "17.23MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "666MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.32MB",
+          "CPUPerc": "5.21%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.11%",
+          "MemUsage": "389.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "243MB / 46.1MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 179MB",
+          "CPUPerc": "67.33%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "192MB / 1.27GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.25GB",
+          "CPUPerc": "19.19%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.89%",
+          "MemUsage": "448.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "30.9MB / 72.4MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "438kB / 184MB",
+          "CPUPerc": "24.06%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.52%",
+          "MemUsage": "878.2MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.91MB / 5.14MB",
+          "PIDs": "381"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986886650,
+      "containers": [
+        {
+          "BlockIO": "1.28MB / 0B",
+          "CPUPerc": "6.67%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "9.988MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "1.82MB / 1.25MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "4.25%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.73MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "666MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.32MB",
+          "CPUPerc": "13.54%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "5.12%",
+          "MemUsage": "390.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "244MB / 46.4MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 179MB",
+          "CPUPerc": "6.14%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.56MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "192MB / 1.28GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.26GB",
+          "CPUPerc": "12.35%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.90%",
+          "MemUsage": "449.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31MB / 72.7MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 186MB",
+          "CPUPerc": "42.11%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.55%",
+          "MemUsage": "880.3MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "5.98MB / 5.2MB",
+          "PIDs": "381"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986886656,
+      "containers": [
+        {
+          "BlockIO": "1.28MB / 0B",
+          "CPUPerc": "4.29%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "10.07MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "2.18MB / 1.3MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.82%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.73MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "667MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.34MB",
+          "CPUPerc": "19.29%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.80%",
+          "MemUsage": "366.3MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "244MB / 46.7MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 180MB",
+          "CPUPerc": "7.04%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.06MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "192MB / 1.28GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.26GB",
+          "CPUPerc": "13.06%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.88%",
+          "MemUsage": "448.5MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.2MB / 72.9MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 187MB",
+          "CPUPerc": "48.93%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.55%",
+          "MemUsage": "880.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.01MB / 5.24MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986889790,
+      "containers": [
+        {
+          "BlockIO": "1.28MB / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "9.793MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "2.18MB / 1.3MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "3.38%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "668MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.36MB",
+          "CPUPerc": "6.64%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.80%",
+          "MemUsage": "365.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "245MB / 46.8MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 180MB",
+          "CPUPerc": "5.01%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.61MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "192MB / 1.28GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.26GB",
+          "CPUPerc": "1.70%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.89%",
+          "MemUsage": "448.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.2MB / 73.8MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 188MB",
+          "CPUPerc": "118.60%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.50%",
+          "MemUsage": "876.5MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.01MB / 5.24MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986892965,
+      "containers": [
+        {
+          "BlockIO": "1.28MB / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "9.793MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "2.18MB / 1.3MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.18%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "668MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.39MB",
+          "CPUPerc": "5.35%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.81%",
+          "MemUsage": "366.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "245MB / 46.8MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 180MB",
+          "CPUPerc": "3.25%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.39MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "193MB / 1.29GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.28GB",
+          "CPUPerc": "16.70%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.90%",
+          "MemUsage": "449.8MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.3MB / 74.6MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 189MB",
+          "CPUPerc": "20.81%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.3MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.02MB / 5.24MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986896116,
+      "containers": [
+        {
+          "BlockIO": "1.28MB / 0B",
+          "CPUPerc": "4.86%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "9.91MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "2.19MB / 1.34MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.34%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "669MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.42MB",
+          "CPUPerc": "1.86%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.80%",
+          "MemUsage": "365.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "245MB / 46.8MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 182MB",
+          "CPUPerc": "59.28%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.21MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "193MB / 1.29GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.28GB",
+          "CPUPerc": "11.93%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.89%",
+          "MemUsage": "449MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.3MB / 74.6MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 189MB",
+          "CPUPerc": "28.43%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.3MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.02MB / 5.24MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986899309,
+      "containers": [
+        {
+          "BlockIO": "1.29MB / 0B",
+          "CPUPerc": "6.07%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.14%",
+          "MemUsage": "10.38MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "2.26MB / 1.46MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.26%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "669MB / 137MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.43MB",
+          "CPUPerc": "15.90%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.82%",
+          "MemUsage": "367.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "245MB / 46.9MB",
+          "PIDs": "97"
+        },
+        {
+          "BlockIO": "21.2MB / 183MB",
+          "CPUPerc": "56.77%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.26%",
+          "MemUsage": "20.04MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "193MB / 1.29GB",
+          "PIDs": "11"
+        },
+        {
+          "BlockIO": "140MB / 1.28GB",
+          "CPUPerc": "17.76%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.90%",
+          "MemUsage": "449.5MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.3MB / 74.7MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 189MB",
+          "CPUPerc": "27.19%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.02MB / 5.24MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986902689,
+      "containers": [
+        {
+          "BlockIO": "1.29MB / 0B",
+          "CPUPerc": "6.63%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.14%",
+          "MemUsage": "10.39MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "2.3MB / 1.53MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.37%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "670MB / 138MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.43MB",
+          "CPUPerc": "9.05%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.80%",
+          "MemUsage": "365.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "245MB / 47MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 184MB",
+          "CPUPerc": "62.23%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.28%",
+          "MemUsage": "21.5MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "193MB / 1.29GB",
+          "PIDs": "12"
+        },
+        {
+          "BlockIO": "140MB / 1.28GB",
+          "CPUPerc": "16.41%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.90%",
+          "MemUsage": "449.8MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.4MB / 74.8MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 189MB",
+          "CPUPerc": "31.12%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.02MB / 5.24MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986905898,
+      "containers": [
+        {
+          "BlockIO": "1.29MB / 0B",
+          "CPUPerc": "13.42%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.14%",
+          "MemUsage": "10.59MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "2.38MB / 1.7MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "1.89%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "670MB / 138MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.43MB",
+          "CPUPerc": "8.46%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.80%",
+          "MemUsage": "365.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "246MB / 47.1MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 185MB",
+          "CPUPerc": "60.47%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.33MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "193MB / 1.29GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.29GB",
+          "CPUPerc": "23.43%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.89%",
+          "MemUsage": "449.1MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.4MB / 74.9MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 189MB",
+          "CPUPerc": "19.86%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.3MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.02MB / 5.24MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986909046,
+      "containers": [
+        {
+          "BlockIO": "1.29MB / 0B",
+          "CPUPerc": "6.94%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.14%",
+          "MemUsage": "10.44MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "2.54MB / 1.81MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.10%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "671MB / 138MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.43MB",
+          "CPUPerc": "25.52%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.81%",
+          "MemUsage": "367.1MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "246MB / 47.4MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 185MB",
+          "CPUPerc": "4.07%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "15.7MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "194MB / 1.29GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.3GB",
+          "CPUPerc": "18.92%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.91%",
+          "MemUsage": "450.4MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.6MB / 75.1MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 190MB",
+          "CPUPerc": "49.56%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.49%",
+          "MemUsage": "875.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.07MB / 5.28MB",
+          "PIDs": "381"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986912182,
+      "containers": [
+        {
+          "BlockIO": "1.29MB / 0B",
+          "CPUPerc": "9.38%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.15%",
+          "MemUsage": "11.32MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "3.18MB / 1.94MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "1.61%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "672MB / 138MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.43MB",
+          "CPUPerc": "14.51%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.81%",
+          "MemUsage": "366.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "247MB / 47.7MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 186MB",
+          "CPUPerc": "9.01%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.77MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "194MB / 1.29GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.3GB",
+          "CPUPerc": "18.50%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.89%",
+          "MemUsage": "448.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.7MB / 75.5MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 192MB",
+          "CPUPerc": "28.88%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.49%",
+          "MemUsage": "876.2MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.11MB / 5.32MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986913189,
+      "containers": [
+        {
+          "BlockIO": "1.29MB / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "10.05MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "3.19MB / 1.95MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "2.60%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "17MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "672MB / 138MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.43MB",
+          "CPUPerc": "13.32%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.80%",
+          "MemUsage": "365.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "247MB / 47.9MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 187MB",
+          "CPUPerc": "3.23%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.33MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "194MB / 1.29GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.3GB",
+          "CPUPerc": "1.39%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.89%",
+          "MemUsage": "449.2MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.8MB / 75.7MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 194MB",
+          "CPUPerc": "222.86%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.50%",
+          "MemUsage": "876.5MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.14MB / 5.35MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986916310,
+      "containers": [
+        {
+          "BlockIO": "1.29MB / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "10.05MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "3.19MB / 1.95MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "1.08%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.74MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "673MB / 138MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.48MB",
+          "CPUPerc": "1.49%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.81%",
+          "MemUsage": "366.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "247MB / 48MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 187MB",
+          "CPUPerc": "2.04%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.04MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "194MB / 1.3GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.32GB",
+          "CPUPerc": "3.01%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.89%",
+          "MemUsage": "449MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.9MB / 76.5MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 195MB",
+          "CPUPerc": "24.10%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.50%",
+          "MemUsage": "876.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.14MB / 5.35MB",
+          "PIDs": "380"
+        }
+      ]
+    },
+    {
+      "atMs": 1791986919410,
+      "containers": [
+        {
+          "BlockIO": "1.29MB / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "seckill-mall-s7-seckill-1",
+          "ID": "209f74fdba7c",
+          "MemPerc": "0.13%",
+          "MemUsage": "10.05MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-seckill-1",
+          "NetIO": "3.19MB / 1.95MB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "17.7MB / 0B",
+          "CPUPerc": "1.71%",
+          "Container": "seckill-mall-s7-relay-1",
+          "ID": "c68aba0bfdae",
+          "MemPerc": "0.22%",
+          "MemUsage": "16.49MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-relay-1",
+          "NetIO": "673MB / 138MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "8.33MB / 6.51MB",
+          "CPUPerc": "2.15%",
+          "Container": "seckill-mall-s7-order-1",
+          "ID": "e23338554c5a",
+          "MemPerc": "4.80%",
+          "MemUsage": "365.9MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-order-1",
+          "NetIO": "248MB / 48MB",
+          "PIDs": "96"
+        },
+        {
+          "BlockIO": "21.2MB / 187MB",
+          "CPUPerc": "5.51%",
+          "Container": "seckill-mall-s7-redis-1",
+          "ID": "40809392f624",
+          "MemPerc": "0.21%",
+          "MemUsage": "16.02MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-redis-1",
+          "NetIO": "195MB / 1.3GB",
+          "PIDs": "5"
+        },
+        {
+          "BlockIO": "140MB / 1.32GB",
+          "CPUPerc": "11.22%",
+          "Container": "seckill-mall-s7-mysql-1",
+          "ID": "6ab29c8da66f",
+          "MemPerc": "5.90%",
+          "MemUsage": "450.2MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-mysql-1",
+          "NetIO": "31.9MB / 77.3MB",
+          "PIDs": "50"
+        },
+        {
+          "BlockIO": "561kB / 195MB",
+          "CPUPerc": "18.28%",
+          "Container": "seckill-mall-s7-broker-1",
+          "ID": "b2b431817253",
+          "MemPerc": "11.48%",
+          "MemUsage": "875.6MiB / 7.446GiB",
+          "Name": "seckill-mall-s7-broker-1",
+          "NetIO": "6.15MB / 5.35MB",
+          "PIDs": "380"
+        }
+      ]
+    }
+  ],
+  "method": "owned S7 WSL stack; real HTTP/Redis/RocketMQ/Java/MySQL; 64 unique users; stock 64 per SKU; only C++ HTTP worker count changes. HTTP uses monotonic client clock; DB persistence timestamps are corrected by a before-round MySQL-vs-client wall-clock offset."
+}
