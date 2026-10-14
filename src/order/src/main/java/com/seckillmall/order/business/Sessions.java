@@ -33,7 +33,7 @@ public final class Sessions {
   }
   public Map<String, Object> login(JsonNode body, String ip) {
     Input.fields(body, "username", "password");
-    String name = name(body), password = password(body);
+    String name = name(body), password = loginPassword(body);
     limit("login-ip:" + Cache.hash(ip), 80);
     limit("login-user:" + Cache.hash(name.toLowerCase(Locale.ROOT)), 30);
     return store.transaction(() -> {
@@ -136,6 +136,12 @@ public final class Sessions {
   }
   private static String password(JsonNode b) {
     String p = Input.text(b, "password", 12, 72);
+    if (p.getBytes(StandardCharsets.UTF_8).length > 72)
+      throw new Fault(400, "INVALID_ARGUMENT");
+    return p;
+  }
+  private static String loginPassword(JsonNode b) {
+    String p = Input.text(b, "password", 1, 72);
     if (p.getBytes(StandardCharsets.UTF_8).length > 72)
       throw new Fault(400, "INVALID_ARGUMENT");
     return p;

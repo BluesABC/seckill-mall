@@ -15,7 +15,7 @@ set +a
 java -jar build/wsl/order-target/order-service-0.1.0-SNAPSHOT.jar
 ```
 
-管理员bootstrap只创建不存在的账号，拒绝覆盖同名普通账号；已有管理员不自动改密码。密码采用BCrypt，输入12字符以上、UTF-8至多72字节。普通注册固定USER角色；登录发行随机Bearer会话（两小时、Redis仅保存SHA256索引），C++直接兼容。账号禁用先在用户行锁内撤销已发行会话，再提交禁用，登录同样使用用户行锁。
+管理员bootstrap只创建不存在的账号，拒绝覆盖同名普通账号；已有管理员不自动改密码。注册与首次管理员bootstrap要求至少12字符、UTF-8至多72字节，密码采用BCrypt；登录允许提交1–72字符并始终与已存哈希核对。普通注册固定USER角色；登录发行随机Bearer会话（两小时、Redis仅保存SHA256索引），C++直接兼容。账号禁用先在用户行锁内撤销已发行会话，再提交禁用，登录同样使用用户行锁。生产管理员仍应使用长随机密码。
 
 启动C++HTTP和独立relay见[MQ说明](ROCKETMQ.md)。Java订单接口在8082，C++秒杀接口在8083；S5开发代理和S6 Nginx将`/api/order/*`路由Java。当前直接访问不同服务端口联调。
 
