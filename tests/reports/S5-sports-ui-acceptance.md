@@ -42,7 +42,7 @@ Java测试1/1及打包退出0；Vue类型与生产构建退出0。最终构建JS
 
 [桌面首页](wsl/sports-ui/desktop-home.png)、[手机详情](wsl/sports-ui/mobile-detail.png)、[清单](wsl/sports-ui/desktop-cart.png)、[秒杀专区](wsl/sports-ui/desktop-flash.png)。各宽度home-390/640/768/1024/1280/1440.png保存在同目录。
 
-本地展厅`http://localhost:5173`通过真实ADMIN API建立四款演示鞋/尺码/活动；启动/停止与管理员本地凭据见[运行说明](../../docs/FRONTEND-RUNTIME.md)。[图像来源与提示](../../src/web/public/assets/ORIGIN.md)记录内置imagegen资产；截图只作视觉参考。
+本地展厅`http://localhost:5173`通过真实ADMIN API建立四款演示鞋/尺码/活动；启动/停止与管理员本地凭据见[运行说明](../../docs/FRONTEND-RUNTIME.md)。[图像来源与提示](../../src/web/assets-source/ORIGIN.md)记录内置imagegen资产；截图只作视觉参考。
 
 ## 保留边界
 

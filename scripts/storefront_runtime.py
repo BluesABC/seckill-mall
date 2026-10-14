@@ -47,7 +47,7 @@ class Runtime:
         wait(lambda:call(self.cpp_port,'GET','/health/live')[0]==200)
         code,session=call(self.java_port,'POST','/api/auth/login',body={'username':'admin','password':self.password});assert code==200,session
         self.admin=session['token'];self.items=[]
-        products=[('AERO/01 · 轻量跑鞋','工程网布与缓震泡棉概念设计。EU42，白 / 荧光黄；概念鞋款，用于项目演示。','shoe-run-v1.png','109900','89900','42','跑步','白 / 荧光黄'),('COURT/02 · 实战篮球鞋','立体支撑鞋面与分段外底概念设计。EU42，钴蓝 / 黑；概念鞋款，用于项目演示。','shoe-court-v1.png','99900','79900','42','篮球','钴蓝 / 黑'),('STREET/03 · 城市休闲鞋','复古轮廓与柔和皮革概念设计。EU42，米白 / 酒红；概念鞋款，用于项目演示。','shoe-street-v1.png','49900','39900','42','休闲','米白 / 酒红'),('AERO/01 WOMEN · 跑步鞋','轻盈网面，走向下一公里。EU38.5，白 / 荧光黄；概念鞋款，用于项目演示。','shoe-run-v1.png','69900','59900','38.5','跑步','白 / 荧光黄')]
+        products=[('AERO/01 · 轻量跑鞋','工程网布与缓震泡棉概念设计。EU42，白 / 荧光黄；概念鞋款，用于项目演示。','shoe-run-v1.webp','109900','89900','42','跑步','白 / 荧光黄'),('COURT/02 · 实战篮球鞋','立体支撑鞋面与分段外底概念设计。EU42，钴蓝 / 黑；概念鞋款，用于项目演示。','shoe-court-v1.webp','99900','79900','42','篮球','钴蓝 / 黑'),('STREET/03 · 城市休闲鞋','复古轮廓与柔和皮革概念设计。EU42，米白 / 酒红；概念鞋款，用于项目演示。','shoe-street-v1.webp','49900','39900','42','休闲','米白 / 酒红'),('AERO/01 WOMEN · 跑步鞋','轻盈网面，走向下一公里。EU38.5，白 / 荧光黄；概念鞋款，用于项目演示。','shoe-run-v1.webp','69900','59900','38.5','跑步','白 / 荧光黄')]
         now=int(time.time()*1000)
         for title,description,image,price,deal,size,category,colorway in products:
             code,g=call(self.java_port,'POST','/api/admin/goods',self.admin,{'title':title,'description':description,'imageUrl':'/assets/'+image,'priceFen':price,'stock':'30'});assert code==201,g

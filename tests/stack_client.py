@@ -54,7 +54,7 @@ def fixture_users(count):
     assert r.returncode==0,r.stderr[-300:]
     return users
 def activity(admin,stock,name):
-    code,g=call('POST','/api/admin/goods',{'title':'S7 '+name,'description':'Owned load fixture','imageUrl':'/assets/shoe-run-v1.png','priceFen':'10000','stock':str(stock)},admin);assert code==201,g
+    code,g=call('POST','/api/admin/goods',{'title':'S7 '+name,'description':'Owned load fixture','imageUrl':'/assets/shoe-run-v1.webp','priceFen':'10000','stock':str(stock)},admin);assert code==201,g
     now=int(time.time()*1000)
     code,a=call('POST','/api/admin/activities',{'name':name,'skuId':g['skuId'],'stock':str(stock),'priceFen':'9000','startsAtMs':str(now-60000),'endsAtMs':str(now+7200000)},admin);assert code==201,a
     assert call('POST','/api/admin/activities/'+a['activityId']+'/activate',{'skuId':g['skuId']},admin)[0]==200

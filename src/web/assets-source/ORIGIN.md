@@ -6,7 +6,7 @@
 - `lamp.png`：暖白陶瓷台灯。提示：original premium ecommerce product photograph; sculptural matte ivory mushroom ceramic table lamp on light oak console against warm ivory plaster; soft side light and realistic materials; restrained Japanese minimalist homewares; no text/logo/brand/watermark。
 - `cup.png`：砂色日常杯。提示：original premium ecommerce product photograph; hand-thrown matte sand ceramic mug with round handle on ivory stone, oatmeal linen; soft side sunlight, tactile glaze, refined minimalist background; no text/logo/brand/watermark。
 
-图片以原始 PNG 保存。S6 可在保留来源文件的情况下为网页生成压缩格式与尺寸变体；当前没有将原图体积计作性能达标。
+图片以原始 PNG 保存。线上使用版本化WebP衍生文件，原图不进入Vite发布目录；生成参数与大小检查见`docs/TESTING.md`的S10入口。
 
 ## 运动主题修订 — 2026-10-13
 
@@ -18,3 +18,6 @@
 - shoe-street-v1.png：同摄影背景，米白皮革/酒红绒面复古低帮鞋，原创圆孔侧片、胶底、完整侧视图；无品牌标识/文字。
 
 各图为原创概念设计，未提供实际材料/性能测量。商品说明中的缓震/支撑均作为概念设计描述，不冒充实测参数。
+# 原始设计图片与来源记录
+
+此目录保存可重新编辑的原创PNG源图，不会被Vite复制到网站发布目录。线上仅使用`src/web/public/assets/`中的WebP优化文件；用仓库根目录`build/wsl/venv/bin/python scripts/optimize-storefront-images.py`从原图可重复生成。

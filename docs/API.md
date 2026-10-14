@@ -62,7 +62,7 @@ Java订单查询/支付沿用本文核心契约，依赖错误返回503。`reque
 公共目录`GET /api/goods/catalog`支持可选`q`（标题/描述，最多80字符）、`category`（跑步/篮球/休闲/训练）、`maxPriceFen`、`sort`（featured/low/high）、`page`（从0起，默认0）、`size`（默认12，最大48）。返回`items/page/size/total/hasMore`；每件商品以最早SKU作为目录卡片，详情仍可读取该商品全部SKU。页码和大小非法或超过上限时返回400。排序稳定：精选按商品ID倒序，价格排序按价格后再按商品ID倒序。
 
 ```json
-{"items":[{"goodsId":"108","skuId":"141","title":"AERO/01 · 轻量跑鞋","description":"轻量鞋款","imageUrl":"/assets/shoe-run-v1.png","priceFen":"89900","sizeEu":"42","category":"跑步","colorway":"白 / 荧光黄","unallocatedStock":"30"}],"page":0,"size":12,"total":105,"hasMore":true}
+{"items":[{"goodsId":"108","skuId":"141","title":"AERO/01 · 轻量跑鞋","description":"轻量鞋款","imageUrl":"/assets/shoe-run-v1.webp","priceFen":"89900","sizeEu":"42","category":"跑步","colorway":"白 / 荧光黄","unallocatedStock":"30"}],"page":0,"size":12,"total":105,"hasMore":true}
 ```
 
 ### C++ GET /api/seckill/info

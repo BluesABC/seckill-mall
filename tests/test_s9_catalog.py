@@ -8,7 +8,7 @@ prefix = "S9CAT" + __import__("secrets").token_hex(6)
 categories = ("跑步", "篮球", "休闲", "训练")
 try:
     rows = ",".join(
-        f"('{prefix}_{i:03d}','S9 isolated pagination fixture','/assets/shoe-run-v1.png')"
+        f"('{prefix}_{i:03d}','S9 isolated pagination fixture','/assets/shoe-run-v1.webp')"
         for i in range(105)
     )
     sql("INSERT INTO goods(title,description,image_url) VALUES" + rows)

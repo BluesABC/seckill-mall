@@ -1,6 +1,6 @@
 # S5 前端运行与页面（运动主题修订）
 
-关联 G01/G03/G09/G10/G13、T025。Vue 3.5.22 + TypeScript 5.9.3 + Vite 7.1.9；当前视觉方向为用户2026-10-13指定的运动鞋商城。SNKR//DROP 为项目概念品牌，原图来源与生成提示见 `src/web/public/assets/ORIGIN.md`。
+关联 G01/G03/G09/G10/G13、T025。Vue 3.5.22 + TypeScript 5.9.3 + Vite 7.1.9；当前视觉方向为用户2026-10-13指定的运动鞋商城。SNKR//DROP 为项目概念品牌，原图来源与生成提示见 `src/web/assets-source/ORIGIN.md`。
 
 ## WSL 启动
 

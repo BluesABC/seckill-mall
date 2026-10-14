@@ -1,12 +1,12 @@
 {
-  "date": "2026-10-14T08:44:07.808Z",
+  "date": "2026-10-14T09:51:24.777Z",
   "runtime": "linux",
   "node": "v22.20.0",
   "browser": "141.0.7390.37",
-  "elapsedSeconds": 44.398,
+  "elapsedSeconds": 45.685,
   "checks": [
     {
-      "name": "desktop real catalog, original assets, accessibility",
+      "name": "desktop real catalog, optimized WebP assets, accessibility",
       "status": "PASS"
     },
     {

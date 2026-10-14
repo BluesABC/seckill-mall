@@ -60,7 +60,7 @@ function choose(size: string) {
             "
             aria-label="完整鞋款图"
           >
-            <img :src="goods.imageUrl" alt="" /></button
+            <img :src="goods.imageUrl" alt="" loading="lazy" decoding="async" /></button
           ><button
             :aria-pressed="view === 'detail'"
             @click="
@@ -69,7 +69,7 @@ function choose(size: string) {
             "
             aria-label="查看鞋面细节"
           >
-            <img :src="goods.imageUrl" alt="" />
+            <img :src="goods.imageUrl" alt="" loading="lazy" decoding="async" />
           </button>
         </div>
         <button
@@ -81,6 +81,8 @@ function choose(size: string) {
             v-if="goods.imageUrl"
             :src="goods.imageUrl"
             :alt="goods.title"
+            fetchpriority="high"
+            decoding="async"
             :class="{ zoom }"
           /><span class="zoom-hint">{{ zoom ? "−" : "+" }}</span>
         </button>
@@ -101,6 +103,8 @@ function choose(size: string) {
           <img
             :src="goods.imageUrl"
             :alt="goods.colorway || '当前配色'"
+            loading="lazy"
+            decoding="async"
           /><span>{{ goods.colorway || "当前配色" }}</span>
         </div>
         <div class="size-heading">

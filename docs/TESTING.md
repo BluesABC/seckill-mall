@@ -19,6 +19,7 @@ Node按所选Linux发行版的官方安装说明安装满足版本的发行版�
 ```bash
 cd '/mnt/e/c++project/seckill-mall'
 source scripts/env-wsl.sh
+bash scripts/test-s10-assets-wsl.sh
 bash scripts/test-wsl.sh --cpp
 bash scripts/test-wsl.sh --all
 bash scripts/test-s1.sh

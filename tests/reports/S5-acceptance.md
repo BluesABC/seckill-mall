@@ -57,7 +57,7 @@ build/wsl/venv/bin/python scripts/storefront_runtime.py --test
 
 - [桌面首页](wsl/s5/desktop-home.png)、[手机首页](wsl/s5/mobile-home.png)、[手机详情](wsl/s5/mobile-detail.png)。
 - [桌面订单](wsl/s5/desktop-order.png)、[手机订单](wsl/s5/mobile-orders.png)、[管理页](wsl/s5/desktop-admin.png)。
-- 原图与生成提示：[ORIGIN](../../src/web/public/assets/ORIGIN.md)，使用内置 imagegen；没有安装外部 GitHub 设计 skill。
+- 原图与生成提示：[ORIGIN](../../src/web/assets-source/ORIGIN.md)，使用内置 imagegen；没有安装外部 GitHub 设计 skill。
 
 首轮用户数量断言写错已修正；API失败测试首次只改hash未重新取数，改为reload后确实覆盖初始化失败；初始化清空错误提示与标题末字落单/隐藏商品编辑入口也已修复。历史失败日志 [s5-run-failed-2.log](wsl/s5-run-failed-2.log) 与结果文件保留用于追溯，最终判定以V008上述成功证据为准。
 

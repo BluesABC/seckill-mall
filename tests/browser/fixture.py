@@ -27,7 +27,7 @@ elif mode=='catalog':
         with db.cursor() as cur:
             cur.executemany(
                 'INSERT INTO goods(title,description,image_url) VALUES(%s,%s,%s)',
-                [(f'PAGINATIONCHECK_{i:02d}', 'browser pagination fixture', '/assets/shoe-run-v1.png') for i in range(25)])
+                [(f'PAGINATIONCHECK_{i:02d}', 'browser pagination fixture', '/assets/shoe-run-v1.webp') for i in range(25)])
             cur.execute("SELECT id FROM goods WHERE title LIKE 'PAGINATIONCHECK_%' ORDER BY id DESC")
             ids=[row[0] for row in cur.fetchall()]
             cur.executemany(

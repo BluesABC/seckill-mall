@@ -93,7 +93,7 @@ async function purchase(item) {
 }
 try {
   await check(
-    "desktop real catalog, original assets, accessibility",
+    "desktop real catalog, optimized WebP assets, accessibility",
     async () => {
       await navigate("/");
       await expect(page.locator(".product-card")).toHaveCount(8);
@@ -110,6 +110,23 @@ try {
             imgs.every((i) => i.complete && i.naturalWidth > 0),
           ),
       ).toBe(true);
+      const assets = await page.locator("img").evaluateAll(async (imgs) =>
+        Promise.all([...new Set(imgs.map((img) => img.currentSrc))].map(async (src) => {
+          const response = await fetch(src);
+          const body = await response.arrayBuffer();
+          return {
+            src: new URL(src).pathname,
+            contentType: response.headers.get("content-type"),
+            bytes: body.byteLength,
+          };
+        })),
+      );
+      expect(assets.length).toBeGreaterThan(0);
+      for (const asset of assets) {
+        expect(asset.src).toMatch(/\.webp$/);
+        expect(asset.contentType).toContain("image/webp");
+        expect(asset.bytes).toBeLessThan(500_000);
+      }
       await noOverflow();
       await a11y();
       await page.screenshot({

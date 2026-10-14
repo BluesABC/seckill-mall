@@ -1,0 +1,25 @@
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+Requirement already satisfied: Pillow==11.3.0 in ./build/wsl/venv/lib/python3.12/site-packages (from -r scripts/requirements-assets.txt (line 1)) (11.3.0)
+sports-hero-v1.png: 2386620 -> 140266 bytes
+shoe-run-v1.png: 2057526 -> 100430 bytes
+shoe-court-v1.png: 2141938 -> 126666 bytes
+shoe-street-v1.png: 1907574 -> 65914 bytes
+PASS shoe-court-v1.webp: 126666 bytes
+PASS shoe-run-v1.webp: 100430 bytes
+PASS shoe-street-v1.webp: 65914 bytes
+PASS sports-hero-v1.webp: 140266 bytes
+ExitCode=0

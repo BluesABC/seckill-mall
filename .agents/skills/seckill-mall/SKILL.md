@@ -53,6 +53,13 @@ description: 按本项目目标设计、实现、评审和压测高并发秒杀�
 - 运行`bash scripts/test-s9-wsl.sh`；确认超过100件、跨多页、无重复、无结果、UTF-8查询、非法参数、类别/价格筛选和排序，以及完整S5浏览器/RocketMQ真实订单回归。测试fixture用PyMySQL绑定参数；如必须经mysql命令行写中文，先以UTF-8十六进制和`CONVERT(... USING utf8mb4)`表达，避免WSL locale导致二次转码。
 - 更新API契约、ADR、TODO、BUGS、CHANGELOG、WORKLOG和PROGRESS，并保存机器可读结果与S9验收报告。偏移分页在商品并发增删时页边界可能移动；需要稳定游标或更大规模前先提出证据和迁移决策。
 
+## S10 静态商品图优化
+
+- 原始原创PNG放在`src/web/assets-source/`，禁止置于Vite的`public/`目录；线上仅托管首页主视觉与在售鞋款所需的优化WebP。保留图片来源/生成提示记录。
+- 使用固定版本Pillow与`quality=82, method=6`的转换脚本；控制每个发布图片小于500KB，并保持原始像素尺寸。改动图片路径时同步seed、测试夹具、API示例、管理后台默认值。
+- `bash scripts/test-s10-assets-wsl.sh`须在WSL原生Python中运行，生成/检查WebP、确认public目录无多余文件并验证资源大小；完整`bash scripts/test-s5-wsl.sh`须检查浏览器图片解码、HTTP MIME/尺寸、可访问性和响应式页面。不能只通过前端编译宣称图片验收通过。
+- 更新TODO、PROGRESS、BUGS、CHANGELOG、WORKLOG、ADR与验收报告；记录源文件/线上文件大小对比及页面回归证据。
+
 ## MQ选型边界
 
 当前方案已按用户明确要求改为RocketMQ5.x与官方gRPC C++/Java客户端（需Proxy）。S3职责改为Broker/Proxy部署、SDK适配、消息投递/消费和可靠性验证，暂停自研WAL/复制/传输协议实现；历史mq-wire.md仅作为延期方案。消息schema、reservationId幂等、pending恢复和MySQL事务不绑定厂商。重试、幂等、Redis预扣到消息投递的恢复与库存回补仍必须验证；RocketMQ事务消息不能自动把Redis预扣和MySQL变成一个事务。
@@ -61,7 +68,7 @@ description: 按本项目目标设计、实现、评审和压测高并发秒杀�
 
 当用户说「按阶段连续执行」「做到阶段结束再停」时，进入本模式： 
 
-1. 阶段定义：S0 骨架 / S1 数据与缓存 / S2 C++ 秒杀服务 / S3 MQ   / S4 Java 订单 / S5 前端 / S6 部署 / S7 验证收尾 / S8 恢复时延专项 / S9 公共目录分页。
+1. 阶段定义：S0 骨架 / S1 数据与缓存 / S2 C++ 秒杀服务 / S3 MQ   / S4 Java 订单 / S5 前端 / S6 部署 / S7 验证收尾 / S8 恢复时延专项 / S9 公共目录分页 / S10 静态商品图优化。
 2.   阶段内自主拆分子任务连续输出，不逐条确认。 
 3. 仅三种情况可提前停下：架构级分歧、前置产出缺失导致无法继续、单次回复达到长度上限。 
 4. 每轮末尾输出断点标记：   >>>CHECKPOINT: <阶段>-<子任务>-<已完成文件>   >>>NEXT: <下一个要做的>   >>>STATUS: <进度 x/y

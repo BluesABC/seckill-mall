@@ -26,7 +26,7 @@ const tab = ref("goods"),
 const goodsForm = reactive({
     title: "",
     description: "",
-    imageUrl: "/assets/shoe-run-v1.png",
+    imageUrl: "/assets/shoe-run-v1.webp",
     priceFen: "",
     stock: "",
   }),
@@ -286,7 +286,7 @@ function display(key: string, value: unknown) {
           >图片路径<input
             v-model="goodsForm.imageUrl"
             pattern="/assets/.*"
-            placeholder="/assets/shoe-run-v1.png"
+            placeholder="/assets/shoe-run-v1.webp"
         /></label>
         <div v-if="!editing" class="form-grid">
           <label

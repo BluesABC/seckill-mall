@@ -70,9 +70,10 @@ const drops = computed(() =>
   <template v-if="page === 'home'"
     ><section class="hero sports-hero">
       <img
-        src="/assets/sports-hero-v1.png"
+        src="/assets/sports-hero-v1.webp"
         alt="夜色跑道上加速前进的跑者"
         fetchpriority="high"
+        decoding="async"
       />
       <div class="hero-copy">
         <p class="eyebrow">THE NEXT MOVE IS YOURS.</p>

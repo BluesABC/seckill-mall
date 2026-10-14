@@ -32,6 +32,7 @@ function used() {
         :src="goods.imageUrl"
         :alt="goods.title"
         loading="lazy"
+        decoding="async"
       /><span v-else>暂无鞋款图片</span
       ><span class="tag" v-if="activity">{{
         activity.status === "ENDED"
