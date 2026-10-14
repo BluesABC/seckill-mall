@@ -6,17 +6,30 @@
 #include <vector>
 
 namespace mall {
+namespace {
+int secure_random(int range) {
+  unsigned char byte;
+  do {
+    if (RAND_bytes(&byte, 1) != 1)
+      throw std::runtime_error("Entropy unavailable");
+  } while (byte >= 256 - (256 % range));
+  return byte % range;
+}
+} // namespace
+
+Captcha create_accessible_captcha() {
+  Captcha captcha;
+  int left = 10 + secure_random(90), right = 10 + secure_random(90);
+  captcha.answer = std::to_string(left + right);
+  captcha.accessible_prompt = "请计算 " + std::to_string(left) + " 加 " +
+                              std::to_string(right) + "，并输入得数。";
+  return captcha;
+}
+
 Captcha create_captcha() {
   constexpr int width = 180, height = 60;
   std::vector<unsigned char> pixels(width * height * 3, 245);
-  auto random = [](int range) {
-    unsigned char byte;
-    do {
-      if (RAND_bytes(&byte, 1) != 1)
-        throw std::runtime_error("Entropy unavailable");
-    } while (byte >= 256 - (256 % range));
-    return byte % range;
-  };
+  auto random = [](int range) { return secure_random(range); };
   auto pixel = [&](int x, int y, int r, int g, int b) {
     if (x >= 0 && x < width && y >= 0 && y < height) {
       auto offset = (y * width + x) * 3;

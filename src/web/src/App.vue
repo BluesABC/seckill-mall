@@ -59,9 +59,12 @@ const authOpen = ref(false),
   captchaOpen = ref(false),
   captcha = ref<{
     captchaId: string;
-    imageDataUrl: string;
+    mode: "image" | "accessible";
+    imageDataUrl?: string;
+    challengeText?: string;
     expiresAtMs: string;
   } | null>(null),
+  captchaMode = ref<"image" | "accessible">("image"),
   answer = ref(""),
   captchaError = ref(""),
   attempt = ref<Attempt | null>(null),
@@ -383,15 +386,16 @@ async function startPurchase() {
   captchaOpen.value = true;
   await refreshCaptcha();
 }
-async function refreshCaptcha() {
+async function refreshCaptcha(mode: "image" | "accessible" = captchaMode.value) {
   if (!attempt.value || busy.value) return;
   busy.value = true;
+  captchaMode.value = mode;
   captcha.value = null;
   answer.value = "";
   captchaError.value = "";
   try {
     captcha.value = await api(
-      `/api/seckill/captcha?activityId=${attempt.value.activityId}&skuId=${attempt.value.skuId}`,
+      `/api/seckill/captcha?activityId=${attempt.value.activityId}&skuId=${attempt.value.skuId}&mode=${mode}`,
       session.value,
     );
   } catch (e) {
@@ -399,6 +403,12 @@ async function refreshCaptcha() {
   } finally {
     busy.value = false;
   }
+}
+function toggleCaptchaMode() {
+  return refreshCaptcha(captchaMode.value === "image" ? "accessible" : "image");
+}
+function refreshCurrentCaptcha() {
+  return refreshCaptcha(captchaMode.value);
 }
 async function buy() {
   if (busy.value || !attempt.value || !captcha.value) return;
@@ -1051,23 +1061,26 @@ onUnmounted(() => {
     ><template v-else-if="captchaOpen"
       ><p class="eyebrow">ONE LAST STEP</p>
       <h2 id="dialog-title">确认这一次喜欢。</h2>
-      <p class="muted">输入图片里的 6 位数字，完成抢购验证。</p>
+      <p class="muted">{{ captchaMode === "image" ? "输入图片里的 6 位数字，完成抢购验证。" : "使用屏幕阅读器读取题目，输入计算结果完成抢购验证。" }}</p>
       <form @submit.prevent="buy">
         <div class="captcha-image">
           <img
-            v-if="captcha"
+            v-if="captcha?.mode === 'image' && captcha.imageDataUrl"
             :src="captcha.imageDataUrl"
             alt="6 位数字验证码"
-          /><span v-else>请刷新获取验证码</span
+          /><p v-else-if="captcha?.mode === 'accessible'" class="captcha-prompt" role="status" aria-live="polite">{{ captcha.challengeText }}</p><span v-else>请刷新获取验证码</span
           ><button
             type="button"
             class="text-button"
             :disabled="busy"
-            @click="refreshCaptcha"
+            @click="refreshCurrentCaptcha"
           >
             换一张 ↻
           </button>
         </div>
+        <button class="underlink auth-toggle" type="button" :disabled="busy" @click="toggleCaptchaMode">
+          {{ captchaMode === "image" ? "改用屏幕阅读器友好的文字题" : "改用图片验证码" }}
+        </button>
         <p v-if="captcha" class="small muted">
           验证码
           {{
@@ -1084,10 +1097,9 @@ onUnmounted(() => {
             inputmode="numeric"
             autocomplete="off"
             required
-            pattern="[0-9]{6}"
-            minlength="6"
+            pattern="[0-9]{1,6}"
             maxlength="6"
-            placeholder="输入 6 位数字"
+            :placeholder="captchaMode === 'image' ? '输入 6 位数字' : '输入计算结果'"
         /></label>
         <p v-if="captchaError" class="error" role="alert">{{ captchaError }}</p>
         <button

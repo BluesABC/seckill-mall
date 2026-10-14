@@ -787,6 +787,13 @@ textarea {
   max-width: 65%;
   height: auto;
 }
+.captcha-prompt {
+  flex: 1;
+  margin: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.6;
+}
 .tabs {
   display: flex;
   gap: 30px;

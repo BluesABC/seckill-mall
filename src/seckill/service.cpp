@@ -353,11 +353,15 @@ public:
     server.Get("/api/seckill/captcha",
                wrap([this](auto &req, auto &out, auto &) {
                  auto session = auth(req);
-                 query_keys(req, {"activityId", "skuId"});
+                 query_keys(req, {"activityId", "skuId", "mode"});
                  auto a = query(req, "activityId"), s = query(req, "skuId");
+                 auto mode = req.has_param("mode") ? query(req, "mode") : "image";
+                 if (mode != "image" && mode != "accessible")
+                   throw ApiError(400, "INVALID_ARGUMENT");
                  auto values = activity(a, s);
                  limit("proof", session.user, config.proof_limit, 60000);
-                 auto image = create_captcha();
+                 auto image = mode == "accessible" ? create_accessible_captcha()
+                                                    : create_captcha();
                  auto id = random_uuid();
                  auto expires = server_time(redis()) + 60000;
                  Json proof = {{"userId", session.user},
@@ -371,10 +375,14 @@ public:
                  auto stored = redis().command(
                      {"SET", challenge(a, s, id), proof.dump(), "EX", "60"});
                  checked(stored.get());
-                 json(out, 200,
-                      {{"captchaId", id},
-                       {"imageDataUrl", image.image_data_url},
-                       {"expiresAtMs", std::to_string(expires)}});
+                 Json response = {{"captchaId", id},
+                                  {"mode", mode},
+                                  {"expiresAtMs", std::to_string(expires)}};
+                 if (mode == "image")
+                   response["imageDataUrl"] = image.image_data_url;
+                 else
+                   response["challengeText"] = image.accessible_prompt;
+                 json(out, 200, response);
                }));
     server.Post(
         "/api/seckill/token", wrap([this](auto &req, auto &out, auto &) {
@@ -384,7 +392,7 @@ public:
           std::string a = input["activityId"], s = input["skuId"],
                       request = input["requestId"], id = input["captchaId"],
                       answer = input["captchaAnswer"];
-          if (!uuid(request) || !uuid(id) || answer.size() != 6 ||
+          if (!uuid(request) || !uuid(id) || answer.empty() || answer.size() > 6 ||
               answer.find_first_not_of("0123456789") != std::string::npos)
             throw ApiError(400, "INVALID_ARGUMENT");
           auto values = activity(a, s);

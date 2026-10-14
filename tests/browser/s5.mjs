@@ -57,14 +57,16 @@ async function noOverflow() {
 await page.route("**/api/seckill/captcha?*", async (route) => {
   const response = await route.fetch();
   if (response.status() === 200) {
-    const data = await response.json(),
-      url = new URL(route.request().url());
-    fixture(
-      "answer",
-      url.searchParams.get("activityId"),
-      url.searchParams.get("skuId"),
-      data.captchaId,
-    );
+    const data = await response.json();
+    if (data.mode === "image") {
+      const url = new URL(route.request().url());
+      fixture(
+        "answer",
+        url.searchParams.get("activityId"),
+        url.searchParams.get("skuId"),
+        data.captchaId,
+      );
+    }
   }
   await route.fulfill({ response });
 });
@@ -76,15 +78,30 @@ async function registerUser(name) {
   await page.getByRole("button", { name: "创建并登录", exact: true }).click();
   await expect(page.getByRole("button", { name: "退出账号" })).toBeVisible();
 }
-async function purchase(item) {
+async function purchase(item, accessible = false) {
   await navigate(`/product/${item.goodsId}`);
   await page
     .getByRole("button", { name: "尺码 " + item.sizeEu, exact: true })
     .click();
   await expect(page.getByRole("button", { name: "立即抢购" })).toBeEnabled();
   await page.getByRole("button", { name: "立即抢购" }).click();
-  await expect(page.getByRole("img", { name: "6 位数字验证码" })).toBeVisible();
-  await page.getByLabel("验证码", { exact: true }).fill("123456");
+  if (accessible) {
+    const challengeResponse = page.waitForResponse((response) => response.url().includes("/api/seckill/captcha") && response.url().includes("mode=accessible"));
+    await page.getByRole("button", { name: "改用屏幕阅读器友好的文字题" }).click();
+    const challengePayload = await (await challengeResponse).json();
+    expect(challengePayload).toHaveProperty("challengeText");
+    expect(challengePayload).not.toHaveProperty("answer");
+    expect(challengePayload).not.toHaveProperty("imageDataUrl");
+    const prompt = page.locator(".captcha-prompt");
+    await expect(prompt).toContainText("请计算");
+    const [left, right] = (await prompt.innerText()).match(/\d+/g).map(Number);
+    await page.getByLabel("验证码", { exact: true }).fill(String(left + right));
+    await a11y();
+    await page.screenshot({ path: report + "/accessible-captcha.png" });
+  } else {
+    await expect(page.getByRole("img", { name: "6 位数字验证码" })).toBeVisible();
+    await page.getByLabel("验证码", { exact: true }).fill("123456");
+  }
   await page.getByRole("button", { name: "验证并抢购" }).dblclick();
   await expect(
     page.getByRole("heading", { name: "待支付", exact: true }),
@@ -309,9 +326,9 @@ try {
     },
   );
   await check(
-    "second real order, expiry close and no payment action",
+    "screen-reader math challenge -> real order, expiry close and no payment action",
     async () => {
-      const second = await purchase(config.items[1]);
+      const second = await purchase(config.items[1], true);
       fixture("expire", second);
       await expect(
         page.getByRole("heading", { name: "已关闭", exact: true }),

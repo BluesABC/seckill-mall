@@ -23,6 +23,7 @@ flowchart LR
 2. C++ 服务执行 Lua，原子校验库存、资格并预扣，同时形成可恢复请求记录。
 3. pending转发器通过RocketMQ官方C++ SDK投递，保留eventId解决重复投递；用户当前选择见ADR-009。
 4. Java 消费者在 MySQL 事务内以唯一约束、条件库存更新创建订单；事务提交后 ACK。
+   RocketMQ Proxy消息不可见期配置30秒；PushConsumer自动续租活跃处理，断线未确认消息可在租约到期后重投。WSL单Broker硬停验收见[S13](../tests/reports/S13-acceptance.md)，不代表生产SLA。
 5. 用户轮询请求/订单状态，待支付订单可支付或超时关闭；关闭与回补幂等。
 6. 对账检查可售、在途预留、未支付占用和已支付占用的守恒，异常通过可审计机制恢复。
 
@@ -75,7 +76,7 @@ PAID 与 CLOSED 竞争同一状态迁移；回补完成状态另行记录。投�
 
 cpp-httplib有界线程池默认8线程/128排队任务，HTTP读写超时3s/body16KiB；线程独享hiredis连接，不跨线程共享context，连接500ms/命令1500ms。队列满时库在解析前关闭TCP，不等同HTTP429；客户端保留requestId查询/重试。默认单活动pending上限10000，Lua原子背压，确认发布/终止时原子降低计数。无库存/资格覆盖恢复行为。
 
-验证码生成真实PNG，凭证只存摘要，身份来自Redis会话。IP取socket对端而非XFF，S6需实现明确可信代理策略。Lua原子隔离不等于运行时错误自动回滚，依据[Redis Lua](https://redis.io/docs/latest/develop/programmability/eval-intro/)，专用命名空间与noeviction仍是前提。
+验证码支持随机6位PNG与屏幕阅读器可读取的随机加法题两种模式；答案摘要存Redis，身份来自Redis会话。二者都是基础防刷，不宣称能抵御OCR/自动化求解。IP取socket对端而非XFF，S6需实现明确可信代理策略。Lua原子隔离不等于运行时错误自动回滚，依据[Redis Lua](https://redis.io/docs/latest/develop/programmability/eval-intro/)，专用命名空间与noeviction仍是前提。
 
 ## 消息与故障协议
 
@@ -111,6 +112,8 @@ Vue 3/TypeScript 实现拾间概念商城，`App.vue` 负责 hash 页面、认�
 ## V009 运动主题修订
 
 用户指定UI_Skill与UI六张参考图，原家居主题替换为SNKR//DROP运动鞋主题。ShopFront（首页/目录/秒杀）、ShoeCard、ShoeDetail、ShoppingBag与App状态协调分工，Tailwind4.1.14+主题CSS；原有异步交易链路不变。后台SKU属性由003迁移支持，在活动库存父记录锁下拒绝已分配SKU的规格修改，避免与createActivity并发重写。就绪同时检查002/003。
+
+S12补充验证码`mode=accessible`：C++生成随机两位数加法题、只保存答案SHA256，前端将题目置于aria-live状态区域并可与图片模式切换；题目保持一次性、60秒过期、最多5次错误限制。端到端浏览器测试通过真实订单链路验证替代模式，不把答案放入响应。
 
 画廊第二视图为原图局部，尺寸来自真实SKU。清单按用户分区持久化，仅选款、不锁库存/合单；逐款验证码受理→订单→MOCK支付。详情/场次展示规则、参考图分析和组件树见FRONTEND-DIRECTION，V009真实浏览器/SQL验收与显式页面响应注入分开记录。
 

@@ -15,6 +15,9 @@
 | S8 消费者优雅恢复 | 完成 | T041 | V012：关闭等待20秒与30秒容器宽限匹配；优雅重启真实订单3/3，10.970/12.212/14.510秒落库可查，consumer关闭无超时，三次只读对账CLEAN | 下一阶段S9公共目录分页 |
 | S9 公共目录分页 | 完成 | T042 | V013：WSL浏览器17/17；105件API分页24/24/24/24/9，分类/价格/排序、编码查询、非法参数与无重复通过 | 下一步由用户确定 |
 | S10 静态商品图优化 | 完成 | T043 | V014：四张在用图8,493,658 B→433,276 B（94.9%减少）；WSL资源检查0、商城浏览器17/17、真实交易与SQL守恒通过 | 下一步由用户确定 |
+| S11 RocketMQ强制终止恢复诊断 | 完成（根因未解决） | T044 | V015：默认配置基线+回滚后3/3均最终CLEAN；30秒Proxy配置无改善并已撤回 | 继续围绕Consumer重连和队列分配采集根因证据 |
+| S12 非视觉验证码替代 | 完成 | T045 | V016：C++/Redis 24/24、两套CTest 3/3、商城浏览器17/17、屏幕阅读器题真实RocketMQ/MySQL交易和SQL守恒通过 | 后续S13已改进Consumer强停恢复 |
+| S13 RocketMQ强停消息恢复 | 完成 | T046 | V017：识别60秒消息不可见期；调`defaultInvisibleTimeMills`为30秒后真实订单恢复8.539/50.979/52.755秒、库存对账CLEAN 3/3 | 本机验收完成；生产恢复SLA/HA目标待明确 |
 
 ## 验证记录
 
@@ -42,14 +45,20 @@
 
 - V014，2026-10-14：[S10验收](../tests/reports/S10-acceptance.md)。使用固定Pillow 11.3.0 / WebP quality82、method6，从保留的原创PNG生成4张线上鞋图/主视觉；源文件8,493,658 B，发布图433,276 B，减少94.9%；无用的3张家居图也从Vite public发布目录移入源图归档。Ubuntu 24.04、WSL2资源生成/目录和单图预算检查退出0；完整S5商城浏览器17/17、Java verify、Vue生产构建、真实RocketMQ订单/支付/关闭、库存SQL守恒与185条文档链接/契约检查通过。
 
+- V015，2026-10-14：[S11验收](../tests/reports/S11-acceptance.md)。Ubuntu 24.04.4/WSL2、真实S7 Broker/Proxy与MySQL；默认设置基线69.985秒，配置回滚后75.103/73.340/76.033秒，订单均最终PENDING_PAYMENT且只读对账CLEAN。30秒`channelExpiredInSeconds`实验三轮72.145–73.555秒，无改善并撤回；强制终止恢复仍是开放P1，未宣称解决。
+
+- V016，2026-10-14：[S12验收](../tests/reports/S12-acceptance.md)。C++/Redis真实接口24/24、C++/MQ配置CTest各3/3、Java verify、Vue生产构建、商城Chromium17/17全部通过；第二笔真实文字题抢购经RocketMQ/MySQL建单并超时关闭，答案不下发，SQL核对2笔唯一订单/PAID1/CLOSED1/库存守恒通过。自动axe通过；NVDA/JAWS人工读屏未做。
+
+- V017，2026-10-14：[S13验收](../tests/reports/S13-acceptance.md)。定位RocketMQ 5.3.2 Proxy的60秒消息不可见期；非因`channelExpiredTimeout`通道成员配置。设置`defaultInvisibleTimeMills=30000`后硬停订单服务，三轮真实受理订单8.539/50.979/52.755秒进入PENDING_PAYMENT且只读库存对账CLEAN；默认基线74.321秒。WSL真实Broker/Proxy/Java/MySQL，脚本退出0。生产SLA与HA未验证。
+
 公开交付：[BluesABC/seckill-mall](https://github.com/BluesABC/seckill-mall)，PUBLIC、main，初始提交32f2a8d已核对远端一致。日常Compose项目已启动，localhost:18080就绪与四款商品读取通过；最终S6测试卷保留、测试容器已停止。
 
 ## 未确定事项
 
-用户选择的本机探索预算为12逻辑CPU/约8GB Docker；生产流量目标、独立压测机、RocketMQ HA、生产部署与真实支付渠道仍待确定。SDK版本组合已固定；S4已验证真实事务业务与MOCK支付，S5前端/S6容器已验收。消费重启实际约75.945秒仍需优化，不构成生产恢复SLA；详见BUGS S4-005。
+用户选择的本机探索预算为12逻辑CPU/约8GB Docker；生产流量目标、独立压测机、RocketMQ HA、生产部署与真实支付渠道仍待确定。SDK版本组合已固定；S4已验证真实事务业务与MOCK支付，S5前端/S6容器已验收。消费者强停恢复本机两轮稳定约51–53秒（V017），不构成生产恢复SLA；详见BUGS S4-005。
 
 ## 当前断点
 
-CHECKPOINT: S10-V014-原创商品图片WebP优化、源图归档、WSL资源预算和S5真实浏览器/交易回归完成；S0–S9证据保留。
-NEXT: S0–S10阶段已完成；等待用户确定后续功能或生产目标。
-STATUS: S0–S10完成；本机探索/优雅恢复基线完成，生产容量/HA/SLA与强杀恢复未验证。
+CHECKPOINT: S13-V017-将RocketMQ Proxy消息不可见租约调整至30秒；WSL真实订单服务强停三轮8.539/50.979/52.755秒恢复并CLEAN；S12-V016文字验证码完整浏览器交易验收通过。
+NEXT: S0–S13本机阶段完成；生产流量/恢复SLA、RocketMQ HA、TLS与真实支付渠道仍待明确目标。
+STATUS: S0–S13本机阶段完成；生产容量/HA/SLA、真实支付与人工读屏认证仍未验证。

@@ -1,5 +1,18 @@
 # 每日工作日志
 
+## 2026-10-14：S11 恢复诊断与 S12 非视觉验证码
+
+- S11真实重放订单服务`stop -t 1`故障：Proxy 30秒清理参数三轮72.145–73.555秒，未改善历史约72.79秒基线，撤回。默认设置回归69.985、75.103、73.340、76.033秒，四次受理请求最终PENDING_PAYMENT且只读库存对账CLEAN；新增V015/ADR-021，S4-005仍开放。
+- S12 C++秒杀接口增加`mode=accessible`随机加法题，答案仍仅摘要存Redis；Vue对话框增加模式切换、aria-live题面及数字答案输入。API/架构/Skill和测试同步。
+- WSL Ubuntu 24.04.4 / Python3.12：`bash scripts/test-s2.sh` 24/24、CTest3/3通过，真实文字题错误答案拒绝、正确答案发放一次性凭证、响应不泄漏答案；`bash scripts/build-web-wsl.sh`初次暴露事件处理器类型错误，修正后生产构建通过（Vue 3/Vite 7）。`bash scripts/test-s5-wsl.sh`最终退出0，Chromium17/17；文字题第二笔真实订单经RocketMQ→MySQL创建并关闭，SQL守恒通过，V016完成。
+- Docker Desktop仅启动项目专属S7 Broker和本项目S1集成依赖；未删除或重置项目卷。DrvFs时钟偏差在CMake提示中出现，编译与测试均返回0。
+
+## 2026-10-14：S13 RocketMQ 强制终止恢复修复
+
+- 通过RocketMQ 5.3.2 Proxy和Java 5.2.2 PushConsumer字节码/源码定位：`channelExpiredTimeout`通道成员实验45000毫秒对72.855/73.593/73.886秒没有改善；真实消息接收启用autoRenew，Proxy默认`defaultInvisibleTimeMills=60000`更符合被取消流与约70秒延迟。
+- 将`deploy/rocketmq/rmq-proxy.json`配置为`defaultInvisibleTimeMills:30000`，同时挂载到MQ开发Compose与完整服务Compose。仅强制重建自有S7 Broker，保留卷数据。
+- WSL基线74.321秒；新参数三轮8.539/50.979/52.755秒，真实新订单均可查且只读库存对账CLEAN 3/3。首轮在Broker重建后较快，稳定比较采用后两轮约51–53秒，较基线缩短约30%。V017已通过；不承诺生产SLA。
+
 ## 2026-10-14：S10 静态商品图优化
 
 - 对照线上引用盘点发现运动主视觉与3款鞋图均为约1.9–2.4MB PNG，旧家居图仍处于Vite `public`发布目录。原始原创PNG与提示记录归档至`src/web/assets-source/`；线上只保留WebP主视觉/鞋图。

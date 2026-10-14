@@ -75,11 +75,15 @@ Java订单查询/支付沿用本文核心契约，依赖错误返回503。`reque
 
 ## GET /api/seckill/captcha
 
-认证必需；query必填activityId、skuId。成功200返回6位数字验证码PNG和一次性挑战ID，不返回答案：
+认证必需；query必填activityId、skuId；可选`mode=image|accessible`（默认`image`）。成功200返回一次性挑战ID和有效期，不返回答案。image模式返回6位数字PNG：
 ```json
-{"captchaId":"096d738a-58f8-40e1-a915-87788d02092f","imageDataUrl":"data:image/png;base64,...","expiresAtMs":"1791792060000"}
+{"captchaId":"096d738a-58f8-40e1-a915-87788d02092f","mode":"image","imageDataUrl":"data:image/png;base64,...","expiresAtMs":"1791792060000"}
 ```
-挑战绑定认证用户、活动、SKU和epoch，60秒过期，答案仅存SHA256；错误答案最多5次。PNG为基础防刷演示，不能声称抗OCR能力已验证。
+`mode=accessible`返回屏幕阅读器可读取的随机加法题，不返回图片：
+```json
+{"captchaId":"096d738a-58f8-40e1-a915-87788d02092f","mode":"accessible","challengeText":"请计算 38 加 61，并输入得数。","expiresAtMs":"1791792060000"}
+```
+挑战绑定认证用户、活动、SKU和epoch，60秒过期，答案仅存SHA256；错误答案最多5次。文字题答案为1–6位数字。两种模式均为基础防刷演示，不能声称抗OCR/自动化求解能力已验证。
 
 ## POST /api/seckill/token
 
@@ -87,6 +91,7 @@ Java订单查询/支付沿用本文核心契约，依赖错误返回503。`reque
 ```json
 {"activityId":"1","skuId":"1","requestId":"43c05877-35b9-485e-a1fd-cf20551223e0","captchaId":"096d738a-58f8-40e1-a915-87788d02092f","captchaAnswer":"123456"}
 ```
+`captchaAnswer`必须为1–6位数字；图片挑战要求6位，文字算术题按题面作答。
 200返回：
 ```json
 {"requestId":"43c05877-35b9-485e-a1fd-cf20551223e0","activityToken":"<captchaId>.<64位随机hex>","captchaToken":"<64位随机hex>","expiresAtMs":"1791792060000"}

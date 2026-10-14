@@ -1,0 +1,41 @@
+{
+  "phase": "unmodified-rocketmq-proxy",
+  "proxyConfig": {
+    "rocketMQClusterName": "DefaultCluster"
+  },
+  "results": [
+    {
+      "label": "baseline",
+      "orderAcceptedWhileOrderServiceStopped": true,
+      "orderVisibleSeconds": 74.321,
+      "state": "PENDING_PAYMENT",
+      "reconciliation": "CLEAN"
+    }
+  ],
+  "verificationProxyConfig": {
+    "defaultInvisibleTimeMills": 30000
+  },
+  "verificationResults": [
+    {
+      "label": "verify-1",
+      "orderAcceptedWhileOrderServiceStopped": true,
+      "orderVisibleSeconds": 8.539,
+      "state": "PENDING_PAYMENT",
+      "reconciliation": "CLEAN"
+    },
+    {
+      "label": "verify-2",
+      "orderAcceptedWhileOrderServiceStopped": true,
+      "orderVisibleSeconds": 50.979,
+      "state": "PENDING_PAYMENT",
+      "reconciliation": "CLEAN"
+    },
+    {
+      "label": "verify-3",
+      "orderAcceptedWhileOrderServiceStopped": true,
+      "orderVisibleSeconds": 52.755,
+      "state": "PENDING_PAYMENT",
+      "reconciliation": "CLEAN"
+    }
+  ]
+}

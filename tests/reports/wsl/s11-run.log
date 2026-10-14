@@ -1,0 +1,229 @@
+Wed Oct 14 12:09:42 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+PASS S11 hard-stop recovery {"label": "baseline", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 72.79, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+ExitCode=0
+Wed Oct 14 12:11:37 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+PASS S11 hard-stop recovery {"label": "configured-1", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 8.324, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s11.py", line 74, in <module>
+    one_trial(f"configured-{attempt}", args.maximum_seconds)
+  File "/mnt/e/c++project/seckill-mall/tests/test_s11.py", line 26, in one_trial
+    persisted = wait(lambda: order(request), maximum_seconds + 5)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/stack_client.py", line 42, in wait
+    raise AssertionError('Recovery deadline exceeded: '+str(last))
+AssertionError: Recovery deadline exceeded: None
+ExitCode=1
+Wed Oct 14 12:15:53 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+PASS S11 hard-stop recovery {"label": "configured-1", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 73.555, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 hard-stop recovery {"label": "configured-2", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 72.198, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 hard-stop recovery {"label": "configured-3", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 72.145, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 forced-recovery 3/3
+ExitCode=0
+Wed Oct 14 12:23:19 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+Wed Oct 14 12:24:03 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s11.py", line 74, in <module>
+    assert not json.loads(raw_proxy_config), "Baseline requires unmodified RocketMQ Proxy defaults"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Baseline requires unmodified RocketMQ Proxy defaults
+ExitCode=1
+Wed Oct 14 12:24:25 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+PASS S11 hard-stop recovery {"label": "baseline", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 69.985, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+ExitCode=0
+Wed Oct 14 12:25:56 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+PASS S11 hard-stop recovery {"label": "default-1", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 75.103, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 hard-stop recovery {"label": "default-2", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 73.34, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 hard-stop recovery {"label": "default-3", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 76.033, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 forced-recovery 3/3
+ExitCode=0
+Wed Oct 14 12:59:39 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+PASS S11 hard-stop recovery {"label": "baseline", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 74.321, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+Wed Oct 14 13:01:41 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+S11 recovery timeout diagnostics {"lastQuery": {"httpStatus": 200, "body": {"requestId": "47c73c80-a836-457c-be43-d12481d28555", "reservationId": "b7a9de0f-158c-40c2-bd3d-41693fd90a5b", "requestState": "QUEUED", "orderId": null, "orderState": null, "amountFen": null, "expiresAtMs": null, "failureCode": null}}, "dbRow": "ORDER_CREATED\t646c577f-17e8-416f-9700-0db6fa1342d2\tPENDING_PAYMENT"}
+Traceback (most recent call last):
+  File "/mnt/e/c++project/seckill-mall/tests/test_s11.py", line 98, in <module>
+    one_trial(f"verify-{attempt}", args.maximum_seconds)
+  File "/mnt/e/c++project/seckill-mall/tests/test_s11.py", line 36, in one_trial
+    persisted = wait(query_order, maximum_seconds + 5)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/e/c++project/seckill-mall/tests/stack_client.py", line 42, in wait
+    raise AssertionError('Recovery deadline exceeded: '+str(last))
+AssertionError: Recovery deadline exceeded: None
+ExitCode=1
+Wed Oct 14 13:03:12 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+PASS S11 hard-stop recovery {"label": "verify-1", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 72.855, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 hard-stop recovery {"label": "verify-2", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 73.593, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 hard-stop recovery {"label": "verify-3", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 73.886, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 forced-recovery 3/3
+ExitCode=0
+Wed Oct 14 13:09:36 UTC 2026
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+6.18.54.1-microsoft-standard-WSL2
+Python 3.12.3
+PASS S11 hard-stop recovery {"label": "verify-1", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 8.539, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 hard-stop recovery {"label": "verify-2", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 50.979, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 hard-stop recovery {"label": "verify-3", "orderAcceptedWhileOrderServiceStopped": true, "orderVisibleSeconds": 52.755, "state": "PENDING_PAYMENT", "reconciliation": "CLEAN"}
+PASS S11 forced-recovery 3/3
+ExitCode=0

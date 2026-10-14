@@ -60,6 +60,28 @@ description: 按本项目目标设计、实现、评审和压测高并发秒杀�
 - `bash scripts/test-s10-assets-wsl.sh`须在WSL原生Python中运行，生成/检查WebP、确认public目录无多余文件并验证资源大小；完整`bash scripts/test-s5-wsl.sh`须检查浏览器图片解码、HTTP MIME/尺寸、可访问性和响应式页面。不能只通过前端编译宣称图片验收通过。
 - 更新TODO、PROGRESS、BUGS、CHANGELOG、WORKLOG、ADR与验收报告；记录源文件/线上文件大小对比及页面回归证据。
 
+## S11 RocketMQ 强制终止恢复诊断
+
+- 用自有S7 Compose项目和真实RocketMQ/Redis/MySQL，在订单服务`stop -t 1`期间受理请求，测量健康恢复到订单持久化可查的时间并做只读库存对账。
+- 参数实验必须有默认值基线、至少三轮、环境与报告；无改善的参数要撤回。最终订单可查不等于延迟达标，阶段结论可为“诊断完成、缺陷继续开放”。
+- 用`scripts/test-s11-wsl.sh --baseline`和`--verify --maximum-seconds 120`。不得删除/重置S7业务卷。
+- 更新BUGS、TODO、PROGRESS、DECISIONS、WORKLOG、CHANGELOG与验收报告；不得把无效实验标为修复。
+
+## S12 非视觉验证码替代
+
+- 保留默认六位图片验证码，为屏幕阅读器用户增加可读题面模式；答案只保存SHA256并通过原有一次性、60秒有效、五次尝试限制校验。
+- 前端要能在模式间切换，题面由屏幕阅读器状态区朗读，输入仍是明确关联标签的数字框；不能把答案写入HTML或API响应。
+- 在`scripts/test-s2.sh`验证真实Redis绑定/摘要兑换与错误限制；在`bash scripts/test-s5-wsl.sh`验证真实浏览器辅助语义及RocketMQ→MySQL下单。自动axe不等于NVDA/JAWS人工认证。
+- 同步API/架构、ADR、TODO、BUGS、PROGRESS、CHANGELOG、WORKLOG和S12验收报告。
+
+## S13 RocketMQ 强制终止恢复修复
+
+- 区分Proxy的`channelExpiredInSeconds`（在途RPC上下文清理）与`channelExpiredTimeout`（Consumer通道成员过期）；不能把前者当成成员分配TTL。
+- RocketMQ Java PushConsumer接收请求启用autoRenew时，Proxy按`defaultInvisibleTimeMills`确定消息不可见期（默认60秒）；这与Consumer成员超时不同。采用30秒租约缩短断线后的重投等待，保留活跃处理自动续租。未经最长处理时长验证，不随意再缩短。
+- 先对无`channelExpiredTimeout`/`defaultInvisibleTimeMills`覆盖的Proxy默认设置测基线，再验证30秒消息租约。只改项目自有Broker，保留Named volume，不触碰日常/用户业务数据卷。
+- 用WSL真实订单服务硬停期间提交新请求，等待健康和持久订单，再运行只读库存对账。验收为3/3真实新订单≤60秒且对账CLEAN；若失败，撤回配置并基于Proxy/Consumer事件继续定位，不得标记修复。
+- 更新RocketMQ Compose、V015之后的ADR、BUGS、TODO、PROGRESS、CHANGELOG、WORKLOG和S13报告；只有实测改善且配置安全后才保留。
+
 ## MQ选型边界
 
 当前方案已按用户明确要求改为RocketMQ5.x与官方gRPC C++/Java客户端（需Proxy）。S3职责改为Broker/Proxy部署、SDK适配、消息投递/消费和可靠性验证，暂停自研WAL/复制/传输协议实现；历史mq-wire.md仅作为延期方案。消息schema、reservationId幂等、pending恢复和MySQL事务不绑定厂商。重试、幂等、Redis预扣到消息投递的恢复与库存回补仍必须验证；RocketMQ事务消息不能自动把Redis预扣和MySQL变成一个事务。
@@ -68,7 +90,7 @@ description: 按本项目目标设计、实现、评审和压测高并发秒杀�
 
 当用户说「按阶段连续执行」「做到阶段结束再停」时，进入本模式： 
 
-1. 阶段定义：S0 骨架 / S1 数据与缓存 / S2 C++ 秒杀服务 / S3 MQ   / S4 Java 订单 / S5 前端 / S6 部署 / S7 验证收尾 / S8 恢复时延专项 / S9 公共目录分页 / S10 静态商品图优化。
+1. 阶段定义：S0 骨架 / S1 数据与缓存 / S2 C++ 秒杀服务 / S3 MQ   / S4 Java 订单 / S5 前端 / S6 部署 / S7 验证收尾 / S8 恢复时延专项 / S9 公共目录分页 / S10 静态商品图优化 / S11 强制终止恢复诊断 / S12 非视觉验证码替代 / S13 RocketMQ强杀恢复修复。
 2.   阶段内自主拆分子任务连续输出，不逐条确认。 
 3. 仅三种情况可提前停下：架构级分歧、前置产出缺失导致无法继续、单次回复达到长度上限。 
 4. 每轮末尾输出断点标记：   >>>CHECKPOINT: <阶段>-<子任务>-<已完成文件>   >>>NEXT: <下一个要做的>   >>>STATUS: <进度 x/y

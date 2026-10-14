@@ -9,6 +9,7 @@
 - 主Topic`seckill_reserved_v1`是NORMAL类型、4读/4写队列，不依赖SKU内严格有序。C++消息Key包含稳定eventId和`activityId:skuId`用于检索；RocketMQ messageId可以在重复投递时不同。唯一订单由S4数据库约束。
 - 官方C++ SDK源码固定`apache/rocketmq-clients@6b0bcc422ff1ee66198df6b4a48a4a44ad7218fa`，API proto子模块固定`apache/rocketmq-apis@bc8e1845a8b0a1b5ec828690324401a323244354`。源码档案SHA256在`scripts/setup-rocketmq-sdk-wsl.sh`，从官方codeload重现。Ubuntu系统gRPC1.51/Protobuf3.21的CMake配置方式与上游源码安装说明不同；项目只在忽略的build目录把`find_package(protobuf 3.19 CONFIG REQUIRED)`替为`find_package(Protobuf 3.19 REQUIRED)`，没有把第三方源码复制到src。
 - Java官方`rocketmq-client-java:5.2.2`由Maven锁定。S3的SimpleConsumer用于收发/ACK探针；PushConsumer封装`RocketPushReceiver`供S4的业务事务消费者使用。
+- Proxy设置见[`rmq-proxy.json`](../deploy/rocketmq/rmq-proxy.json)。S13把`defaultInvisibleTimeMills`从默认60000毫秒调整为30000毫秒；PushConsumer自动续租活跃处理，客户端硬停时旧租约更早过期。强停测试与边界见[S13报告](../tests/reports/S13-acceptance.md)。
 
 ## 启动与检查
 

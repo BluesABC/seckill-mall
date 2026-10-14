@@ -186,6 +186,22 @@ class S2Tests(unittest.TestCase):
         payload["captchaAnswer"]="123456"
         self.assertEqual(self.server.call("POST","/api/seckill/token",token,payload)[0],403)
         self.assertEqual(json.loads(self.client.get(key))["attempts"],5);self.assertEqual(self.stock(),10)
+    def test_accessible_text_challenge_keeps_answer_server_side(self):
+        token=self.sessions[1]
+        status,value,_=self.server.call("GET",f"/api/seckill/captcha?activityId={self.a}&skuId=1&mode=accessible",token)
+        self.assertEqual(status,200);self.assertEqual(value["mode"],"accessible")
+        self.assertIn("challengeText",value);self.assertNotIn("imageDataUrl",value);self.assertNotIn("answer",value)
+        import re
+        numbers=re.search(r"请计算 (\d+) 加 (\d+)",value["challengeText"])
+        self.assertIsNotNone(numbers,value["challengeText"])
+        answer=str(int(numbers.group(1))+int(numbers.group(2)))
+        request=uid()
+        invalid=dict(activityId=self.a,skuId="1",requestId=request,captchaId=value["captchaId"],captchaAnswer="0")
+        self.assertEqual(self.server.call("POST","/api/seckill/token",token,invalid)[0],403)
+        invalid["captchaAnswer"]=answer
+        status,proof,_=self.server.call("POST","/api/seckill/token",token,invalid)
+        self.assertEqual(status,200,proof)
+        self.assertEqual(self.server.call("GET",f"/api/seckill/captcha?activityId={self.a}&skuId=1&mode=audio",token)[0],400)
     def test_challenge_one_use(self):
         payload,key,token=self.purchase();proof=json.loads(self.client.get(key))
         captcha_id=payload["activityToken"].split(".")[0]

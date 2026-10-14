@@ -1,9 +1,9 @@
 {
-  "date": "2026-10-14T09:51:24.777Z",
+  "date": "2026-10-14T12:54:38.442Z",
   "runtime": "linux",
   "node": "v22.20.0",
   "browser": "141.0.7390.37",
-  "elapsedSeconds": 45.685,
+  "elapsedSeconds": 43.004,
   "checks": [
     {
       "name": "desktop real catalog, optimized WebP assets, accessibility",
@@ -38,7 +38,7 @@
       "status": "PASS"
     },
     {
-      "name": "second real order, expiry close and no payment action",
+      "name": "screen-reader math challenge -> real order, expiry close and no payment action",
       "status": "PASS"
     },
     {
