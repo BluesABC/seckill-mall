@@ -1,6 +1,7 @@
 #include "mall/mq/rocketmq_publisher.hpp"
 #include <exception>
 #include <fcntl.h>
+#include <chrono>
 #include <netdb.h>
 #include <poll.h>
 #include <rocketmq/Configuration.h>
@@ -85,13 +86,16 @@ PublishResult RocketMqPublisher::publish(const Message &message) {
       message.payload_utf8.size() > 1048576)
     return {PublishOutcome::rejected, "", "INVALID_LOCAL_MESSAGE"};
   try {
+    const auto relay_send_started_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
     auto packet =
         sdk::Message::newBuilder()
             .withTopic(message.topic)
             .withTag("SECKILL_RESERVED")
             .withKeys({message.event_id, message.partition_key})
             .withProperties({{"mallActivitySku", message.partition_key},
-                             {"mallEventId", message.event_id}})
+                             {"mallEventId", message.event_id},
+                             {"mallRelaySendStartedAtMs", std::to_string(relay_send_started_ms)}})
             .withBody(message.payload_utf8)
             .build();
     std::error_code error;

@@ -53,18 +53,23 @@ public final class Cache {
     }
   }
   public List<String> lua(String name, String key, String... args) {
-    return eval(scripts.get(name), key, args);
+    return eval(scripts.get(name), List.of(key), args);
+  }
+  public List<String> lua(String name, List<String> keys, String... args) {
+    return eval(scripts.get(name), keys, args);
   }
   public List<String> eval(String script, String key, String... args) {
-    return eval(script.getBytes(StandardCharsets.UTF_8), key, args);
+    return eval(script.getBytes(StandardCharsets.UTF_8), List.of(key), args);
   }
-  private List<String> eval(byte[] script, String key, String... args) {
+  private List<String> eval(byte[] script, List<String> keys, String... args) {
     return redis.execute((RedisCallback<List<String>>) connection -> {
-      byte[][] values = new byte[args.length + 1][];
-      values[0] = key.getBytes(StandardCharsets.UTF_8);
+      byte[][] values = new byte[args.length + keys.size()][];
+      for (int i = 0; i < keys.size(); i++)
+        values[i] = keys.get(i).getBytes(StandardCharsets.UTF_8);
       for (int i = 0; i < args.length; i++)
-        values[i + 1] = args[i].getBytes(StandardCharsets.UTF_8);
-      List<?> result = connection.scriptingCommands().eval(script, ReturnType.MULTI, 1, values);
+        values[keys.size() + i] = args[i].getBytes(StandardCharsets.UTF_8);
+      List<?> result = connection.scriptingCommands().eval(
+          script, ReturnType.MULTI, keys.size(), values);
       // Same connection causal fence: a successful EVAL may be a read-only replay.
       connection.hashCommands().hSet((prefix + ":durability").getBytes(StandardCharsets.UTF_8),
           "fence".getBytes(StandardCharsets.UTF_8),

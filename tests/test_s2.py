@@ -172,6 +172,7 @@ class S2Tests(unittest.TestCase):
         self.assertEqual(status,202);self.assertEqual(value["requestState"],"RESERVED");self.assertIsNone(value["orderId"])
         self.assertEqual(self.stock(),9);self.assertEqual(self.client.hget(self.key,"pendingCount"),"1")
         self.assertTrue(self.client.hget(self.key,"pending:"+value["reservationId"]))
+        self.assertTrue(self.client.sismember(self.key+":relay_pending",value["reservationId"]))
         self.assertTrue(headers.get("X-Trace-Id"));self.assertEqual(headers["Cache-Control"],"no-store")
     def test_replay_after_proof_expiry(self):
         payload,key,token=self.purchase();status,first,_=self.buy(payload,token);self.assertEqual(status,202)
@@ -270,8 +271,11 @@ class S2Tests(unittest.TestCase):
         for outcome in ["unknown","rejected"]:
             subprocess.run([str(RELAY),self.key,outcome],env=env,check=True,stdout=subprocess.DEVNULL)
             self.assertTrue(self.client.hget(self.key,"pending:"+reservation));self.assertEqual(self.client.hget(self.key,"pendingCount"),"1")
+            self.assertTrue(self.client.sismember(self.key+":relay_pending",reservation))
         subprocess.run([str(RELAY),self.key,"confirmed"],env=env,check=True,stdout=subprocess.DEVNULL)
         self.assertEqual(self.client.hget(self.key,"pending:"+reservation),"");self.assertEqual(self.client.hget(self.key,"pendingCount"),"0")
+        self.assertFalse(self.client.sismember(self.key+":relay_pending",reservation))
+        self.assertFalse(self.client.sismember(self.prefix+":relay_ledgers",self.key))
         request=json.loads(self.client.hget(self.key,"req:1:"+payload["requestId"]));self.assertEqual(request["state"],"QUEUED")
         self.assertEqual(self.stock(),9)
     def test_pending_backpressure(self):

@@ -45,8 +45,11 @@ def login():
     assert code==200,value;return value['token']
 def fixture_users(count):
     start=int(sql('SELECT COALESCE(MAX(id),0)+1 FROM users'));now=int(time.time()*1000);users=[]
-    values=','.join(f"({start+i},'s7_{start+i}','private-load-fixture-no-password','USER',{now})" for i in range(count))
-    sql('INSERT INTO users(id,username,password_hash,role,created_at_ms) VALUES '+values)
+    # Keep SQL below both Windows CreateProcess limits and Linux ARG_MAX.
+    for offset in range(0,count,100):
+        values=','.join(f"({start+i},'s7_{start+i}','private-load-fixture-no-password','USER',{now})"
+                        for i in range(offset,min(count,offset+100)))
+        sql('INSERT INTO users(id,username,password_hash,role,created_at_ms) VALUES '+values)
     # A private pipeline writes sessions only to this owned test Redis.
     script='import os,json,hashlib,redis,sys; r=redis.Redis.from_url(os.environ["MALL_REDIS_URL"]); p=r.pipeline(); rows=json.load(sys.stdin); [(p.hset("seckill:session:"+hashlib.sha256(t.encode()).hexdigest(),mapping={"userId":str(u),"role":"USER","expiresAtMs":str(e)}),p.pexpireat("seckill:session:"+hashlib.sha256(t.encode()).hexdigest(),e)) for u,t,e in rows];p.execute()'
     for i in range(count):users.append((start+i,secrets.token_hex(32),now+7200000))
@@ -70,10 +73,13 @@ def buy(p):return call('POST','/api/seckill/buy',p['body'],p['token'])
 def order(p):
     code,o=call('GET',f'/api/order/status?activityId={p["activity"]}&skuId={p["sku"]}&requestId={p["requestId"]}',token=p['token'])
     return o if code==200 and o.get('orderId') else None
-def reconcile(grace=1800):
-    out=dc('run','--rm','--no-deps','-T','migrate','python','scripts/reconcile.py','--grace-seconds',str(grace),check=False)
+def reconcile(grace=1800,activity_id=None,limit=50000):
+    args=['run','--rm','--no-deps','-T','migrate','python','scripts/reconcile.py','--grace-seconds',str(grace)]
+    if activity_id is not None:args.extend(['--activity-id',str(activity_id)])
+    args.extend(['--limit',str(limit)])
+    out=dc(*args,check=False)
     return json.loads(out)
-def clean():return wait(lambda:(r if (r:=reconcile())['status']=='CLEAN' else None))
+def clean(activity_id=None,limit=50000,timeout=180):return wait(lambda:(r if (r:=reconcile(activity_id=activity_id,limit=limit))['status']=='CLEAN' else None),seconds=timeout)
 def record(name,data):
     target=ROOT/'tests/reports/wsl/s7';target.mkdir(parents=True,exist_ok=True)
     (target/(name+'.json')).write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')

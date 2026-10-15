@@ -1,6 +1,8 @@
 -- Execute only after durable DB termination/closed outbox evidence.
+-- KEYS[1] ledger, KEYS[2] active relay-ledger registry,
+-- KEYS[3] per-ledger pending reservation set.
 -- ARGV userId, requestId, reservationId, epoch, eventId, reason (FAILED/CLOSED).
-if #KEYS ~= 1 or #ARGV ~= 6 then return {'INVALID_ARGUMENT'} end
+if (#KEYS ~= 1 and #KEYS ~= 3) or #ARGV ~= 6 then return {'INVALID_ARGUMENT'} end
 if ARGV[6] ~= 'FAILED' and ARGV[6] ~= 'CLOSED' then return {'INVALID_ARGUMENT'} end
 if not string.match(ARGV[5], '^[%w%-]+$') or #ARGV[5] > 64 then return {'INVALID_ARGUMENT'} end
 if redis.call('TYPE', KEYS[1]).ok ~= 'hash' then return {'NOT_READY'} end
@@ -39,4 +41,6 @@ if rawPending and rawPending~='' then pending=math.max(0,pending-1) end
 -- Preserve user qualification; tombstone pending so relay does not send failed requests.
 redis.call('HSET', KEYS[1], 'stock', tostring(stock + 1), field, value,
   'release:' .. ARGV[5], marker, 'pending:' .. ARGV[3], '', 'pendingCount',tostring(pending))
+if rawPending and rawPending~='' and KEYS[3] then redis.call('SREM',KEYS[3],ARGV[3]) end
+if pending==0 and KEYS[2] then redis.call('SREM',KEYS[2],KEYS[1]) end
 return {'RELEASED'}

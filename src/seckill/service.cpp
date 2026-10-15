@@ -446,7 +446,8 @@ public:
             checked(registered.get());
             auto reply = redis().eval(
                 reserve_script,
-                {key, challenge(a, s, activity_token.substr(0, 36))},
+                {key, challenge(a, s, activity_token.substr(0, 36)),
+                 config.prefix + ":relay_ledgers", key + ":relay_pending"},
                 {session.user, request, random_uuid(), values["epoch"], trace,
                  sha256(captcha_token), sha256(activity_token),
                  std::to_string(config.max_pending)});

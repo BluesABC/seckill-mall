@@ -1,6 +1,8 @@
 -- Trusted relay/consumer only; never called from a public endpoint.
+-- KEYS[1] ledger, KEYS[2] active relay-ledger registry,
+-- KEYS[3] per-ledger pending reservation set.
 -- ARGV: userId, requestId, reservationId, epoch, expectedState, nextState.
-if #KEYS ~= 1 or #ARGV ~= 6 then return {'INVALID_ARGUMENT'} end
+if (#KEYS ~= 1 and #KEYS ~= 3) or #ARGV ~= 6 then return {'INVALID_ARGUMENT'} end
 if redis.call('TYPE', KEYS[1]).ok ~= 'hash' then return {'NOT_READY'} end
 if redis.call('HGET', KEYS[1], 'epoch') ~= ARGV[4] then return {'STALE_EPOCH'} end
 local field = 'req:' .. ARGV[1] .. ':' .. ARGV[2]
@@ -13,7 +15,10 @@ local function confirm_pending(value)
   if not rawPending or rawPending=='' then return end
   local count=tonumber(redis.call('HGET',KEYS[1],'pendingCount') or '0')
   if not count or count<1 then return end
-  redis.call('HSET',KEYS[1],field,value,'pending:'..ARGV[3],'','pendingCount',tostring(count-1))
+  count=count-1
+  redis.call('HSET',KEYS[1],field,value,'pending:'..ARGV[3],'','pendingCount',tostring(count))
+  if KEYS[3] then redis.call('SREM',KEYS[3],ARGV[3]) end
+  if count==0 and KEYS[2] then redis.call('SREM',KEYS[2],KEYS[1]) end
 end
 if req.state == ARGV[6] then
   if (ARGV[6]=='QUEUED' and ARGV[5]=='RESERVED') or
@@ -40,5 +45,7 @@ if req.state == 'QUEUED' or req.state == 'ORDER_CREATED' then
   local count=tonumber(redis.call('HGET',KEYS[1],'pendingCount') or '0')
   if rawPending and rawPending~='' and count>0 then count=count-1 end
   redis.call('HSET', KEYS[1], field, value, 'pending:' .. ARGV[3], '', 'pendingCount',tostring(count))
+  if rawPending and rawPending~='' and KEYS[3] then redis.call('SREM',KEYS[3],ARGV[3]) end
+  if count==0 and KEYS[2] then redis.call('SREM',KEYS[2],KEYS[1]) end
 else redis.call('HSET', KEYS[1], field, value) end
 return {'UPDATED', value}

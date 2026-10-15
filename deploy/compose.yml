@@ -75,13 +75,15 @@ services:
     restart: unless-stopped
   mq-init:
     image: apache/rocketmq:5.3.2
+    environment:
+      MALL_MQ_QUEUE_COUNT: ${MALL_MQ_QUEUE_COUNT:-4}
     networks: [backend]
     depends_on: {broker: {condition: service_healthy}}
     entrypoint: [sh, -c]
     command:
       - |
         count=0
-        until sh mqadmin updateTopic -n namesrv:9876 -b broker:10911 -t seckill_reserved_v1 -r 4 -w 4 -a '+message.type=NORMAL'; do
+        until sh mqadmin updateTopic -n namesrv:9876 -b broker:10911 -t seckill_reserved_v1 -r $$MALL_MQ_QUEUE_COUNT -w $$MALL_MQ_QUEUE_COUNT -a '+message.type=NORMAL'; do
           count=$$((count+1)); [ "$$count" -lt 30 ] || exit 1; sleep 2
         done
         sh mqadmin updateSubGroup -n namesrv:9876 -b broker:10911 -g mall_order_v1 -r 8 -p '{"type":"CUSTOMIZED","customizedRetryPolicy":{"next":[1000,2000,4000,8000,16000,30000,30000,30000]}}'
@@ -99,6 +101,8 @@ services:
       MALL_BUSINESS_ENABLED: 'true'
       MALL_ADMIN_USERNAME: ${MALL_ADMIN_USERNAME:-admin}
       MALL_ADMIN_PASSWORD: ${MALL_ADMIN_PASSWORD:?Generate deploy/.env.stack}
+      MALL_MQ_CONSUMER_THREADS: ${MALL_MQ_CONSUMER_THREADS:-4}
+      ORDER_PAYMENT_TTL_MS: ${ORDER_PAYMENT_TTL_MS:-900000}
       ORDER_FORWARD_HEADERS_STRATEGY: native
       ORDER_TRUSTED_PROXY_REGEX: ${ORDER_TRUSTED_PROXY_REGEX:-172\.30\.85\.10}
     networks: [backend]
@@ -118,6 +122,7 @@ services:
       <<: *business-env
       MALL_TRUSTED_PROXY: ${MALL_GATEWAY_IP:-172.30.85.10}
       MALL_HTTP_WORKERS: ${MALL_HTTP_WORKERS:-8}
+      MALL_HTTP_QUEUE: ${MALL_HTTP_QUEUE:-128}
     networks: [backend]
     depends_on: {redis: {condition: service_healthy}, order: {condition: service_healthy}}
     healthcheck:

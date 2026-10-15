@@ -2,7 +2,7 @@
 import argparse,json,os,time
 from data import connect,cache
 
-def inspect(grace=1800,limit=50000):
+def inspect(grace=1800,limit=50000,activity_id=None):
     client=cache();prefix=os.environ.get('MALL_KEY_PREFIX','seckill')
     alerts=[];transit=[];unstable=[];ledgers=[]
     def issue(code,a=None):alerts.append({'code':code,'activityId':str(a) if a is not None else None})
@@ -13,10 +13,17 @@ def inspect(grace=1800,limit=50000):
         with db.cursor() as c:
             c.execute('SET TRANSACTION READ ONLY')
             c.execute('START TRANSACTION WITH CONSISTENT SNAPSHOT')
-            c.execute('SELECT s.activity_id,s.sku_id,s.initial_stock,s.available_stock,s.epoch,s.price_fen,s.version,a.status FROM activity_stock s JOIN activities a ON a.id=s.activity_id ORDER BY s.activity_id LIMIT 501')
+            if activity_id is None:
+                c.execute('SELECT s.activity_id,s.sku_id,s.initial_stock,s.available_stock,s.epoch,s.price_fen,s.version,a.status FROM activity_stock s JOIN activities a ON a.id=s.activity_id ORDER BY s.activity_id LIMIT 501')
+            else:
+                c.execute('SELECT s.activity_id,s.sku_id,s.initial_stock,s.available_stock,s.epoch,s.price_fen,s.version,a.status FROM activity_stock s JOIN activities a ON a.id=s.activity_id WHERE s.activity_id=%s ORDER BY s.activity_id LIMIT 501',(activity_id,))
             stocks=c.fetchall()
             if len(stocks)>500:raise ValueError('ACTIVITY_LIMIT_EXCEEDED')
-            c.execute('SELECT reservation_id,version FROM orders ORDER BY reservation_id LIMIT %s',(limit+1,));versions=c.fetchall()
+            if activity_id is None:
+                c.execute('SELECT reservation_id,version FROM orders ORDER BY reservation_id LIMIT %s',(limit+1,))
+            else:
+                c.execute('SELECT reservation_id,version FROM orders WHERE activity_id=%s ORDER BY reservation_id LIMIT %s',(activity_id,limit+1))
+            versions=c.fetchall()
             if len(versions)>limit:raise ValueError('ORDER_LIMIT_EXCEEDED')
             before={}
             for a,s,*_ in stocks:before[(a,s)]=snapshot(f'{prefix}:{{{a}:{s}}}:ledger')
@@ -60,15 +67,30 @@ def inspect(grace=1800,limit=50000):
                 else:
                     for code in sorted(set(local)):issue(code,a)
                     if queued:transit.append(str(a))
-            c.execute("SELECT status,COUNT(*),MIN(created_at_ms) FROM outbox_events WHERE status<>'PUBLISHED' GROUP BY status");outbox=c.fetchall()
-            c.execute("SELECT status,COUNT(*),MIN(updated_at_ms) FROM mq_failures WHERE status<>'RESOLVED' GROUP BY status");failures=c.fetchall()
-            c.execute('SELECT COUNT(*),COUNT(DISTINCT reservation_id) FROM orders');counts=c.fetchone()
+            if activity_id is None:
+                c.execute("SELECT status,COUNT(*),MIN(created_at_ms) FROM outbox_events WHERE status<>'PUBLISHED' GROUP BY status")
+                outbox=c.fetchall()
+                c.execute("SELECT status,COUNT(*),MIN(updated_at_ms) FROM mq_failures WHERE status<>'RESOLVED' GROUP BY status")
+                failures=c.fetchall()
+                c.execute('SELECT COUNT(*),COUNT(DISTINCT reservation_id) FROM orders');counts=c.fetchone()
+            else:
+                c.execute("SELECT o.status,COUNT(*),MIN(o.created_at_ms) FROM outbox_events o JOIN seckill_requests r ON r.reservation_id=o.reservation_id WHERE r.activity_id=%s AND o.status<>'PUBLISHED' GROUP BY o.status",(activity_id,))
+                outbox=c.fetchall()
+                c.execute("SELECT m.status,COUNT(*),MIN(m.updated_at_ms) FROM mq_failures m JOIN seckill_requests r ON r.reservation_id=JSON_UNQUOTE(JSON_EXTRACT(m.payload,'$.reservationId')) WHERE r.activity_id=%s AND m.status<>'RESOLVED' GROUP BY m.status",(activity_id,))
+                failures=c.fetchall()
+                c.execute('SELECT COUNT(*),COUNT(DISTINCT o.reservation_id) FROM orders o WHERE o.activity_id=%s',(activity_id,));counts=c.fetchone()
             if counts[0]!=counts[1]:issue('DUPLICATE_ORDER')
         db.rollback()
         with db.cursor() as c:
-            c.execute('SELECT activity_id,sku_id,version FROM activity_stock ORDER BY activity_id LIMIT 501')
+            if activity_id is None:
+                c.execute('SELECT activity_id,sku_id,version FROM activity_stock ORDER BY activity_id LIMIT 501')
+            else:
+                c.execute('SELECT activity_id,sku_id,version FROM activity_stock WHERE activity_id=%s ORDER BY activity_id LIMIT 501',(activity_id,))
             if [(r[0],r[1],r[6]) for r in stocks]!=list(c.fetchall()):unstable.append('DB_CHANGED')
-            c.execute('SELECT reservation_id,version FROM orders ORDER BY reservation_id LIMIT %s',(limit+1,))
+            if activity_id is None:
+                c.execute('SELECT reservation_id,version FROM orders ORDER BY reservation_id LIMIT %s',(limit+1,))
+            else:
+                c.execute('SELECT reservation_id,version FROM orders WHERE activity_id=%s ORDER BY reservation_id LIMIT %s',(activity_id,limit+1))
             if versions!=c.fetchall():unstable.append('ORDERS_CHANGED')
         db.rollback()
     for state,count,oldest in outbox:
@@ -79,12 +101,13 @@ def inspect(grace=1800,limit=50000):
         else:transit.append('MQ_RETRY')
     # Never emit a clean verdict if the two stores changed during the read window.
     verdict='INCONCLUSIVE' if unstable else 'ALERT' if alerts else 'IN_FLIGHT' if transit else 'CLEAN'
-    return {'status':verdict,'readOnly':True,'graceSeconds':grace,'orders':counts[0],'ledgers':ledgers,'alerts':alerts,'movingSnapshots':unstable,'outbox':[{'state':s,'count':n} for s,n,t in outbox],'mqFailures':[{'state':s,'count':n} for s,n,t in failures],'atMs':now}
+    return {'status':verdict,'readOnly':True,'graceSeconds':grace,'activityId':str(activity_id) if activity_id is not None else None,'orders':counts[0],'ledgers':ledgers,'alerts':alerts,'movingSnapshots':unstable,'outbox':[{'state':s,'count':n} for s,n,t in outbox],'mqFailures':[{'state':s,'count':n} for s,n,t in failures],'atMs':now}
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--grace-seconds',type=int,default=1800);p.add_argument('--strict',action='store_true');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--grace-seconds',type=int,default=1800);p.add_argument('--activity-id',type=int);p.add_argument('--limit',type=int,default=50000);p.add_argument('--strict',action='store_true');args=p.parse_args()
     if args.grace_seconds<1:p.error('grace must be positive')
-    try:result=inspect(args.grace_seconds)
+    if args.limit<1 or args.limit>500000:p.error('limit must be 1..500000')
+    try:result=inspect(args.grace_seconds,args.limit,activity_id=args.activity_id)
     except Exception as e:result={'status':'UNAVAILABLE','readOnly':True,'error':type(e).__name__}
     print(json.dumps(result,ensure_ascii=False))
     return 0 if result['status']=='CLEAN' or (result['status']=='IN_FLIGHT' and not args.strict) else 2 if result['status']=='ALERT' else 3

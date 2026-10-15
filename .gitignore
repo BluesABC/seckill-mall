@@ -17,3 +17,4 @@ __pycache__/
 
 # Runtime volumes; retain curated reports in tests/reports
 deploy/data/
+tests/reports/wsl/t048-sustained-client-checkpoint.json

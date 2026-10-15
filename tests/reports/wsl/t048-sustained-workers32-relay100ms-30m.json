@@ -1,0 +1,156 @@
+{
+  "date": "2026-10-15",
+  "platform": "WSL2 Ubuntu; Docker Desktop Linux engine",
+  "activityName": "T048-sustained-d1b385f78b",
+  "activityId": "145",
+  "skuId": "3505",
+  "cppHttpWorkers": null,
+  "mqConsumerThreads": null,
+  "mqQueueCount": null,
+  "offeredQps": 15.0,
+  "durationSeconds": 1800,
+  "submitted": 27000,
+  "observedSubmissionSeconds": 1815.711,
+  "observedSubmissionQps": 14.87,
+  "accepted": 20356,
+  "httpStatusCounts": {
+    "202": 20356,
+    "503": 6,
+    "502": 6495,
+    "504": 143
+  },
+  "businessCodeCounts": {
+    "ACCEPTED": 20356,
+    "DEPENDENCY_UNAVAILABLE": 5,
+    "HTTP_502": 6495,
+    "HTTP_504": 143,
+    "ACCEPTANCE_UNKNOWN": 1
+  },
+  "server5xxCount": 6644,
+  "server5xxRatePercent": 24.6074,
+  "buyApiLatencyMsAcceptedOnly": {
+    "p50": 13444.955,
+    "p95": 17122.336,
+    "p99": 17867.461
+  },
+  "requestToDurableOrderMs": {
+    "p50": null,
+    "p95": null,
+    "p99": null
+  },
+  "requestToDurableObservedCount": 0,
+  "persistedReservations": 20499,
+  "persistedOrders": 20499,
+  "ordersByStatus": {
+    "PENDING_PAYMENT": 20499
+  },
+  "allHttpAcceptedOrdersPersisted": true,
+  "pendingReservationRequests": 0,
+  "stageTelemetry": {
+    "reservations": 20499,
+    "malformedStageLines": 0,
+    "duplicateStageLines": 0,
+    "stageCounts": {
+      "relay_publish": 20499,
+      "consumer_received": 20499,
+      "committed": 20499,
+      "failed": 0
+    },
+    "latencyMs": {
+      "relayPendingAgeMs": {
+        "count": 20499,
+        "p50": 798,
+        "p95": 2082,
+        "p99": 3512,
+        "max": 5064
+      },
+      "publishCallMs": {
+        "count": 20499,
+        "p50": 10,
+        "p95": 26,
+        "p99": 43,
+        "max": 1775
+      },
+      "relayToConsumerMs": {
+        "count": 20499,
+        "p50": 21,
+        "p95": 46,
+        "p99": 79,
+        "max": 1862
+      },
+      "brokerQueueMs": {
+        "count": 20499,
+        "p50": 21,
+        "p95": 48,
+        "p99": 87,
+        "max": 1862
+      },
+      "relaySendToBrokerMs": {
+        "count": 20499,
+        "p50": 0,
+        "p95": 1,
+        "p99": 2748,
+        "max": 2889
+      },
+      "mysqlTransactionMs": {
+        "count": 20499,
+        "p50": 138,
+        "p95": 274,
+        "p99": 501,
+        "max": 2087
+      },
+      "reservationAgeMs": {
+        "count": 20499,
+        "p50": 821,
+        "p95": 2116,
+        "p99": 3550,
+        "max": 5088
+      }
+    }
+  },
+  "stageTelemetryComplete": true,
+  "outboxStatus": {
+    "PUBLISHED": 20499
+  },
+  "reconciliation": {
+    "status": "CLEAN",
+    "readOnly": true,
+    "graceSeconds": 1800,
+    "activityId": "145",
+    "orders": 20499,
+    "ledgers": [
+      {
+        "activityId": "145",
+        "skuId": "3505",
+        "initial": 27000,
+        "dbAvailable": 6501,
+        "redisAvailable": 6501,
+        "held": 20499,
+        "activeOrders": 20499,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      }
+    ],
+    "alerts": [],
+    "movingSnapshots": [],
+    "outbox": [],
+    "mqFailures": [],
+    "atMs": 1792067188800
+  },
+  "reportSource": "client response checkpoint plus recovered database/container log evidence",
+  "temporaryGateResults": {
+    "offeredRateAtLeastTarget": true,
+    "eligibleRequestsAcceptedAtLeast99_5Percent": false,
+    "server5xxAtMost0_1Percent": false,
+    "acceptedBuyApiP95AtMost500ms": false,
+    "durableOrderP95AtMost3000ms": false,
+    "durableOrderP99AtMost8000ms": false,
+    "allHttpAcceptedOrdersPersisted": true,
+    "stageTelemetryComplete": true,
+    "outboxDrained": true,
+    "inventoryReconciliationClean": true
+  },
+  "temporaryGateResultsPassed": false,
+  "sameHostWslLimit": "Not an independent production capacity proof."
+}

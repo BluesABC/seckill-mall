@@ -27,11 +27,19 @@ public final class Orders {
     });
   }
   private void consumeLocked(ReservedEvent e, boolean terminate, String failure) {
-    var stock = stock(e.activityId(), e.skuId());
+    // Read immutable campaign facts without taking the hot inventory-row lock.
+    // The conditional UPDATE below is the serialization point: it rechecks both
+    // epoch and available_stock after acquiring InnoDB's row lock. This keeps
+    // Redis and idempotency reads out of the per-SKU critical section.
+    var stock = stockSnapshot(e.activityId(), e.skuId());
     if (stock == null)
       throw new Fault(404, "UNKNOWN_ACTIVITY");
+    // This row is usually absent on first delivery. FOR UPDATE would take a
+    // next-key/gap lock for the missing random primary key and make unrelated
+    // reservations contend or deadlock under REPEATABLE READ. The unique key
+    // remains the serialization point for concurrent redelivery of this event.
     var existing = store.one(
-        "SELECT * FROM seckill_requests WHERE reservation_id=? FOR UPDATE", e.reservationId());
+        "SELECT * FROM seckill_requests WHERE reservation_id=?", e.reservationId());
     if (existing != null) {
       same(existing, e);
       return;
@@ -58,6 +66,18 @@ public final class Orders {
       reason = "ALREADY_PURCHASED";
     if (Store.number(stock, "available_stock") < 1)
       reason = "SOLD_OUT";
+    // Acquire the inventory row's exclusive lock before inserting the request
+    // row whose FK references it. Otherwise concurrent transactions can each
+    // hold the FK's shared parent lock and deadlock while upgrading to UPDATE.
+    // This remains in the same transaction, so any later failure rolls the
+    // stock decrement back with the request/order writes.
+    if (reason == null
+        && store.db.update(
+                "UPDATE activity_stock SET available_stock=available_stock-1,version=version+1 "
+                + "WHERE activity_id=? AND sku_id=? AND epoch=? AND available_stock>0",
+                e.activityId(), e.skuId(), e.epoch())
+            != 1)
+      throw new IllegalStateException("Stock conditional update failed");
     store.db.update("INSERT INTO "
                     + "seckill_requests(reservation_id,request_id,activity_id,sku_id,user_id,epoch,"
                     + "price_fen,status,created_at_ms,failure_code) VALUES(?,?,?,?,?,?,?, ?,?,?)",
@@ -67,12 +87,6 @@ public final class Orders {
       outbox(e.reservationId(), "RESERVATION_RELEASE");
       return;
     }
-    if (store.db.update(
-            "UPDATE activity_stock SET available_stock=available_stock-1,version=version+1 WHERE "
-            + "activity_id=? AND sku_id=? AND epoch=? AND available_stock>0",
-            e.activityId(), e.skuId(), e.epoch())
-        != 1)
-      throw new IllegalStateException("Stock conditional update failed");
     long now = store.now();
     store.db.update("INSERT INTO "
                     + "orders(id,reservation_id,activity_id,sku_id,user_id,amount_fen,status,"
@@ -108,6 +122,12 @@ public final class Orders {
     return store.one(
         "SELECT s.*,a.starts_at_ms,a.ends_at_ms,a.status AS activity_status FROM activity_stock s "
         + "JOIN activities a ON a.id=s.activity_id WHERE s.activity_id=? AND s.sku_id=? FOR UPDATE",
+        activity, sku);
+  }
+  private Map<String, Object> stockSnapshot(long activity, long sku) {
+    return store.one(
+        "SELECT s.*,a.starts_at_ms,a.ends_at_ms,a.status AS activity_status FROM activity_stock s "
+        + "JOIN activities a ON a.id=s.activity_id WHERE s.activity_id=? AND s.sku_id=?",
         activity, sku);
   }
   private void outbox(String reservation, String kind) {
@@ -254,7 +274,11 @@ public final class Orders {
         "SELECT * FROM seckill_requests WHERE reservation_id=?", candidate.get("reservation_id"));
     if (seed == null)
       throw new IllegalStateException("Outbox request missing");
-    stock(Store.number(seed, "activity_id"), Store.number(seed, "sku_id"));
+    // Outbox mirroring changes Redis request state only. A locking stock read
+    // here competed with the conditional decrement in order creation despite
+    // never using the returned inventory value.
+    if (stockSnapshot(Store.number(seed, "activity_id"), Store.number(seed, "sku_id")) == null)
+      throw new IllegalStateException("Outbox stock row missing");
     var out = store.one(
         "SELECT * FROM outbox_events WHERE event_id=? FOR UPDATE", candidate.get("event_id"));
     if (!"PENDING".equals(out.get("status")))
@@ -273,25 +297,28 @@ public final class Orders {
     String state = current.path("state").asText();
     if (order != null) {
       if (state.equals("RESERVED")) {
-        ok(cache.lua("mark_request", key, user, request, reservation, epoch, "RESERVED", "QUEUED"));
+        ok(cache.lua("mark_request", relayKeys(key), user, request, reservation, epoch,
+            "RESERVED", "QUEUED"));
         state = "QUEUED";
       }
       if (state.equals("QUEUED"))
         ok(cache.lua(
-            "mark_request", key, user, request, reservation, epoch, "QUEUED", "ORDER_CREATED"));
+            "mark_request", relayKeys(key), user, request, reservation, epoch,
+            "QUEUED", "ORDER_CREATED"));
       String status = order.get("status").toString();
       if (!status.equals("PENDING_PAYMENT"))
         ok(cache.lua("mark_order", key, user, request, reservation, epoch, status));
       if (status.equals("CLOSED") && out.get("kind").equals("RESERVATION_RELEASE"))
-        ok(cache.lua("release", key, user, request, reservation, epoch,
+        ok(cache.lua("release", relayKeys(key), user, request, reservation, epoch,
             out.get("event_id").toString(), "CLOSED"));
     } else {
       if (!Set.of("COMPENSATING", "FAILED").contains(req.get("status")))
         throw new IllegalStateException("Release without termination");
       if (Set.of("RESERVED", "QUEUED").contains(state))
         ok(cache.lua(
-            "mark_request", key, user, request, reservation, epoch, state, "COMPENSATING"));
-      ok(cache.lua("release", key, user, request, reservation, epoch,
+            "mark_request", relayKeys(key), user, request, reservation, epoch, state,
+            "COMPENSATING"));
+      ok(cache.lua("release", relayKeys(key), user, request, reservation, epoch,
           out.get("event_id").toString(), "FAILED"));
       store.db.update("UPDATE seckill_requests SET status='FAILED' WHERE reservation_id=? AND "
                       + "status='COMPENSATING'",
@@ -306,5 +333,8 @@ public final class Orders {
         || !Set.of("UPDATED", "REPLAY", "ALREADY_ADVANCED", "RELEASED", "ALREADY_RELEASED")
                 .contains(reply.get(0)))
       throw new IllegalStateException("Redis mirror conflict: " + reply.get(0));
+  }
+  private List<String> relayKeys(String ledger) {
+    return List.of(ledger, cache.prefix + ":relay_ledgers", ledger + ":relay_pending");
   }
 }

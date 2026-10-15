@@ -74,7 +74,7 @@ PAID 与 CLOSED 竞争同一状态迁移；回补完成状态另行记录。投�
 
 [reserve.lua](../src/seckill/lua/reserve.lua)以一次HSET写库存、资格、请求、pending及pendingCount；S2 HTTP采用安全模式，两Key同hash tag，凭证与预扣原子校验。S1内部模式仅用于受信存储测试，不向HTTP暴露。单热点集中在一分片，分桶优化须后续实测。
 
-cpp-httplib有界线程池默认8线程/128排队任务，HTTP读写超时3s/body16KiB；线程独享hiredis连接，不跨线程共享context，连接500ms/命令1500ms。队列满时库在解析前关闭TCP，不等同HTTP429；客户端保留requestId查询/重试。默认单活动pending上限10000，Lua原子背压，确认发布/终止时原子降低计数。无库存/资格覆盖恢复行为。
+cpp-httplib有界线程池默认8线程/128排队任务，可用`MALL_HTTP_WORKERS`与`MALL_HTTP_QUEUE`调节；HTTP读写超时3s/body16KiB；线程独享hiredis连接，不跨线程共享context，连接500ms/命令1500ms。队列满时库在解析前关闭TCP，不等同HTTP429；客户端保留requestId查询/重试。默认单活动pending上限10000，Lua原子背压，确认发布/终止时原子降低计数。无库存/资格覆盖恢复行为。T048本机WSL长测显示仅增线程/排队不能代替热SKU的MySQL锁串行与下游排空能力，v0.1持续容量门禁仍未通过。
 
 验证码支持随机6位PNG与屏幕阅读器可读取的随机加法题两种模式；答案摘要存Redis，身份来自Redis会话。二者都是基础防刷，不宣称能抵御OCR/自动化求解。IP取socket对端而非XFF，S6需实现明确可信代理策略。Lua原子隔离不等于运行时错误自动回滚，依据[Redis Lua](https://redis.io/docs/latest/develop/programmability/eval-intro/)，专用命名空间与noeviction仍是前提。
 
@@ -85,7 +85,7 @@ cpp-httplib有界线程池默认8线程/128排队任务，HTTP读写超时3s/bod
 1. Redis AOF+always+noeviction。Lua成功后同连接写固定durabilityFence字段再WAITAOF 1 0 1000；读式重放也写屏障，保证本连接确认偏移因果包含此前预扣，不把新连接的空写偏移当作旧请求确认。未达边界503 ACCEPTANCE_UNKNOWN不回补；TCP代理丢弃确认回复的实测证明原ID重试只扣1次。保证仍限本地磁盘健存的进程恢复，见[WAITAOF](https://redis.io/docs/latest/commands/waitaof/)。
 2. 转发器有界HSCAN非空pending，通过Publisher投递RocketMQ；Broker刷盘与复制确认配置在S3集成时验证。确认后按eventId置空pending并推进状态；未知不回补，重复投递按reservationId幂等，不能将终态回退QUEUED。SYNC_FLUSH单Broker只验证本地磁盘健存边界，不称HA。
 
-PendingRelay::drain及`mall_relay_worker`已接官方C++ SDK；`--loop`持续发现`seckill:ledgers`，每批至多1000次发布尝试，unknown/rejected保留pending并退避，confirmed才调用Lua推进QUEUED/清理计数。测试probe只允许s2_test_命名空间，不在HTTP/发布运行时使用。Broker停机后原worker可在恢复时自动重试；发送确认后进程退出造成重复消息时业务eventId不变。Redis状态若先被下游推进到ORDER_CREATED，确认回写只清除pending而不倒退状态。
+PendingRelay::drain及`mall_relay_worker`已接官方C++ SDK；稳态worker遍历`seckill:relay_ledgers`中的活动ledger，再用`<ledger>:relay_pending`集合取待发reservation，避免对随活动增长的完整ledger执行全量HSCAN。空闲轮询暂为100ms，失败仍退避。Lua预扣将活动加入发现集合并登记pending reservation；确认、终止或回补后移除pending成员，空活动从发现集合移除。启动迁移会从旧`seckill:ledgers`登记表发现仍有待发事件的ledger，并为旧ledger回填一次pending集合。每批至多1000次发布尝试，unknown/rejected保留pending并退避，confirmed才调用Lua推进QUEUED/清理计数。测试probe只允许s2_test_命名空间，不在HTTP/发布运行时使用。Broker停机后原worker可在恢复时自动重试；发送确认后进程退出造成重复消息时业务eventId不变。Redis状态若先被下游推进到ORDER_CREATED，确认回写只清除pending而不倒退状态。
 3. S3的Java探针用于传输验收；S4真实订单消费者使用PushConsumer，核对Redis预扣来源及DB快照，MySQL事务提交后返回SUCCESS，否则返回FAILURE。重复投递保留eventId并通过DB唯一键去重；COMPENSATING/FAILED的请求不复活。官方SDK管理消费确认。
 4. Broker对订单组`mall_order_v1`配置8次递增重试；测试组max=1时已观察PushConsumer失败回调、重投与DLQ。S4/S7必须处理DLQ/终止/补偿/对账，死信不能盲目回补，迟到消费者必须识别FAILED。RocketMQ事务消息不能把Redis与MySQL组成原子事务。
 5. 订单15分钟过期，由DB持久化索引扫描关闭，不依赖MQ延迟插件。关闭事务归还MySQL库存并写唯一RESERVATION_RELEASE outbox；Redis按epoch/reservationId/eventId原子回补去重。未创建订单失败只归还Redis预留。补偿成功后才完成outbox投递记录，结果未知用原ID重试。
@@ -100,6 +100,8 @@ S4恢复实现：消费错误写mq_failures供管理审计/保留原身份重放
 S1库存脚本首次初始化只写空Key，data.py只允许READY且尚无DB请求的活动预热，不用available_stock直接重建运行中缓存。回补先验证epoch/reservationId和DB终止/关闭证据，再执行单HSET；保留资格、eventId与reservation级去重，PAID不可被本地状态镜像关闭。mark_order仅镜像已提交DB状态，禁止向公网暴露。
 
 S7覆盖单热点、多活动、突发、持续及下游故障；入口、拒绝、预扣QPS和落库TPS分开报告，记录端到端P95/P99、积压年龄、重试/死信、回补与对账。容量/硬件指标待实测确定，不能以售罄拒绝QPS证明订单吞吐。
+
+T048为分解订单延迟增加relay发布、Broker等待、consumer接收、MySQL事务提交/失败的reservation级日志。15 QPS×30分钟本机WSL测试分别使用32/128和64/512入口配置，HTTP 202为20,356/27,000与16,230/27,000，5xx为24.6%与39.9%；订单最终落库20,499与19,250笔。64/512组relay pending年龄P95为24.406秒，事务P95为459ms。两组均超过600秒清理等待期限才由后台继续收敛，不能通过持续容量门禁。详情和限制见[T048报告](../tests/reports/T048-acceptance.md)；不得将本机WSL结果宣称为生产容量。
 
 ## S5 客户端与开发接入
 

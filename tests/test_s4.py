@@ -127,6 +127,7 @@ class S4Tests(unittest.TestCase):
         else:
             reservation=uid();script=self.cache.register_script((ROOT/'src/seckill/lua/reserve.lua').read_text())
             result=script(keys=[self.key],args=[userid,request,reservation,'1','s4-fixture']);self.assertEqual(result[0],'RESERVED')
+            self.cache.sadd(self.prefix+':ledgers',self.key)
             self.cache.execute_command('WAITAOF',1,0,2000)
         event=json.loads(self.cache.hget(self.key,'pending:'+reservation))
         return event,token

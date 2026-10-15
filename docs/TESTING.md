@@ -72,3 +72,9 @@ S3原生依赖增加`libgrpc++-dev protobuf-compiler-grpc libprotobuf-dev libabs
 ## S9 WSL 公共目录分页
 
 `bash scripts/test-s9-wsl.sh`先运行完整S5真实浏览器验收（测试展厅使用15173端口和独立临时数据库/Redis前缀），再在独立S7订单栈插入105个带唯一前缀的测试商品，验证公共目录连续分页、搜索、类别/价格筛选、排序、无重项、参数拒绝与清理后库存对账。测试商品在`finally`中删除，不更改S7订单或活动数据。WSL入口会启动既有测试基础服务但不重建或清除卷。
+
+## T048 持续容量与订单阶段追踪
+
+用真实C++ `/api/seckill/buy`→Redis→relay→RocketMQ→Java→MySQL链路执行。环境变量`SUSTAINED_QPS`和`SUSTAINED_SECONDS`支持短验证与持续目标，默认15 QPS×1800秒。压测器在异步收敛前原子保存`tests/reports/wsl/t048-sustained-client-checkpoint.json`；正式JSON另记录对账与阶段延迟。HTTP响应接受数、DB订单数、最终库存守恒分开报告，等待清理超时不能丢失客户端checkpoint。短验证通过不能替代30分钟持续门禁；同机WSL不是生产容量证明。
+
+长测在HTTP响应全部收齐后立即原子写入逐请求checkpoint，并在等待后台清理前保存订单可查的monotonic观察结果。进程异常后可以用`python scripts/recover_t048_report.py --report-name t048-*.json`从checkpoint、容器阶段日志、MySQL和只读活动对账重建报告；恢复报告不会补造缺失数据。32/128与64/512两轮均未过15 QPS×30分钟门禁，最新证据见[T048报告](../tests/reports/T048-acceptance.md)和对应`tests/reports/wsl/t048-sustained-workers*-30m.json`。S2、S4功能回归分别运行`bash scripts/test-s2.sh`和`bash scripts/test-s4.sh`。

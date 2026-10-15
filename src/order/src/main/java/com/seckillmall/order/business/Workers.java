@@ -72,24 +72,59 @@ public final class Workers implements AutoCloseable {
   private ConsumeResult consume(MessageView message) {
     received.incrementAndGet();
     String body = null;
+    String reservation = "unknown", trace = "unknown";
+    long receivedAtMs = System.currentTimeMillis();
+    long transactionStartedNanos = 0;
     try {
       body = RocketMessageReceiver.body(message);
       if (body.length() > 16384)
         throw new Fault(400, "INVALID_EVENT");
       ReservedEvent event = ReservedEvent.parse(cache.json(body));
+      reservation = event.reservationId();
+      trace = event.traceId();
+      long relaySendStartedAtMs = propertyLong(message, "mallRelaySendStartedAtMs");
+      long brokerBornAtMs = message.getBornTimestamp();
+      System.out.printf("event=seckill_stage stage=consumer_received reservationId=%s traceId=%s "
+              + "receivedAtMs=%d reservationAgeMs=%d relayToConsumerMs=%d brokerQueueMs=%d "
+              + "relaySendToBrokerMs=%d deliveryAttempt=%d%n",
+          reservation, trace, receivedAtMs, Math.max(0, receivedAtMs - event.createdAtMs()),
+          relaySendStartedAtMs < 0 ? -1 : Math.max(0, receivedAtMs - relaySendStartedAtMs),
+          Math.max(0, receivedAtMs - brokerBornAtMs),
+          relaySendStartedAtMs < 0 ? -1 : Math.max(0, brokerBornAtMs - relaySendStartedAtMs),
+          message.getDeliveryAttempt());
+      transactionStartedNanos = System.nanoTime();
       orders.accept(event);
+      long transactionMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - transactionStartedNanos);
+      long committedAtMs = System.currentTimeMillis();
+      System.out.printf("event=seckill_stage stage=order_transaction_committed reservationId=%s "
+              + "traceId=%s committedAtMs=%d mysqlTransactionMs=%d%n",
+          reservation, trace, committedAtMs, transactionMs);
       resolve(body);
       confirmed.incrementAndGet();
       return ConsumeResult.SUCCESS;
     } catch (Exception e) {
       failed.incrementAndGet();
       String reason = e instanceof Fault f ? f.code : e.getClass().getSimpleName();
+      if (transactionStartedNanos != 0)
+        System.err.printf("event=seckill_stage stage=order_transaction_failed reservationId=%s "
+                + "traceId=%s failedAtMs=%d mysqlTransactionMs=%d reason=%s%n",
+            reservation, trace, System.currentTimeMillis(),
+            TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - transactionStartedNanos), reason);
       if (body != null && body.length() <= 16384)
         try {
           journal(body, reason, e instanceof Fault);
         } catch (Exception ignored) { /* Broker retains message when DB cannot store audit. */
         }
       return ConsumeResult.FAILURE;
+    }
+  }
+  private static long propertyLong(MessageView message, String name) {
+    try {
+      String value = message.getProperties().get(name);
+      if (value == null) return -1;
+      return Long.parseLong(value);
+    } catch (RuntimeException ignored) {
+      return -1;
     }
   }
   private void journal(String body, String reason, boolean quarantine) {

@@ -9,7 +9,8 @@ struct RelayResult {
 class PendingRelay {
 public:
   explicit PendingRelay(const Config &config)
-      : mark_(read_script(config, "mark_request")), topic_(config.mq_topic) {}
+      : mark_(read_script(config, "mark_request")), topic_(config.mq_topic),
+        active_ledgers_(config.prefix + ":relay_ledgers") {}
   RelayResult drain(Redis &redis, mq::Publisher &publisher,
                     const std::string &ledger, const std::string &cursor = "0",
                     int count = 100);
@@ -17,5 +18,6 @@ public:
 private:
   std::string mark_;
   std::string topic_;
+  std::string active_ledgers_;
 };
 } // namespace mall

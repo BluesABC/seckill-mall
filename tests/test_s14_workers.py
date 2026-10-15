@@ -11,10 +11,12 @@ import time
 import uuid
 from pathlib import Path
 
-from stack_client import PROJECT, activity, clean, fixture_users, login, prepare, sql, buy
-
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from stack_client import PROJECT, activity, clean, fixture_users, login, prepare, sql, buy
+from analyze_order_stages import parse as parse_stages, summarize as summarize_stages
+
+
 WORKERS = int(sys.argv[1])
 ROUNDS = int(os.environ.get("S14_ROUNDS", "3"))
 USERS = int(os.environ.get("S14_USERS", "64"))
@@ -98,7 +100,7 @@ for run in range(1, ROUNDS + 1):
     rows = []
     while time.monotonic() < deadline:
         raw = sql(
-            "SELECT r.request_id,o.created_at_ms,o.status FROM orders o "
+            "SELECT r.request_id,o.created_at_ms,o.status,r.created_at_ms FROM orders o "
             "JOIN seckill_requests r ON r.reservation_id=o.reservation_id "
             f"WHERE o.activity_id={activity_id} ORDER BY o.created_at_ms")
         rows = [line.split("\t") for line in raw.splitlines() if line]
@@ -106,13 +108,33 @@ for run in range(1, ROUNDS + 1):
             break
         time.sleep(0.25)
     assert len(rows) == USERS, f"only {len(rows)}/{USERS} durable orders"
-    by_request = {request: (int(created), status) for request, created, status in rows}
+    by_request = {request: (int(order_created), status, int(reserved_at))
+                  for request, order_created, status, reserved_at in rows}
     order_ms = [by_request[r["requestId"]][0] - (r["startedAtMs"] + db_clock_offset)
                 for r in responses]
+    request_to_reservation_ms = [
+        by_request[r["requestId"]][2] - (r["startedAtMs"] + db_clock_offset)
+        for r in responses]
     http_ms = [(r["endMonoNs"] - r["startMonoNs"]) / 1_000_000 for r in responses]
-    assert all(status == "PENDING_PAYMENT" for _, status in by_request.values())
+    assert all(status == "PENDING_PAYMENT" for _, status, _ in by_request.values())
     reconciliation = clean()
     db_after = global_status()
+    reservation_ids = set(sql(
+        f"SELECT reservation_id FROM seckill_requests WHERE activity_id={activity_id}"
+    ).splitlines())
+    stage_lines = []
+    for service in ("relay", "order"):
+        stage_lines.extend(subprocess.check_output(
+            ["docker", "logs", "--since", "10m", f"{PROJECT}-{service}-1"],
+            text=True, stderr=subprocess.STDOUT).splitlines())
+    round_lines = [line for line in stage_lines
+                   if any(f"reservationId={key}" in line for key in reservation_ids)]
+    round_stages, malformed_stages, duplicate_stages = parse_stages(round_lines)
+    stage_telemetry = summarize_stages(round_stages, malformed_stages, duplicate_stages)
+    assert stage_telemetry["stageCounts"].get("relay_publish") == USERS, stage_telemetry
+    assert stage_telemetry["stageCounts"].get("consumer_received") == USERS, stage_telemetry
+    assert stage_telemetry["stageCounts"].get("committed") == USERS, stage_telemetry
+    assert stage_telemetry["malformedStageLines"] == 0, stage_telemetry
     records.append({
         "name": name, "workers": WORKERS, "users": USERS, "concurrency": USERS,
         "ingressSeconds": round(ingress_seconds, 3),
@@ -121,9 +143,14 @@ for run in range(1, ROUNDS + 1):
                           "p99": quantile(http_ms, 99)},
         "orderLatencyMs": {"p50": quantile(order_ms, 50), "p95": quantile(order_ms, 95),
                            "p99": quantile(order_ms, 99)},
+        "requestToReservationLatencyMs": {
+            "p50": quantile(request_to_reservation_ms, 50),
+            "p95": quantile(request_to_reservation_ms, 95),
+            "p99": quantile(request_to_reservation_ms, 99)},
         "mysqlClockOffsetMs": round(db_clock_offset, 3),
         "databaseRowLockWaitsBefore": db_before,
         "databaseRowLockWaitsAfter": db_after,
+        "stageTelemetry": stage_telemetry,
         "reconciliation": reconciliation["status"],
         "createdAtWindowMs": [min(x[0] for x in by_request.values()),
                               max(x[0] for x in by_request.values())],

@@ -1,8 +1,10 @@
 -- One hash per activity/SKU: all checks precede ONE mutating HSET.
 -- KEYS[1] = seckill:{activityId:skuId}:ledger
+-- KEYS[3] (secured calls) = active relay-ledger registry
+-- KEYS[4] (secured calls) = per-ledger pending reservation set
 -- ARGV: userId, requestId, reservationId, epoch, traceId
 -- Values come from the authenticated service, never raw client identity/price.
-local secured = #KEYS == 2 and #ARGV == 8
+local secured = #KEYS == 4 and #ARGV == 8
 if not secured and (#KEYS ~= 1 or #ARGV ~= 5) then return {'INVALID_ARGUMENT'} end
 local function id(s) return #s > 0 and #s <= 64 and string.match(s, '^[%w%-]+$') end
 local function uuid(s)
@@ -63,4 +65,8 @@ local request = cjson.encode({reservationId=ARGV[3], requestId=ARGV[2],
 redis.call('HSET', KEYS[1], 'stock', tostring(stock - 1),
   'user:' .. ARGV[1], ARGV[3], requestField, request, 'pending:' .. ARGV[3], event,
   'pendingCount',tostring(pending+1))
+if secured then
+  redis.call('SADD', KEYS[3], KEYS[1])
+  redis.call('SADD', KEYS[4], ARGV[3])
+end
 return {'RESERVED', request}
