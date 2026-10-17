@@ -106,3 +106,15 @@ docker compose -p seckill-mall-s7 --env-file deploy/.env.s7 \
 ```
 
 若机器/WSL/Docker中断，先检查测试进程与已有报告，不直接重复启动。未满30分钟且无完整逐请求checkpoint的结果属于未完成，不可由数据库订单总数补造延迟或受理率。已有订单通过正常关闭/回补流程恢复，禁止删卷或覆盖活动库存。
+
+## S19 混合API旅程与自然关闭
+
+使用已有S7保留卷执行`bash scripts/test-s19-journeys-wsl.sh --report s19-mixed-30m-recheck.json`；工况、暂定门槛与限制见[S19计划](S19-TEST-PLAN.md)。每次使用唯一报告名。该入口与S18共用容量锁，先记录当前C++线程/队列，以32/128作对照，退出时恢复原值；不修改900000ms待支付或Java认证限流，不清空卷。业务源码/接口不变。
+
+本工况为15次/秒背景GET持续30分钟，另穿插64条登录/验证码/token/buy/查询/模拟支付或自然关闭流程，并非15条完整旅程/秒。8次真实注册、56预置bcrypt账号、64次真实登录，无会话注入；图片验证码私有答案夹具与真实可读题面各32次，60秒证明不变。16笔订单自然15分钟关闭，另48笔支付/重放；三场混合活动和64/32库存两场64人突发独立对账。突发延迟仅报告，不据瞬时并发推导持续容量。
+
+短自检：加`--smoke --report s19-smoke-recheck.json`，仅120秒/4条支付流程，不能通过完整门禁。独立复核：`python3 scripts/check_journey_gate.py REPORT --output GATE_REPORT`；单元：`python3 -m unittest tests.test_journey_gate`。独立工具从接口样本、原状态计数、固定TTL/工况、支付/资格唯一性和库存明细计算，不信任passed声明。
+
+分钟checkpoint为`build/wsl/s19-progress.json`，不包含密码/令牌；可选另开终端执行`python3 tests/sample_s19_runtime.py`记录只读资源和历史到期/回写采样（其开销与服务共享主机）。异常中断记为未完成；强杀后核对容器实际参数与保留订单，不推造缺失延迟。还原后需等待网关业务健康路由返回200再做冒烟，容器healthy不是所有代理缓存都已更新的证明。
+
+S19完整入口在负载结束后自动调用独立门禁；`bash scripts/test-s19-journeys-wsl.sh --check REPORT`提供离线复核。已有报告、非法报告名、非自有项目/env或不匹配的网关端口在重建之前拒绝；`--smoke`仅短流程自检，不自动当作完整门禁。

@@ -1,0 +1,38 @@
+{
+  "passed": false,
+  "checks": {
+    "completeFullProfile": false,
+    "measuredDurationAndReadRate": false,
+    "all64JourneysObserved": false,
+    "noRequestOrJourneyErrors": true,
+    "allWriteRoutesAndCountsPresent": false,
+    "orderPollingPresent": false,
+    "allReadRoutesAndCountsPresent": false,
+    "perApiStatusAndLatencyTargets": false,
+    "durableLatencyTargets": true,
+    "naturalExpiryObserved": false,
+    "naturalExpiryObservationWithin60s": false,
+    "paidClosedAndPaymentConservation": false,
+    "allMixedInventoryConservesStock": false,
+    "bothBurstProfilesPresent": false,
+    "burstStock64ConservesStock": false,
+    "burstStock32ConservesStock": false
+  },
+  "failedChecks": [
+    "completeFullProfile",
+    "measuredDurationAndReadRate",
+    "all64JourneysObserved",
+    "allWriteRoutesAndCountsPresent",
+    "orderPollingPresent",
+    "allReadRoutesAndCountsPresent",
+    "perApiStatusAndLatencyTargets",
+    "naturalExpiryObserved",
+    "naturalExpiryObservationWithin60s",
+    "paidClosedAndPaymentConservation",
+    "allMixedInventoryConservesStock",
+    "bothBurstProfilesPresent",
+    "burstStock64ConservesStock",
+    "burstStock32ConservesStock"
+  ],
+  "scope": "S19 specified local mixed API profile and 64-user burst correctness only; not production SLA."
+}

@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-17T18:03:41+08:00",
+  "platform": "linux",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "distribution": "Ubuntu 24.04.4 LTS",
+  "python": "3.12.3",
+  "dockerVersion": "29.8.2",
+  "sourceHashesUnchanged": true,
+  "runtime": {
+    "seckill": {
+      "imageId": "sha256:c6ab56a87ef9cfd7858abbbc415e86efe8ad033c77116dfa848efe0fd1d2ea06",
+      "MALL_HTTP_WORKERS": "8",
+      "MALL_HTTP_QUEUE": "128"
+    },
+    "relay": {
+      "imageId": "sha256:c6ab56a87ef9cfd7858abbbc415e86efe8ad033c77116dfa848efe0fd1d2ea06"
+    },
+    "order": {
+      "imageId": "sha256:8e0ffe93d73f5ae3af4b47f1086ed30ad4c01603a625305d274b6b9755ee5b90",
+      "ORDER_PAYMENT_TTL_MS": "900000"
+    }
+  },
+  "businessHealthRoutes200": true,
+  "passed": true,
+  "scope": "S19 post-run configuration/health verification; no production SLA claim."
+}

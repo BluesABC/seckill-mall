@@ -1,0 +1,8 @@
+{
+  "platform": "linux",
+  "invalidProjectRejected": true,
+  "exitCode": 1,
+  "noContainerRecreation": true,
+  "noReportWritten": true,
+  "passed": true
+}

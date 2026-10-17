@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-17",
+  "platform": "linux",
+  "checks": [
+    {
+      "name": "gate-and-helper-unit-tests",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "tests.test_journey_gate"
+      ],
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "",
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.803s\n\nOK"
+    },
+    {
+      "name": "python-syntax",
+      "command": [
+        "python3",
+        "-m",
+        "py_compile",
+        "tests/load_s19_journeys.py",
+        "tests/sample_s19_runtime.py",
+        "scripts/check_journey_gate.py"
+      ],
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "bash-syntax",
+      "command": [
+        "bash",
+        "-n",
+        "scripts/test-s19-journeys-wsl.sh"
+      ],
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "project-skill",
+      "command": [
+        "build/wsl/venv/bin/python",
+        "/mnt/c/Users/14106/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+        ".agents/skills/seckill-mall"
+      ],
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "Skill is valid!",
+      "stderr": ""
+    },
+    {
+      "name": "reject-short-smoke",
+      "command": [
+        "python3",
+        "scripts/check_journey_gate.py",
+        "tests/reports/wsl/s19-smoke-01.json"
+      ],
+      "expectedExitCode": 1,
+      "exitCode": 1,
+      "passed": true,
+      "stdout": "{\"passed\": false, \"checks\": {\"completeFullProfile\": false, \"measuredDurationAndReadRate\": false, \"all64JourneysObserved\": false, \"noRequestOrJourneyErrors\": true, \"allWriteRoutesAndCountsPresent\": false, \"orderPollingPresent\": false, \"allReadRoutesAndCountsPresent\": false, \"perApiStatusAndLatencyTargets\": false, \"durableLatencyTargets\": true, \"naturalExpiryObserved\": false, \"naturalExpiryObservationWithin60s\": false, \"paidClosedAndPaymentConservation\": false, \"allMixedInventoryConservesStock\": false, \"bothBurstProfilesPresent\": false, \"burstStock64ConservesStock\": false, \"burstStock32ConservesStock\": false}, \"failedChecks\": [\"completeFullProfile\", \"measuredDurationAndReadRate\", \"all64JourneysObserved\", \"allWriteRoutesAndCountsPresent\", \"orderPollingPresent\", \"allReadRoutesAndCountsPresent\", \"perApiStatusAndLatencyTargets\", \"naturalExpiryObserved\", \"naturalExpiryObservationWithin60s\", \"paidClosedAndPaymentConservation\", \"allMixedInventoryConservesStock\", \"bothBurstProfilesPresent\", \"burstStock64ConservesStock\", \"burstStock32ConservesStock\"], \"scope\": \"S19 specified local mixed API profile and 64-user burst correctness only; not production SLA.\"}",
+      "stderr": ""
+    },
+    {
+      "name": "accept-real-full-profile",
+      "command": [
+        "python3",
+        "scripts/check_journey_gate.py",
+        "tests/reports/wsl/s19-mixed-30m-01.json"
+      ],
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "{\"passed\": true, \"checks\": {\"completeFullProfile\": true, \"measuredDurationAndReadRate\": true, \"all64JourneysObserved\": true, \"noRequestOrJourneyErrors\": true, \"allWriteRoutesAndCountsPresent\": true, \"orderPollingPresent\": true, \"allReadRoutesAndCountsPresent\": true, \"perApiStatusAndLatencyTargets\": true, \"durableLatencyTargets\": true, \"naturalExpiryObserved\": true, \"naturalExpiryObservationWithin60s\": true, \"paidClosedAndPaymentConservation\": true, \"allMixedInventoryConservesStock\": true, \"bothBurstProfilesPresent\": true, \"burstStock64ConservesStock\": true, \"burstStock32ConservesStock\": true}, \"failedChecks\": [], \"scope\": \"S19 specified local mixed API profile and 64-user burst correctness only; not production SLA.\"}",
+      "stderr": ""
+    },
+    {
+      "name": "wrapper-offline-check",
+      "command": [
+        "bash",
+        "scripts/test-s19-journeys-wsl.sh",
+        "--check",
+        "tests/reports/wsl/s19-mixed-30m-01.json"
+      ],
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "{\"passed\": true, \"checks\": {\"completeFullProfile\": true, \"measuredDurationAndReadRate\": true, \"all64JourneysObserved\": true, \"noRequestOrJourneyErrors\": true, \"allWriteRoutesAndCountsPresent\": true, \"orderPollingPresent\": true, \"allReadRoutesAndCountsPresent\": true, \"perApiStatusAndLatencyTargets\": true, \"durableLatencyTargets\": true, \"naturalExpiryObserved\": true, \"naturalExpiryObservationWithin60s\": true, \"paidClosedAndPaymentConservation\": true, \"allMixedInventoryConservesStock\": true, \"bothBurstProfilesPresent\": true, \"burstStock64ConservesStock\": true, \"burstStock32ConservesStock\": true}, \"failedChecks\": [], \"scope\": \"S19 specified local mixed API profile and 64-user burst correctness only; not production SLA.\"}",
+      "stderr": ""
+    },
+    {
+      "name": "refuse-overwriting-evidence",
+      "command": [
+        "bash",
+        "scripts/test-s19-journeys-wsl.sh",
+        "--report",
+        "s19-mixed-30m-01.json"
+      ],
+      "expectedExitCode": 2,
+      "exitCode": 2,
+      "passed": true,
+      "stdout": "Refuse overwriting evidence",
+      "stderr": ""
+    }
+  ],
+  "passed": true,
+  "scope": "Tooling behavior; synthetic unit fixtures are not capacity evidence."
+}

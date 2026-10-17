@@ -69,3 +69,11 @@ QPS是每轮64个请求集中提交的短时吞吐中位数，不是持续容量
 [原始完整报告](../tests/reports/wsl/t048-fixed-durability-30m.json)、[独立门禁](../tests/reports/wsl/t048-fixed-durability-30m-gate.json)、[S17验收](../tests/reports/S17-acceptance.md)、[S18验收](../tests/reports/S18-acceptance.md)。活动元数据有界读取、后端空闲连接释放、往返减少与outbox调度隔离是本轮修复；旧S14/S16结果保持历史原样。
 
 私有证明600秒、支付TTL1小时，仅用于隔离压测；生产证明60秒、日常待支付15分钟不变。用户初始化和首批证明在发流前，后续证明夹具后台滚动准备；未向注册、验证码渲染/token兑换/真实支付接口发流或计其延迟，共享夹具开销仍包含在同机负载内。通用默认仍8/128；同机结果不能作为生产独立拓扑、HA或SLA证据。
+
+## S19指定混合API工况（2026-10-17）
+
+27,000次背景读/30分钟+64条完整旅程；48笔模拟支付、16笔自然15分钟关闭；buy P95 69ms、订单可查P95 318ms；64人突发库存64/32分别64/32订单、后者32次售罄，五场只读对账CLEAN。背景15次/秒为六族读请求，64完整旅程在其外，合计HTTP调用见[S19验收](../tests/reports/S19-acceptance.md)。图片/可读验证码各32，真实token兑换，64真实登录（8注册、56预置bcrypt账号），原Java频控/60秒证明/15分钟待支付保持。非15条旅程/秒；64人瞬时竞争仅验证库存正确性，不能推导持续容量。
+
+[原始报告](../tests/reports/wsl/s19-mixed-30m-01.json)、[独立门禁](../tests/reports/wsl/s19-mixed-30m-01-gate.json)、[运行采样](../tests/reports/wsl/s19-runtime-samples.json)。同机12逻辑CPU/约8GB、32线程/128排队与单Broker，结束恢复8/128，不构成生产容量/SLA。
+
+S19库存64的单轮瞬时竞争HTTP P95约1.20秒/P99约2.09秒，尚不能声称该突发场景响应延迟达标；记录为PERF-002待复核，T053先重复和分段定位。
