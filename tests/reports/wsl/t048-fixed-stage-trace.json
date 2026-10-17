@@ -1,0 +1,107 @@
+{
+  "date": "2026-10-17",
+  "environment": "Ubuntu 24.04 / WSL2; owned seckill-mall-s7 Docker stack",
+  "activityName": "T048-trace-68e04317c9",
+  "reservationId": "60acf51e-5cdf-494f-8711-25280156e2bc",
+  "orderId": "4ea0f94c-21cd-4c85-a6c5-e7bae7259019",
+  "durableStatus": "PENDING_PAYMENT",
+  "reconciliation": {
+    "status": "CLEAN",
+    "orders": 1,
+    "alerts": []
+  },
+  "correlatedStages": {
+    "relay_publish": {
+      "stage": "relay_publish",
+      "reservationId": "60acf51e-5cdf-494f-8711-25280156e2bc",
+      "traceId": "6cdcd4e7-ea58-4cd9-89dd-d2a8b6cb6559",
+      "reservationCreatedAtMs": "1792227116314",
+      "relayObservedAtMs": "1792227116368",
+      "relayPendingAgeMs": "54",
+      "publishCallMs": "8",
+      "publishReturnedAtMs": "1792227116376",
+      "outcome": "confirmed"
+    },
+    "consumer_received": {
+      "stage": "consumer_received",
+      "reservationId": "60acf51e-5cdf-494f-8711-25280156e2bc",
+      "traceId": "6cdcd4e7-ea58-4cd9-89dd-d2a8b6cb6559",
+      "receivedAtMs": "1792227116404",
+      "reservationAgeMs": "90",
+      "relayToConsumerMs": "36",
+      "brokerQueueMs": "0",
+      "relaySendToBrokerMs": "59",
+      "deliveryAttempt": "1"
+    },
+    "order_transaction_committed": {
+      "stage": "order_transaction_committed",
+      "reservationId": "60acf51e-5cdf-494f-8711-25280156e2bc",
+      "traceId": "6cdcd4e7-ea58-4cd9-89dd-d2a8b6cb6559",
+      "committedAtMs": "1792227116454",
+      "mysqlTransactionMs": "47"
+    }
+  },
+  "analysis": {
+    "reservations": 1,
+    "malformedStageLines": 0,
+    "duplicateStageLines": 0,
+    "stageCounts": {
+      "relay_publish": 1,
+      "consumer_received": 1,
+      "committed": 1,
+      "failed": 0
+    },
+    "latencyMs": {
+      "relayPendingAgeMs": {
+        "count": 1,
+        "p50": 54,
+        "p95": 54,
+        "p99": 54,
+        "max": 54
+      },
+      "publishCallMs": {
+        "count": 1,
+        "p50": 8,
+        "p95": 8,
+        "p99": 8,
+        "max": 8
+      },
+      "relayToConsumerMs": {
+        "count": 1,
+        "p50": 36,
+        "p95": 36,
+        "p99": 36,
+        "max": 36
+      },
+      "brokerQueueMs": {
+        "count": 1,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "max": 0
+      },
+      "relaySendToBrokerMs": {
+        "count": 1,
+        "p50": 59,
+        "p95": 59,
+        "p99": 59,
+        "max": 59
+      },
+      "mysqlTransactionMs": {
+        "count": 1,
+        "p50": 47,
+        "p95": 47,
+        "p99": 47,
+        "max": 47
+      },
+      "reservationAgeMs": {
+        "count": 1,
+        "p50": 90,
+        "p95": 90,
+        "p99": 90,
+        "max": 90
+      }
+    }
+  },
+  "scope": "instrumentation smoke test only; one transaction is not a capacity or SLA result"
+}

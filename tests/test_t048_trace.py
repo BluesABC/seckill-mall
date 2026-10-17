@@ -1,9 +1,13 @@
 """One live owned-S7 transaction proving stage-log correlation end to end."""
 import json
+import os
+import re
 import subprocess
 import sys
 import time
 import uuid
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,7 +32,7 @@ while time.monotonic() < deadline:
     time.sleep(.2)
 assert persisted, "accepted reservation did not become a durable order within 60 seconds"
 assert persisted["orderState"] == "PENDING_PAYMENT", persisted
-reconciliation = clean()
+reconciliation = clean(activity_id=activity_id, limit=100000)
 
 lines = []
 for service in ("relay", "order"):
@@ -47,7 +51,7 @@ assert summary["stageCounts"]["committed"] == 1, summary
 assert summary["latencyMs"]["mysqlTransactionMs"]["count"] == 1, summary
 assert summary["latencyMs"]["relaySendToBrokerMs"]["count"] == 1, summary
 report = {
-    "date": "2026-10-15",
+    "date": datetime.now(ZoneInfo('Asia/Shanghai')).date().isoformat(),
     "environment": "Ubuntu 24.04 / WSL2; owned seckill-mall-s7 Docker stack",
     "activityName": name,
     "reservationId": persisted["reservationId"],
@@ -60,7 +64,9 @@ report = {
     "analysis": summary,
     "scope": "instrumentation smoke test only; one transaction is not a capacity or SLA result",
 }
-out = ROOT / "tests" / "reports" / "wsl" / "t048-stage-trace.json"
+report_name = os.getenv('T048_TRACE_REPORT_NAME', 't048-stage-trace.json')
+assert re.fullmatch(r't048-[a-z0-9-]+\.json', report_name), 'Invalid trace report filename'
+out = ROOT / "tests" / "reports" / "wsl" / report_name
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 print(json.dumps({"status": "PASS", "reservationId": persisted["reservationId"],

@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-17",
+  "platform": "WSL2 Ubuntu",
+  "python": "3.12.3",
+  "checks": [
+    {
+      "name": "capacity-gate-unit-tests",
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "",
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.321s\n\nOK"
+    },
+    {
+      "name": "stage-parser-unit-tests",
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "",
+      "stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK"
+    },
+    {
+      "name": "python-syntax",
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "bash-syntax",
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "skill-validation",
+      "expectedExitCode": 0,
+      "exitCode": 0,
+      "passed": true,
+      "stdout": "Skill is valid!",
+      "stderr": ""
+    },
+    {
+      "name": "reject-short-capacity-run",
+      "expectedExitCode": 1,
+      "exitCode": 1,
+      "passed": true,
+      "stdout": "{\"passed\": false, \"checks\": {\"durationAtLeast30Minutes\": false, \"targetAtLeast15Qps\": true, \"plannedLoadComplete\": true, \"observedRateAtLeast99PercentOfTarget\": true, \"observedRateMatchesMeasuredTime\": true, \"measuredRunCoversPlannedDuration\": true, \"httpCountConservation\": true, \"acceptedCountMatchesHttp202\": true, \"acceptanceAtLeast99_5Percent\": true, \"server5xxAtMost0_1Percent\": true, \"server5xxCountConsistent\": true, \"noTransportUnknown\": true, \"buyApiLatencyMsAcceptedOnlyCompleteAndOrdered\": true, \"buyApiLatencyMsAcceptedOnlyp95WithinTarget\": true, \"buyApiLatencyMsAllResponsesCompleteAndOrdered\": true, \"buyApiLatencyMsAllResponsesp95WithinTarget\": true, \"requestToDurableOrderMsCompleteAndOrdered\": true, \"requestToDurableOrderMsp95WithinTarget\": true, \"requestToDurableOrderMsp99WithinTarget\": true, \"allReservationsPersisted\": true, \"durableObservationCoverageAtLeast99_5Percent\": true, \"stageEvidenceComplete\": true, \"inventoryReconciliationClean\": true, \"inventoryLedgerConservesStock\": false, \"outboxDrained\": true, \"inventoryCleanWithin600Seconds\": true, \"fiveMinuteWindowsSustainLoadAndErrorBudget\": false, \"windowCountsMatchHttpTotals\": false}, \"failedChecks\": [\"durationAtLeast30Minutes\", \"inventoryLedgerConservesStock\", \"fiveMinuteWindowsSustainLoadAndErrorBudget\", \"windowCountsMatchHttpTotals\"], \"scope\": \"Local v0.1 sustained buy-path gate only; production HA/SLA/payments/a11y remain separate.\"}",
+      "stderr": ""
+    },
+    {
+      "name": "reject-historical-failed-long-run",
+      "expectedExitCode": 1,
+      "exitCode": 1,
+      "passed": true,
+      "stdout": "{\"passed\": false, \"checks\": {\"durationAtLeast30Minutes\": true, \"targetAtLeast15Qps\": true, \"plannedLoadComplete\": true, \"observedRateAtLeast99PercentOfTarget\": true, \"observedRateMatchesMeasuredTime\": true, \"measuredRunCoversPlannedDuration\": true, \"httpCountConservation\": true, \"acceptedCountMatchesHttp202\": true, \"acceptanceAtLeast99_5Percent\": false, \"server5xxAtMost0_1Percent\": false, \"server5xxCountConsistent\": true, \"noTransportUnknown\": true, \"buyApiLatencyMsAcceptedOnlyCompleteAndOrdered\": true, \"buyApiLatencyMsAcceptedOnlyp95WithinTarget\": false, \"buyApiLatencyMsAllResponsesCompleteAndOrdered\": false, \"buyApiLatencyMsAllResponsesp95WithinTarget\": false, \"requestToDurableOrderMsCompleteAndOrdered\": false, \"requestToDurableOrderMsp95WithinTarget\": false, \"requestToDurableOrderMsp99WithinTarget\": false, \"allReservationsPersisted\": false, \"durableObservationCoverageAtLeast99_5Percent\": false, \"stageEvidenceComplete\": false, \"inventoryReconciliationClean\": false, \"inventoryLedgerConservesStock\": true, \"outboxDrained\": false, \"inventoryCleanWithin600Seconds\": false, \"fiveMinuteWindowsSustainLoadAndErrorBudget\": false, \"windowCountsMatchHttpTotals\": false}, \"failedChecks\": [\"acceptanceAtLeast99_5Percent\", \"server5xxAtMost0_1Percent\", \"buyApiLatencyMsAcceptedOnlyp95WithinTarget\", \"buyApiLatencyMsAllResponsesCompleteAndOrdered\", \"buyApiLatencyMsAllResponsesp95WithinTarget\", \"requestToDurableOrderMsCompleteAndOrdered\", \"requestToDurableOrderMsp95WithinTarget\", \"requestToDurableOrderMsp99WithinTarget\", \"allReservationsPersisted\", \"durableObservationCoverageAtLeast99_5Percent\", \"stageEvidenceComplete\", \"inventoryReconciliationClean\", \"outboxDrained\", \"inventoryCleanWithin600Seconds\", \"fiveMinuteWindowsSustainLoadAndErrorBudget\", \"windowCountsMatchHttpTotals\"], \"scope\": \"Local v0.1 sustained buy-path gate only; production HA/SLA/payments/a11y remain separate.\"}",
+      "stderr": ""
+    }
+  ],
+  "passed": true,
+  "scope": "Tool behavior validation, not a fresh capacity measurement."
+}

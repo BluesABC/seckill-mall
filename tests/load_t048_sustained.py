@@ -1,5 +1,6 @@
 """30-minute 15 rps real buy-path run against the owned S7 stack."""
 import concurrent.futures
+import hashlib
 import json
 import math
 import os
@@ -11,7 +12,9 @@ import sys
 import threading
 import time
 import uuid
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -22,6 +25,7 @@ from stack_client import PROJECT, CMD, settings, activity, buy, clean, fixture_u
 QPS = float(os.getenv("SUSTAINED_QPS", "15"))
 DURATION = int(os.getenv("SUSTAINED_SECONDS", "1800"))
 REPORT_NAME = os.getenv("T048_REPORT_NAME", "t048-sustained.json")
+REPORT_DATE = datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
 if QPS <= 0 or DURATION < 60:
     raise SystemExit("SUSTAINED_QPS must be positive; SUSTAINED_SECONDS must be >= 60")
 if not re.fullmatch(r"t048-[a-z0-9-]+\.json", REPORT_NAME):
@@ -126,7 +130,6 @@ if plans.empty():
         if producer_error:
             raise RuntimeError("captcha/token preparation failed") from producer_error[0]
         raise RuntimeError("captcha/token preparation produced no plans within 60 seconds")
-run_start_mono = time.monotonic()
 responses = []
 
 
@@ -169,6 +172,13 @@ def watch_durable_orders():
 
 start_db = sql("SHOW GLOBAL STATUS WHERE Variable_name IN "
                "('Innodb_row_lock_waits','Innodb_row_lock_time','Threads_connected','Threads_running')")
+dataset_values = sql("SELECT (SELECT COUNT(*) FROM orders),"
+                     "(SELECT COUNT(*) FROM activities),(SELECT COUNT(*) FROM users),"
+                     "(SELECT COUNT(*) FROM outbox_events WHERE status='PENDING'),"
+                     "(SELECT COUNT(*) FROM orders WHERE status='PENDING_PAYMENT' AND "
+                     "expires_at_ms<=CAST(UNIX_TIMESTAMP(NOW(3))*1000 AS UNSIGNED))").split('\t')
+dataset_before = dict(zip(('orders', 'activities', 'users', 'unpublishedOutbox', 'expiredPendingOrders'),
+                          map(int, dataset_values)))
 mysql_clock_offset_start = measure_mysql_offset()
 redis_clock_offset_start = measure_redis_offset()
 container_env = subprocess.check_output(
@@ -176,16 +186,40 @@ container_env = subprocess.check_output(
      f"{PROJECT}-seckill-1"], text=True)
 worker_count = int(next((line.split("=", 1)[1] for line in container_env.splitlines()
                          if line.startswith("MALL_HTTP_WORKERS=")), "8"))
+queue_count = int(next((line.split("=", 1)[1] for line in container_env.splitlines()
+                        if line.startswith("MALL_HTTP_QUEUE=")), "128"))
 order_env = subprocess.check_output(
     ["docker", "inspect", "--format", "{{range .Config.Env}}{{println .}}{{end}}",
      f"{PROJECT}-order-1"], text=True)
 consumer_count = int(next((line.split("=", 1)[1] for line in order_env.splitlines()
                            if line.startswith("MALL_MQ_CONSUMER_THREADS=")), "4"))
+payment_ttl_ms = int(next((line.split('=', 1)[1] for line in order_env.splitlines()
+                          if line.startswith('ORDER_PAYMENT_TTL_MS=')), '900000'))
+runtime_provenance = {
+    'gitHeadBeforeRun': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+    'dockerHost': json.loads(subprocess.check_output(
+        ['docker', 'info', '--format', '{"cpus":{{.NCPU}},"memoryBytes":{{.MemTotal}}}'], text=True)),
+    'imageIds': {service: subprocess.check_output(
+        ['docker', 'inspect', '--format', '{{.Image}}', f'{PROJECT}-{service}-1'], text=True).strip()
+        for service in ('seckill', 'relay', 'order')},
+    'sourceSha256': {path: hashlib.sha256((ROOT/path).read_bytes()).hexdigest() for path in (
+        'src/seckill/service.cpp', 'src/order/src/main/java/com/seckillmall/order/business/Orders.java',
+        'src/order/src/main/java/com/seckillmall/order/business/Workers.java',
+        'src/order/src/main/java/com/seckillmall/order/business/Cache.java', 'src/mq/relay_worker.cpp',
+        'src/seckill/relay.cpp', 'src/seckill/lua/mark_request.lua',
+        'src/seckill/lua/mark_order.lua', 'src/seckill/lua/release.lua',
+        'tests/load_t048_sustained.py')},
+    'orderPaymentTtlMs': payment_ttl_ms,
+    'fixtureScope': 'Synthetic eligible users, unique requests, one hot SKU; historical S7 data retained.'}
 max_workers = max(64, math.ceil(QPS * 20))
 durable_watcher = threading.Thread(target=watch_durable_orders,
                                    name="durable-order-observer", daemon=True)
 durable_watcher.start()
 with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as pool:
+    # Setup/clock probes/container inspection are outside the arrival schedule.
+    # Starting the clock before them created a catch-up burst at t=0, sometimes
+    # tripping the unchanged 40 r/s gateway limit in an intended 15 r/s run.
+    run_start_mono = time.monotonic()
     futures = []
     for index in range(TOTAL):
         target = run_start_mono + index / QPS
@@ -202,11 +236,16 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as pool:
         if producer_error:
             raise producer_error[0]
         if (index + 1) % int(max(1, QPS * 60)) == 0:
+            completed = [future.result() for future in futures if future.done()]
             print(json.dumps({"minute": (index + 1) / QPS / 60,
                               "submitted": index + 1, "total": TOTAL,
+                              "responses": len(completed),
+                              "accepted": sum(row['status'] == 202 for row in completed),
+                              "errors": sum(row['status'] >= 500 or row['status'] == 0 for row in completed),
                               "preparedQueueDepth": plans.qsize()}, ensure_ascii=False), flush=True)
     submitted_duration = time.monotonic() - run_start_mono
     responses = [future.result() for future in futures]
+responses_finished_mono = time.monotonic()
 preparer.join(timeout=120)
 assert not preparer.is_alive(), "credential producer did not finish"
 if producer_error:
@@ -218,16 +257,29 @@ for row in responses:
     status_counts[str(row["status"])] = status_counts.get(str(row["status"]), 0) + 1
     business_counts[row["code"]] = business_counts.get(row["code"], 0) + 1
 accepted = [row for row in responses if row["status"] == 202]
+windows = {start: [] for start in range(0, DURATION, 300)}
+for row in responses:
+    start = int((row['startedAtMono'] - run_start_mono) // 300) * 300
+    windows.setdefault(start, []).append(row)
+five_minute_windows = [
+    {'startSeconds': start, 'submitted': len(rows),
+     'accepted': sum(row['status'] == 202 for row in rows),
+     'server5xx': sum(row['status'] >= 500 for row in rows),
+     'transportUnknown': sum(row['status'] == 0 for row in rows),
+     'buyApiP95MsAcceptedOnly': quantile([row['latencyMs'] for row in rows if row['status'] == 202], 95)}
+    for start, rows in sorted(windows.items())]
 
 # Preserve client-side evidence before waiting for asynchronous MQ/MySQL drain.
 # A reconciliation timeout must not discard the only copy of HTTP counts and
 # request latencies after a 30-minute run.
 client_checkpoint = {
-    "date": "2026-10-15", "activityName": NAME, "activityId": ACTIVITY,
+    "date": REPORT_DATE, "activityName": NAME, "activityId": ACTIVITY,
     "skuId": SKU, "offeredQps": QPS, "durationSeconds": DURATION,
     "cppHttpWorkers": worker_count, "mqConsumerThreads": consumer_count,
+    "cppHttpQueue": queue_count,
     "mqQueueCount": int(os.getenv("MALL_MQ_QUEUE_COUNT", settings.get("MALL_MQ_QUEUE_COUNT", "4"))),
     "submitted": TOTAL, "observedSubmissionSeconds": round(time.monotonic() - run_start_mono, 3),
+    "fiveMinuteWindows": five_minute_windows,
     "httpStatusCounts": status_counts, "businessCodeCounts": business_counts,
     "accepted": len(accepted),
     "buyApiLatencyMsAcceptedOnly": {f"p{p}": quantile([r["latencyMs"] for r in accepted], p)
@@ -292,6 +344,11 @@ checkpoint_data["persistenceAndReconciliation"] = "persisted-order-snapshot-save
 checkpoint_tmp.write_text(json.dumps(checkpoint_data, ensure_ascii=False), encoding="utf-8")
 checkpoint_tmp.replace(checkpoint_path)
 reconciliation = clean(activity_id=ACTIVITY, limit=100000, timeout=600)
+inventory_clean_after_responses_ms = (time.monotonic() - responses_finished_mono) * 1000
+outbox_status = dict((state, int(count)) for state, count in (line.split('\t') for line in sql(
+    'SELECT status,COUNT(*) FROM outbox_events WHERE reservation_id IN '
+    f'(SELECT reservation_id FROM seckill_requests WHERE activity_id={ACTIVITY}) GROUP BY status'
+).splitlines()))
 rows = sql("SELECT r.request_id,r.status,o.id,o.created_at_ms,o.status,r.created_at_ms "
            "FROM seckill_requests r LEFT JOIN orders o ON o.reservation_id=r.reservation_id "
            f"WHERE r.activity_id={ACTIVITY}").splitlines()
@@ -353,18 +410,27 @@ server_5xx_rate_pct = server_5xx * 100 / TOTAL
 observed_qps = TOTAL / submitted_duration
 
 report = {
-    "date": "2026-10-15", "platform": "WSL2 Ubuntu; Docker Desktop Linux engine",
+    "date": REPORT_DATE, "platform": "WSL2 Ubuntu; Docker Desktop Linux engine",
     "mount": "/mnt/e (DrvFs)", "loadGenerator": "Python standard-library HTTP clients on same host as Docker",
-    "proofFixture": "One-time, 60-second proof rows are batch-seeded with synthetic tokens and their digests; the real C++ /api/seckill/buy handler validates and consumes each proof. Image rendering, token issuance and account setup are outside the timed window.",
+    "proofFixture": "Private one-time 600-second proof fixtures are batch-seeded with synthetic tokens and digests, matching prior T048 runs; the real C++ /api/seckill/buy handler validates each proof. Production proof lifetime remains 60 seconds. Image rendering, token issuance and account setup are outside the timed window.",
     "activityName": NAME, "activityId": ACTIVITY, "skuId": SKU,
+    "runtimeProvenance": runtime_provenance,
+    "datasetBeforeTimedRequests": dataset_before,
+    "datasetSnapshotDefinition": "Owned S7 data retained; snapshot includes newly prepared users/activity, before timed buys.",
     "cppHttpWorkers": worker_count, "mqConsumerThreads": consumer_count,
+    "cppHttpQueue": queue_count,
     "mqQueueCount": int(os.getenv("MALL_MQ_QUEUE_COUNT", settings.get("MALL_MQ_QUEUE_COUNT", "4"))),
     "offeredQps": QPS, "durationSeconds": DURATION, "submitted": TOTAL,
     "accepted": len(accepted), "persisted": len(orders),
     "observedSubmissionSeconds": round(submitted_duration, 3),
     "httpStatusCounts": status_counts, "businessCodeCounts": business_counts,
+    "fiveMinuteWindows": five_minute_windows,
+    "outboxStatus": outbox_status,
+    "timeToInventoryCleanAfterResponsesMs": round(inventory_clean_after_responses_ms, 3),
     "buyApiLatencyMsAcceptedOnly": {f"p{p}": quantile([r["latencyMs"] for r in accepted], p)
                         for p in (50, 95, 99)},
+    "buyApiLatencyMsAllResponses": {f"p{p}": quantile([r['latencyMs'] for r in responses], p)
+                                     for p in (50, 95, 99)},
     "requestToReservationMs": {f"p{p}": quantile(request_to_reservation, p)
                                for p in (50, 95, 99)},
     "requestToDurableOrderMs": {f"p{p}": quantile(end_to_end, p) for p in (50, 95, 99)},
@@ -385,19 +451,22 @@ report = {
     "mysqlStatusBefore": start_db,
     "mysqlStatusAfter": sql("SHOW GLOBAL STATUS WHERE Variable_name IN "
                              "('Innodb_row_lock_waits','Innodb_row_lock_time','Threads_connected','Threads_running')"),
-    "reconciliation": {"status": reconciliation["status"],
-                        "orders": reconciliation["orders"],
-                        "alerts": reconciliation["alerts"]},
+    "reconciliation": reconciliation,
     "capacityGate": "evaluated against temporary v0.1; same-host run is not an independent production capacity proof",
     "temporaryGateResults": {
         "offeredRateAtLeastTarget": observed_qps >= QPS * 0.99,
-        "eligibleRequestsAcceptedAtLeast99_5Percent": reserved_count / TOTAL >= .995,
+        "eligibleRequestsAcceptedAtLeast99_5Percent": len(accepted) / TOTAL >= .995,
+        "noTransportUnknown": status_counts.get('0', 0) == 0,
         "server5xxAtMost0_1Percent": server_5xx_rate_pct <= .1,
         "acceptedBuyApiP95AtMost500ms": buy_p95 is not None and buy_p95 <= 500,
         "durableOrderP95AtMost3000ms": durable_p95 is not None and durable_p95 <= 3000,
         "durableOrderP99AtMost8000ms": durable_p99 is not None and durable_p99 <= 8000,
         "allReservedOrdersPersisted": reserved_count == len(orders),
+        "allHttpAcceptedOrdersPersisted": accepted_ids.issubset(orders),
+        "durableObservationCoverageAtLeast99_5Percent": len(end_to_end) >= len(orders) * .995,
         "stageTelemetryComplete": telemetry_complete,
+        "outboxDrained": set(outbox_status) == {'PUBLISHED'},
+        "inventoryCleanWithin600Seconds": inventory_clean_after_responses_ms <= 600000,
         "inventoryReconciliationClean": reconciliation["status"] == "CLEAN",
     },
 }
@@ -410,3 +479,4 @@ print(json.dumps({"status": "COMPLETED", "submitted": TOTAL, "persisted": len(or
                   "p95DurableMs": report["requestToDurableOrderMs"]["p95"],
                   "reconciliation": reconciliation["status"],
                   "report": str(out.relative_to(ROOT))}, ensure_ascii=False), flush=True)
+raise SystemExit(0 if report["temporaryGateResults"]["passed"] else 1)

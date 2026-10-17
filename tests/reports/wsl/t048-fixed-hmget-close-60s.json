@@ -1,0 +1,143 @@
+{
+  "date": "2026-10-16",
+  "platform": "WSL2 Ubuntu; Docker Desktop Linux engine",
+  "mount": "/mnt/e (DrvFs)",
+  "loadGenerator": "Python standard-library HTTP clients on same host as Docker",
+  "proofFixture": "Private one-time 600-second proof fixtures are batch-seeded with synthetic tokens and digests, matching prior T048 runs; the real C++ /api/seckill/buy handler validates each proof. Production proof lifetime remains 60 seconds. Image rendering, token issuance and account setup are outside the timed window.",
+  "activityName": "T048-sustained-e3dde5a99d",
+  "activityId": "149",
+  "skuId": "3509",
+  "cppHttpWorkers": 8,
+  "mqConsumerThreads": 4,
+  "cppHttpQueue": 128,
+  "mqQueueCount": 4,
+  "offeredQps": 15.0,
+  "durationSeconds": 60,
+  "submitted": 900,
+  "accepted": 900,
+  "persisted": 900,
+  "observedSubmissionSeconds": 59.938,
+  "httpStatusCounts": {
+    "202": 900
+  },
+  "businessCodeCounts": {
+    "ACCEPTED": 900
+  },
+  "buyApiLatencyMsAcceptedOnly": {
+    "p50": 275.187,
+    "p95": 638.876,
+    "p99": 1180.088
+  },
+  "requestToReservationMs": {
+    "p50": 78.532,
+    "p95": 425.532,
+    "p99": 988.532
+  },
+  "requestToDurableOrderMs": {
+    "p50": 2003.644,
+    "p95": 3313.657,
+    "p99": 3549.494
+  },
+  "requestToDurableMeasurement": "same-host monotonic request start to first DB-visible order; polling interval 500ms",
+  "requestToDurableObservedCount": 900,
+  "mysqlClockOffsetMs": 176.14,
+  "redisClockOffsetMs": 134.468,
+  "mysqlClockOffsetStartEndMs": [
+    210.169,
+    142.112
+  ],
+  "redisClockOffsetStartEndMs": [
+    162.546,
+    106.39
+  ],
+  "stageTelemetry": {
+    "reservations": 900,
+    "malformedStageLines": 0,
+    "duplicateStageLines": 0,
+    "stageCounts": {
+      "relay_publish": 900,
+      "consumer_received": 900,
+      "committed": 900,
+      "failed": 0
+    },
+    "latencyMs": {
+      "relayPendingAgeMs": {
+        "count": 900,
+        "p50": 942,
+        "p95": 2177,
+        "p99": 2304,
+        "max": 2359
+      },
+      "publishCallMs": {
+        "count": 900,
+        "p50": 12,
+        "p95": 30,
+        "p99": 48,
+        "max": 74
+      },
+      "relayToConsumerMs": {
+        "count": 900,
+        "p50": 24,
+        "p95": 52,
+        "p99": 81,
+        "max": 275
+      },
+      "brokerQueueMs": {
+        "count": 900,
+        "p50": 23,
+        "p95": 51,
+        "p99": 81,
+        "max": 271
+      },
+      "relaySendToBrokerMs": {
+        "count": 900,
+        "p50": 0,
+        "p95": 1634,
+        "p99": 1647,
+        "max": 1648
+      },
+      "mysqlTransactionMs": {
+        "count": 900,
+        "p50": 154,
+        "p95": 230,
+        "p99": 353,
+        "max": 497
+      },
+      "reservationAgeMs": {
+        "count": 900,
+        "p50": 970,
+        "p95": 2198,
+        "p99": 2322,
+        "max": 2374
+      }
+    }
+  },
+  "stageTelemetryComplete": true,
+  "reserved": 900,
+  "server5xxCount": 0,
+  "server5xxRatePercent": 0.0,
+  "observedSubmissionQps": 15.016,
+  "mysqlStatusBefore": "Innodb_row_lock_time\t7178\nInnodb_row_lock_waits\t213\nThreads_connected\t13\nThreads_running\t3",
+  "mysqlStatusAfter": "Innodb_row_lock_time\t13233\nInnodb_row_lock_waits\t520\nThreads_connected\t13\nThreads_running\t2",
+  "reconciliation": {
+    "status": "CLEAN",
+    "orders": 900,
+    "alerts": []
+  },
+  "capacityGate": "evaluated against temporary v0.1; same-host run is not an independent production capacity proof",
+  "temporaryGateResults": {
+    "offeredRateAtLeastTarget": true,
+    "eligibleRequestsAcceptedAtLeast99_5Percent": true,
+    "noTransportUnknown": true,
+    "server5xxAtMost0_1Percent": true,
+    "acceptedBuyApiP95AtMost500ms": false,
+    "durableOrderP95AtMost3000ms": false,
+    "durableOrderP99AtMost8000ms": true,
+    "allReservedOrdersPersisted": true,
+    "allHttpAcceptedOrdersPersisted": true,
+    "durableObservationCoverageAtLeast99_5Percent": true,
+    "stageTelemetryComplete": true,
+    "inventoryReconciliationClean": true,
+    "passed": false
+  }
+}

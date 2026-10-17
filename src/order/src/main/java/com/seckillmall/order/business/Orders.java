@@ -99,12 +99,17 @@ public final class Orders {
   }
   private void origin(ReservedEvent e) {
     String key = cache.ledger(e.activityId(), e.skuId());
-    JsonNode req = cache.request(e.activityId(), e.skuId(), e.userId(), e.requestId());
+    // All origin facts belong to one ledger. Read them atomically in one
+    // bounded HMGET instead of four network round trips inside the DB txn.
+    var facts = cache.redis.opsForHash().multiGet(key,
+        List.of("req:" + e.userId() + ":" + e.requestId(), "user:" + e.userId(),
+            "epoch", "priceFen"));
+    JsonNode req = facts.get(0) == null ? null : cache.json(facts.get(0).toString());
     if (req == null || !e.reservationId().equals(req.path("reservationId").asText())
         || !Long.toString(e.createdAtMs()).equals(req.path("createdAtMs").asText())
-        || !e.reservationId().equals(cache.redis.opsForHash().get(key, "user:" + e.userId()))
-        || !Long.toString(e.epoch()).equals(cache.redis.opsForHash().get(key, "epoch"))
-        || !Long.toString(e.priceFen()).equals(cache.redis.opsForHash().get(key, "priceFen")))
+        || !e.reservationId().equals(facts.get(1))
+        || !Long.toString(e.epoch()).equals(facts.get(2))
+        || !Long.toString(e.priceFen()).equals(facts.get(3)))
       throw new Fault(409, "RESERVATION_CONFLICT");
     if (!Set.of("RESERVED", "QUEUED").contains(req.path("state").asText())
         || req.path("released").asBoolean())
@@ -263,6 +268,9 @@ public final class Orders {
           return null;
         });
       } catch (Exception e) {
+        System.err.printf("event=outbox_retry eventId=%s reservationId=%s reason=%s%n",
+            candidate.get("event_id"), candidate.get("reservation_id"),
+            e.getClass().getSimpleName());
         store.db.update("UPDATE outbox_events SET attempts=attempts+1,next_attempt_at_ms=? WHERE "
                         + "event_id=? AND status='PENDING'",
             store.now() + 2000, candidate.get("event_id"));
@@ -270,23 +278,21 @@ public final class Orders {
     }
   }
   private void mirror(Map<String, Object> candidate) {
-    var seed = store.one(
-        "SELECT * FROM seckill_requests WHERE reservation_id=?", candidate.get("reservation_id"));
-    if (seed == null)
-      throw new IllegalStateException("Outbox request missing");
-    // Outbox mirroring changes Redis request state only. A locking stock read
-    // here competed with the conditional decrement in order creation despite
-    // never using the returned inventory value.
-    if (stockSnapshot(Store.number(seed, "activity_id"), Store.number(seed, "sku_id")) == null)
-      throw new IllegalStateException("Outbox stock row missing");
+    // Lock the outbox event and its request in one indexed join. The request's
+    // FK already guarantees its inventory parent exists; mirroring neither
+    // reads nor changes that parent's stock. Keep per-event DB commit/Redis
+    // durability and replay behavior unchanged.
     var out = store.one(
-        "SELECT * FROM outbox_events WHERE event_id=? FOR UPDATE", candidate.get("event_id"));
-    if (!"PENDING".equals(out.get("status")))
+        "SELECT r.*,o.event_id,o.kind,o.status AS outbox_status FROM outbox_events o "
+        + "JOIN seckill_requests r ON r.reservation_id=o.reservation_id "
+        + "WHERE o.event_id=? FOR UPDATE", candidate.get("event_id"));
+    if (out == null)
+      throw new IllegalStateException("Outbox request missing");
+    if (!"PENDING".equals(out.get("outbox_status")))
       return;
-    var req = store.one("SELECT * FROM seckill_requests WHERE reservation_id=? FOR UPDATE",
-        seed.get("reservation_id"));
+    var req = out;
     var order = store.one(
-        "SELECT * FROM orders WHERE reservation_id=? FOR UPDATE", seed.get("reservation_id"));
+        "SELECT * FROM orders WHERE reservation_id=? FOR UPDATE", req.get("reservation_id"));
     String key = cache.ledger(Store.number(req, "activity_id"), Store.number(req, "sku_id")),
            user = req.get("user_id").toString(), request = req.get("request_id").toString(),
            reservation = req.get("reservation_id").toString(), epoch = req.get("epoch").toString();

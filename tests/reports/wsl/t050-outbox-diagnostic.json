@@ -1,0 +1,131 @@
+{
+  "activityId": 153,
+  "plannedDurationSeconds": 1800,
+  "complete": false,
+  "passed": false,
+  "minuteProgress": [
+    {
+      "minute": 1.0,
+      "submitted": 900,
+      "total": 27000,
+      "responses": 897,
+      "accepted": 897,
+      "errors": 0,
+      "preparedQueueDepth": 449
+    },
+    {
+      "minute": 2.0,
+      "submitted": 1800,
+      "total": 27000,
+      "responses": 1797,
+      "accepted": 1797,
+      "errors": 0,
+      "preparedQueueDepth": 449
+    },
+    {
+      "minute": 3.0,
+      "submitted": 2700,
+      "total": 27000,
+      "responses": 2697,
+      "accepted": 2697,
+      "errors": 0,
+      "preparedQueueDepth": 449
+    },
+    {
+      "minute": 4.0,
+      "submitted": 3600,
+      "total": 27000,
+      "responses": 3597,
+      "accepted": 3597,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 5.0,
+      "submitted": 4500,
+      "total": 27000,
+      "responses": 4498,
+      "accepted": 4498,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 6.0,
+      "submitted": 5400,
+      "total": 27000,
+      "responses": 5397,
+      "accepted": 5397,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 7.0,
+      "submitted": 6300,
+      "total": 27000,
+      "responses": 6299,
+      "accepted": 6299,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 8.0,
+      "submitted": 7200,
+      "total": 27000,
+      "responses": 7197,
+      "accepted": 7197,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 9.0,
+      "submitted": 8100,
+      "total": 27000,
+      "responses": 8098,
+      "accepted": 8098,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 10.0,
+      "submitted": 9000,
+      "total": 27000,
+      "responses": 8997,
+      "accepted": 8997,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 11.0,
+      "submitted": 9900,
+      "total": 27000,
+      "responses": 9896,
+      "accepted": 9896,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 12.0,
+      "submitted": 10800,
+      "total": 27000,
+      "responses": 10797,
+      "accepted": 10797,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 13.0,
+      "submitted": 11700,
+      "total": 27000,
+      "responses": 11697,
+      "accepted": 11697,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    }
+  ],
+  "outboxStatusAtStop": {
+    "PUBLISHED": 4099,
+    "PENDING": 8479
+  },
+  "reason": "Stopped diagnostic iteration: outbox grew continuously while HTTP stayed healthy. Separating dispatch from serial maintenance before the mandatory full rerun.",
+  "evidenceLimit": "No full client latency distribution for this interrupted diagnostic. It is not a completed capacity acceptance."
+}

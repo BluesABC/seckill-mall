@@ -24,9 +24,19 @@ public final class Workers implements AutoCloseable {
         t.setDaemon(true);
         return t;
       });
+  // Dispatch must not wait behind a batch of expired-order transactions or a
+  // recovery scan. One dedicated worker preserves bounded per-event commits.
+  private final ScheduledExecutorService outboxExecutor =
+      Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "order-outbox");
+        t.setDaemon(true);
+        return t;
+      });
   private volatile RocketPushReceiver consumer;
   private volatile boolean closing;
   private volatile String lastError = "STARTING";
+  private volatile String lastOutboxError = "NOT_STARTED";
+  private final AtomicLong outboxCycles = new AtomicLong();
   private Cursor<String> ledgerScan;
   private final Map<String, Cursor<Map.Entry<Object, Object>>> requests = new LinkedHashMap<>();
   private final AtomicLong received = new AtomicLong(), confirmed = new AtomicLong(),
@@ -54,13 +64,26 @@ public final class Workers implements AutoCloseable {
         if (consumer == null)
           consumer = new RocketPushReceiver(endpoint, topic, group, this::consume, threads);
         if (jobs)
-          tick();
+          maintenance();
         lastError = "NONE";
       } catch (Exception e) {
         lastError = e instanceof Fault f ? f.code : e.getClass().getSimpleName();
         System.err.println("order-worker error=" + lastError);
       }
     }, 0, 1, TimeUnit.SECONDS);
+    if (jobs)
+      outboxExecutor.scheduleWithFixedDelay(() -> {
+        if (closing)
+          return;
+        try {
+          orders.dispatch();
+          outboxCycles.incrementAndGet();
+          lastOutboxError = "NONE";
+        } catch (Exception e) {
+          lastOutboxError = e instanceof Fault f ? f.code : e.getClass().getSimpleName();
+          System.err.println("order-outbox error=" + lastOutboxError);
+        }
+      }, 0, 100, TimeUnit.MILLISECONDS);
   }
   private static int consumerThreads() {
     String configured = System.getenv("MALL_MQ_CONSUMER_THREADS");
@@ -139,8 +162,15 @@ public final class Workers implements AutoCloseable {
         store.now(), Cache.hash(body));
   }
   public synchronized void tick() {
-    orders.closeExpired();
+    // Explicit ADMIN recovery remains synchronous, including jobs-disabled
+    // fixtures. Concurrent dispatchers serialize on the event row and recheck
+    // PENDING under its lock, so the same event is not applied twice.
     orders.dispatch();
+    maintenance();
+    orders.dispatch();
+  }
+  private synchronized void maintenance() {
+    orders.closeExpired();
     for (var row : store.db.queryForList("SELECT message_hash,payload FROM mq_failures WHERE "
              + "status='RETRY' ORDER BY updated_at_ms LIMIT 20")) {
       String body = row.get("payload").toString();
@@ -153,7 +183,6 @@ public final class Workers implements AutoCloseable {
       }
     }
     recover();
-    orders.dispatch();
   }
   // A durable DB termination fence is required before releasing an aged reservation.
   // This also finds reservations stranded in Broker DLQ while MySQL was unavailable.
@@ -225,7 +254,8 @@ public final class Workers implements AutoCloseable {
         "quarantined",
         store.db.queryForObject(
             "SELECT COUNT(*) FROM mq_failures WHERE status='QUARANTINED'", Long.class),
-        "lastWorkerError", lastError);
+        "lastWorkerError", lastError, "lastOutboxError", lastOutboxError,
+        "outboxDispatchCycles", outboxCycles.get());
   }
   public boolean ready() {
     try (var connection = cache.redis.getConnectionFactory().getConnection();
@@ -255,6 +285,8 @@ public final class Workers implements AutoCloseable {
   public void close() throws Exception {
     closing = true;
     executor.shutdownNow();
+    outboxExecutor.shutdownNow();
+    outboxExecutor.awaitTermination(3, TimeUnit.SECONDS);
     if (executor.awaitTermination(3, TimeUnit.SECONDS)) {
       if (ledgerScan != null)
         ledgerScan.close();

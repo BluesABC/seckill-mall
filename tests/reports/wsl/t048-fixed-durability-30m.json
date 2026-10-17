@@ -1,0 +1,259 @@
+{
+  "date": "2026-10-17",
+  "platform": "WSL2 Ubuntu; Docker Desktop Linux engine",
+  "mount": "/mnt/e (DrvFs)",
+  "loadGenerator": "Python standard-library HTTP clients on same host as Docker",
+  "proofFixture": "Private one-time 600-second proof fixtures are batch-seeded with synthetic tokens and digests, matching prior T048 runs; the real C++ /api/seckill/buy handler validates each proof. Production proof lifetime remains 60 seconds. Image rendering, token issuance and account setup are outside the timed window.",
+  "activityName": "T048-sustained-b2e29cbfd3",
+  "activityId": "157",
+  "skuId": "3517",
+  "runtimeProvenance": {
+    "gitHeadBeforeRun": "601f79a564db0eb58565b3b11a908e9a1da1a7ce",
+    "dockerHost": {
+      "cpus": 12,
+      "memoryBytes": 7995174912
+    },
+    "imageIds": {
+      "seckill": "sha256:c6ab56a87ef9cfd7858abbbc415e86efe8ad033c77116dfa848efe0fd1d2ea06",
+      "relay": "sha256:c6ab56a87ef9cfd7858abbbc415e86efe8ad033c77116dfa848efe0fd1d2ea06",
+      "order": "sha256:8e0ffe93d73f5ae3af4b47f1086ed30ad4c01603a625305d274b6b9755ee5b90"
+    },
+    "sourceSha256": {
+      "src/seckill/service.cpp": "a175e2c8d3b56bd257be0520fc977e8875f6ce3b4f3d3b8a206edf0349c8d8ed",
+      "src/order/src/main/java/com/seckillmall/order/business/Orders.java": "f392dbcb118ca59659c971babaa380121c1b2558281845ff0086717add7bd1ba",
+      "src/order/src/main/java/com/seckillmall/order/business/Workers.java": "5d01c66cd051473c54d604d0117253e11c34115a15e08630de819ea7fd16966b",
+      "src/order/src/main/java/com/seckillmall/order/business/Cache.java": "4df29870febe9c563069f1cee3c40e2a0a94ae4e6944b0e1fde5ca95d52267c9",
+      "src/mq/relay_worker.cpp": "7aa66663debb5e09f3a54406dbab12c573860ddad32375eeb7448072f05cc7e9",
+      "src/seckill/relay.cpp": "4a3328a5cb3bbc7b36ab21b490245e0de3b293f0c19c0b4fdaf493376338855d",
+      "src/seckill/lua/mark_request.lua": "ab22113cbf7fd81f46cf3fed6d25d0e639bbc774d44fde2be5b507beee99b9fa",
+      "src/seckill/lua/mark_order.lua": "edd3528f90dd652c28b2d169d466f91df0d9fa199dc58657773405abd069088e",
+      "src/seckill/lua/release.lua": "569f27858bc768498723c7723a666e876b23062f7b9d38c4cdf757beebb18b26",
+      "tests/load_t048_sustained.py": "17129279625c1c5a14fdeb3ba8b07c1291406ea524abaa23e5489312a6c5cb2e"
+    },
+    "orderPaymentTtlMs": 3600000,
+    "fixtureScope": "Synthetic eligible users, unique requests, one hot SKU; historical S7 data retained."
+  },
+  "datasetBeforeTimedRequests": {
+    "orders": 169515,
+    "activities": 157,
+    "users": 309696,
+    "unpublishedOutbox": 0,
+    "expiredPendingOrders": 0
+  },
+  "datasetSnapshotDefinition": "Owned S7 data retained; snapshot includes newly prepared users/activity, before timed buys.",
+  "cppHttpWorkers": 32,
+  "mqConsumerThreads": 4,
+  "cppHttpQueue": 128,
+  "mqQueueCount": 4,
+  "offeredQps": 15.0,
+  "durationSeconds": 1800,
+  "submitted": 27000,
+  "accepted": 27000,
+  "persisted": 27000,
+  "observedSubmissionSeconds": 1799.983,
+  "httpStatusCounts": {
+    "202": 27000
+  },
+  "businessCodeCounts": {
+    "ACCEPTED": 27000
+  },
+  "fiveMinuteWindows": [
+    {
+      "startSeconds": 0,
+      "submitted": 4500,
+      "accepted": 4500,
+      "server5xx": 0,
+      "transportUnknown": 0,
+      "buyApiP95MsAcceptedOnly": 147.876
+    },
+    {
+      "startSeconds": 300,
+      "submitted": 4500,
+      "accepted": 4500,
+      "server5xx": 0,
+      "transportUnknown": 0,
+      "buyApiP95MsAcceptedOnly": 162.427
+    },
+    {
+      "startSeconds": 600,
+      "submitted": 4500,
+      "accepted": 4500,
+      "server5xx": 0,
+      "transportUnknown": 0,
+      "buyApiP95MsAcceptedOnly": 153.121
+    },
+    {
+      "startSeconds": 900,
+      "submitted": 4500,
+      "accepted": 4500,
+      "server5xx": 0,
+      "transportUnknown": 0,
+      "buyApiP95MsAcceptedOnly": 161.678
+    },
+    {
+      "startSeconds": 1200,
+      "submitted": 4500,
+      "accepted": 4500,
+      "server5xx": 0,
+      "transportUnknown": 0,
+      "buyApiP95MsAcceptedOnly": 157.896
+    },
+    {
+      "startSeconds": 1500,
+      "submitted": 4500,
+      "accepted": 4500,
+      "server5xx": 0,
+      "transportUnknown": 0,
+      "buyApiP95MsAcceptedOnly": 166.221
+    }
+  ],
+  "outboxStatus": {
+    "PUBLISHED": 27000
+  },
+  "timeToInventoryCleanAfterResponsesMs": 27412.316,
+  "buyApiLatencyMsAcceptedOnly": {
+    "p50": 79.288,
+    "p95": 158.679,
+    "p99": 202.582
+  },
+  "buyApiLatencyMsAllResponses": {
+    "p50": 79.288,
+    "p95": 158.679,
+    "p99": 202.582
+  },
+  "requestToReservationMs": {
+    "p50": -37.502,
+    "p95": 34.498,
+    "p99": 77.498
+  },
+  "requestToDurableOrderMs": {
+    "p50": 744.556,
+    "p95": 1187.761,
+    "p99": 1322.481
+  },
+  "requestToDurableMeasurement": "same-host monotonic request start to first DB-visible order; polling interval 500ms",
+  "requestToDurableObservedCount": 27000,
+  "mysqlClockOffsetMs": 101.852,
+  "redisClockOffsetMs": 98.502,
+  "mysqlClockOffsetStartEndMs": [
+    113.902,
+    89.803
+  ],
+  "redisClockOffsetStartEndMs": [
+    106.584,
+    90.42
+  ],
+  "stageTelemetry": {
+    "reservations": 27000,
+    "malformedStageLines": 0,
+    "duplicateStageLines": 0,
+    "stageCounts": {
+      "relay_publish": 27000,
+      "consumer_received": 27000,
+      "committed": 27000,
+      "failed": 0
+    },
+    "latencyMs": {
+      "relayPendingAgeMs": {
+        "count": 27000,
+        "p50": 76,
+        "p95": 117,
+        "p99": 143,
+        "max": 249
+      },
+      "publishCallMs": {
+        "count": 27000,
+        "p50": 7,
+        "p95": 16,
+        "p99": 23,
+        "max": 74
+      },
+      "relayToConsumerMs": {
+        "count": 27000,
+        "p50": 15,
+        "p95": 28,
+        "p99": 37,
+        "max": 511
+      },
+      "brokerQueueMs": {
+        "count": 27000,
+        "p50": 16,
+        "p95": 31,
+        "p99": 42,
+        "max": 511
+      },
+      "relaySendToBrokerMs": {
+        "count": 27000,
+        "p50": 0,
+        "p95": 16,
+        "p99": 36,
+        "max": 60
+      },
+      "mysqlTransactionMs": {
+        "count": 27000,
+        "p50": 49,
+        "p95": 75,
+        "p99": 97,
+        "max": 718
+      },
+      "reservationAgeMs": {
+        "count": 27000,
+        "p50": 93,
+        "p95": 136,
+        "p99": 165,
+        "max": 593
+      }
+    }
+  },
+  "stageTelemetryComplete": true,
+  "reserved": 27000,
+  "server5xxCount": 0,
+  "server5xxRatePercent": 0.0,
+  "observedSubmissionQps": 15.0,
+  "mysqlStatusBefore": "Innodb_row_lock_time\t22942\nInnodb_row_lock_waits\t1893\nThreads_connected\t13\nThreads_running\t2",
+  "mysqlStatusAfter": "Innodb_row_lock_time\t117818\nInnodb_row_lock_waits\t11023\nThreads_connected\t13\nThreads_running\t2",
+  "reconciliation": {
+    "status": "CLEAN",
+    "readOnly": true,
+    "graceSeconds": 1800,
+    "activityId": "157",
+    "orders": 27000,
+    "ledgers": [
+      {
+        "activityId": "157",
+        "skuId": "3517",
+        "initial": 27000,
+        "dbAvailable": 0,
+        "redisAvailable": 0,
+        "held": 27000,
+        "activeOrders": 27000,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      }
+    ],
+    "alerts": [],
+    "movingSnapshots": [],
+    "outbox": [],
+    "mqFailures": [],
+    "atMs": 1792226979020
+  },
+  "capacityGate": "evaluated against temporary v0.1; same-host run is not an independent production capacity proof",
+  "temporaryGateResults": {
+    "offeredRateAtLeastTarget": true,
+    "eligibleRequestsAcceptedAtLeast99_5Percent": true,
+    "noTransportUnknown": true,
+    "server5xxAtMost0_1Percent": true,
+    "acceptedBuyApiP95AtMost500ms": true,
+    "durableOrderP95AtMost3000ms": true,
+    "durableOrderP99AtMost8000ms": true,
+    "allReservedOrdersPersisted": true,
+    "allHttpAcceptedOrdersPersisted": true,
+    "durableObservationCoverageAtLeast99_5Percent": true,
+    "stageTelemetryComplete": true,
+    "outboxDrained": true,
+    "inventoryCleanWithin600Seconds": true,
+    "inventoryReconciliationClean": true,
+    "passed": true
+  }
+}

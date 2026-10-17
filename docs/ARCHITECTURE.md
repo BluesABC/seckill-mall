@@ -74,7 +74,9 @@ PAID 与 CLOSED 竞争同一状态迁移；回补完成状态另行记录。投�
 
 [reserve.lua](../src/seckill/lua/reserve.lua)以一次HSET写库存、资格、请求、pending及pendingCount；S2 HTTP采用安全模式，两Key同hash tag，凭证与预扣原子校验。S1内部模式仅用于受信存储测试，不向HTTP暴露。单热点集中在一分片，分桶优化须后续实测。
 
-cpp-httplib有界线程池默认8线程/128排队任务，可用`MALL_HTTP_WORKERS`与`MALL_HTTP_QUEUE`调节；HTTP读写超时3s/body16KiB；线程独享hiredis连接，不跨线程共享context，连接500ms/命令1500ms。队列满时库在解析前关闭TCP，不等同HTTP429；客户端保留requestId查询/重试。默认单活动pending上限10000，Lua原子背压，确认发布/终止时原子降低计数。无库存/资格覆盖恢复行为。T048本机WSL长测显示仅增线程/排队不能代替热SKU的MySQL锁串行与下游排空能力，v0.1持续容量门禁仍未通过。
+cpp-httplib有界线程池默认8线程/128排队任务，可用`MALL_HTTP_WORKERS`与`MALL_HTTP_QUEUE`调节；HTTP读写超时3s/body16KiB；线程独享hiredis连接，不跨线程共享context，连接500ms/命令1500ms。队列满时库在解析前关闭TCP，不等同HTTP429；客户端保留requestId查询/重试。默认单活动pending上限10000，Lua原子背压，确认发布/终止时原子降低计数。无库存/资格覆盖恢复行为。T048本机WSL长测显示仅增线程/排队不能代替热SKU的MySQL锁串行与下游排空能力，S16当时未通过v0.1持续容量门禁；后续S17本机专项结果见PROGRESS V023。
+
+S17修复了关键路径的工作量放大：活动信息只HMGET固定9字段，不读取包含全部请求历史的混合ledger。cpp-httplib每个socket占用worker，因此C++后端每连接一次响应后关闭并启用TCP_NODELAY，防止Nginx缓存的空闲连接耗尽线程；浏览器到Nginx的连接复用不变。新预扣的Lua已明确写入时，直接在同连接WAITAOF；只读重放仍先写causal fence，未知结果仍按同requestId查询。Java消费用一次HMGET读取四项原始凭据；outbox以事件主键join锁定事件与请求，依赖既有FK保证库存父行存在，保留逐事件事务与Redis持久化确认。Relay成功非空轮次立即再扫，空轮次100ms，失败200ms起有界退避。S17完整持续门禁结果以PROGRESS最新记录为准；不改写T048历史失败。
 
 验证码支持随机6位PNG与屏幕阅读器可读取的随机加法题两种模式；答案摘要存Redis，身份来自Redis会话。二者都是基础防刷，不宣称能抵御OCR/自动化求解。IP取socket对端而非XFF，S6需实现明确可信代理策略。Lua原子隔离不等于运行时错误自动回滚，依据[Redis Lua](https://redis.io/docs/latest/develop/programmability/eval-intro/)，专用命名空间与noeviction仍是前提。
 
@@ -132,3 +134,7 @@ S7引入独立只读对账程序：MySQL一致性快照与版本复查、Redis�
 首次启动一次性服务负责持久化卷权限、RocketMQ topic/消费组、校验式增量 SQL 迁移；随后按真实就绪检查启动业务。种子只对空商品库执行，不改写既有订单/库存。Redis AOF、MySQL、Broker store 和日志使用命名卷。Nginx 使用 Docker DNS 解析服务重建后的地址，不自动重试交易请求。
 
 代理覆盖用户转发头，C++仅信任精确 MALL_TRUSTED_PROXY IP，Java Tomcat 仅信任精确 ORDER_TRUSTED_PROXY_REGEX；直连默认不信任转发头。详细操作与网络配置见 [DEPLOYMENT](DEPLOYMENT.md)。单 Broker、本机 HTTP 和 MOCK 支付的边界保留，容量/恢复 SLA 属于 S7。
+
+S17进一步将outbox派发移到独立单线程调度器，与过期关闭/恢复扫描隔离。仍逐事件事务锁定并重查PENDING，在Redis持久化确认后标为PUBLISHED；显式管理恢复与后台派发并发时依靠同一事件行锁串行化，不改变支付/关闭和幂等回补状态机。
+
+Java将原状态Lua作为局部函数包装，与因果持久化标记在同次EVAL内执行，恢复原KEYS/ARGV数量后才进入原脚本；包含只读REPLAY路径，随后仍在同一连接WAITAOF。Redis appendfsync=always与逐事件数据库提交要求不变。

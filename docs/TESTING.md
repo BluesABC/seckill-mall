@@ -75,6 +75,34 @@ S3原生依赖增加`libgrpc++-dev protobuf-compiler-grpc libprotobuf-dev libabs
 
 ## T048 持续容量与订单阶段追踪
 
+S18新增 `bash scripts/test-s18-capacity-wsl.sh`：检查已存在的自有S7项目和健康状态、记录镜像ID/实际配置，要求C++入口与relay使用同次构建镜像、执行至少15 QPS×1800秒，并调用独立校验器。脚本不创建/清空数据卷，不修改服务配置，也不自动提高线程/队列或限流值。为只测下单创建链路，需预先在隔离S7测试环境设置覆盖测试及收尾窗口的支付TTL（本轮3600000ms）；真实15分钟支付TTL不因此改变。使用相同的旧32/128配置进行对照，测试结束恢复通用8/128。
+
+独立复核：`python3 scripts/check_capacity_gate.py tests/reports/wsl/t048-fixed-durability-30m.json` 或 `bash scripts/test-s18-capacity-wsl.sh --check REPORT`。它忽略报告内的passed标志，检查原始HTTP计数守恒、202受理率、5xx/未知传输、有效发送率、30分钟时长、P95/P99、观测覆盖、完整阶段证据、outbox排空与CLEAN对账，并检查每个五分钟窗口。60秒短测不能过此完整门禁；缺失/损坏证据或失败返回非零。`python3 -m unittest tests.test_capacity_gate`验证拒绝路径。
+
+用户初始化、首批600秒私有证明预备与时钟/镜像检查在发送时钟开始前结束，避免初始化耗时形成补发突发。后续证明由后台夹具滚动写入，其资源开销仍与服务共享主机。生产证明仍60秒；注册、图片生成和token兑换接口不在本次发流及延迟统计范围，不代表整站容量。汇总还保留所有响应的延迟分布，不只统计202。逐请求checkpoint仅本机保留。
+
 用真实C++ `/api/seckill/buy`→Redis→relay→RocketMQ→Java→MySQL链路执行。环境变量`SUSTAINED_QPS`和`SUSTAINED_SECONDS`支持短验证与持续目标，默认15 QPS×1800秒。压测器在异步收敛前原子保存`tests/reports/wsl/t048-sustained-client-checkpoint.json`；正式JSON另记录对账与阶段延迟。HTTP响应接受数、DB订单数、最终库存守恒分开报告，等待清理超时不能丢失客户端checkpoint。短验证通过不能替代30分钟持续门禁；同机WSL不是生产容量证明。
 
 长测在HTTP响应全部收齐后立即原子写入逐请求checkpoint，并在等待后台清理前保存订单可查的monotonic观察结果。进程异常后可以用`python scripts/recover_t048_report.py --report-name t048-*.json`从checkpoint、容器阶段日志、MySQL和只读活动对账重建报告；恢复报告不会补造缺失数据。32/128与64/512两轮均未过15 QPS×30分钟门禁，最新证据见[T048报告](../tests/reports/T048-acceptance.md)和对应`tests/reports/wsl/t048-sustained-workers*-30m.json`。S2、S4功能回归分别运行`bash scripts/test-s2.sh`和`bash scripts/test-s4.sh`。
+
+### S17/S18 对照配置与参数恢复
+
+以下命令在项目根目录的WSL终端执行，要求已有自有S7栈、本机`deploy/.env.s7`及由当前源码构建的镜像；不用于日常业务栈。运行期间不要并行执行构建、故障注入或其他压测。先确认Docker Desktop和WSL集成可用。
+
+```bash
+MALL_HTTP_WORKERS=32 MALL_HTTP_QUEUE=128 ORDER_PAYMENT_TTL_MS=3600000 \
+  docker compose -p seckill-mall-s7 --env-file deploy/.env.s7 \
+  -f deploy/compose.yml -f deploy/compose.s7.yml \
+  up -d --no-deps --force-recreate --wait seckill relay order
+T048_REPORT_NAME=t048-s18-recheck-30m.json bash scripts/test-s18-capacity-wsl.sh
+```
+
+报告名每次须唯一；已有证据拒绝覆盖。完整结束后恢复本机env中的日常默认（当前8线程/128排队、15分钟待支付），只重建业务容器，保留命名卷：
+
+```bash
+docker compose -p seckill-mall-s7 --env-file deploy/.env.s7 \
+  -f deploy/compose.yml -f deploy/compose.s7.yml \
+  up -d --no-deps --force-recreate --wait seckill relay order
+```
+
+若机器/WSL/Docker中断，先检查测试进程与已有报告，不直接重复启动。未满30分钟且无完整逐请求checkpoint的结果属于未完成，不可由数据库订单总数补造延迟或受理率。已有订单通过正常关闭/回补流程恢复，禁止删卷或覆盖活动库存。

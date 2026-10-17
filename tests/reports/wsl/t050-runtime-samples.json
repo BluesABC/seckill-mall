@@ -1,0 +1,170 @@
+[
+  {
+    "at": "2026-10-16T15:57:00+08:00",
+    "activityId": 153,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 4560
+    },
+    "outboxPending": 2867,
+    "oldestPendingOutboxAgeMs": 180607,
+    "relayPending": 1,
+    "cppHandlerCountLast60s": 965,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 275.126,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-16T16:02:00+08:00",
+    "activityId": 153,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 9268
+    },
+    "outboxPending": 6075,
+    "oldestPendingOutboxAgeMs": 381962,
+    "relayPending": 1,
+    "cppHandlerCountLast60s": 964,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 287.209,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-16T16:52:02+08:00",
+    "activityId": 154,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 1468
+    },
+    "outboxPending": 493,
+    "oldestPendingOutboxAgeMs": 32840,
+    "relayPending": 1,
+    "cppHandlerCountLast60s": 911,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 342.294,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-16T16:54:47+08:00",
+    "activityId": 154,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 3854
+    },
+    "outboxPending": 1987,
+    "oldestPendingOutboxAgeMs": 132208,
+    "relayPending": 2,
+    "cppHandlerCountLast60s": 912,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 290.35,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-17T15:53:19+08:00",
+    "activityId": 154,
+    "ordersByStatus": {
+      "CLOSED": 6197
+    },
+    "outboxPending": 0,
+    "oldestPendingOutboxAgeMs": 0,
+    "relayPending": 0,
+    "cppHandlerCountLast60s": 0,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": null,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-17T15:59:42+08:00",
+    "activityId": 155,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 4745
+    },
+    "outboxPending": 999,
+    "oldestPendingOutboxAgeMs": 62766,
+    "relayPending": 2,
+    "cppHandlerCountLast60s": 972,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 294.162,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-17T16:22:00+08:00",
+    "activityId": 157,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 2331
+    },
+    "outboxPending": 28,
+    "oldestPendingOutboxAgeMs": 1780,
+    "relayPending": 1,
+    "cppHandlerCountLast60s": 905,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 168.214,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-17T16:27:35+08:00",
+    "activityId": 157,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 7360
+    },
+    "outboxPending": 16,
+    "oldestPendingOutboxAgeMs": 1206,
+    "relayPending": 2,
+    "cppHandlerCountLast60s": 911,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 158.587,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-17T16:31:29+08:00",
+    "activityId": 157,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 10876
+    },
+    "outboxPending": 11,
+    "oldestPendingOutboxAgeMs": 576,
+    "relayPending": 1,
+    "cppHandlerCountLast60s": 913,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 144.201,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-17T16:35:18+08:00",
+    "activityId": 157,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 14307
+    },
+    "outboxPending": 14,
+    "oldestPendingOutboxAgeMs": 916,
+    "relayPending": 0,
+    "cppHandlerCountLast60s": 906,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 150.44,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-17T16:39:16+08:00",
+    "activityId": 157,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 17872
+    },
+    "outboxPending": 15,
+    "oldestPendingOutboxAgeMs": 872,
+    "relayPending": 0,
+    "cppHandlerCountLast60s": 902,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 167.047,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  },
+  {
+    "at": "2026-10-17T16:44:30+08:00",
+    "activityId": 157,
+    "ordersByStatus": {
+      "PENDING_PAYMENT": 22598
+    },
+    "outboxPending": 10,
+    "oldestPendingOutboxAgeMs": 618,
+    "relayPending": 1,
+    "cppHandlerCountLast60s": 913,
+    "cppHandlerErrorsLast60s": 0,
+    "cppHandlerP95MsLast60s": 151.856,
+    "measurement": "Handler latency excludes ingress queue/network; final gate uses client latency. Read-only snapshot."
+  }
+]

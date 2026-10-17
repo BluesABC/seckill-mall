@@ -80,7 +80,7 @@ def resp(file):
 class DropAofProxy(socketserver.ThreadingTCPServer):
     allow_reuse_address=True;daemon_threads=True
     def __init__(self):
-        self.drop=True;self.lock=threading.Lock()
+        self.drop=True;self.lock=threading.Lock();self.recorded=[]
         super().__init__(("127.0.0.1",0),self.Handler)
         self.thread=threading.Thread(target=self.serve_forever,daemon=True);self.thread.start()
     class Handler(socketserver.BaseRequestHandler):
@@ -93,7 +93,9 @@ class DropAofProxy(socketserver.ThreadingTCPServer):
                         if b"\r\nWAITAOF\r\n" in command:
                             with self.server.lock:
                                 if self.server.drop:self.server.drop=False;return
-                        backend.sendall(command);self.request.sendall(resp(target))
+                        backend.sendall(command);reply=resp(target)
+                        with self.server.lock:self.server.recorded.append((command,len(reply)))
+                        self.request.sendall(reply)
                 except (EOFError,OSError):pass
     def close(self):self.shutdown();self.server_close();self.thread.join(timeout=3)
 
@@ -157,6 +159,45 @@ class S2Tests(unittest.TestCase):
         status,ready,_=self.server.call("GET","/health/ready");self.assertEqual(status,200);self.assertFalse(ready["mqIntegrated"])
         status,value,_=self.server.call("GET",f"/api/seckill/info?activityId={self.a}&skuId=1")
         self.assertEqual(status,200);self.assertEqual(value["priceFen"],"1990");self.assertEqual(value["state"],"ACTIVE")
+    def test_large_ledger_uses_bounded_metadata_reads(self):
+        # A long-running sale retains tens of thousands of history fields.
+        # Observe real Redis replies through a TCP proxy: metadata + captcha +
+        # token + purchase must not transfer the entire historical hash.
+        self.client.hset(self.key,mapping={f"history:{i}":"x"*512 for i in range(30000)})
+        self.client.hset(self.key,"title","Large ledger sale")
+        proxy=DropAofProxy();proxy.drop=False
+        srv=RunningServer(self.prefix,MALL_REDIS_PORT=proxy.server_address[1])
+        try:
+            code,value,_=srv.call("GET",f"/api/seckill/info?activityId={self.a}&skuId=1")
+            self.assertEqual(code,200);self.assertEqual(value["title"],"Large ledger sale")
+            payload,_,token=self.purchase(server=srv)
+            self.assertEqual(self.buy(payload,token,srv)[0],202)
+            with proxy.lock:observed=list(proxy.recorded)
+            self.assertFalse(any(b"HGETALL" in cmd and self.key.encode() in cmd for cmd,_ in observed))
+            self.assertLess(sum(size for _,size in observed),65536)
+            self.assertEqual(self.stock(),9)
+        finally:srv.stop();proxy.close()
+    def test_activity_metadata_missing_and_incomplete(self):
+        self.client.unlink(self.key)
+        path=f"/api/seckill/info?activityId={self.a}&skuId=1"
+        self.assertEqual(self.server.call("GET",path)[0],404)
+        self.client.hset(self.key,"history:orphan","retained")
+        self.assertEqual(self.server.call("GET",path)[0],503)
+    def test_idle_clients_cannot_pin_http_workers(self):
+        connections=[]
+        try:
+            # Reverse proxies may retain every successful upstream connection.
+            # Open a whole worker pool's worth without explicitly closing them.
+            for _ in range(16):
+                connection=http.client.HTTPConnection('127.0.0.1',self.server.port,timeout=4)
+                connections.append(connection)
+                connection.request('GET','/health/live',headers={'Connection':'keep-alive'})
+                reply=connection.getresponse();reply.read()
+                self.assertEqual(reply.status,200)
+                self.assertTrue(reply.will_close,'idle upstream must not retain a C++ worker')
+            self.assertEqual(self.server.call('GET',f'/api/seckill/info?activityId={self.a}&skuId=1')[0],200)
+        finally:
+            for connection in connections:connection.close()
     def test_auth_missing_invalid_expired_revoked(self):
         path=f"/api/seckill/captcha?activityId={self.a}&skuId=1"
         self.assertEqual(self.server.call("GET",path)[0],401)

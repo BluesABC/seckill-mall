@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-17",
+  "platform": "WSL2 Ubuntu",
+  "checks": {
+    "S2": {
+      "stage": "S2",
+      "platform": "linux",
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": true,
+      "scope": "C++ HTTP + real Redis; relay probe test-only; no RocketMQ/Java order"
+    },
+    "S3": {
+      "stage": "S3",
+      "platform": "linux",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": true,
+      "scope": "real RocketMQ C++ producer, Java simple ACK/retry and push failure/DLQ; no MySQL order transaction"
+    },
+    "S4": {
+      "stage": "S4",
+      "platform": "linux",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": true,
+      "scope": "real HTTP/C++/RocketMQ/Java/MySQL/Redis; MOCK payment, not production capacity"
+    }
+  },
+  "scope": "Fresh real S2/S3/S4 regressions for S17; not production HA/SLA proof."
+}

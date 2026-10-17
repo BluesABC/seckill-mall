@@ -63,17 +63,24 @@ public final class Cache {
   }
   private List<String> eval(byte[] script, List<String> keys, String... args) {
     return redis.execute((RedisCallback<List<String>>) connection -> {
-      byte[][] values = new byte[args.length + keys.size()][];
+      // Fence inside the same EVAL, including read-only replays. With
+      // appendfsync=always a separate HSET otherwise forces another fsync and
+      // network round trip for every mirrored state. Strip wrapper arguments
+      // before calling the original script so its strict arity checks remain.
+      String wrapped = "local fenceKey=table.remove(KEYS)\n"
+          + "local fence=table.remove(ARGV)\nlocal function operation()\n"
+          + new String(script, StandardCharsets.UTF_8)
+          + "\nend\nlocal result=operation()\n"
+          + "redis.call('HSET',fenceKey,'fence',fence)\nreturn result";
+      byte[][] values = new byte[args.length + keys.size() + 2][];
       for (int i = 0; i < keys.size(); i++)
         values[i] = keys.get(i).getBytes(StandardCharsets.UTF_8);
+      values[keys.size()] = (prefix + ":durability").getBytes(StandardCharsets.UTF_8);
       for (int i = 0; i < args.length; i++)
-        values[keys.size() + i] = args[i].getBytes(StandardCharsets.UTF_8);
+        values[keys.size() + 1 + i] = args[i].getBytes(StandardCharsets.UTF_8);
+      values[values.length - 1] = UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8);
       List<?> result = connection.scriptingCommands().eval(
-          script, ReturnType.MULTI, keys.size(), values);
-      // Same connection causal fence: a successful EVAL may be a read-only replay.
-      connection.hashCommands().hSet((prefix + ":durability").getBytes(StandardCharsets.UTF_8),
-          "fence".getBytes(StandardCharsets.UTF_8),
-          UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
+          wrapped.getBytes(StandardCharsets.UTF_8), ReturnType.MULTI, keys.size() + 1, values);
       org.springframework.data.redis.connection.RedisConnection raw = connection;
       if (raw
           instanceof org.springframework.data.redis.connection.DefaultStringRedisConnection strings)

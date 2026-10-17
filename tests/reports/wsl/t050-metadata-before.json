@@ -1,0 +1,28 @@
+{
+  "samplesMs": [
+    249.629,
+    249.803,
+    223.985,
+    316.222,
+    272.028,
+    215.238,
+    248.472,
+    216.133,
+    215.945,
+    216.058,
+    243.949,
+    211.865,
+    236.138,
+    220.007,
+    240.342,
+    235.587,
+    231.824,
+    236.639,
+    235.424,
+    224.229
+  ],
+  "medianMs": 235.50549999999998,
+  "redisOutputBytesDelta": 143399588,
+  "ledgerFields": 57761,
+  "scope": "Read-only diagnostic; global Redis byte counter includes background traffic."
+}

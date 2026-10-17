@@ -130,10 +130,14 @@ int main(int argc, char **argv) {
         // Check active ledgers frequently so newly accepted reservations do not
         // inherit a one-second idle-poll delay. Transient publish/Redis errors
         // still use bounded exponential backoff.
-        backoff_ms = pending ? std::min(30000u, backoff_ms * 2) : 100;
+        // A successful nonempty batch is work, not idleness: scan again
+        // immediately so every batch does not add 100ms while new reservations
+        // arrive. Sleep only on an empty pass; failures retain bounded backoff.
+        backoff_ms = pending ? std::min(30000u, std::max(100u, backoff_ms) * 2)
+                             : confirmed ? 0 : 100;
       } catch (const std::exception &) {
         pending = 1;
-        backoff_ms = std::min(30000u, backoff_ms * 2);
+        backoff_ms = std::min(30000u, std::max(100u, backoff_ms) * 2);
       }
       std::cout << "confirmed=" << confirmed << " pendingRetry=" << pending << '\n' << std::flush;
       if (std::string_view(argv[1]) == "--once") return pending ? 3 : 0;

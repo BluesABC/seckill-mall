@@ -1,0 +1,68 @@
+{
+  "activityId": 155,
+  "plannedDurationSeconds": 1800,
+  "complete": false,
+  "passed": false,
+  "minuteProgress": [
+    {
+      "minute": 1.0,
+      "submitted": 900,
+      "total": 27000,
+      "responses": 899,
+      "accepted": 899,
+      "errors": 0,
+      "preparedQueueDepth": 449
+    },
+    {
+      "minute": 2.0,
+      "submitted": 1800,
+      "total": 27000,
+      "responses": 1797,
+      "accepted": 1797,
+      "errors": 0,
+      "preparedQueueDepth": 449
+    },
+    {
+      "minute": 3.0,
+      "submitted": 2700,
+      "total": 27000,
+      "responses": 2698,
+      "accepted": 2698,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 4.0,
+      "submitted": 3600,
+      "total": 27000,
+      "responses": 3598,
+      "accepted": 3598,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    },
+    {
+      "minute": 5.0,
+      "submitted": 4500,
+      "total": 27000,
+      "responses": 4497,
+      "accepted": 4497,
+      "errors": 0,
+      "preparedQueueDepth": 449
+    },
+    {
+      "minute": 6.0,
+      "submitted": 5400,
+      "total": 27000,
+      "responses": 5399,
+      "accepted": 5399,
+      "errors": 0,
+      "preparedQueueDepth": 450
+    }
+  ],
+  "outboxStatusAtStop": {
+    "PUBLISHED": 4321,
+    "PENDING": 1226
+  },
+  "reason": "Stopped diagnostic iteration: outbox grew continuously while HTTP stayed healthy. Dedicated dispatch still loses throughput to redundant Redis durability writes. Preserve atomic durability while reducing round trips before full rerun.",
+  "evidenceLimit": "No full client latency distribution for this interrupted diagnostic. It is not a completed capacity acceptance."
+}

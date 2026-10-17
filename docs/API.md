@@ -55,6 +55,8 @@ JSON未知字段/重复字段、重复查询键和非规范查询键拒绝400，
 | POST /api/admin/recovery/{hash}/replay | ADMIN | 按原始消息重放，保留幂等标识，拒绝伪造/冲突事件 |
 | POST /api/admin/recovery/run | ADMIN | 执行一轮有界关闭/outbox/恢复，后台同样自动运行 |
 
+`GET /api/admin/recovery`的`metrics`增加`lastOutboxError`与`outboxDispatchCycles`：独立outbox调度最近轮次的错误类别、成功轮次数。`NONE`仅表示该轮调度未抛出顶层错误，不证明积压已排空；需同时检查`outboxPending`与只读对账。后台outbox派发独立于过期关闭/恢复扫描，显式`recovery/run`仍同步执行。鉴权与原有字段不变。
+
 username为3–64位ASCII字母/数字/下划线/连字符；password至少12字符、UTF-8至多72字节。登录失败统一401，不暴露用户是否存在。注册限制每IP10分钟15次，登录每IP10分钟80次、每账号30次。商品imageUrl为空或`/assets/...`项目资源路径；不接收任意HTML/远程图片URL。活动价不得高于SKU标价，stock正整数且≤100000000。
 
 Java订单查询/支付沿用本文核心契约，依赖错误返回503。`requestState=COMPENSATING`直到Redis回补经持久化屏障成功后才变FAILED；订单创建、支付、关闭均以MySQL已提交状态为准。MOCK支付接口不调用真实支付渠道。新错误码：409 CONFLICT/INSUFFICIENT_STOCK/ACTIVITY_CONFLICT/CACHE_CONFLICT/SELF_DISABLE_FORBIDDEN。

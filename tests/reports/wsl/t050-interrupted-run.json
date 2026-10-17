@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-17",
+  "complete": false,
+  "passed": false,
+  "activityId": 154,
+  "skuId": 3514,
+  "intendedQps": 15,
+  "intendedDurationSeconds": 1800,
+  "lastRecordedProgress": {
+    "minute": 6.0,
+    "submitted": 5400,
+    "total": 27000,
+    "responses": 5396,
+    "accepted": 5396,
+    "errors": 0,
+    "preparedQueueDepth": 450
+  },
+  "observation": "Resume found no load process and Docker Desktop not running; interruption cause not recorded. This is not a completed capacity run. Existing orders were retained and recovered.",
+  "ordersAfterRecovery": 6197,
+  "orderStatusAfterRecovery": "CLOSED",
+  "outboxPendingAfterRecovery": 0,
+  "relayPendingAfterRecovery": 0
+}

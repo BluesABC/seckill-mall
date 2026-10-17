@@ -1,0 +1,159 @@
+{
+  "date": "2026-10-16",
+  "platform": "WSL2 Ubuntu; Docker Desktop Linux engine",
+  "mount": "/mnt/e (DrvFs)",
+  "loadGenerator": "Python standard-library HTTP clients on same host as Docker",
+  "proofFixture": "Private one-time 600-second proof fixtures are batch-seeded with synthetic tokens and digests, matching prior T048 runs; the real C++ /api/seckill/buy handler validates each proof. Production proof lifetime remains 60 seconds. Image rendering, token issuance and account setup are outside the timed window.",
+  "activityName": "T048-sustained-a317b120c6",
+  "activityId": "150",
+  "skuId": "3510",
+  "cppHttpWorkers": 32,
+  "mqConsumerThreads": 4,
+  "cppHttpQueue": 128,
+  "mqQueueCount": 4,
+  "offeredQps": 15.0,
+  "durationSeconds": 60,
+  "submitted": 900,
+  "accepted": 900,
+  "persisted": 900,
+  "observedSubmissionSeconds": 59.937,
+  "httpStatusCounts": {
+    "202": 900
+  },
+  "businessCodeCounts": {
+    "ACCEPTED": 900
+  },
+  "fiveMinuteWindows": [
+    {
+      "startSeconds": 0,
+      "submitted": 900,
+      "accepted": 900,
+      "server5xx": 0,
+      "transportUnknown": 0,
+      "buyApiP95MsAcceptedOnly": 377.414
+    }
+  ],
+  "outboxStatus": {
+    "PUBLISHED": 900
+  },
+  "timeToInventoryCleanAfterResponsesMs": 57132.133,
+  "buyApiLatencyMsAcceptedOnly": {
+    "p50": 199.564,
+    "p95": 377.414,
+    "p99": 601.179
+  },
+  "requestToReservationMs": {
+    "p50": 6.945,
+    "p95": 153.945,
+    "p99": 301.945
+  },
+  "requestToDurableOrderMs": {
+    "p50": 1425.345,
+    "p95": 3202.589,
+    "p99": 3484.885
+  },
+  "requestToDurableMeasurement": "same-host monotonic request start to first DB-visible order; polling interval 500ms",
+  "requestToDurableObservedCount": 900,
+  "mysqlClockOffsetMs": 156.952,
+  "redisClockOffsetMs": 158.055,
+  "mysqlClockOffsetStartEndMs": [
+    177.443,
+    136.462
+  ],
+  "redisClockOffsetStartEndMs": [
+    182.182,
+    133.929
+  ],
+  "stageTelemetry": {
+    "reservations": 900,
+    "malformedStageLines": 0,
+    "duplicateStageLines": 0,
+    "stageCounts": {
+      "relay_publish": 900,
+      "consumer_received": 900,
+      "committed": 900,
+      "failed": 0
+    },
+    "latencyMs": {
+      "relayPendingAgeMs": {
+        "count": 900,
+        "p50": 521,
+        "p95": 2115,
+        "p99": 2601,
+        "max": 2762
+      },
+      "publishCallMs": {
+        "count": 900,
+        "p50": 12,
+        "p95": 31,
+        "p99": 54,
+        "max": 701
+      },
+      "relayToConsumerMs": {
+        "count": 900,
+        "p50": 25,
+        "p95": 57,
+        "p99": 98,
+        "max": 710
+      },
+      "brokerQueueMs": {
+        "count": 900,
+        "p50": 25,
+        "p95": 53,
+        "p99": 97,
+        "max": 710
+      },
+      "relaySendToBrokerMs": {
+        "count": 900,
+        "p50": 0,
+        "p95": 4,
+        "p99": 1652,
+        "max": 1654
+      },
+      "mysqlTransactionMs": {
+        "count": 900,
+        "p50": 72,
+        "p95": 137,
+        "p99": 192,
+        "max": 778
+      },
+      "reservationAgeMs": {
+        "count": 900,
+        "p50": 544,
+        "p95": 2148,
+        "p99": 2628,
+        "max": 2782
+      }
+    }
+  },
+  "stageTelemetryComplete": true,
+  "reserved": 900,
+  "server5xxCount": 0,
+  "server5xxRatePercent": 0.0,
+  "observedSubmissionQps": 15.016,
+  "mysqlStatusBefore": "Innodb_row_lock_time\t13233\nInnodb_row_lock_waits\t520\nThreads_connected\t13\nThreads_running\t2",
+  "mysqlStatusAfter": "Innodb_row_lock_time\t20962\nInnodb_row_lock_waits\t863\nThreads_connected\t13\nThreads_running\t3",
+  "reconciliation": {
+    "status": "CLEAN",
+    "orders": 900,
+    "alerts": []
+  },
+  "capacityGate": "evaluated against temporary v0.1; same-host run is not an independent production capacity proof",
+  "temporaryGateResults": {
+    "offeredRateAtLeastTarget": true,
+    "eligibleRequestsAcceptedAtLeast99_5Percent": true,
+    "noTransportUnknown": true,
+    "server5xxAtMost0_1Percent": true,
+    "acceptedBuyApiP95AtMost500ms": true,
+    "durableOrderP95AtMost3000ms": false,
+    "durableOrderP99AtMost8000ms": true,
+    "allReservedOrdersPersisted": true,
+    "allHttpAcceptedOrdersPersisted": true,
+    "durableObservationCoverageAtLeast99_5Percent": true,
+    "stageTelemetryComplete": true,
+    "outboxDrained": true,
+    "inventoryCleanWithin600Seconds": true,
+    "inventoryReconciliationClean": true,
+    "passed": false
+  }
+}

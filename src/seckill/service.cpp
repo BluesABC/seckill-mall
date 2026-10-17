@@ -266,9 +266,28 @@ public:
                                               const std::string &s) {
     identifier(a);
     identifier(s);
-    auto values = hash(redis(), ledger(a, s));
-    if (values.empty())
-      throw ApiError(404, "NOT_FOUND");
+    // The ledger also contains every request/user/reservation. HGETALL makes
+    // each purchase O(activity history), amplifying Redis/network/parse work
+    // throughout a long sale. Read only the fixed metadata contract.
+    const std::vector<std::string> fields = {"stock", "startsAtMs", "endsAtMs",
+        "status", "epoch", "priceFen", "activityId", "skuId", "title"};
+    std::vector<std::string> command = {"HMGET", ledger(a, s)};
+    command.insert(command.end(), fields.begin(), fields.end());
+    auto reply = redis().command(command);
+    checked(reply.get());
+    if (reply->type != REDIS_REPLY_ARRAY || reply->elements != fields.size())
+      throw RedisFailure("Malformed activity metadata reply");
+    std::map<std::string, std::string> values;
+    for (size_t i = 0; i < fields.size(); ++i) {
+      if (reply->element[i]->type != REDIS_REPLY_NIL)
+        values[fields[i]] = text(reply->element[i]);
+    }
+    if (values.empty()) {
+      auto exists = redis().command({"EXISTS", ledger(a, s)});
+      checked(exists.get());
+      throw ApiError(exists->integer ? 503 : 404,
+                     exists->integer ? "NOT_READY" : "NOT_FOUND");
+    }
     for (auto &key : {"stock", "startsAtMs", "endsAtMs", "status", "epoch",
                       "priceFen", "activityId", "skuId"})
       if (!values.contains(key))
@@ -292,11 +311,12 @@ public:
                                 ? Json("RESERVATION_TERMINATED")
                                 : Json(nullptr)}};
   }
-  void durability_fence(const std::string &key) {
+  void durability_fence(const std::string &key, bool already_wrote = false) {
     // A causal write on this same connection fences read-only replays too.
-    auto fence =
-        redis().command({"HSET", key, "durabilityFence", random_uuid()});
-    checked(fence.get());
+    if (!already_wrote) {
+      auto fence = redis().command({"HSET", key, "durabilityFence", random_uuid()});
+      checked(fence.get());
+    }
     auto confirmed = redis().command({"WAITAOF", "1", "0", "1000"});
     checked(confirmed.get());
     if (confirmed->type != REDIS_REPLY_ARRAY || confirmed->elements != 2 ||
@@ -457,7 +477,7 @@ public:
             if (code == "RESERVED" || code == "REPLAY") {
               if (code == "RESERVED")
                 ++counters.reserved;
-              durability_fence(key);
+              durability_fence(key, code == "RESERVED");
               auto output = status(text(reply->element[1]), request);
               output["statusUrl"] = "/api/order/status?activityId=" + a +
                                     "&skuId=" + s + "&requestId=" + request;
@@ -543,8 +563,12 @@ int serve(const Config &config) {
   server.set_payload_max_length(16 * 1024);
   server.set_read_timeout(3, 0);
   server.set_write_timeout(3, 0);
-  server.set_keep_alive_max_count(16);
-  server.set_keep_alive_timeout(2);
+  // cpp-httplib dedicates a worker to each accepted connection, including its
+  // idle keep-alive wait. Nginx caches upstream sockets per worker; those idle
+  // sockets can occupy the entire bounded pool and starve queued purchases.
+  // Close after a response; client-to-Nginx keep-alive remains available.
+  server.set_keep_alive_max_count(1);
+  server.set_tcp_nodelay(true);
   server.set_error_handler([](const auto &, auto &out) {
     if (out.body.empty())
       json(out, out.status,

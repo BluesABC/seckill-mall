@@ -201,6 +201,21 @@ class S4Tests(unittest.TestCase):
         self.jobs();self.jobs();self.assertEqual(self.status(event,token)[1]['requestState'],'FAILED');self.assertEqual(self.cache.hget(self.key,'stock'),'10')
         self.assertEqual(self.sql('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s',(self.activity,self.sku))[0][0],0)
         self.replay_event(event);time.sleep(2);self.assertIsNone(self.status(event,token)[1]['orderId'])
+    def test_08b_readonly_release_replay_still_has_a_durable_fence(self):
+        event,token=self.reserve();self.relay();order=self.order(event,token);self.jobs()
+        self.sql('UPDATE orders SET expires_at_ms=created_at_ms+1 WHERE id=%s',(order['orderId'],),write=True)
+        self.jobs()
+        self.assertEqual(self.cache.hget(self.key,'stock'),'10')
+        before=self.cache.hget(self.prefix+':durability','fence')
+        self.assertIsNotNone(before)
+        # Re-deliver the committed close event after Redis already released it.
+        # Both original Lua operations are now read-only REPLAY paths.
+        self.sql("UPDATE outbox_events SET status='PENDING',next_attempt_at_ms=0 WHERE reservation_id=%s AND kind='RESERVATION_RELEASE'",(event['reservationId'],),write=True)
+        self.jobs()
+        self.assertNotEqual(self.cache.hget(self.prefix+':durability','fence'),before)
+        self.assertEqual(self.cache.hget(self.key,'stock'),'10')
+        self.assertFalse(self.sql("SELECT event_id FROM outbox_events WHERE reservation_id=%s AND status='PENDING'",(event['reservationId'],)))
+
     def test_09_outbox_survives_redis_failure_and_restart(self):
         event,token=self.reserve();self.relay();order=self.order(event,token);hidden=self.key+':hidden';self.cache.rename(self.key,hidden)
         try:
@@ -214,7 +229,13 @@ class S4Tests(unittest.TestCase):
         # Make the accepted snapshot old within the activity window, without changing its identity.
         created=int(time.time()*1000)-310000;event['createdAtMs']=str(created)
         req=self.redis_request(event);req['createdAtMs']=str(created);self.cache.hset(self.key,f'req:{event["userId"]}:{event["requestId"]}',json.dumps(req));self.sql('UPDATE activities SET starts_at_ms=%s WHERE id=%s',(created-1000,self.activity),True)
-        self.jobs();self.assertEqual(self.status(event,token)[1]['requestState'],'FAILED');self.assertEqual(self.cache.hget(self.key,'stock'),'10')
+        # Recovery scans a bounded number of ledgers per tick. Reach this
+        # ledger within a fixed deadline rather than assuming one scan suffices.
+        def recovered():
+            self.jobs()
+            return self.status(event,token)[1]['requestState']=='FAILED'
+        wait(recovered,60)
+        self.assertEqual(self.cache.hget(self.key,'stock'),'10')
         self.replay_event(event);time.sleep(2);self.assertIsNone(self.status(event,token)[1]['orderId'])
     def test_11_admin_permissions_catalog_and_allocation(self):
         self.assertTrue(self.api('GET','/api/goods')[1]['items']);self.assertEqual(self.api('GET','/api/goods/'+self.goods)[0],200)
@@ -278,6 +299,33 @@ class S4Tests(unittest.TestCase):
         wait(lambda:self.redis_request(event).get('released') is True);self.assertEqual(self.cache.hget(self.key,'stock'),'10')
         type(self).start_java(jobs=False)
 
+    def test_19b_outbox_progresses_while_expiry_worker_is_locked(self):
+        old_event,old_token=self.reserve();self.relay();old_order=self.order(old_event,old_token);self.jobs()
+        old_activity,old_sku,old_key=self.activity,self.sku,self.key
+        self.sql('UPDATE orders SET expires_at_ms=created_at_ms+1 WHERE id=%s',(old_order['orderId'],),True)
+        blocker=connect(self.database)
+        def waiting():
+            return self.sql('SELECT COUNT(*) FROM performance_schema.data_lock_waits w '
+                'JOIN performance_schema.data_locks l ON l.ENGINE_LOCK_ID=w.REQUESTING_ENGINE_LOCK_ID '
+                'WHERE l.OBJECT_SCHEMA=%s AND l.OBJECT_NAME=%s',(self.database,'activity_stock'))[0][0]
+        try:
+            with blocker.cursor() as cursor:
+                cursor.execute('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s FOR UPDATE',(old_activity,old_sku))
+            type(self).start_java(jobs=True)
+            wait(waiting,15)  # Prove maintenance is actually blocked in InnoDB.
+            self.setUp()  # A different real SKU must continue through MQ and DB.
+            event,token=self.reserve();self.relay();self.order(event,token)
+            wait(lambda:self.redis_request(event).get('state')=='ORDER_CREATED',15)
+            self.assertGreater(waiting(),0,'maintenance lock must still be held at dispatch completion')
+            row=self.sql('SELECT status FROM outbox_events WHERE reservation_id=%s',(event['reservationId'],))
+            self.assertEqual(row,(('PUBLISHED',),))
+            metrics=self.admin_api('GET','/api/admin/recovery')[1]['metrics']
+            self.assertEqual(metrics['lastOutboxError'],'NONE');self.assertGreater(metrics['outboxDispatchCycles'],0)
+            blocker.rollback()
+            wait(lambda:json.loads(self.cache.hget(old_key,f'req:{old_event["userId"]}:{old_event["requestId"]}')).get('released') is True,15)
+        finally:
+            blocker.rollback();blocker.close();type(self).start_java(jobs=False)
+
     def dlq_offset(self):
         status=subprocess.run(['docker','exec','seckill-mall-mq-broker-1','sh','mqadmin','topicStatus','-n','namesrv:9876','-t','%DLQ%'+self.group],text=True,capture_output=True,timeout=20)
         return sum(int(line.split()[3]) for line in status.stdout.splitlines() if re.match(r'^mall-broker\s+\d+\s+\d+\s+\d+',line))
@@ -300,7 +348,13 @@ class S4Tests(unittest.TestCase):
         finally:subprocess.run(compose+['up','-d','--wait','--wait-timeout','180','mysql'],check=True,stdout=subprocess.DEVNULL)
         wait(lambda:self.api('GET','/health/ready')[0]==200,60)
         self.assertFalse(self.sql('SELECT id FROM orders WHERE reservation_id=%s',(event['reservationId'],)))
-        self.jobs();self.jobs();self.assertEqual(self.status(event,token)[1]['requestState'],'FAILED');self.assertEqual(self.cache.hget(self.key,'stock'),'10')
+        # A bounded recovery scan need not visit a newly added ledger in two
+        # ticks. Check actual recovery within a fixed window, then confirm that
+        # another tick cannot release inventory twice.
+        def recovered():
+            self.jobs()
+            return self.status(event,token)[1]['requestState']=='FAILED'
+        wait(recovered,60);self.jobs();self.assertEqual(self.cache.hget(self.key,'stock'),'10')
         self.replay_event(event);time.sleep(2);self.assertIsNone(self.status(event,token)[1]['orderId'])
 
     def test_21_login_rate_limit(self):

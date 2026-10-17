@@ -96,7 +96,14 @@ class S3Tests(unittest.TestCase):
             applied = pipe.execute()
         self.assertEqual(applied[0][0], "RESERVED")
         self.assertEqual(applied[1][0], 1)
-        self.redis.sadd(self.prefix + ":ledgers", key)
+        # The HTTP reserve path maintains these discovery indexes atomically.
+        # This transport-only fixture uses internal Lua mode, so mirror those
+        # index effects explicitly (including events created after relay start).
+        with self.redis.pipeline(transaction=True) as pipe:
+            pipe.sadd(self.prefix + ":ledgers", key)
+            pipe.sadd(self.prefix + ":relay_ledgers", key)
+            pipe.sadd(key + ":relay_pending", reservation)
+            pipe.execute()
         self.test_keys.append(key)
         raw = self.redis.hget(key, "pending:" + reservation)
         self.schema.validate(json.loads(raw))
@@ -234,6 +241,22 @@ class S3Tests(unittest.TestCase):
         else:
             self.fail("Broker did not move failed message into this group's DLQ")
         self.assertEqual(self.request_state(item),"QUEUED")
+
+    def test_07_legacy_pending_is_backfilled_at_startup(self):
+        event = self.new_event(108)
+        # Simulate a pre-index ledger, rather than silently dropping legacy
+        # compatibility while updating the current producer's fixture.
+        with self.redis.pipeline(transaction=True) as pipe:
+            pipe.srem(self.prefix + ":relay_ledgers", event['ledger'])
+            pipe.delete(event['ledger'] + ':relay_pending')
+            pipe.execute()
+        result = self.worker()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(self.request_state(event), 'QUEUED')
+        self.assertEqual(self.redis.hget(event['ledger'], 'pendingCount'), '0')
+        self.assertEqual(self.redis.hget(event['ledger'], 'stock'), '9')
+        self.assertFalse(self.redis.sismember(self.prefix + ':relay_ledgers', event['ledger']))
+        self.assertEqual(self.redis.scard(event['ledger'] + ':relay_pending'), 0)
 
     def test_06_continuous_relay_recovers_without_manual_replay(self):
         env=dict(os.environ,MALL_KEY_PREFIX=self.prefix,MALL_REDIS_PORT="16379",

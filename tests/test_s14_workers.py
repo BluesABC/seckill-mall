@@ -9,6 +9,8 @@ import sys
 import threading
 import time
 import uuid
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -117,7 +119,7 @@ for run in range(1, ROUNDS + 1):
         for r in responses]
     http_ms = [(r["endMonoNs"] - r["startMonoNs"]) / 1_000_000 for r in responses]
     assert all(status == "PENDING_PAYMENT" for _, status, _ in by_request.values())
-    reconciliation = clean()
+    reconciliation = clean(activity_id=activity_id, limit=100000)
     db_after = global_status()
     reservation_ids = set(sql(
         f"SELECT reservation_id FROM seckill_requests WHERE activity_id={activity_id}"
@@ -161,7 +163,7 @@ for run in range(1, ROUNDS + 1):
 monitor_stop.set()
 monitor_thread.join(timeout=20)
 report = {
-    "date": "2026-10-14", "workers": WORKERS, "usersPerRound": USERS,
+    "date": datetime.now(ZoneInfo('Asia/Shanghai')).date().isoformat(), "workers": WORKERS, "usersPerRound": USERS,
     "rounds": records,
     "medianOrderP95Ms": statistics.median(r["orderLatencyMs"]["p95"] for r in records),
     "allCLEAN": all(r["reconciliation"] == "CLEAN" for r in records),

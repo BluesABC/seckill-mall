@@ -1,0 +1,215 @@
+{
+  "date": "2026-10-17",
+  "platform": "WSL2 Ubuntu; Docker Desktop Linux engine",
+  "mount": "/mnt/e (DrvFs)",
+  "loadGenerator": "Python standard-library HTTP clients on same host as Docker",
+  "proofFixture": "Private one-time 600-second proof fixtures are batch-seeded with synthetic tokens and digests, matching prior T048 runs; the real C++ /api/seckill/buy handler validates each proof. Production proof lifetime remains 60 seconds. Image rendering, token issuance and account setup are outside the timed window.",
+  "activityName": "T048-sustained-55e723cf06",
+  "activityId": "156",
+  "skuId": "3516",
+  "runtimeProvenance": {
+    "gitHeadBeforeRun": "601f79a564db0eb58565b3b11a908e9a1da1a7ce",
+    "dockerHost": {
+      "cpus": 12,
+      "memoryBytes": 7995174912
+    },
+    "imageIds": {
+      "seckill": "sha256:8e78a3e244c681cf093f07068f5afff3d09949a9a6dacd114788ee6fa39c37ca",
+      "relay": "sha256:1b5f09fcfdd8a22e9520e9bcd890fb4c86eef200736485c6bb0e0654b1e28984",
+      "order": "sha256:8e0ffe93d73f5ae3af4b47f1086ed30ad4c01603a625305d274b6b9755ee5b90"
+    },
+    "sourceSha256": {
+      "src/seckill/service.cpp": "a175e2c8d3b56bd257be0520fc977e8875f6ce3b4f3d3b8a206edf0349c8d8ed",
+      "src/order/src/main/java/com/seckillmall/order/business/Orders.java": "f392dbcb118ca59659c971babaa380121c1b2558281845ff0086717add7bd1ba",
+      "src/order/src/main/java/com/seckillmall/order/business/Workers.java": "5d01c66cd051473c54d604d0117253e11c34115a15e08630de819ea7fd16966b",
+      "src/order/src/main/java/com/seckillmall/order/business/Cache.java": "4df29870febe9c563069f1cee3c40e2a0a94ae4e6944b0e1fde5ca95d52267c9",
+      "src/mq/relay_worker.cpp": "7aa66663debb5e09f3a54406dbab12c573860ddad32375eeb7448072f05cc7e9",
+      "tests/load_t048_sustained.py": "c9fd3a6df6839d771d33604cf80eb0bc29946eb97cf3fe51bcd5d579bb55c1b5"
+    },
+    "orderPaymentTtlMs": 3600000,
+    "fixtureScope": "Synthetic eligible users, unique requests, one hot SKU; historical S7 data retained."
+  },
+  "datasetBeforeTimedRequests": {
+    "orders": 168615,
+    "activities": 156,
+    "users": 282696,
+    "unpublishedOutbox": 0,
+    "expiredPendingOrders": 0
+  },
+  "datasetSnapshotDefinition": "Owned S7 data retained; snapshot includes newly prepared users/activity, before timed buys.",
+  "cppHttpWorkers": 32,
+  "mqConsumerThreads": 4,
+  "cppHttpQueue": 128,
+  "mqQueueCount": 4,
+  "offeredQps": 15.0,
+  "durationSeconds": 60,
+  "submitted": 900,
+  "accepted": 900,
+  "persisted": 900,
+  "observedSubmissionSeconds": 59.936,
+  "httpStatusCounts": {
+    "202": 900
+  },
+  "businessCodeCounts": {
+    "ACCEPTED": 900
+  },
+  "fiveMinuteWindows": [
+    {
+      "startSeconds": 0,
+      "submitted": 900,
+      "accepted": 900,
+      "server5xx": 0,
+      "transportUnknown": 0,
+      "buyApiP95MsAcceptedOnly": 186.032
+    }
+  ],
+  "outboxStatus": {
+    "PUBLISHED": 900
+  },
+  "timeToInventoryCleanAfterResponsesMs": 13519.723,
+  "buyApiLatencyMsAcceptedOnly": {
+    "p50": 91.976,
+    "p95": 186.032,
+    "p99": 255.437
+  },
+  "buyApiLatencyMsAllResponses": {
+    "p50": 91.976,
+    "p95": 186.032,
+    "p99": 255.437
+  },
+  "requestToReservationMs": {
+    "p50": -34.245,
+    "p95": 50.755,
+    "p99": 115.755
+  },
+  "requestToDurableOrderMs": {
+    "p50": 705.703,
+    "p95": 1114.323,
+    "p99": 1259.346
+  },
+  "requestToDurableMeasurement": "same-host monotonic request start to first DB-visible order; polling interval 500ms",
+  "requestToDurableObservedCount": 900,
+  "mysqlClockOffsetMs": 111.048,
+  "redisClockOffsetMs": 101.245,
+  "mysqlClockOffsetStartEndMs": [
+    124.949,
+    97.147
+  ],
+  "redisClockOffsetStartEndMs": [
+    102.359,
+    100.131
+  ],
+  "stageTelemetry": {
+    "reservations": 900,
+    "malformedStageLines": 0,
+    "duplicateStageLines": 0,
+    "stageCounts": {
+      "relay_publish": 0,
+      "consumer_received": 900,
+      "committed": 900,
+      "failed": 0
+    },
+    "latencyMs": {
+      "relayPendingAgeMs": {
+        "count": 0,
+        "p50": null,
+        "p95": null,
+        "p99": null,
+        "max": null
+      },
+      "publishCallMs": {
+        "count": 0,
+        "p50": null,
+        "p95": null,
+        "p99": null,
+        "max": null
+      },
+      "relayToConsumerMs": {
+        "count": 900,
+        "p50": 20,
+        "p95": 42,
+        "p99": 394,
+        "max": 898
+      },
+      "brokerQueueMs": {
+        "count": 900,
+        "p50": 20,
+        "p95": 66,
+        "p99": 1697,
+        "max": 1873
+      },
+      "relaySendToBrokerMs": {
+        "count": 900,
+        "p50": 0,
+        "p95": 29,
+        "p99": 2030,
+        "max": 2046
+      },
+      "mysqlTransactionMs": {
+        "count": 900,
+        "p50": 57,
+        "p95": 126,
+        "p99": 183,
+        "max": 347
+      },
+      "reservationAgeMs": {
+        "count": 900,
+        "p50": 100,
+        "p95": 164,
+        "p99": 461,
+        "max": 949
+      }
+    }
+  },
+  "stageTelemetryComplete": false,
+  "reserved": 900,
+  "server5xxCount": 0,
+  "server5xxRatePercent": 0.0,
+  "observedSubmissionQps": 15.016,
+  "mysqlStatusBefore": "Innodb_row_lock_time\t14905\nInnodb_row_lock_waits\t1539\nThreads_connected\t13\nThreads_running\t2",
+  "mysqlStatusAfter": "Innodb_row_lock_time\t22942\nInnodb_row_lock_waits\t1893\nThreads_connected\t13\nThreads_running\t2",
+  "reconciliation": {
+    "status": "CLEAN",
+    "readOnly": true,
+    "graceSeconds": 1800,
+    "activityId": "156",
+    "orders": 900,
+    "ledgers": [
+      {
+        "activityId": "156",
+        "skuId": "3516",
+        "initial": 900,
+        "dbAvailable": 0,
+        "redisAvailable": 0,
+        "held": 900,
+        "activeOrders": 900,
+        "inTransit": 0,
+        "pendingSend": 0,
+        "oldestInTransitSeconds": 0
+      }
+    ],
+    "alerts": [],
+    "movingSnapshots": [],
+    "outbox": [],
+    "mqFailures": [],
+    "atMs": 1792224338741
+  },
+  "capacityGate": "evaluated against temporary v0.1; same-host run is not an independent production capacity proof",
+  "temporaryGateResults": {
+    "offeredRateAtLeastTarget": true,
+    "eligibleRequestsAcceptedAtLeast99_5Percent": true,
+    "noTransportUnknown": true,
+    "server5xxAtMost0_1Percent": true,
+    "acceptedBuyApiP95AtMost500ms": true,
+    "durableOrderP95AtMost3000ms": true,
+    "durableOrderP99AtMost8000ms": true,
+    "allReservedOrdersPersisted": true,
+    "allHttpAcceptedOrdersPersisted": true,
+    "durableObservationCoverageAtLeast99_5Percent": true,
+    "stageTelemetryComplete": false,
+    "outboxDrained": true,
+    "inventoryCleanWithin600Seconds": true,
+    "inventoryReconciliationClean": true,
+    "passed": false
+  }
+}
