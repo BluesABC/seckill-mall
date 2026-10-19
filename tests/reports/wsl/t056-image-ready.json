@@ -1,0 +1,25 @@
+{
+  "platform": "linux",
+  "scope": "static image fixtures, not real business integration",
+  "checks": [
+    {
+      "name": "lazy-and-delayed-images-390",
+      "images": 9,
+      "passed": true
+    },
+    {
+      "name": "lazy-and-delayed-images-1440",
+      "images": 9,
+      "passed": true
+    },
+    {
+      "name": "broken-image-rejects-capture",
+      "passed": true
+    },
+    {
+      "name": "readme-references-existing-png",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

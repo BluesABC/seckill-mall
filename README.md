@@ -2,7 +2,7 @@
 
 Vue 3 / TypeScript / Tailwind 前端，C++ 秒杀服务，RocketMQ 官方 C++/Java SDK，Spring Boot 订单服务，Redis Lua 原子预扣、MySQL 事务库存与幂等订单。
 
-![运动鞋商城](tests/reports/wsl/sports-ui/home-1440.png)
+![运动鞋商城：跑者主视觉与运动鞋商品图](tests/reports/wsl/sports-ui/desktop-home.png)
 
 支持商品浏览、每码独立库存的真实 SKU 尺码、用户认证、图片验证码抢购、异步订单查询、模拟支付、超时关闭与幂等回补、商品/活动管理。后台可为既有鞋款新增尺码，并按 SKU 单独配置活动；项目使用原创演示品牌和图片，Nike/Adidas 仅作为用户指定的视觉参考。
 

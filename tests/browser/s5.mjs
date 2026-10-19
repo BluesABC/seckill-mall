@@ -5,6 +5,7 @@ import {
 import AxeBuilder from "../../build/wsl/browser/node_modules/@axe-core/playwright/dist/index.mjs";
 import { readFile, mkdir, unlink, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
+import { readyForScreenshot } from "./screenshot-ready.mjs";
 const config = JSON.parse(await readFile(process.env.S5_CONFIG, "utf8"));
 const report = "tests/reports/wsl/sports-ui";
 await mkdir(report, { recursive: true });
@@ -446,7 +447,16 @@ try {
       await page.getByRole('button',{name:'即将开抢',exact:true}).click();await expect(page.getByText('此场次暂时没有鞋款。')).toBeVisible();
       await page.getByRole('button',{name:'已开启',exact:true}).click();await expect(page.locator('.flash-grid .product-card')).toHaveCount(4);
       await page.screenshot({path:report+'/desktop-flash.png',fullPage:true});
-      for(const width of [390,640,768,1024,1280,1440]){await page.setViewportSize({width,height:900});await navigate('/');await noOverflow();await page.screenshot({path:report+'/home-'+width+'.png',fullPage:true});await navigate('/catalog');await noOverflow()}
+      for (const width of [390, 640, 768, 1024, 1280, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        await navigate('/');
+        await expect(page.locator('.product-card')).toHaveCount(8);
+        await readyForScreenshot(page);
+        await noOverflow();
+        await page.screenshot({ path: report + '/home-' + width + '.png', fullPage: true });
+        await navigate('/catalog');
+        await noOverflow();
+      }
       await page.setViewportSize({width:1440,height:1000});
     });
     await navigate("/admin");
