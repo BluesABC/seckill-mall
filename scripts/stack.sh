@@ -13,8 +13,9 @@ case "$mode" in
   up) "${dc[@]}" build; cd "$root"; "${dc[@]}" up -d --wait --wait-timeout 300; cd "$root"; "${dc[@]}" run --rm seed;;
   build) "${dc[@]}" build;;
   seed) "${dc[@]}" run --rm seed;;
+  renew-demo) "${dc[@]}" run --rm seed python scripts/renew-demo.py;;
   down) "${dc[@]}" down;;
   status) "${dc[@]}" ps -a;;
   logs) "${dc[@]}" logs --tail 100;;
-  *) echo 'Usage: bash scripts/stack.sh [up|build|seed|down|status|logs]' >&2; exit 2;;
+  *) echo 'Usage: bash scripts/stack.sh [up|build|seed|renew-demo|down|status|logs]' >&2; exit 2;;
 esac

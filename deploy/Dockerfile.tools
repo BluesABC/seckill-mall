@@ -6,6 +6,7 @@ COPY scripts/data.py scripts/data.py
 COPY scripts/reconcile.py scripts/reconcile.py
 COPY scripts/sql scripts/sql
 COPY scripts/seed-storefront.py scripts/seed-storefront.py
+COPY scripts/renew-demo.py scripts/renew-demo.py
 COPY src/seckill/lua src/seckill/lua
 ENV MALL_DB_HOST=mysql MALL_DB_PORT=3306 MALL_DB_NAME=seckill_mall MALL_DB_USER=mall MALL_REDIS_URL=redis://redis:6379/0
 CMD ["python", "scripts/data.py", "migrate"]

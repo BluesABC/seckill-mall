@@ -17,6 +17,18 @@ bash scripts/stack.sh up
 
 浏览器访问 <http://localhost:18080>。管理账号为 `admin`，密码位于本机生成的 `deploy/.env.stack`，请自行保管；它不会提交到仓库。首次构建包含官方 RocketMQ C++ SDK，耗时取决于网络与机器资源。完整配置、持久化和排障见 [部署说明](docs/DEPLOYMENT.md)。
 
+## 秒杀活动时间与重新开场
+
+首次空库启动时，活动时间按运行时生成，从启动前一分钟开始、持续24小时，不依赖上传日期。其他人克隆后按上面的命令启动，即可注册参与。
+
+已有活动到期后，可以新开七天演示场次：
+
+```bash
+bash scripts/stack.sh renew-demo
+```
+
+仅处理原创演示鞋款，跳过未到期场次，从每码未分配库存中最多划拨10件；保留旧活动、订单与库存账本。库存不足会跳过，不会无限补货。旧项目更新后先执行 `bash scripts/stack.sh build` 更新工具镜像。若曾手动改过管理员密码，需先让本机 `deploy/.env.stack` 中的 `MALL_ADMIN_PASSWORD` 与现有账号一致。不要并行运行开场命令；中断留下READY活动时，在管理后台激活该场次后再重试。
+
 ## 导航
 
 - [项目总览与目录](docs/README.md) · [架构](docs/ARCHITECTURE.md) · [API](docs/API.md) · [决策记录](docs/DECISIONS.md)
