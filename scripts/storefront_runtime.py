@@ -1,3 +1,5 @@
+# 职责：隔离的本地展厅进程编排。临时DB/前缀/Topic与日常Compose分开，停止仅处理自身资源。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Owned real services for S5 acceptance or an explicitly local showroom.
 
 New database/key namespace/topic each run; cleanup only those owned resources.

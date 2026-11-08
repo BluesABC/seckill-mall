@@ -1,3 +1,5 @@
+# 职责：数据库连接、按校验和执行迁移、演示种子及首次Redis预热。已应用SQL不可改写，活跃库存不可覆盖。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """MySQL migration/demo seed and first-time Redis preheat; no live stock overwrite."""
 import argparse
 import hashlib
@@ -23,6 +25,7 @@ def cache():
     return redis.Redis.from_url(os.environ.get("MALL_REDIS_URL", "redis://127.0.0.1:16379/0"),
         decode_responses=True, socket_timeout=5)
 
+# 已应用SQL的SHA256不可变化；新增结构通过新迁移演进，不能重写历史文件。
 def migrate(connection):
     text = (ROOT / "scripts/sql/001_schema.sql").read_text(encoding="utf-8")
     digest = hashlib.sha256(text.encode()).hexdigest()
@@ -86,6 +89,7 @@ def seed_demo(connection):
         connection.rollback()
         raise
 
+# 仅READY、初始库存完整且无请求的活动可首次预热；运行中缺账本应走恢复/对账。
 def preheat(connection, client, activity_id, sku_id):
     with connection.cursor() as cur:
         cur.execute("SELECT s.available_stock, a.starts_at_ms, a.ends_at_ms, a.status, s.epoch, s.price_fen, s.initial_stock FROM activity_stock s JOIN activities a ON a.id=s.activity_id WHERE s.activity_id=%s AND s.sku_id=%s FOR UPDATE", (activity_id, sku_id))

@@ -1,3 +1,5 @@
+# 测试职责：混合旅程门禁拒绝短测、错误计数或改变TTL。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """S19 gate rejects short, incomplete and internally inconsistent reports."""
 import copy
 import json

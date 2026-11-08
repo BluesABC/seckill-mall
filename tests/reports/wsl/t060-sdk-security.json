@@ -1,0 +1,8 @@
+{
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "passed": true,
+  "scope": "official SDK with ephemeral RSA/AES test keys; no merchant or WeChat network"
+}

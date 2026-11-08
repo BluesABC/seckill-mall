@@ -1,0 +1,2199 @@
+{
+  "profile": "s20-burst-diagnostic",
+  "gitBase": "009780d47e8192e513468c3d9b0e036d7d2cec93",
+  "workers": 8,
+  "queue": 128,
+  "rounds": [
+    {
+      "round": 1,
+      "activityId": "181",
+      "stock": 64,
+      "users": 64,
+      "accepted": 64,
+      "soldOut": 0,
+      "rows": [
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 39.874,
+          "httpMs": 676.972,
+          "handlerMs": 87.287,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 634.0,
+          "gatewayMs": 636.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 30.811,
+          "httpMs": 555.522,
+          "handlerMs": 84.598,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 517.0,
+          "gatewayMs": 524.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 27.835,
+          "httpMs": 559.229,
+          "handlerMs": 91.131,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 524.0,
+          "gatewayMs": 525.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 19.47,
+          "httpMs": 291.487,
+          "handlerMs": 113.751,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 260.0,
+          "gatewayMs": 272.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 28.148,
+          "httpMs": 393.161,
+          "handlerMs": 90.515,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 361.0,
+          "gatewayMs": 364.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.677,
+          "httpMs": 445.579,
+          "handlerMs": 98.093,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 409.0,
+          "gatewayMs": 431.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.283,
+          "httpMs": 147.563,
+          "handlerMs": 62.596,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 129.0,
+          "gatewayMs": 132.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.96,
+          "httpMs": 237.939,
+          "handlerMs": 84.262,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 209.0,
+          "gatewayMs": 226.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 23.77,
+          "httpMs": 485.379,
+          "handlerMs": 96.441,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 457.0,
+          "gatewayMs": 461.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.133,
+          "httpMs": 99.16,
+          "handlerMs": 47.469,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 79.0,
+          "gatewayMs": 85.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.59,
+          "httpMs": 274.983,
+          "handlerMs": 99.681,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 246.0,
+          "gatewayMs": 253.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 37.659,
+          "httpMs": 589.081,
+          "handlerMs": 104.727,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 548.0,
+          "gatewayMs": 550.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.612,
+          "httpMs": 105.405,
+          "handlerMs": 49.193,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 91.0,
+          "gatewayMs": 94.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.595,
+          "httpMs": 366.645,
+          "handlerMs": 87.417,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 345.0,
+          "gatewayMs": 347.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.697,
+          "httpMs": 653.823,
+          "handlerMs": 93.69,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 617.0,
+          "gatewayMs": 627.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 21.502,
+          "httpMs": 463.485,
+          "handlerMs": 107.215,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 437.0,
+          "gatewayMs": 441.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 5.7,
+          "httpMs": 66.968,
+          "handlerMs": 49.256,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 50.0,
+          "gatewayMs": 60.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.555,
+          "httpMs": 188.06,
+          "handlerMs": 76.183,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 168.0,
+          "gatewayMs": 177.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.174,
+          "httpMs": 659.449,
+          "handlerMs": 89.179,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 628.0,
+          "gatewayMs": 634.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.891,
+          "httpMs": 303.765,
+          "handlerMs": 109.273,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 275.0,
+          "gatewayMs": 278.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 36.997,
+          "httpMs": 677.569,
+          "handlerMs": 87.539,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 635.0,
+          "gatewayMs": 639.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.978,
+          "httpMs": 192.823,
+          "handlerMs": 79.676,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 169.0,
+          "gatewayMs": 174.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.361,
+          "httpMs": 333.751,
+          "handlerMs": 109.169,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 315.0,
+          "gatewayMs": 329.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.467,
+          "httpMs": 61.182,
+          "handlerMs": 47.836,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 49.0,
+          "gatewayMs": 52.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 33.647,
+          "httpMs": 483.31,
+          "handlerMs": 104.316,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 446.0,
+          "gatewayMs": 449.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 8.215,
+          "httpMs": 114.957,
+          "handlerMs": 53.837,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 99.0,
+          "gatewayMs": 106.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 16.283,
+          "httpMs": 106.837,
+          "handlerMs": 49.101,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 86.0,
+          "gatewayMs": 89.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.819,
+          "httpMs": 362.525,
+          "handlerMs": 98.173,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 333.0,
+          "gatewayMs": 340.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 5.994,
+          "httpMs": 170.545,
+          "handlerMs": 71.994,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 146.0,
+          "gatewayMs": 163.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.392,
+          "httpMs": 368.728,
+          "handlerMs": 81.227,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 344.0,
+          "gatewayMs": 349.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 23.494,
+          "httpMs": 676.307,
+          "handlerMs": 81.969,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 633.0,
+          "gatewayMs": 642.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 30.583,
+          "httpMs": 592.911,
+          "handlerMs": 99.425,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 553.0,
+          "gatewayMs": 557.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 28.604,
+          "httpMs": 530.347,
+          "handlerMs": 87.804,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 495.0,
+          "gatewayMs": 501.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.231,
+          "httpMs": 101.889,
+          "handlerMs": 49.751,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 87.0,
+          "gatewayMs": 86.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.291,
+          "httpMs": 365.197,
+          "handlerMs": 87.638,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 332.0,
+          "gatewayMs": 344.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 26.883,
+          "httpMs": 454.622,
+          "handlerMs": 96.07,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 425.0,
+          "gatewayMs": 427.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.315,
+          "httpMs": 89.227,
+          "handlerMs": 45.867,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 72.0,
+          "gatewayMs": 82.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 5.16,
+          "httpMs": 174.438,
+          "handlerMs": 68.647,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 162.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.753,
+          "httpMs": 644.764,
+          "handlerMs": 95.758,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 612.0,
+          "gatewayMs": 629.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 22.981,
+          "httpMs": 278.031,
+          "handlerMs": 100.62,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 246.0,
+          "gatewayMs": 253.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 34.951,
+          "httpMs": 649.411,
+          "handlerMs": 95.832,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 612.0,
+          "gatewayMs": 614.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.297,
+          "httpMs": 65.816,
+          "handlerMs": 47.643,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 49.0,
+          "gatewayMs": 55.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 9.931,
+          "httpMs": 165.957,
+          "handlerMs": 69.553,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 155.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 0.189,
+          "httpMs": 54.229,
+          "handlerMs": 46.894,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 48.0,
+          "gatewayMs": 52.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.216,
+          "httpMs": 461.514,
+          "handlerMs": 106.987,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 435.0,
+          "gatewayMs": 446.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 22.983,
+          "httpMs": 574.308,
+          "handlerMs": 97.937,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 548.0,
+          "gatewayMs": 549.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 19.241,
+          "httpMs": 542.182,
+          "handlerMs": 95.474,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 518.0,
+          "gatewayMs": 523.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.876,
+          "httpMs": 362.226,
+          "handlerMs": 87.68,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 332.0,
+          "gatewayMs": 342.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.261,
+          "httpMs": 288.347,
+          "handlerMs": 109.868,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 266.0,
+          "gatewayMs": 278.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.048,
+          "httpMs": 389.354,
+          "handlerMs": 90.805,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 363.0,
+          "gatewayMs": 364.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.436,
+          "httpMs": 251.719,
+          "handlerMs": 95.459,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 237.0,
+          "gatewayMs": 236.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.326,
+          "httpMs": 49.567,
+          "handlerMs": 41.268,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 42.0,
+          "gatewayMs": 42.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.264,
+          "httpMs": 90.489,
+          "handlerMs": 47.601,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 80.0,
+          "gatewayMs": 82.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 0.285,
+          "httpMs": 49.778,
+          "handlerMs": 45.07,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 46.0,
+          "gatewayMs": 48.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.506,
+          "httpMs": 105.482,
+          "handlerMs": 49.949,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 95.0,
+          "gatewayMs": 99.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 19.13,
+          "httpMs": 302.343,
+          "handlerMs": 108.854,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 274.0,
+          "gatewayMs": 283.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 22.284,
+          "httpMs": 567.094,
+          "handlerMs": 101.564,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 540.0,
+          "gatewayMs": 544.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.358,
+          "httpMs": 173.829,
+          "handlerMs": 77.458,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 152.0,
+          "gatewayMs": 156.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.921,
+          "httpMs": 185.706,
+          "handlerMs": 74.791,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 159.0,
+          "gatewayMs": 159.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 0.237,
+          "httpMs": 41.975,
+          "handlerMs": 40.447,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 41.0,
+          "gatewayMs": 41.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 31.586,
+          "httpMs": 615.613,
+          "handlerMs": 86.702,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 579.0,
+          "gatewayMs": 583.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 23.279,
+          "httpMs": 468.938,
+          "handlerMs": 98.785,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 441.0,
+          "gatewayMs": 445.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.391,
+          "httpMs": 58.73,
+          "handlerMs": 43.628,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 44.0,
+          "gatewayMs": 47.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 30.053,
+          "httpMs": 491.075,
+          "handlerMs": 92.717,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 453.0,
+          "gatewayMs": 456.0
+        }
+      ],
+      "complete": true,
+      "timings": {
+        "httpMs": {
+          "p50": 303.765,
+          "p95": 659.449,
+          "p99": 677.569
+        },
+        "clientConnectMs": {
+          "p50": 17.978,
+          "p95": 34.951,
+          "p99": 39.874
+        },
+        "upstreamConnectMs": {
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0
+        },
+        "upstreamResponseMs": {
+          "p50": 275.0,
+          "p95": 628.0,
+          "p99": 635.0
+        },
+        "gatewayMs": {
+          "p50": 283.0,
+          "p95": 634.0,
+          "p99": 642.0
+        },
+        "handlerMs": {
+          "p50": 87.539,
+          "p95": 109.169,
+          "p99": 113.751
+        }
+      },
+      "tcpDelta": {
+        "ListenOverflows": 0,
+        "ListenDrops": 0,
+        "TCPSynRetrans": 0
+      },
+      "reconciliation": {
+        "status": "CLEAN",
+        "readOnly": true,
+        "graceSeconds": 1800,
+        "activityId": "181",
+        "orders": 64,
+        "ledgers": [
+          {
+            "activityId": "181",
+            "skuId": "3541",
+            "initial": 64,
+            "dbAvailable": 0,
+            "redisAvailable": 0,
+            "held": 64,
+            "activeOrders": 64,
+            "inTransit": 0,
+            "pendingSend": 0,
+            "oldestInTransitSeconds": 0
+          }
+        ],
+        "alerts": [],
+        "movingSnapshots": [],
+        "outbox": [],
+        "mqFailures": [],
+        "atMs": 1792234993102
+      },
+      "outcomes": {
+        "orders": 64,
+        "paid": 64,
+        "distinctUsers": 64,
+        "paymentRows": 64,
+        "distinctReservations": 64
+      },
+      "httpStatuses": {
+        "202": 64
+      }
+    },
+    {
+      "round": 2,
+      "activityId": "182",
+      "stock": 64,
+      "users": 64,
+      "accepted": 64,
+      "soldOut": 0,
+      "rows": [
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.776,
+          "httpMs": 456.019,
+          "handlerMs": 140.648,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 422.0,
+          "gatewayMs": 429.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.844,
+          "httpMs": 58.377,
+          "handlerMs": 47.758,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 48.0,
+          "gatewayMs": 52.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.872,
+          "httpMs": 204.289,
+          "handlerMs": 81.27,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 186.0,
+          "gatewayMs": 189.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 31.581,
+          "httpMs": 728.834,
+          "handlerMs": 85.449,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 696.0,
+          "gatewayMs": 697.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 38.674,
+          "httpMs": 763.785,
+          "handlerMs": 101.176,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 719.0,
+          "gatewayMs": 721.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.253,
+          "httpMs": 754.028,
+          "handlerMs": 97.758,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 715.0,
+          "gatewayMs": 743.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.227,
+          "httpMs": 57.325,
+          "handlerMs": 44.316,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 47.0,
+          "gatewayMs": 46.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.76,
+          "httpMs": 130.626,
+          "handlerMs": 70.328,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 110.0,
+          "gatewayMs": 115.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 4.591,
+          "httpMs": 622.667,
+          "handlerMs": 115.451,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 612.0,
+          "gatewayMs": 617.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 8.005,
+          "httpMs": 131.572,
+          "handlerMs": 70.593,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 110.0,
+          "gatewayMs": 122.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 12.094,
+          "httpMs": 195.206,
+          "handlerMs": 96.354,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 182.0,
+          "gatewayMs": 182.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 22.91,
+          "httpMs": 215.725,
+          "handlerMs": 81.37,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 186.0,
+          "gatewayMs": 189.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.81,
+          "httpMs": 216.016,
+          "handlerMs": 82.724,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 188.0,
+          "gatewayMs": 194.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.257,
+          "httpMs": 127.523,
+          "handlerMs": 70.863,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 111.0,
+          "gatewayMs": 111.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.796,
+          "httpMs": 714.819,
+          "handlerMs": 85.79,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 699.0,
+          "gatewayMs": 700.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.927,
+          "httpMs": 437.996,
+          "handlerMs": 133.996,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 407.0,
+          "gatewayMs": 429.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 27.957,
+          "httpMs": 569.867,
+          "handlerMs": 115.029,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 532.0,
+          "gatewayMs": 540.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.857,
+          "httpMs": 310.03,
+          "handlerMs": 100.329,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 285.0,
+          "gatewayMs": 288.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 33.023,
+          "httpMs": 656.36,
+          "handlerMs": 100.853,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 620.0,
+          "gatewayMs": 623.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.946,
+          "httpMs": 538.816,
+          "handlerMs": 100.932,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 505.0,
+          "gatewayMs": 524.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.186,
+          "httpMs": 297.697,
+          "handlerMs": 89.858,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 274.0,
+          "gatewayMs": 277.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.783,
+          "httpMs": 433.196,
+          "handlerMs": 129.025,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 410.0,
+          "gatewayMs": 417.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.462,
+          "httpMs": 436.529,
+          "handlerMs": 130.419,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 412.0,
+          "gatewayMs": 417.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.789,
+          "httpMs": 130.707,
+          "handlerMs": 70.765,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 110.0,
+          "gatewayMs": 119.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 23.156,
+          "httpMs": 648.415,
+          "handlerMs": 105.191,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 620.0,
+          "gatewayMs": 625.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.249,
+          "httpMs": 71.989,
+          "handlerMs": 55.594,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 57.0,
+          "gatewayMs": 57.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 31.943,
+          "httpMs": 649.374,
+          "handlerMs": 114.393,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 615.0,
+          "gatewayMs": 616.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.442,
+          "httpMs": 314.158,
+          "handlerMs": 97.555,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 285.0,
+          "gatewayMs": 305.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.027,
+          "httpMs": 310.714,
+          "handlerMs": 100.352,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 283.0,
+          "gatewayMs": 292.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.764,
+          "httpMs": 646.694,
+          "handlerMs": 89.917,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 620.0,
+          "gatewayMs": 632.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 29.386,
+          "httpMs": 552.743,
+          "handlerMs": 109.874,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 519.0,
+          "gatewayMs": 522.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.793,
+          "httpMs": 642.309,
+          "handlerMs": 99.66,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 615.0,
+          "gatewayMs": 621.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 0.297,
+          "httpMs": 54.689,
+          "handlerMs": 41.684,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 42.0,
+          "gatewayMs": 53.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.863,
+          "httpMs": 55.79,
+          "handlerMs": 46.273,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 47.0,
+          "gatewayMs": 47.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.061,
+          "httpMs": 542.612,
+          "handlerMs": 109.833,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 519.0,
+          "gatewayMs": 524.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.839,
+          "httpMs": 219.607,
+          "handlerMs": 81.758,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 192.0,
+          "gatewayMs": 199.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.611,
+          "httpMs": 430.564,
+          "handlerMs": 131.094,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 412.0,
+          "gatewayMs": 415.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 5.58,
+          "httpMs": 716.92,
+          "handlerMs": 85.694,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 698.0,
+          "gatewayMs": 708.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.621,
+          "httpMs": 311.276,
+          "handlerMs": 98.778,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 283.0,
+          "gatewayMs": 292.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.277,
+          "httpMs": 637.856,
+          "handlerMs": 100.898,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 621.0,
+          "gatewayMs": 623.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.939,
+          "httpMs": 46.666,
+          "handlerMs": 34.988,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 36.0,
+          "gatewayMs": 39.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.056,
+          "httpMs": 551.011,
+          "handlerMs": 114.858,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 522.0,
+          "gatewayMs": 526.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.629,
+          "httpMs": 212.732,
+          "handlerMs": 81.929,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 187.0,
+          "gatewayMs": 190.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 22.553,
+          "httpMs": 435.015,
+          "handlerMs": 130.313,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 412.0,
+          "gatewayMs": 412.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.941,
+          "httpMs": 305.731,
+          "handlerMs": 100.908,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 284.0,
+          "gatewayMs": 285.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.372,
+          "httpMs": 149.188,
+          "handlerMs": 78.273,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 128.0,
+          "gatewayMs": 137.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.669,
+          "httpMs": 276.639,
+          "handlerMs": 79.687,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 258.0,
+          "gatewayMs": 260.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.362,
+          "httpMs": 127.262,
+          "handlerMs": 69.495,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 107.0,
+          "gatewayMs": 113.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 26.497,
+          "httpMs": 756.445,
+          "handlerMs": 101.621,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 719.0,
+          "gatewayMs": 729.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.104,
+          "httpMs": 251.257,
+          "handlerMs": 101.738,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 225.0,
+          "gatewayMs": 225.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.109,
+          "httpMs": 58.705,
+          "handlerMs": 46.554,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 48.0,
+          "gatewayMs": 50.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 19.459,
+          "httpMs": 585.268,
+          "handlerMs": 110.045,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 563.0,
+          "gatewayMs": 564.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.216,
+          "httpMs": 124.491,
+          "handlerMs": 69.434,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 108.0,
+          "gatewayMs": 109.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 21.68,
+          "httpMs": 663.082,
+          "handlerMs": 78.734,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 639.0,
+          "gatewayMs": 641.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 26.987,
+          "httpMs": 380.246,
+          "handlerMs": 129.363,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 353.0,
+          "gatewayMs": 352.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.855,
+          "httpMs": 53.278,
+          "handlerMs": 44.296,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 45.0,
+          "gatewayMs": 46.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.329,
+          "httpMs": 102.98,
+          "handlerMs": 62.936,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 91.0,
+          "gatewayMs": 91.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.899,
+          "httpMs": 430.091,
+          "handlerMs": 146.823,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 402.0,
+          "gatewayMs": 402.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 26.533,
+          "httpMs": 763.225,
+          "handlerMs": 93.219,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 730.0,
+          "gatewayMs": 736.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 26.401,
+          "httpMs": 531.575,
+          "handlerMs": 100.907,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 500.0,
+          "gatewayMs": 505.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.099,
+          "httpMs": 211.168,
+          "handlerMs": 83.609,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 188.0,
+          "gatewayMs": 195.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.115,
+          "httpMs": 553.156,
+          "handlerMs": 114.752,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 523.0,
+          "gatewayMs": 527.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 30.148,
+          "httpMs": 747.778,
+          "handlerMs": 96.758,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 714.0,
+          "gatewayMs": 717.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 27.932,
+          "httpMs": 491.46,
+          "handlerMs": 106.881,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 456.0,
+          "gatewayMs": 462.0
+        }
+      ],
+      "complete": true,
+      "timings": {
+        "httpMs": {
+          "p50": 380.246,
+          "p95": 754.028,
+          "p99": 763.785
+        },
+        "clientConnectMs": {
+          "p50": 15.257,
+          "p95": 31.581,
+          "p99": 38.674
+        },
+        "upstreamConnectMs": {
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0
+        },
+        "upstreamResponseMs": {
+          "p50": 353.0,
+          "p95": 715.0,
+          "p99": 730.0
+        },
+        "gatewayMs": {
+          "p50": 352.0,
+          "p95": 721.0,
+          "p99": 743.0
+        },
+        "handlerMs": {
+          "p50": 96.758,
+          "p95": 131.094,
+          "p99": 146.823
+        }
+      },
+      "tcpDelta": {
+        "ListenOverflows": 0,
+        "ListenDrops": 0,
+        "TCPSynRetrans": 0
+      },
+      "reconciliation": {
+        "status": "CLEAN",
+        "readOnly": true,
+        "graceSeconds": 1800,
+        "activityId": "182",
+        "orders": 64,
+        "ledgers": [
+          {
+            "activityId": "182",
+            "skuId": "3542",
+            "initial": 64,
+            "dbAvailable": 0,
+            "redisAvailable": 0,
+            "held": 64,
+            "activeOrders": 64,
+            "inTransit": 0,
+            "pendingSend": 0,
+            "oldestInTransitSeconds": 0
+          }
+        ],
+        "alerts": [],
+        "movingSnapshots": [],
+        "outbox": [],
+        "mqFailures": [],
+        "atMs": 1792235020679
+      },
+      "outcomes": {
+        "orders": 64,
+        "paid": 64,
+        "distinctUsers": 64,
+        "paymentRows": 64,
+        "distinctReservations": 64
+      },
+      "httpStatuses": {
+        "202": 64
+      }
+    },
+    {
+      "round": 3,
+      "activityId": "183",
+      "stock": 64,
+      "users": 64,
+      "accepted": 64,
+      "soldOut": 0,
+      "rows": [
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.227,
+          "httpMs": 74.2,
+          "handlerMs": 61.722,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 62.0,
+          "gatewayMs": 63.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.748,
+          "httpMs": 666.213,
+          "handlerMs": 99.307,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 646.0,
+          "gatewayMs": 646.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.907,
+          "httpMs": 236.874,
+          "handlerMs": 72.077,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 215.0,
+          "gatewayMs": 218.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.877,
+          "httpMs": 295.5,
+          "handlerMs": 80.86,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 269.0,
+          "gatewayMs": 276.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.274,
+          "httpMs": 332.413,
+          "handlerMs": 99.007,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 301.0,
+          "gatewayMs": 306.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 32.231,
+          "httpMs": 549.082,
+          "handlerMs": 98.13,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 516.0,
+          "gatewayMs": 516.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.522,
+          "httpMs": 222.755,
+          "handlerMs": 74.99,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 197.0,
+          "gatewayMs": 218.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 28.006,
+          "httpMs": 336.511,
+          "handlerMs": 95.989,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 305.0,
+          "gatewayMs": 308.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 28.257,
+          "httpMs": 368.725,
+          "handlerMs": 89.629,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 336.0,
+          "gatewayMs": 339.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 28.28,
+          "httpMs": 281.802,
+          "handlerMs": 81.429,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 252.0,
+          "gatewayMs": 253.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 35.876,
+          "httpMs": 682.136,
+          "handlerMs": 94.136,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 645.0,
+          "gatewayMs": 645.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.317,
+          "httpMs": 232.75,
+          "handlerMs": 72.835,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 206.0,
+          "gatewayMs": 220.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.228,
+          "httpMs": 534.939,
+          "handlerMs": 91.061,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 509.0,
+          "gatewayMs": 514.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.767,
+          "httpMs": 381.146,
+          "handlerMs": 77.185,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 345.0,
+          "gatewayMs": 362.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.52,
+          "httpMs": 221.997,
+          "handlerMs": 75.035,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 196.0,
+          "gatewayMs": 204.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 23.909,
+          "httpMs": 372.422,
+          "handlerMs": 81.783,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 345.0,
+          "gatewayMs": 348.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 0.234,
+          "httpMs": 61.834,
+          "handlerMs": 56.254,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 57.0,
+          "gatewayMs": 60.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.46,
+          "httpMs": 411.811,
+          "handlerMs": 75.593,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 378.0,
+          "gatewayMs": 392.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.163,
+          "httpMs": 142.867,
+          "handlerMs": 84.314,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 127.0,
+          "gatewayMs": 128.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.552,
+          "httpMs": 324.006,
+          "handlerMs": 94.692,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 299.0,
+          "gatewayMs": 309.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.986,
+          "httpMs": 453.759,
+          "handlerMs": 77.08,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 420.0,
+          "gatewayMs": 428.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.45,
+          "httpMs": 586.771,
+          "handlerMs": 97.859,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 554.0,
+          "gatewayMs": 569.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.281,
+          "httpMs": 147.106,
+          "handlerMs": 84.849,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 128.0,
+          "gatewayMs": 135.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 27.746,
+          "httpMs": 435.338,
+          "handlerMs": 67.644,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 402.0,
+          "gatewayMs": 407.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 0.193,
+          "httpMs": 46.459,
+          "handlerMs": 44.82,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 46.0,
+          "gatewayMs": 45.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.359,
+          "httpMs": 650.737,
+          "handlerMs": 113.265,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 620.0,
+          "gatewayMs": 622.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.969,
+          "httpMs": 68.364,
+          "handlerMs": 58.965,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 59.0,
+          "gatewayMs": 59.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.635,
+          "httpMs": 371.707,
+          "handlerMs": 77.032,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 344.0,
+          "gatewayMs": 353.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.148,
+          "httpMs": 146.668,
+          "handlerMs": 80.719,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 128.0,
+          "gatewayMs": 131.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.958,
+          "httpMs": 459.75,
+          "handlerMs": 83.442,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 427.0,
+          "gatewayMs": 441.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 29.949,
+          "httpMs": 471.347,
+          "handlerMs": 66.052,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 438.0,
+          "gatewayMs": 441.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.946,
+          "httpMs": 219.046,
+          "handlerMs": 67.684,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 200.0,
+          "gatewayMs": 204.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.993,
+          "httpMs": 165.367,
+          "handlerMs": 90.641,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 146.0,
+          "gatewayMs": 150.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.084,
+          "httpMs": 154.466,
+          "handlerMs": 89.695,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 140.0,
+          "gatewayMs": 143.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.116,
+          "httpMs": 542.127,
+          "handlerMs": 99.232,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 523.0,
+          "gatewayMs": 527.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.022,
+          "httpMs": 383.216,
+          "handlerMs": 77.944,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 374.0,
+          "gatewayMs": 376.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.425,
+          "httpMs": 665.579,
+          "handlerMs": 110.834,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 632.0,
+          "gatewayMs": 641.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.456,
+          "httpMs": 453.352,
+          "handlerMs": 77.265,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 420.0,
+          "gatewayMs": 427.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.268,
+          "httpMs": 158.803,
+          "handlerMs": 85.643,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 139.0,
+          "gatewayMs": 146.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 30.946,
+          "httpMs": 463.489,
+          "handlerMs": 75.722,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 427.0,
+          "gatewayMs": 431.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 28.503,
+          "httpMs": 579.284,
+          "handlerMs": 103.44,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 540.0,
+          "gatewayMs": 550.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.618,
+          "httpMs": 301.825,
+          "handlerMs": 80.744,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 273.0,
+          "gatewayMs": 283.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 12.404,
+          "httpMs": 473.687,
+          "handlerMs": 81.154,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 457.0,
+          "gatewayMs": 460.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.476,
+          "httpMs": 372.622,
+          "handlerMs": 72.085,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 352.0,
+          "gatewayMs": 358.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 31.193,
+          "httpMs": 481.772,
+          "handlerMs": 72.871,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 445.0,
+          "gatewayMs": 450.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.372,
+          "httpMs": 550.813,
+          "handlerMs": 98.69,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 522.0,
+          "gatewayMs": 525.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 9.775,
+          "httpMs": 190.087,
+          "handlerMs": 81.621,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 176.0,
+          "gatewayMs": 180.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 34.119,
+          "httpMs": 641.472,
+          "handlerMs": 101.778,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 600.0,
+          "gatewayMs": 607.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 22.095,
+          "httpMs": 303.273,
+          "handlerMs": 80.625,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 274.0,
+          "gatewayMs": 281.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.256,
+          "httpMs": 213.945,
+          "handlerMs": 70.077,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 191.0,
+          "gatewayMs": 195.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.423,
+          "httpMs": 70.35,
+          "handlerMs": 65.161,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 65.0,
+          "gatewayMs": 66.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 4.566,
+          "httpMs": 59.95,
+          "handlerMs": 53.826,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 54.0,
+          "gatewayMs": 54.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 26.044,
+          "httpMs": 650.034,
+          "handlerMs": 106.223,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 620.0,
+          "gatewayMs": 623.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.623,
+          "httpMs": 665.362,
+          "handlerMs": 94.694,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 632.0,
+          "gatewayMs": 647.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 26.889,
+          "httpMs": 584.124,
+          "handlerMs": 106.182,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 548.0,
+          "gatewayMs": 557.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.52,
+          "httpMs": 78.3,
+          "handlerMs": 62.11,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 63.0,
+          "gatewayMs": 66.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.452,
+          "httpMs": 108.451,
+          "handlerMs": 70.726,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 101.0,
+          "gatewayMs": 101.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 31.093,
+          "httpMs": 539.402,
+          "handlerMs": 99.16,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 500.0,
+          "gatewayMs": 508.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.237,
+          "httpMs": 313.148,
+          "handlerMs": 87.79,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 284.0,
+          "gatewayMs": 301.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.184,
+          "httpMs": 168.187,
+          "handlerMs": 90.835,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 154.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.839,
+          "httpMs": 226.691,
+          "handlerMs": 65.994,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 209.0,
+          "gatewayMs": 219.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 30.759,
+          "httpMs": 407.982,
+          "handlerMs": 77.952,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 374.0,
+          "gatewayMs": 376.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.299,
+          "httpMs": 654.579,
+          "handlerMs": 107.137,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 629.0,
+          "gatewayMs": 630.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 2.878,
+          "httpMs": 66.26,
+          "handlerMs": 62.058,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 62.0,
+          "gatewayMs": 62.0
+        }
+      ],
+      "complete": true,
+      "timings": {
+        "httpMs": {
+          "p50": 336.511,
+          "p95": 665.362,
+          "p99": 682.136
+        },
+        "clientConnectMs": {
+          "p50": 17.635,
+          "p95": 31.193,
+          "p99": 35.876
+        },
+        "upstreamConnectMs": {
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0
+        },
+        "upstreamResponseMs": {
+          "p50": 305.0,
+          "p95": 632.0,
+          "p99": 646.0
+        },
+        "gatewayMs": {
+          "p50": 309.0,
+          "p95": 641.0,
+          "p99": 647.0
+        },
+        "handlerMs": {
+          "p50": 80.86,
+          "p95": 106.223,
+          "p99": 113.265
+        }
+      },
+      "tcpDelta": {
+        "ListenOverflows": 0,
+        "ListenDrops": 0,
+        "TCPSynRetrans": 0
+      },
+      "reconciliation": {
+        "status": "CLEAN",
+        "readOnly": true,
+        "graceSeconds": 1800,
+        "activityId": "183",
+        "orders": 64,
+        "ledgers": [
+          {
+            "activityId": "183",
+            "skuId": "3543",
+            "initial": 64,
+            "dbAvailable": 0,
+            "redisAvailable": 0,
+            "held": 64,
+            "activeOrders": 64,
+            "inTransit": 0,
+            "pendingSend": 0,
+            "oldestInTransitSeconds": 0
+          }
+        ],
+        "alerts": [],
+        "movingSnapshots": [],
+        "outbox": [],
+        "mqFailures": [],
+        "atMs": 1792235048222
+      },
+      "outcomes": {
+        "orders": 64,
+        "paid": 64,
+        "distinctUsers": 64,
+        "paymentRows": 64,
+        "distinctReservations": 64
+      },
+      "httpStatuses": {
+        "202": 64
+      }
+    }
+  ],
+  "complete": true,
+  "fixture": "64 private SQL users/Redis sessions; real accessible captcha/token exchange; real HTTP/MQ/SQL/mock payment",
+  "sourceSha256": "344353fdad22d5585781545a14f9902bee204dc71e80b3ae3a5e916742ce37be",
+  "imageId": "sha256:a79f5a569335b3eaa22829ecda38cdc44766555a6438528fd93a7bba1a31eb80",
+  "compiledListenBacklog": 128,
+  "kernelSomaxconn": 4096,
+  "nginxConfigSha256": "588b8e13e1819d0c92185c510db9913e779c56b3c803e4735d0261aeafe3d3b1",
+  "orderPaymentTtlMs": 900000,
+  "dockerHost": {
+    "cpus": 12,
+    "memoryBytes": 7995174912
+  },
+  "startedUtc": "2026-10-17T11:02:44.482192+00:00",
+  "sourceMount": "/mnt/e/c++project/seckill-mall",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "restoredWorkers": "8",
+  "restoredQueue": "128",
+  "nginxConfigRestored": true,
+  "restoreErrors": []
+}

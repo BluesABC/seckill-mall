@@ -1,3 +1,4 @@
+/* 健康接口MVC测试：验证HTTP语义；不启动真实MQ/数据库，也不能替代S4业务集成。 */
 package com.seckillmall.order;
 
 import org.junit.jupiter.api.Test;

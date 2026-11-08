@@ -13,6 +13,11 @@ import org.apache.rocketmq.client.apis.consumer.PushConsumer;
 import org.apache.rocketmq.client.apis.message.MessageView;
 
 /** Push transport. S4 supplies a handler that returns SUCCESS only after DB commit. */
+/**
+ * 业务使用的PushConsumer适配器；业务回调决定确认成功或触发重投。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class RocketPushReceiver implements AutoCloseable {
     private final PushConsumer consumer;
 

@@ -1,3 +1,9 @@
+-- 职责：受信relay/消费者推进请求状态，同时维护pending计数及扫描索引。
+-- KEYS：[1]账本；可选[2]活跃relay账本集合、[3]该账本待发送集合。
+-- ARGV：[1]userId，[2]requestId，[3]reservationId，[4]epoch，[5]期望状态，[6]目标状态。
+-- 消费可能先于发送者确认：ORDER_CREATED不回退为QUEUED，返回ALREADY_ADVANCED并清理pending。
+-- 返回：UPDATED/REPLAY/ALREADY_ADVANCED或冲突码；pending空字符串是确认后的墓碑。
+
 -- Trusted relay/consumer only; never called from a public endpoint.
 -- KEYS[1] ledger, KEYS[2] active relay-ledger registry,
 -- KEYS[3] per-ledger pending reservation set.

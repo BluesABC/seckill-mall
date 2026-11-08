@@ -6,6 +6,7 @@
 
 - 活动ledger混存库存、资格和全部请求历史。info/captcha/token/buy读取活动元数据必须有界；现实现固定9字段HMGET。不得恢复HGETALL或逐请求全量扫描。session是固定小Hash，与活动历史规模不同。
 - 当前cpp-httplib模型每条连接占用一个worker，包括空闲等待。C++后端每次响应关闭连接，浏览器到Nginx仍可复用；更换HTTP引擎或重新启用后端keep-alive前，验证代理空闲连接不会占满有界池。
+- TCP listen backlog与worker任务排队是两层队列。项目固定版本cpp-httplib默认backlog仅5；S20将服务编译值设128，保留有界worker任务队列和业务背压。升级HTTP库或调整连接模型后，用同步64人至少三轮、网关upstream_connect_time、服务X-Trace-Id/rtUs与服务网络命名空间ListenOverflows/ListenDrops联合复核，不能仅看handler延迟。
 - Lua明确返回RESERVED时，同连接已执行库存/请求写入，继续WAITAOF确认；只读REPLAY仍先写causal fence。不得移除持久化确认、未知结果保护或改用新requestId重试。
 - Java原始凭据可用一次HMGET取得同账本的原子快照，仍逐项校验。库存条件更新、外键/唯一约束、事务回滚和重复消息幂等保留。
 - Java持久化标记与原Lua在同次EVAL完成，包装器恢复原KEYS/ARGV长度；只读重放也必须写入标记并在同连接WAITAOF。不得以省略重放确认或降低appendfsync强度换吞吐。
@@ -28,3 +29,9 @@
 - 本机门禁通过只证明该场景；独立压测机、生产拓扑、突发、HA/SLA、TLS、真实支付与NVDA/JAWS仍是独立门禁。
 
 文档同步PROGRESS、TODO、BUGS、ADR、API（如有字段变化）、ARCHITECTURE、TESTING、CHANGELOG、WORKLOG和阶段报告。失败保留证据并继续修复，不调整阈值来制造通过。
+
+## S20 突发接入复核
+
+WSL入口为`bash scripts/test-s20-burst-wsl.sh --label NAME --stock 64 --workers 32`；32线程库存64/32与默认8线程库存64分别三轮。64个同步buy中仅允许库存数量的202及其余SOLD_OUT；逐轮P95≤500ms、零listen溢出、唯一订单/模拟支付数与只读库存守恒一起核验。`scripts/check_burst_gate.py`从逐请求耗时重新计算，不能相信passed或汇总P95声明。短突发不替代30分钟门禁。
+
+该入口预置私有会话，但验证码按真实可读题求解并真实兑换token；准备与收尾限速，屏障提交前让网关频控余量恢复，不为准备流量放宽生产限流。持有共享capacity锁、临时增加脱敏代理耗时日志，退出恢复原配置。原始业务ID/trace checkpoint仅本机保存，公开报告仅含状态和计时。测试失败订单保留正常关闭，不重置库存。

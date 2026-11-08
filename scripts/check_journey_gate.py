@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# 职责：独立复核S19完整混合旅程。短自检、修改过期时间或缺少真实样本不能冒充30分钟通过。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Independent S19 evidence checks; a smoke run cannot satisfy the full profile."""
 import argparse
 import json

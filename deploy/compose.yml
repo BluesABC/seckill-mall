@@ -1,3 +1,4 @@
+# 完整本机栈：只发布Nginx回环端口；迁移/权限/Topic准备为一次性服务，命名卷保存业务数据。
 name: seckill-mall-stack
 x-business-env: &business-env
   MALL_KEY_PREFIX: seckill
@@ -19,6 +20,18 @@ services:
     networks: [backend]
     healthcheck:
       test: [CMD, redis-cli, ping]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+  redis-replica:
+    image: redis:7.2.11
+    command: [redis-server, --replicaof, redis, '6379', --replica-read-only, 'yes', --replica-serve-stale-data, 'no', --appendonly, 'yes', --appendfsync, everysec, --maxmemory-policy, noeviction]
+    volumes: [redis-replica-data:/data]
+    networks: [backend]
+    depends_on: {redis: {condition: service_healthy}}
+    healthcheck:
+      test: [CMD-SHELL, "redis-cli INFO replication | grep -q '^master_link_status:up' && redis-cli INFO replication | grep -q '^master_sync_in_progress:0'"]
       interval: 5s
       timeout: 3s
       retries: 30
@@ -99,6 +112,9 @@ services:
     environment:
       <<: *business-env
       MALL_BUSINESS_ENABLED: 'true'
+      MALL_SUPPORT_ENDPOINT: ${MALL_SUPPORT_ENDPOINT:-}
+      MALL_SUPPORT_MODEL: ${MALL_SUPPORT_MODEL:-}
+      MALL_SUPPORT_API_KEY: ${MALL_SUPPORT_API_KEY:-}
       MALL_ADMIN_USERNAME: ${MALL_ADMIN_USERNAME:-admin}
       MALL_ADMIN_PASSWORD: ${MALL_ADMIN_PASSWORD:?Generate deploy/.env.stack}
       MALL_MQ_CONSUMER_THREADS: ${MALL_MQ_CONSUMER_THREADS:-4}
@@ -163,6 +179,7 @@ networks:
 volumes:
   mysql-data:
   redis-data:
+  redis-replica-data:
   broker-store:
   broker-logs:
   namesrv-logs:

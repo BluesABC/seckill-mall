@@ -1,3 +1,9 @@
+/**
+ * @file main.cpp
+ * @brief 秒杀HTTP进程入口。
+ *
+ * 读取并校验环境配置；--check-config只做配置检查，--serve才监听HTTP。
+ */
 #include "mall/contracts.hpp"
 #include "mall/service.hpp"
 #include <cstdlib>

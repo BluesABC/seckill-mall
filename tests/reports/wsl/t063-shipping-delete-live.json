@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "scope": "local real C++/MQ/Java/SQL HTTP + browser; independent test user",
+  "checks": [
+    "no address disables submit",
+    "address book creation",
+    "pre-order snapshot",
+    "real MQ pending order",
+    "no delete on pending",
+    "cancel restores stock through existing compensation",
+    "dismiss does not delete",
+    "delete hides terminal order",
+    "reload stays hidden",
+    "no administrator modifications"
+  ]
+}

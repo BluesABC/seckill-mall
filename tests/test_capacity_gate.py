@@ -1,3 +1,5 @@
+# 测试职责：持续容量门禁拒绝不完整/伪造/不守恒证据。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Evidence-gate regressions: short runs and forged summary flags cannot pass."""
 import copy
 import json

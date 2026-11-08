@@ -1,0 +1,72 @@
+# Redis Sentinel 覆盖层。节点地址须属于所选 Compose 项目的网段。
+x-sentinel: &sentinel
+  image: redis:7.2.11
+  networks: [backend]
+  entrypoint: [sh, /opt/start-sentinel.sh]
+  environment:
+    MALL_REDIS_NETWORK_PREFIX: ${MALL_REDIS_NETWORK_PREFIX:-172.30.93}
+  restart: unless-stopped
+x-redis-bootstrap: &redis-bootstrap
+  entrypoint: [sh, /opt/start-sentinel-redis.sh]
+  command: []
+  restart: unless-stopped
+  depends_on: {sentinel-1: {condition: service_started}, sentinel-2: {condition: service_started}, sentinel-3: {condition: service_started}}
+  healthcheck:
+    test: [CMD, redis-cli, ping]
+x-client: &client
+  MALL_REDIS_SENTINELS: sentinel-1,sentinel-2,sentinel-3
+  MALL_REDIS_MASTER: mall-redis
+services:
+  redis:
+    <<: *redis-bootstrap
+    image: redis:7.2.11
+    environment:
+      MALL_REDIS_NODE_IP: ${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.201
+    networks:
+      backend: {ipv4_address: '${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.201'}
+    volumes: [./redis/start-sentinel-redis.sh:/opt/start-sentinel-redis.sh:ro, redis-data:/data]
+  redis-replica:
+    <<: *redis-bootstrap
+    image: redis:7.2.11
+    environment:
+      MALL_REDIS_NODE_IP: ${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.202
+    networks:
+      backend: {ipv4_address: '${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.202'}
+    volumes: [./redis/start-sentinel-redis.sh:/opt/start-sentinel-redis.sh:ro, redis-replica-data:/data]
+  redis-replica-2:
+    <<: *redis-bootstrap
+    image: redis:7.2.11
+    environment:
+      MALL_REDIS_NODE_IP: ${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.203
+    networks:
+      backend: {ipv4_address: '${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.203'}
+    volumes: [./redis/start-sentinel-redis.sh:/opt/start-sentinel-redis.sh:ro, redis-replica-2-data:/data]
+  sentinel-1:
+    <<: *sentinel
+    networks:
+      backend: {ipv4_address: '${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.211'}
+    volumes: [./redis/start-sentinel.sh:/opt/start-sentinel.sh:ro, sentinel-1-state:/data]
+  sentinel-2:
+    <<: *sentinel
+    networks:
+      backend: {ipv4_address: '${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.212'}
+    volumes: [./redis/start-sentinel.sh:/opt/start-sentinel.sh:ro, sentinel-2-state:/data]
+  sentinel-3:
+    <<: *sentinel
+    networks:
+      backend: {ipv4_address: '${MALL_REDIS_NETWORK_PREFIX:-172.30.93}.213'}
+    volumes: [./redis/start-sentinel.sh:/opt/start-sentinel.sh:ro, sentinel-3-state:/data]
+  order:
+    environment: *client
+    depends_on:
+      redis-replica: {condition: service_healthy}
+      redis-replica-2: {condition: service_healthy}
+  seckill:
+    environment: *client
+  relay:
+    environment: *client
+volumes:
+  redis-replica-2-data:
+  sentinel-1-state:
+  sentinel-2-state:
+  sentinel-3-state:

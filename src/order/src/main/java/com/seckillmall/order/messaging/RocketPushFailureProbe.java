@@ -7,6 +7,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.rocketmq.client.apis.consumer.ConsumeResult;
 
 /** Test-only failure callback. S4 uses an order transaction before returning SUCCESS. */
+/**
+ * 故障测试探针，用消费失败验证Broker重投/死信路径，不用于日常业务启动。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class RocketPushFailureProbe {
     private RocketPushFailureProbe() {}
 

@@ -78,6 +78,9 @@ async function registerUser(name) {
   await page.getByLabel("密码", { exact: true }).fill(config.password);
   await page.getByRole("button", { name: "创建并登录", exact: true }).click();
   await expect(page.getByRole("button", { name: "退出账号" })).toBeVisible();
+  const s=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('shijian.session')));
+  const address=await page.request.post(config.baseUrl+'/api/shop/addresses',{headers:{Authorization:'Bearer '+s.token},data:{recipient:'浏览器测试收货人',phone:'13800138000',address:'浏览器测试收货路100号'}});
+  expect(address.ok()).toBe(true);
 }
 async function purchase(item, accessible = false) {
   await navigate(`/product/${item.goodsId}`);

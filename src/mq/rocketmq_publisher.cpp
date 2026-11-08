@@ -1,3 +1,9 @@
+/**
+ * @file rocketmq_publisher.cpp
+ * @brief 官方RocketMQ C++ SDK的发布适配。
+ *
+ * 把SDK发送结果转换为confirmed/unknown/rejected；Broker回执不等于订单提交或支付完成。
+ */
 #include "mall/mq/rocketmq_publisher.hpp"
 #include <exception>
 #include <fcntl.h>
@@ -85,6 +91,7 @@ PublishResult RocketMqPublisher::publish(const Message &message) {
       message.partition_key.empty() || message.payload_utf8.empty() ||
       message.payload_utf8.size() > 1048576)
     return {PublishOutcome::rejected, "", "INVALID_LOCAL_MESSAGE"};
+  // 正常Topic的keys仅用于索引，不保证同SKU顺序；顺序/重复问题由业务状态机兜底。
   try {
     const auto relay_send_started_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();

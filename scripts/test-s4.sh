@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：真实C++→RocketMQ→Java→MySQL/Redis订单、支付、关闭、补偿与故障回归。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"

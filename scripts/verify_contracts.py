@@ -1,3 +1,5 @@
+# 职责：静态契约、SQL/Lua语法及Markdown本地链接检查；静态通过不能替代真实交易测试。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """S0 static contract checks; NOT Redis/MySQL execution or business acceptance."""
 import copy
 import json

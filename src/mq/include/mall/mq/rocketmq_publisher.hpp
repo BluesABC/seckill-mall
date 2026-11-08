@@ -1,3 +1,9 @@
+/**
+ * @file rocketmq_publisher.hpp
+ * @brief RocketMQ发布器声明。
+ *
+ * 通过PImpl隔离SDK类型，业务代码仅依赖Publisher契约。
+ */
 #pragma once
 #include "mall/mq/publisher.hpp"
 #include <memory>

@@ -1,3 +1,5 @@
+# 测试职责：隔离完整容器部署与重启后业务持久性。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Docker-only clean-volume acceptance via Nginx, no host service substitute."""
 import hashlib,http.client,json,os,subprocess,time,uuid
 from pathlib import Path
@@ -54,6 +56,8 @@ code,user,_=call('POST','/api/auth/login',{'username':username,'password':pwd});
 token=user['token']
 def buy(index):
     g=products[index];a=next(a for a in activities if a['skuId']==g['skuId']);request=str(uuid.uuid4())
+    from shipping_fixture import prepare_shipping
+    prepare_shipping(call,token,a['activityId'],g['skuId'],request)
     code,c,_=call('GET',f'/api/seckill/captcha?activityId={a["activityId"]}&skuId={g["skuId"]}',token=token);assert code==200,c
     key=f'seckill:{{{a["activityId"]}:{g["skuId"]}}}:challenge:{c["captchaId"]}'
     proof=json.loads(dc('exec','-T','redis','redis-cli','--raw','GET',key));proof['answerDigest']=hashlib.sha256(b'123456').hexdigest()

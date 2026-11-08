@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：真实RocketMQ官方SDK发送/接收、重复、故障及恢复回归。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"

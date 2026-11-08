@@ -1,7 +1,7 @@
 {
   "stage": "S4",
   "platform": "linux",
-  "tests": 22,
+  "tests": 3,
   "failures": 0,
   "errors": 0,
   "skipped": 0,

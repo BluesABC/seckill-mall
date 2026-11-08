@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：独立干净测试卷上的完整源码镜像部署验收；不能操作日常业务数据卷。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"

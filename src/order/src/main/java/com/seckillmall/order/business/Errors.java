@@ -5,6 +5,11 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
+/**
+ * 将业务异常、参数错误和依赖故障映射为统一HTTP错误体。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 @RestControllerAdvice
 public class Errors {
   @ExceptionHandler(Fault.class)

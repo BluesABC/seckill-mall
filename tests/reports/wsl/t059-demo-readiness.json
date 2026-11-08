@@ -1,0 +1,52 @@
+{
+  "activeCampaigns": [
+    {
+      "activityId": "11",
+      "skuId": "1",
+      "endsAtMs": "1794223179594"
+    },
+    {
+      "activityId": "12",
+      "skuId": "2",
+      "endsAtMs": "1794223179594"
+    },
+    {
+      "activityId": "13",
+      "skuId": "3",
+      "endsAtMs": "1794223179594"
+    },
+    {
+      "activityId": "14",
+      "skuId": "4",
+      "endsAtMs": "1794223179594"
+    },
+    {
+      "activityId": "15",
+      "skuId": "5",
+      "endsAtMs": "1794223179594"
+    }
+  ],
+  "ordinaryStock": [
+    {
+      "skuId": "4",
+      "unallocatedStock": "20"
+    },
+    {
+      "skuId": "5",
+      "unallocatedStock": "20"
+    },
+    {
+      "skuId": "3",
+      "unallocatedStock": "20"
+    },
+    {
+      "skuId": "2",
+      "unallocatedStock": "20"
+    },
+    {
+      "skuId": "1",
+      "unallocatedStock": "20"
+    }
+  ],
+  "passed": true
+}

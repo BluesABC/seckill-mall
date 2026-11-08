@@ -1,0 +1,1 @@
+{"stage": "S2", "platform": "linux", "tests": 27, "failures": 0, "errors": 0, "skipped": 0, "passed": true, "scope": "C++ HTTP + real Redis; relay probe test-only; no RocketMQ/Java order"}

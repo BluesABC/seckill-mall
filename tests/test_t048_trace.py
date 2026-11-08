@@ -1,3 +1,5 @@
+# 测试职责：真实单笔预留到持久订单的阶段追踪。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """One live owned-S7 transaction proving stage-log correlation end to end."""
 import json
 import os

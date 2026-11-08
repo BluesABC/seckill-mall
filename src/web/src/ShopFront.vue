@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/**
+ * 首页、目录与活动场次展示；筛选通过事件交给App请求服务端分页。
+ * 阅读导航：docs/CODE-READING.md；接口契约：docs/API.md。
+ */
 import { computed, onUnmounted, ref, watch } from "vue";
 import ShoeCard from "./ShoeCard.vue";
 import { date, type Goods, type Activity } from "./api";
@@ -35,6 +39,7 @@ watch(
   () => props.category,
   (v) => (category.value = v),
 );
+// 250ms防抖只减少输入期间的查询；真正的过滤、排序和分页仍在服务端执行。
 watch([search, category, sort, maxPrice], () => {
   clearTimeout(catalogTimer);
   catalogTimer = setTimeout(() => emit("catalog-change", {

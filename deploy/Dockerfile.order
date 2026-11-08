@@ -1,3 +1,4 @@
+# 构建并验证Java订单JAR，再复制到精简运行阶段；业务连接和凭据由运行环境提供。
 FROM maven:3.9.11-eclipse-temurin-21 AS builder
 WORKDIR /project
 COPY src/order/pom.xml src/order/pom.xml

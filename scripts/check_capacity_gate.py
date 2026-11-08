@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# 职责：独立复核S18持续容量证据。重新检查时长、计数、窗口、延迟和库存，不信任passed声明。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Independently evaluate the local v0.1 sustained buy-path gate from evidence."""
 import argparse
 import json

@@ -1,3 +1,4 @@
+# 浏览器测试专用隔离夹具；真实业务链路与页面响应注入须分开解释，不能将注入结果冒充服务端事实。
 """Private owned S5 fixture controls. No application endpoint or test bypass."""
 import hashlib,json,os,sys,time
 from pathlib import Path

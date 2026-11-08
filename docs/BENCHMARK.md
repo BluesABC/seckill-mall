@@ -77,3 +77,5 @@ QPS是每轮64个请求集中提交的短时吞吐中位数，不是持续容量
 [原始报告](../tests/reports/wsl/s19-mixed-30m-01.json)、[独立门禁](../tests/reports/wsl/s19-mixed-30m-01-gate.json)、[运行采样](../tests/reports/wsl/s19-runtime-samples.json)。同机12逻辑CPU/约8GB、32线程/128排队与单Broker，结束恢复8/128，不构成生产容量/SLA。
 
 S19库存64的单轮瞬时竞争HTTP P95约1.20秒/P99约2.09秒，尚不能声称该突发场景响应延迟达标；记录为PERF-002待复核，T053先重复和分段定位。
+
+S20 复核后，backlog 128 与 32 工作线程的本机库存 64 工况通过三轮门禁。默认 8 工作线程的三轮延迟门禁均未通过。见[验收口径](S20-TEST-PLAN.md)、[32 线程结果](../tests/reports/wsl/s20-final-local-64-01-gate.json)与[默认线程结果](../tests/reports/wsl/s20-fixed-default8-01-gate.json)。

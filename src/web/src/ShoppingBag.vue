@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/**
+ * 抢购意向抽屉与键盘焦点恢复；清单只保存选择，不预留库存或合并下单。
+ * 阅读导航：docs/CODE-READING.md；接口契约：docs/API.md。
+ */
 import { ref, watch, nextTick } from "vue";
 import { money, type Goods, type Activity } from "./api";
 const props = defineProps<{
@@ -9,6 +13,7 @@ const props = defineProps<{
   emit = defineEmits<{ close: []; remove: [string] }>();
 const dialog = ref<HTMLDialogElement | null>(null);
 let opener: HTMLElement | null = null;
+// 记录触发控件，关抽屉后恢复焦点，避免键盘用户丢失当前位置。
 watch(
   () => props.open,
   async (v) => {

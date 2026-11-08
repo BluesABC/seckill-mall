@@ -1,3 +1,5 @@
+# 测试职责：真实异步订单、支付/关闭竞争、补偿、锁等待及依赖故障。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Owned WSL HTTP -> C++ -> RocketMQ -> Java -> MySQL/Redis business tests."""
 import concurrent.futures
 import hashlib
@@ -113,8 +115,15 @@ class S4Tests(unittest.TestCase):
         code,activity=self.admin_api('POST','/api/admin/activities',{'name':'真实秒杀测试','skuId':self.sku,'stock':'10','priceFen':'1990','startsAtMs':str(now-60000),'endsAtMs':str(now+3600000)});self.assertEqual(code,201,activity)
         self.activity=activity['activityId'];self.key=f'{self.prefix}:{{{self.activity}:{self.sku}}}:ledger'
         self.assertEqual(self.admin_api('POST',f'/api/admin/activities/{self.activity}/activate',{'skuId':self.sku})[0],200)
-    def reserve(self,user=0,http=True):
+    def reserve(self,user=0,http=True,shipping=True):
         userid,token=self.users[user];request=uid()
+        if shipping:
+            addresses=call(self.java_port,'GET','/api/shop/addresses',token)[1]['items']
+            if not addresses:
+                code,a=call(self.java_port,'POST','/api/shop/addresses',token,{'recipient':'秒杀测试收货人','phone':'13800138000','address':'秒杀测试路100号'});self.assertEqual(code,200,a)
+                aid=a['id']
+            else:aid=addresses[0]['id']
+            code,prepared=call(self.java_port,'POST','/api/shop/seckill/checkout',token,{'activityId':self.activity,'skuId':self.sku,'requestId':request,'addressId':aid});self.assertEqual(code,200,prepared)
         if http:
             code,challenge=call(self.cpp_port,'GET',f'/api/seckill/captcha?activityId={self.activity}&skuId={self.sku}',token);self.assertEqual(code,200,challenge)
             key=f'{self.prefix}:{{{self.activity}:{self.sku}}}:challenge:'+challenge['captchaId']
@@ -184,6 +193,290 @@ class S4Tests(unittest.TestCase):
         again=self.api('POST','/api/order/pay',dict(body,idempotencyKey=uid()),token);self.assertEqual(again,first)
         self.jobs();self.assertEqual(self.redis_request(event)['orderState'],'PAID')
         self.assertEqual(self.sql('SELECT COUNT(*) FROM payments WHERE order_id=%s',(order['orderId'],))[0][0],1)
+    def test_05b_mock_refund(self):
+        event,token=self.reserve();self.relay();order=self.order(event,token)
+        oid=order['orderId'];body={'orderId':oid,'idempotencyKey':uid()}
+        self.assertEqual(self.api('GET','/api/order/payment?orderId='+oid,token=token)[1]['paymentState'],'NOT_PAID')
+        self.assertEqual(self.api('POST','/api/order/refund',body,token)[0],409)
+        self.assertEqual(self.api('POST','/api/order/pay',body,token)[0],200)
+        self.assertEqual(self.api('POST','/api/order/refund',body,self.users[1][1])[0],404)
+        self.assertEqual(self.api('GET','/api/order/payment?orderId='+oid,token=self.users[1][1])[0],404)
+        stock=self.sql('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s',(event['activityId'],event['skuId']))
+        def refund(_):
+            return self.api('POST','/api/order/refund',dict(body,idempotencyKey=uid()),token)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+            results=list(pool.map(refund,range(4)))
+        self.assertTrue(all(code==200 for code,data in results),results)
+        self.assertEqual(len({data['refundId'] for code,data in results}),1)
+        self.assertEqual(results[0][1]['paymentState'],'REFUNDED')
+        detail=self.api('GET','/api/order/payment?orderId='+oid,token=token)[1]
+        self.assertEqual(detail['paidAmountFen'],detail['refundedAmountFen'])
+        self.assertEqual(self.api('POST','/api/order/pay',dict(body,idempotencyKey=uid()),token)[1]['paymentState'],'REFUNDED')
+        self.assertEqual(stock,self.sql('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s',(event['activityId'],event['skuId'])))
+        self.assertEqual(self.sql('SELECT COUNT(*) FROM mock_refunds r JOIN payments p ON p.id=r.payment_id WHERE p.order_id=%s',(oid,))[0][0],1)
+        import runpy
+        from unittest.mock import patch
+        inspect=runpy.run_path(str(ROOT/'scripts/reconcile-payments.py'))['inspect']
+        with patch.dict(os.environ,dict(self.env,MALL_DB_NAME=self.database)):
+            self.assertEqual(inspect()['result'],'CLEAN')
+            self.sql('UPDATE mock_refunds SET amount_fen=amount_fen+1 WHERE id=%s',(detail['refundId'],),write=True)
+            try:
+                self.assertEqual(inspect()['checks']['REFUND_MISMATCH'],1)
+            finally:
+                self.sql('UPDATE mock_refunds SET amount_fen=amount_fen-1 WHERE id=%s',(detail['refundId'],),write=True)
+            self.assertEqual(inspect()['result'],'CLEAN')
+
+
+    def shop_fixture(self,user=0):
+        token=self.users[user][1]
+        code,address=self.api('POST','/api/shop/addresses',{'recipient':'商城测试用户','phone':'13800138000','address':'上海市测试路100号'},token)
+        self.assertEqual(code,200,address)
+        return token,{'items':[{'skuId':self.sku,'quantity':'2'}],'addressId':address['id'],'idempotencyKey':uid()}
+
+    def test_05c_retail_checkout_payment_shipping(self):
+        token,b=self.shop_fixture();other=self.users[1][1]
+        self.assertEqual(self.api('GET','/api/goods/'+self.goods)[1]['items'][0]['unallocatedStock'],'20')
+        self.assertEqual(self.api('PUT','/api/shop/cart',{'skuId':self.sku,'quantity':'2'},token)[0],200)
+        self.assertEqual(len(self.api('GET','/api/shop/cart',token=token)[1]['items']),1)
+        self.assertEqual(self.api('GET','/api/shop/cart',token=other)[1]['items'],[])
+        code,o=self.api('POST','/api/shop/checkout',b,token);self.assertEqual(code,200,o)
+        self.assertEqual(o['amount_fen'],'3980');self.assertEqual(o['items'][0]['quantity'],'2')
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],18)
+        self.assertEqual(self.api('POST','/api/shop/checkout',b,token)[1]['id'],o['id'])
+        self.assertEqual(self.api('POST','/api/shop/checkout',dict(b,items=[{'skuId':self.sku,'quantity':'3'}]),token)[0],409)
+        self.assertEqual(self.api('GET','/api/shop/cart',token=token)[1]['items'],[])
+        root='/api/shop/orders/'+o['id'];key={'idempotencyKey':uid()}
+        self.assertEqual(self.api('GET',root,token=other)[0],404)
+        self.assertEqual(self.api('POST',root+'/pay',key,other)[0],404)
+        paid=self.api('POST',root+'/pay',key,token);self.assertEqual(paid[0],200)
+        self.assertEqual(paid,self.api('POST',root+'/pay',{'idempotencyKey':uid()},token))
+        self.assertEqual(self.api('POST',root+'/cancel',key,token)[0],409)
+        ship='/api/admin/shop/orders/'+o['id']+'/ship';info={'carrier':'演示快递','tracking':'DEMO123'}
+        self.assertEqual(self.api('POST',ship,info,token)[0],403)
+        self.assertEqual(self.admin_api('POST',ship,info)[0],200)
+        self.assertEqual(self.admin_api('POST',ship,info)[0],200)
+        self.assertEqual(self.admin_api('POST',ship,dict(info,tracking='OTHER'))[0],409)
+        self.assertEqual(self.api('POST',root+'/refund',key,token)[0],409)
+        self.assertEqual(self.api('POST',root+'/receive',key,token)[1]['status'],'DELIVERED')
+        self.assertEqual(self.api('POST',root+'/receive',key,token)[1]['status'],'DELIVERED')
+        self.assertEqual(self.cache.hget(self.key,'stock'),'10')
+
+    def test_05d_retail_atomic_stock_concurrency_and_expiry(self):
+        token,b=self.shop_fixture();b['items'][0]['quantity']='10'
+        code,second=self.admin_api('POST','/api/admin/goods',{'title':'无库存鞋款','description':'原子回滚','imageUrl':'/assets/fixture.webp','priceFen':'2000','stock':'1'})
+        self.assertEqual(code,201)
+        bad=dict(b,items=b['items']+[{'skuId':second['skuId'],'quantity':'2'}])
+        self.assertEqual(self.api('POST','/api/shop/checkout',bad,token)[0],409)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],20)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+            results=list(pool.map(lambda _:self.api('POST','/api/shop/checkout',dict(b,idempotencyKey=uid()),token),range(4)))
+        accepted=[o for code,o in results if code==200]
+        self.assertEqual(len(accepted),2,results)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],0)
+        for o in accepted:
+            root='/api/shop/orders/'+o['id'];key={'idempotencyKey':uid()}
+            self.assertEqual(self.api('POST',root+'/cancel',key,token)[0],200)
+            self.assertEqual(self.api('POST',root+'/cancel',key,token)[0],200)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],20)
+        b['idempotencyKey']=uid();o=self.api('POST','/api/shop/checkout',b,token)[1]
+        self.sql('UPDATE shop_orders SET expires_at_ms=1 WHERE id=%s',(o['id'],),write=True)
+        self.assertEqual(self.api('GET','/api/shop/orders/'+o['id'],token=token)[1]['status'],'CLOSED')
+        self.assertEqual(self.api('POST','/api/shop/orders/'+o['id']+'/pay',{'idempotencyKey':uid()},token)[0],409)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],20)
+
+    def test_05e_retail_refund_and_address_authorization(self):
+        token,b=self.shop_fixture();other,b2=self.shop_fixture(1)
+        self.assertEqual(self.api('POST','/api/shop/checkout',dict(b,addressId=b2['addressId']),token)[0],404)
+        o=self.api('POST','/api/shop/checkout',b,token)[1];root='/api/shop/orders/'+o['id'];key={'idempotencyKey':uid()}
+        self.assertEqual(self.api('POST',root+'/refund',key,token)[0],409)
+        self.assertEqual(self.api('POST',root+'/pay',key,token)[0],200)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+            results=list(pool.map(lambda _:self.api('POST',root+'/refund',{'idempotencyKey':uid()},token),range(4)))
+        self.assertTrue(all(code==200 for code,data in results),results)
+        self.assertEqual(len({data['refund_id'] for code,data in results}),1)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],20)
+        self.assertEqual(self.api('POST',root+'/pay',key,token)[1]['status'],'REFUNDED')
+        self.assertEqual(self.api('POST',root+'/cancel',key,token)[0],409)
+        self.api('DELETE','/api/shop/addresses/'+b['addressId'],token=other)
+        self.assertTrue(any(a['id']==b['addressId'] for a in self.api('GET','/api/shop/addresses',token=token)[1]['items']))
+        self.api('DELETE','/api/shop/addresses/'+b['addressId'],token=token)
+        self.assertEqual(self.api('GET',root,token=token)[1]['address'],'上海市测试路100号')
+
+    def test_05f_retail_restock_and_ledger(self):
+        body={'skuId':self.sku,'quantity':'5','idempotencyKey':uid()}
+        self.assertEqual(self.api('POST','/api/admin/shop/restock',body,self.users[0][1])[0],403)
+        self.assertEqual(self.admin_api('POST','/api/admin/shop/restock',body)[0],200)
+        self.assertEqual(self.admin_api('POST','/api/admin/shop/restock',body)[0],200)
+        self.assertEqual(self.admin_api('POST','/api/admin/shop/restock',dict(body,quantity='6'))[0],409)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],25)
+        self.assertEqual(self.cache.hget(self.key,'stock'),'10')
+        import runpy
+        from unittest.mock import patch
+        inspect=runpy.run_path(str(ROOT/'scripts/reconcile-shop.py'))['inspect']
+        with patch.dict(os.environ,dict(self.env,MALL_DB_NAME=self.database)):
+            self.assertEqual(inspect()['result'],'CLEAN')
+
+    def test_05g_seckill_delivery(self):
+        token,b=self.shop_fixture();event,token=self.reserve();self.relay();o=self.order(event,token)
+        self.assertEqual(self.api('POST','/api/order/pay',{'orderId':o['orderId'],'idempotencyKey':uid()},token)[0],200)
+        path='/api/shop/seckill/'+o['orderId'];ship='/api/admin/shop/seckill/'+o['orderId']+'/ship';info={'carrier':'测试物流','tracking':'SECKILL123'}
+        self.assertEqual(self.sql('SELECT COUNT(*) FROM shop_seckill_delivery WHERE order_id=%s',(o['orderId'],))[0][0],1)
+        self.assertEqual(self.api('POST',path+'/address',{'addressId':b['addressId']},self.users[1][1])[0],404)
+        self.assertEqual(self.api('POST',path+'/address',{'addressId':b['addressId']},token)[0],200)
+        self.assertEqual(self.admin_api('POST',ship,info)[0],200)
+        self.assertEqual(self.admin_api('POST',ship,info)[0],200)
+        self.assertEqual(self.api('POST','/api/order/refund',{'orderId':o['orderId'],'idempotencyKey':uid()},token)[0],409)
+        self.assertEqual(self.api('POST',path+'/address',{'addressId':b['addressId']},token)[0],409)
+        self.assertEqual(self.api('POST',path+'/receive',{'idempotencyKey':uid()},token)[0],200)
+        self.assertEqual(self.api('POST',path+'/receive',{'idempotencyKey':uid()},token)[0],200)
+        rows=self.api('GET','/api/shop/seckill/orders',token=token)[1]['items']
+        self.assertEqual(next(v for v in rows if v['id']==o['orderId'])['status'],'DELIVERED')
+        self.assertEqual(self.sql('SELECT status FROM orders WHERE id=%s',(o['orderId'],))[0][0],'PAID')
+        self.assertEqual(self.sql('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s',(self.activity,self.sku))[0][0],9)
+
+    def test_05h_retail_multi_checkout_and_refund_ship_race(self):
+        token,b=self.shop_fixture()
+        code,g=self.admin_api('POST','/api/admin/goods',{'title':'合单第二双','description':'独立合单夹具','imageUrl':'/assets/fixture.webp','priceFen':'2990','stock':'30'})
+        self.assertEqual(code,201,g)
+        b['items'].append({'skuId':g['skuId'],'quantity':'3'})
+        self.assertEqual(self.api('POST','/api/shop/checkout',dict(b,amountFen='1'),token)[0],400)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+            results=list(pool.map(lambda _:self.api('POST','/api/shop/checkout',b,token),range(4)))
+        self.assertTrue(all(code==200 for code,data in results),results)
+        self.assertEqual(len({data['id'] for code,data in results}),1)
+        o=results[0][1];self.assertEqual(o['amount_fen'],'12950');self.assertEqual(len(o['items']),2)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],18)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(g['skuId'],))[0][0],27)
+        root='/api/shop/orders/'+o['id'];key={'idempotencyKey':uid()}
+        self.assertEqual(self.api('POST',root+'/cancel',key,token)[0],200)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(g['skuId'],))[0][0],30)
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],20)
+        b['idempotencyKey']=uid();b['items']=[{'skuId':self.sku,'quantity':'1'}]
+        o=self.api('POST','/api/shop/checkout',b,token)[1];root='/api/shop/orders/'+o['id']
+        self.assertEqual(self.api('POST',root+'/pay',key,token)[0],200)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+            refund=pool.submit(self.api,'POST',root+'/refund',key,token)
+            ship=pool.submit(self.admin_api,'POST','/api/admin/shop/orders/'+o['id']+'/ship',{'carrier':'竞争测试','tracking':'RACE1'})
+            codes=sorted([refund.result()[0],ship.result()[0]])
+        self.assertEqual(codes,[200,409])
+        final=self.api('GET',root,token=token)[1]
+        self.assertIn(final['status'],['REFUNDED','SHIPPED'])
+        self.assertFalse(final.get('refund_id') and final.get('tracking'))
+        expected=20 if final['status']=='REFUNDED' else 19
+        self.assertEqual(self.sql('SELECT unallocated_stock FROM skus WHERE id=%s',(self.sku,))[0][0],expected)
+
+    def test_05i_wechat_unconfigured_http(self):
+        token,b=self.shop_fixture();o=self.api('POST','/api/shop/checkout',b,token)[1]
+        code,config=self.api('GET','/api/payments/config');self.assertEqual(code,200);self.assertFalse(config['wechatConfigured']);self.assertEqual(config['provider'],'MOCK')
+        body={'orderKind':'SHOP','orderId':o['id']}
+        self.assertEqual(self.api('POST','/api/payments/wechat/native',body,token)[0],503)
+        self.assertEqual(self.api('POST','/api/payments/wechat/native',dict(body,amountFen='1'),token)[0],400)
+        self.assertEqual(self.api('GET','/api/payments/wechat/status?orderKind=SHOP&orderId='+o['id'],token=token)[1]['state'],'NOT_STARTED')
+        self.assertEqual(self.api('GET','/api/payments/wechat/status?orderKind=SHOP&orderId='+o['id'],token=self.users[1][1])[0],404)
+        self.assertEqual(self.api('POST','/api/payments/wechat/notify',{'event_type':'TRANSACTION.SUCCESS'})[0],503)
+        self.assertEqual(self.api('POST','/api/payments/wechat/refund',body,token)[0],503)
+        self.assertEqual(self.api('POST','/api/admin/payments/wechat/recheck',body,token)[0],403)
+        self.assertEqual(self.admin_api('POST','/api/admin/payments/wechat/recheck',body)[0],503)
+        self.assertEqual(self.sql('SELECT COUNT(*) FROM wx_payments WHERE order_id=%s',(o['id'],))[0][0],0)
+        self.assertEqual(self.api('POST','/api/shop/orders/'+o['id']+'/pay',{'idempotencyKey':uid()},token)[1]['status'],'PAID')
+
+    def test_05j_mock_cashier_does_not_pay_until_confirmed(self):
+        token,b=self.shop_fixture();o=self.api('POST','/api/shop/checkout',b,token)[1]
+        body={'orderKind':'SHOP','orderId':o['id'],'method':'WECHAT_DEMO'}
+        code,session=self.api('POST','/api/payments/mock/session',body,token);self.assertEqual(code,200,session)
+        self.assertEqual(session['state'],'WAITING_CONFIRMATION');self.assertEqual(session['amountFen'],'3980')
+        self.assertTrue(session['qrImage'].startswith('data:image/png;base64,'))
+        self.assertEqual(self.sql('SELECT status FROM shop_orders WHERE id=%s',(o['id'],))[0][0],'PENDING_PAYMENT')
+        self.assertEqual(self.api('POST','/api/payments/mock/session',body,self.users[1][1])[0],404)
+        self.assertEqual(self.api('POST','/api/payments/mock/session',dict(body,amountFen='1'),token)[0],400)
+        self.assertEqual(self.api('POST','/api/payments/mock/session',dict(body,method='REAL_WECHAT'),token)[0],400)
+        direct=self.api('POST','/api/payments/mock/session',dict(body,method='DIRECT_DEMO'),token)[1];self.assertNotIn('qrImage',direct)
+        key={'idempotencyKey':uid()};root='/api/shop/orders/'+o['id']
+        self.assertEqual(self.api('POST',root+'/pay',key,token)[1]['status'],'PAID')
+        self.assertEqual(self.api('POST',root+'/pay',key,token)[1]['status'],'PAID')
+        self.assertEqual(self.api('POST','/api/payments/mock/session',body,token)[0],409)
+        b['idempotencyKey']=uid();expired=self.api('POST','/api/shop/checkout',b,token)[1]
+        self.sql('UPDATE shop_orders SET expires_at_ms=1 WHERE id=%s',(expired['id'],),write=True)
+        self.assertEqual(self.api('POST','/api/payments/mock/session',dict(body,orderId=expired['id']),token)[0],409)
+        event,token=self.reserve();self.relay();sec=self.order(event,token)
+        body={'orderKind':'SECKILL','orderId':sec['orderId'],'method':'WECHAT_DEMO'}
+        self.assertEqual(self.api('POST','/api/payments/mock/session',body,token)[0],200)
+        self.assertEqual(self.sql('SELECT COUNT(*) FROM payments WHERE order_id=%s',(sec['orderId'],))[0][0],0)
+        self.assertEqual(self.api('POST','/api/order/pay',{'orderId':sec['orderId'],'idempotencyKey':uid()},token)[1]['orderState'],'PAID')
+
+    def test_05k_shipping_required_and_order_deletion(self):
+        user,token=self.users[0];other=self.users[1][1];request=uid()
+        code,c=call(self.cpp_port,'GET',f'/api/seckill/captcha?activityId={self.activity}&skuId={self.sku}',token);self.assertEqual(code,200,c)
+        key=f'{self.prefix}:{{{self.activity}:{self.sku}}}:challenge:'+c['captchaId']
+        proof=json.loads(self.cache.get(key));proof['answerDigest']=hashlib.sha256(b'123456').hexdigest();self.cache.set(key,json.dumps(proof),keepttl=True)
+        code,p=call(self.cpp_port,'POST','/api/seckill/token',token,dict(activityId=self.activity,skuId=self.sku,requestId=request,captchaId=c['captchaId'],captchaAnswer='123456'));self.assertEqual(code,200,p)
+        buy=dict(activityId=self.activity,skuId=self.sku,requestId=request,captchaToken=p['captchaToken'],activityToken=p['activityToken'])
+        code,result=call(self.cpp_port,'POST','/api/seckill/buy',token,buy)
+        self.assertEqual((code,result['code']),(409,'ADDRESS_REQUIRED'))
+        self.assertEqual(self.cache.hget(self.key,'stock'),'10')
+        self.assertIsNone(self.cache.hget(self.key,'req:'+user+':'+request))
+        _,address=self.api('POST','/api/shop/addresses',{'recipient':'建单前收货人','phone':'13800138000','address':'建单前快照测试路100号'},token)
+        prepared=dict(activityId=self.activity,skuId=self.sku,requestId=request,addressId=address['id'])
+        self.assertEqual(self.api('POST','/api/shop/seckill/checkout',prepared,other)[0],404)
+        for _ in range(2):self.assertEqual(self.api('POST','/api/shop/seckill/checkout',prepared,token)[0],200)
+        self.assertEqual(self.api('POST','/api/shop/seckill/checkout',dict(prepared,addressId='99999999'),token)[0],409)
+        self.assertEqual(self.api('DELETE','/api/shop/addresses/'+address['id'],token=token)[0],200)
+        code,accepted=call(self.cpp_port,'POST','/api/seckill/buy',token,buy);self.assertEqual(code,202,accepted)
+        event=json.loads(self.cache.hget(self.key,'pending:'+accepted['reservationId']));self.relay();o=self.order(event,token)
+        self.assertEqual(self.sql('SELECT recipient,address FROM shop_seckill_delivery WHERE order_id=%s',(o['orderId'],))[0],('建单前收货人','建单前快照测试路100号'))
+        root='/api/shop/seckill/'+o['orderId']
+        self.assertEqual(self.api('DELETE',root,token=other)[0],404)
+        self.assertEqual(self.api('DELETE',root,token=token)[0],409)
+        for _ in range(2):self.assertEqual(self.api('POST',root+'/cancel',{},token)[0],200)
+        self.assertEqual(self.sql('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s',(self.activity,self.sku))[0][0],10)
+        for _ in range(2):self.assertEqual(self.api('DELETE',root,token=token)[0],200)
+        self.assertFalse(any(x['id']==o['orderId'] for x in self.api('GET','/api/shop/seckill/orders',token=token)[1]['items']))
+        self.assertFalse(any(x['orderId']==o['orderId'] for x in self.api('GET','/api/orders',token=token)[1]['items']))
+        self.assertTrue(any(x['id']==o['orderId'] for x in self.admin_api('GET','/api/admin/shop/seckill/orders')[1]['items']))
+        self.assertEqual(self.sql('SELECT status FROM orders WHERE id=%s',(o['orderId'],))[0][0],'CLOSED')
+        # 私有夹具绕过HTTP预留仍不能创建无地址订单，消费者应持久补偿。
+        e,t=self.reserve(user=1,http=False,shipping=False);self.relay()
+        wait(lambda:(rows:=self.sql('SELECT failure_code FROM seckill_requests WHERE reservation_id=%s',(e['reservationId'],))) and rows[0][0]=='ADDRESS_REQUIRED')
+        self.assertEqual(self.sql('SELECT COUNT(*) FROM orders WHERE reservation_id=%s',(e['reservationId'],))[0][0],0)
+        t,b=self.shop_fixture();normal=self.api('POST','/api/shop/checkout',b,t)[1];path='/api/shop/orders/'+normal['id']
+        self.assertEqual(self.api('DELETE',path,token=t)[0],409)
+        self.api('POST',path+'/pay',{'idempotencyKey':uid()},t)
+        self.assertEqual(self.api('DELETE',path,token=t)[0],409)
+        self.api('POST',path+'/refund',{'idempotencyKey':uid()},t)
+        self.assertEqual(self.api('DELETE',path,token=other)[0],404)
+        for _ in range(2):self.assertEqual(self.api('DELETE',path,token=t)[0],200)
+        self.assertFalse(any(x['id']==normal['id'] for x in self.api('GET','/api/shop/orders',token=t)[1]['items']))
+        self.assertEqual(self.api('GET',path,token=t)[1]['status'],'REFUNDED')
+
+    def test_05l_cancel_pay_race_and_legacy_repair(self):
+        event,token=self.reserve();self.relay();o=self.order(event,token);oid=o['orderId'];root='/api/shop/seckill/'+oid
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+            pay=pool.submit(self.api,'POST','/api/order/pay',{'orderId':oid,'idempotencyKey':uid()},token)
+            cancel=pool.submit(self.api,'POST',root+'/cancel',{},token)
+            self.assertEqual(sorted([pay.result()[0],cancel.result()[0]]),[200,409])
+        current=self.sql('SELECT status FROM orders WHERE id=%s',(oid,))[0][0]
+        stock=self.sql('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s',(self.activity,self.sku))[0][0]
+        self.assertEqual(stock,9 if current=='PAID' else 10)
+        if current=='PAID':self.assertEqual(self.api('POST','/api/order/refund',{'orderId':oid,'idempotencyKey':uid()},token)[0],200)
+        self.assertEqual(self.api('DELETE',root,token=token)[0],200)
+        # 仅在自有测试库移除快照，复现修复前的旧订单，再验证维护工具不碰正常订单。
+        event,token=self.reserve(user=1);self.relay();o=self.order(event,token);oid=o['orderId']
+        self.assertEqual(self.api('POST','/api/order/pay',{'orderId':oid,'idempotencyKey':uid()},token)[0],200)
+        import runpy
+        repair=runpy.run_path(str(ROOT/'scripts/repair-missing-shipping-demo.py'))['repair']
+        with connect(self.database) as db:
+            with self.assertRaises(ValueError):repair(db,oid,True)
+        self.sql('DELETE FROM shop_seckill_delivery WHERE order_id=%s',(oid,),write=True)
+        with connect(self.database) as db:
+            self.assertFalse(repair(db,oid)['applied'])
+        self.assertEqual(self.sql('SELECT COUNT(*) FROM order_deletions WHERE order_id=%s',(oid,))[0][0],0)
+        with connect(self.database) as db:
+            before=self.sql('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s',(self.activity,self.sku))[0][0]
+            for _ in range(2):self.assertTrue(repair(db,oid,True)['applied'])
+            self.assertEqual(self.sql('SELECT available_stock FROM activity_stock WHERE activity_id=%s AND sku_id=%s',(self.activity,self.sku))[0][0],before)
+        self.assertEqual(self.sql('SELECT COUNT(*) FROM mock_refunds r JOIN payments p ON p.id=r.payment_id WHERE p.order_id=%s',(oid,))[0][0],1)
+        self.assertEqual(self.sql('SELECT COUNT(*) FROM order_deletions WHERE order_id=%s',(oid,))[0][0],1)
+
     def test_06_timeout_close_and_release_once(self):
         event,token=self.reserve();self.relay();order=self.order(event,token)
         self.sql('UPDATE orders SET expires_at_ms=created_at_ms+1 WHERE id=%s',(order['orderId'],),True);self.jobs();self.jobs()
@@ -267,13 +560,16 @@ class S4Tests(unittest.TestCase):
         self.assertEqual(self.api('GET','/api/auth/me',token=token)[0],401)
         self.assertEqual(call(self.cpp_port,'GET',f'/api/seckill/captcha?activityId={self.activity}&skuId={self.sku}',token)[0],401)
         self.assertEqual(self.admin_api('PATCH','/api/admin/users/'+user,{'enabled':True})[0],200)
+        # 后续HTTP收货快照必须使用有效会话；重新启用不会复活已撤销的旧令牌。
+        code,login=self.api('POST','/api/auth/login',{'username':'user5','password':PASSWORD});self.assertEqual(code,200,login)
+        self.users[5]=(user,login['token'])
     def test_15_logout_revokes_session(self):
         code,login=self.api('POST','/api/auth/login',{'username':'user4','password':PASSWORD});self.assertEqual(code,200)
         self.assertEqual(self.api('POST','/api/auth/logout',token=login['token'])[0],200);self.assertEqual(self.api('GET','/api/auth/me',token=login['token'])[0],401)
     def test_16_paid_close_concurrency(self):
         event,token=self.reserve();self.relay();order=self.order(event,token)
         # One DB time boundary; either PAID or CLOSED is valid, never both resource outcomes.
-        self.sql('UPDATE orders SET expires_at_ms=%s WHERE id=%s',(int(time.time()*1000)+100,order['orderId']),True)
+        self.sql('UPDATE orders SET expires_at_ms=GREATEST(created_at_ms+1,CAST(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3))*1000 AS UNSIGNED)+100) WHERE id=%s',(order['orderId'],),True)
         with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
             futures=[pool.submit(self.api,'POST','/api/order/pay',{'orderId':order['orderId'],'idempotencyKey':uid()},token) for _ in range(4)]+[pool.submit(self.jobs) for _ in range(4)]
             for result in futures:result.result()

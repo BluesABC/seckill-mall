@@ -1,3 +1,4 @@
+# MQ契约与可选RocketMQ生产适配；故障注入仅在测试构建下启用。
 add_executable(mall_mq main.cpp)
 add_library(mall_mq_contract INTERFACE)
 target_include_directories(mall_mq_contract INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)

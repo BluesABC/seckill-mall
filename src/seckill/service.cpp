@@ -1,3 +1,9 @@
+/**
+ * @file service.cpp
+ * @brief 秒杀HTTP路由、认证、验证码与Redis预扣编排。
+ *
+ * 阅读顺序：Service::bind → buy路由 → reserve.lua → durability_fence；真正创建订单由Java消费者完成。
+ */
 #include "mall/service.hpp"
 #include "mall/captcha.hpp"
 #include "mall/redis.hpp"
@@ -131,6 +137,9 @@ public:
       : config(std::move(c)), reserve_script(read_script(config, "reserve")),
         proof_script(read_script(config, "issue_proof")),
         limit_script(read_script(config, "rate_limit")) {}
+  /**
+   * @brief 获取当前HTTP线程的独立连接，避免hiredis上下文并发读写。
+   */
   Redis &redis() {
     thread_local std::unique_ptr<Redis> client;
     if (!client)
@@ -161,6 +170,9 @@ public:
       throw ApiError(429, "RATE_LIMITED", (ttl + 999) / 1000);
     }
   }
+  /**
+   * @brief 从Bearer token摘要查会话，并校验过期时间、角色及禁用标记。
+   */
   Session auth(const httplib::Request &r) {
     if (r.get_header_value_count("Authorization") != 1)
       throw ApiError(401, "UNAUTHENTICATED");
@@ -189,6 +201,9 @@ public:
     limit("user", values["userId"], config.user_limit);
     return {values["userId"], values["role"]};
   }
+  /**
+   * @brief 统一入口防护、trace、异常映射和handler计时；rtUs不包含等待worker的时间。
+   */
   auto wrap(std::function<void(const httplib::Request &, httplib::Response &,
                                const std::string &)>
                 handler,
@@ -262,6 +277,9 @@ public:
       }
     };
   }
+  /**
+   * @brief 固定字段读取活动元数据，不能改成随历史请求数增长的HGETALL。
+   */
   std::map<std::string, std::string> activity(const std::string &a,
                                               const std::string &s) {
     identifier(a);
@@ -296,6 +314,9 @@ public:
       throw ApiError(503, "NOT_READY");
     return values;
   }
+  /**
+   * @brief 生成预留阶段状态；C++不伪造Java权威订单或支付成功。
+   */
   Json status(const std::string &raw, const std::string &request) {
     auto value = Json::parse(raw);
     if (value.value("state", "") == "ORDER_CREATED")
@@ -311,6 +332,9 @@ public:
                                 ? Json("RESERVATION_TERMINATED")
                                 : Json(nullptr)}};
   }
+  /**
+   * @brief 同一Redis连接确认AOF；只读重放先补因果写入，未知结果交回客户端查询。
+   */
   void durability_fence(const std::string &key, bool already_wrote = false) {
     // A causal write on this same connection fences read-only replays too.
     if (!already_wrote) {
@@ -323,6 +347,9 @@ public:
         confirmed->element[0]->integer != 1)
       throw RedisFailure("AOF confirmation unknown");
   }
+  /**
+   * @brief 注册健康、活动、验证码、抢购及诊断路由，交易路由按下面的流程分段阅读。
+   */
   void bind(httplib::Server &server) {
     server.Get(
         "/health/live",
@@ -351,6 +378,7 @@ public:
                     {"mqIntegrated", false}});
             },
             false));
+    // 1. 活动快照与服务端时间：页面倒计时只作展示，Lua会再次检查真实活动时间。
     server.Get("/api/seckill/info", wrap([this](auto &req, auto &out, auto &) {
                  query_keys(req, {"activityId", "skuId"});
                  auto a = query(req, "activityId"), s = query(req, "skuId");
@@ -370,6 +398,7 @@ public:
                        {"state", state},
                        {"stockAvailable", std::stoll(v["stock"]) > 0}});
                }));
+    // 2. 挑战签发：图片与可读题复用同一60秒、一次兑换及次数限制。
     server.Get("/api/seckill/captcha",
                wrap([this](auto &req, auto &out, auto &) {
                  auto session = auth(req);
@@ -405,6 +434,7 @@ public:
                  json(out, 200, response);
                }));
     server.Post(
+        // 3. 将答案兑换成绑定本次requestId的证明；这里只签发凭证，不扣库存。
         "/api/seckill/token", wrap([this](auto &req, auto &out, auto &) {
           auto session = auth(req);
           auto input = body(req, {"activityId", "skuId", "requestId",
@@ -433,6 +463,7 @@ public:
                 {"expiresAtMs", text(reply->element[1])}});
         }));
     server.Post(
+        // 4. 先查幂等重放，再Lua预扣和AOF确认；202后由独立relay异步投递。
         "/api/seckill/buy", wrap([this](auto &req, auto &out, auto &trace) {
           auto session = auth(req);
           auto input = body(req, {"activityId", "skuId", "requestId",
@@ -461,6 +492,11 @@ public:
                 !hex64(activity_token.substr(37)) || !hex64(captcha_token))
               throw ApiError(403, "INVALID_PROOF");
             auto values = activity(a, s);
+            // 收货快照由Java在SQL提交后签发无PII标记；只对新请求要求，历史重放仍返回原结果。
+            auto shipping = redis().command({"GET", key + ":shipping:" + session.user + ":" + request});
+            checked(shipping.get());
+            if (shipping->type == REDIS_REPLY_NIL || text(shipping.get()) != "1")
+              throw ApiError(409, "ADDRESS_REQUIRED");
             auto registered =
                 redis().command({"SADD", config.prefix + ":ledgers", key});
             checked(registered.get());
@@ -497,6 +533,7 @@ public:
             if (code == "INVALID_ARGUMENT")
               throw ApiError(400, code);
             throw ApiError(409, code);
+          // 连接断开可能发生在Redis写入之后，必须返回结果未知，不能在这里回补库存。
           } catch (const RedisFailure &) {
             ++counters.unknown;
             throw ApiError(503, "ACCEPTANCE_UNKNOWN");
@@ -586,7 +623,8 @@ int serve(const Config &config) {
     server.stop();
   });
   std::cout << "seckill HTTP listening " << config.host << ":" << config.port
-            << "; RocketMQ adapter pending S3\n"
+            << "; workers=" << config.workers << "; queue=" << config.queue_limit
+            << "; listenBacklog=" << CPPHTTPLIB_LISTEN_BACKLOG << '\n'
             << std::flush;
   auto ok = server.listen_after_bind();
   pthread_kill(shutdown.native_handle(), SIGTERM);

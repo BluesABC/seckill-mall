@@ -1,3 +1,4 @@
+# 从Linux源码构建秒杀服务与relay，运行阶段仅带必要原生库及Lua，使用非root用户。
 FROM ubuntu:24.04 AS builder
 COPY --from=python:3.12.12-slim-bookworm /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 ENV DEBIAN_FRONTEND=noninteractive

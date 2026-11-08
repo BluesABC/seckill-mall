@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：背景读与完整用户旅程入口；保持生产证明/支付TTL，退出恢复原线程参数。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"

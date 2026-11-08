@@ -1,3 +1,6 @@
+/** @file contracts_test.cpp
+ * @brief 验证共享状态转换契约，不涉及真实支付或分布式事务。
+ */
 #include <iostream>
 #include "mall/contracts.hpp"
 

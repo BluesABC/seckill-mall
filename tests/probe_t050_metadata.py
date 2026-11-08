@@ -1,3 +1,5 @@
+# 测试职责：历史大账本下的活动元数据读取放大。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Read-only metadata probe on an existing owned-S7 activity ledger."""
 import argparse
 import json

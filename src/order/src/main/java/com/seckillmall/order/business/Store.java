@@ -7,6 +7,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.support.TransactionTemplate;
 
+/**
+ * 参数化SQL与事务辅助；将瞬态数据库失败以整个事务为单位有界重试。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class Store {
   public final JdbcTemplate db;
   private final TransactionTemplate tx;
@@ -14,6 +19,9 @@ public final class Store {
     this.db = db;
     this.tx = tx;
   }
+  /**
+   * 瞬态数据库异常最多重试整个事务3次；闭包必须能安全重入，外部副作用不能假定随DB回滚。
+   */
   public <T> T transaction(Supplier<T> action) {
     for (int attempt = 0;; attempt++) {
       try {
@@ -43,6 +51,9 @@ public final class Store {
     }, keys);
     return Objects.requireNonNull(keys.getKey()).longValue();
   }
+  /**
+   * 以MySQL时钟返回Unix毫秒，统一支付期限与关闭任务的时间依据。
+   */
   public long now() {
     return db.queryForObject(
         "SELECT CAST(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3))*1000 AS UNSIGNED)", Long.class);
@@ -54,6 +65,9 @@ public final class Store {
     Object v = row.get(key);
     return Boolean.TRUE.equals(v) || (v instanceof Number n && n.intValue() != 0);
   }
+  /**
+   * 将数据库数字转为十进制字符串；JSON中的布尔/文本等其他值原样保留。
+   */
   public static Map<String, Object> wire(Map<String, Object> row) {
     Map<String, Object> out = new LinkedHashMap<>();
     row.forEach((k, v) -> out.put(k, v instanceof Number ? v.toString() : v));

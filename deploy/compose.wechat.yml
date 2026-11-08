@@ -1,0 +1,18 @@
+# 可选真实收款覆盖层：未准备商户/HTTPS时不要启用。密钥仅只读挂载，不进入镜像。
+services:
+  order:
+    environment:
+      MALL_PAYMENT_PROVIDER: WECHAT
+      WECHAT_MCH_ID: ${WECHAT_MCH_ID:?Configure deploy/.env.wechat}
+      WECHAT_APP_ID: ${WECHAT_APP_ID:?Configure deploy/.env.wechat}
+      WECHAT_MERCHANT_SERIAL: ${WECHAT_MERCHANT_SERIAL:?Configure deploy/.env.wechat}
+      WECHAT_PAY_PUBLIC_KEY_ID: ${WECHAT_PAY_PUBLIC_KEY_ID:?Configure deploy/.env.wechat}
+      WECHAT_NOTIFY_URL: ${WECHAT_NOTIFY_URL:?Public HTTPS callback required}
+      WECHAT_PRIVATE_KEY_PATH: /run/wechat/merchant_private_key.pem
+      WECHAT_PAY_PUBLIC_KEY_PATH: /run/wechat/wechat_public_key.pem
+      WECHAT_API_V3_KEY_PATH: /run/wechat/api_v3_key
+    volumes:
+      - type: bind
+        source: ${WECHAT_SECRET_DIR:?Set absolute secret directory path}
+        target: /run/wechat
+        read_only: true

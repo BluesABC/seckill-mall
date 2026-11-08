@@ -1,3 +1,5 @@
+# 职责：把已有S7测量证据汇总为报告；数据缺失不能用推测补成实测。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Generate readable reports only from the real S7 evidence files."""
 import json,re
 from pathlib import Path

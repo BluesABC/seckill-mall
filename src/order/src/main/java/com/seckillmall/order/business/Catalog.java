@@ -3,6 +3,11 @@ package com.seckillmall.order.business;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.*;
 
+/**
+ * 商品、真实尺码SKU及活动管理；活动库存来自SKU未分配库存，不能凭空增加。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class Catalog {
   private final Store store;
   private final Cache cache;
@@ -10,6 +15,9 @@ public final class Catalog {
     this.store = store;
     this.cache = cache;
   }
+  /**
+   * 兼容旧版商品接口，至多100条SKU行；完整目录应使用productPage。
+   */
   public List<Map<String, Object>> products() {
     return store.db
         .queryForList(
@@ -20,6 +28,9 @@ public final class Catalog {
         .map(Store::wire)
         .toList();
   }
+  /**
+   * 服务端组合筛选及0起始分页；每款取最早SKU作卡片，排序字段来自白名单而非任意SQL。
+   */
   public Map<String, Object> productPage(
       String query, String category, String maxPriceFen, String sort, String pageText,
       String sizeText) {
@@ -80,16 +91,22 @@ public final class Catalog {
       throw new Fault(400, "INVALID_ARGUMENT");
     return Long.parseLong(value);
   }
+  /**
+   * 返回鞋款及全部真实尺码SKU，用于目录深链接和尺码选择。
+   */
   public Map<String, Object> product(long id) {
     var rows =
         store.db.queryForList("SELECT g.id AS goodsId,g.title,g.description,g.image_url AS "
-                              + "imageUrl,s.id AS skuId,s.size_eu AS sizeEu,s.category,s.colorway,s.price_fen AS priceFen FROM goods g JOIN "
+                              + "imageUrl,s.id AS skuId,s.size_eu AS sizeEu,s.category,s.colorway,s.price_fen AS priceFen,s.unallocated_stock AS unallocatedStock FROM goods g JOIN "
                               + "skus s ON s.goods_id=g.id WHERE g.id=? AND g.enabled=1 ORDER BY s.id",
             id);
     if (rows.isEmpty())
       throw new Fault(404, "NOT_FOUND");
     return Map.of("items", rows.stream().map(Store::wire).toList());
   }
+  /**
+   * 读取至多100场活动快照供前端呈现；抢购时会在C++/Lua再次校验。
+   */
   public List<Map<String, Object>> activities() {
     return store.db
         .queryForList(
@@ -103,6 +120,9 @@ public final class Catalog {
         .map(Store::wire)
         .toList();
   }
+  /**
+   * 创建鞋款及初始SKU；后续尺码通过createSku另建独立库存。
+   */
   public Map<String, Object> createProduct(JsonNode b) {
     Input.fields(b, "title", "description", "imageUrl", "priceFen", "stock");
     String title = Input.text(b, "title", 1, 200),
@@ -120,6 +140,9 @@ public final class Catalog {
       return Map.of("goodsId", Long.toString(goods), "skuId", Long.toString(sku));
     });
   }
+  /**
+   * 在父商品行锁下新增真实尺码SKU，拒绝同款重复尺码，并拥有独立未分配库存。
+   */
   public Map<String, Object> createSku(long goodsId, JsonNode b) {
     Input.fields(b, "sizeEu", "stock");
     String size = Input.text(b, "sizeEu", 1, 8);
@@ -146,6 +169,9 @@ public final class Catalog {
           "sizeEu", size, "unallocatedStock", Integer.toString(stock));
     });
   }
+  /**
+   * 修改鞋款展示属性与上架状态，不通过商品编辑修改已分配的活动库存。
+   */
   public void updateProduct(long id, JsonNode b) {
     Input.fields(b, "title", "description", "imageUrl", "enabled");
     if (!b.get("enabled").isBoolean())
@@ -158,6 +184,9 @@ public final class Catalog {
         != 1)
       throw new Fault(404, "NOT_FOUND");
   }
+  /**
+   * 事务内将SKU未分配库存划给新活动；READY活动尚不能被用户抢购。
+   */
   public Map<String, Object> createActivity(JsonNode b) {
     Input.fields(b, "name", "skuId", "stock", "priceFen", "startsAtMs", "endsAtMs");
     long sku = Input.id(b, "skuId"), price = Input.id(b, "priceFen"),
@@ -187,6 +216,9 @@ public final class Catalog {
           "activityId", Long.toString(activity), "skuId", Long.toString(sku), "status", "READY");
     });
   }
+  /**
+   * 先验证/预热READY账本并提交DB，再暴露Redis ACTIVE；重复激活不重置活动库存。
+   */
   public void activate(long activity, long sku) {
     store.transaction(() -> {
       var row = store.one(
@@ -239,6 +271,9 @@ public final class Catalog {
     if (!result.get(0).equals("ACTIVE"))
       throw new Fault(409, "CACHE_CONFLICT");
   }
+  /**
+   * 先结束DB活动再更新Redis；不强行清除在途预留或篡改已存在订单。
+   */
   public void end(long activity, long sku) {
     store.transaction(() -> {
       var row = store.one(

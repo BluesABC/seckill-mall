@@ -1,3 +1,5 @@
+# 测试职责：不同负载场景的受理数、订单和库存统计。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """WSL stdlib HTTP load driver, real authenticated buy/MQ/MySQL pipeline."""
 import collections,concurrent.futures,json,math,platform,subprocess,threading,time,sys
 from stack_client import *

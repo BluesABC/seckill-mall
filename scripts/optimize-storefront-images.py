@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# 职责：从源PNG生成固定参数WebP并检查线上资源；原始图片留在assets-source，不直接进入发布目录。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Build web-ready WebP files from the preserved, unmodified source artwork."""
 
 from pathlib import Path

@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-15",
+  "platform": "WSL2 Ubuntu; Docker Desktop Linux engine",
+  "mount": "/mnt/e (DrvFs)",
+  "loadGenerator": "Python standard-library HTTP clients on same host as Docker",
+  "proofFixture": "One-time, 60-second proof rows are batch-seeded with synthetic tokens and their digests; the real C++ /api/seckill/buy handler validates and consumes each proof. Image rendering, token issuance and account setup are outside the timed window.",
+  "activityName": "T048-sustained-f4ed44ec2f",
+  "activityId": "140",
+  "skuId": "3500",
+  "cppHttpWorkers": 32,
+  "mqConsumerThreads": 4,
+  "mqQueueCount": 16,
+  "offeredQps": 15.0,
+  "durationSeconds": 60,
+  "submitted": 900,
+  "accepted": 900,
+  "persisted": 900,
+  "observedSubmissionSeconds": 59.934,
+  "httpStatusCounts": {
+    "202": 900
+  },
+  "businessCodeCounts": {
+    "ACCEPTED": 900
+  },
+  "buyApiLatencyMsAcceptedOnly": {
+    "p50": 41.862,
+    "p95": 98.112,
+    "p99": 119.258
+  },
+  "requestToReservationMs": {
+    "p50": -17.456,
+    "p95": 1321.544,
+    "p99": 1421.544
+  },
+  "requestToDurableOrderMs": {
+    "p50": 1240.495,
+    "p95": 1913.122,
+    "p99": 2892.458
+  },
+  "requestToDurableMeasurement": "same-host monotonic request start to first DB-visible order; polling interval 500ms",
+  "requestToDurableObservedCount": 900,
+  "mysqlClockOffsetMs": -43.686,
+  "redisClockOffsetMs": -1313.544,
+  "mysqlClockOffsetStartEndMs": [
+    103.695,
+    -191.066
+  ],
+  "redisClockOffsetStartEndMs": [
+    -2457.999,
+    -169.089
+  ],
+  "stageTelemetry": {
+    "reservations": 900,
+    "malformedStageLines": 0,
+    "duplicateStageLines": 34,
+    "stageCounts": {
+      "relay_publish": 900,
+      "consumer_received": 900,
+      "committed": 900,
+      "failed": 34
+    },
+    "latencyMs": {
+      "relayPendingAgeMs": {
+        "count": 900,
+        "p50": 783,
+        "p95": 1252,
+        "p99": 1333,
+        "max": 1419
+      },
+      "publishCallMs": {
+        "count": 900,
+        "p50": 6,
+        "p95": 14,
+        "p99": 23,
+        "max": 39
+      },
+      "relayToConsumerMs": {
+        "count": 900,
+        "p50": 15,
+        "p95": 68,
+        "p99": 312,
+        "max": 374
+      },
+      "brokerQueueMs": {
+        "count": 900,
+        "p50": 15,
+        "p95": 68,
+        "p99": 311,
+        "max": 374
+      },
+      "relaySendToBrokerMs": {
+        "count": 900,
+        "p50": 0,
+        "p95": 1,
+        "p99": 2729,
+        "max": 2729
+      },
+      "mysqlTransactionMs": {
+        "count": 900,
+        "p50": 47,
+        "p95": 157,
+        "p99": 244,
+        "max": 412
+      },
+      "reservationAgeMs": {
+        "count": 900,
+        "p50": 805,
+        "p95": 1264,
+        "p99": 1345,
+        "max": 1430
+      }
+    }
+  },
+  "stageTelemetryComplete": true,
+  "reserved": 900,
+  "server5xxCount": 0,
+  "server5xxRatePercent": 0.0,
+  "observedSubmissionQps": 15.017,
+  "mysqlStatusBefore": "Innodb_row_lock_time\t5613917\nInnodb_row_lock_waits\t282164\nThreads_connected\t13\nThreads_running\t2",
+  "mysqlStatusAfter": "Innodb_row_lock_time\t5620060\nInnodb_row_lock_waits\t283489\nThreads_connected\t13\nThreads_running\t3",
+  "reconciliation": {
+    "status": "CLEAN",
+    "orders": 900,
+    "alerts": []
+  },
+  "capacityGate": "evaluated against temporary v0.1; same-host run is not an independent production capacity proof",
+  "temporaryGateResults": {
+    "offeredRateAtLeastTarget": true,
+    "eligibleRequestsAcceptedAtLeast99_5Percent": true,
+    "server5xxAtMost0_1Percent": true,
+    "acceptedBuyApiP95AtMost500ms": true,
+    "durableOrderP95AtMost3000ms": true,
+    "durableOrderP99AtMost8000ms": true,
+    "allReservedOrdersPersisted": true,
+    "stageTelemetryComplete": true,
+    "inventoryReconciliationClean": true,
+    "passed": true
+  }
+}

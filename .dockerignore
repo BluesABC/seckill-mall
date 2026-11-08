@@ -10,3 +10,8 @@ tests/reports
 UI
 **/__pycache__
 **/*.log
+
+# 私钥/APIv3密钥不进入任何构建上下文
+deploy/secrets/
+**/apiclient_key.pem
+**/*_private_key.pem

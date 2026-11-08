@@ -1,0 +1,77 @@
+{
+  "task": "T055",
+  "userDate": "2026-10-19",
+  "platform": "linux",
+  "observedUtc": "2026-10-19T02:40:21.158883+00:00",
+  "files": 132,
+  "commentInsertions": 242,
+  "checks": {
+    "insertedTextIsComment": true,
+    "normalizedSourceUnchangedAfterRemovingAddedComments": true,
+    "pythonAstUnchanged": true,
+    "luaTokensUnchanged": true,
+    "luaSyntax": true,
+    "bashSyntax": true
+  },
+  "pythonFiles": 39,
+  "luaFiles": 7,
+  "shellFiles": 23,
+  "scope": "Comparison against the original working tree, including pre-existing uncommitted changes; not a production or business-load test.",
+  "environment": {
+    "kernel": "6.18.54.1-microsoft-standard-WSL2",
+    "python": "Python 3.12.3",
+    "cpp": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+    "node": "v22.20.0",
+    "distribution": "Ubuntu 24.04.4 LTS"
+  },
+  "builds": {
+    "cpp": {
+      "command": "cmake --build build/wsl/cpp-s3 -j2 && ctest --test-dir build/wsl/cpp-s3 --output-on-failure",
+      "completionMarkerFound": true,
+      "logSha256": "68ebaf1e0e56b2ca49abdf8ff914201594d1932cd4c842a499712e348e0fc5fe",
+      "exitCode": 0,
+      "ctestPassed": 3
+    },
+    "java": {
+      "command": "mvn -B -f src/order/pom.xml -Dmall.build.directory=/mnt/e/c++project/seckill-mall/build/wsl/order-target verify",
+      "completionMarkerFound": true,
+      "logSha256": "617c5d342affa63a584bd646d4f0df8cb36b5c12be7b3b6dd3c7d2c923c141da",
+      "exitCode": 0,
+      "healthTestsPassed": 1
+    },
+    "web": {
+      "command": "bash scripts/build-web-wsl.sh",
+      "completionMarkerFound": true,
+      "logSha256": "03d8255124ead348a0a3b69cc66a76058caaade1897ba95ac807f676ff34fcb4",
+      "exitCode": 0
+    }
+  },
+  "passed": true,
+  "toolUnitTests": {
+    "command": "python3 -m unittest tests.test_capacity_gate tests.test_journey_gate tests.test_burst_gate",
+    "tests": 21,
+    "exitCode": 0
+  },
+  "staticContracts": {
+    "stage": "S0",
+    "platform": "linux",
+    "schemaPositive": 1,
+    "schemaNegative": 6,
+    "mysqlStatementsParsed": 10,
+    "luaSyntax": "pass",
+    "markdownLinks": 322,
+    "redisExecution": "not_run",
+    "mysqlExecution": "not_run",
+    "businessLoadTest": "not_run",
+    "exitCode": 0
+  },
+  "notRun": [
+    "real Redis/MySQL/MQ business integration",
+    "30-minute load gates",
+    "production HA/TLS/payment acceptance",
+    "NVDA/JAWS manual acceptance"
+  ],
+  "baseline": "pre-task working tree; existing edits preserved",
+  "auditExitCode": 0
+}

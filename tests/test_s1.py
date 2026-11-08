@@ -1,3 +1,5 @@
+# 测试职责：数据层初始化、Lua库存及事务约束。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Real MySQL/Redis contract integration in an owned database/key namespace.
 
 The SQL consumer helper is a test harness, not the Java order service.

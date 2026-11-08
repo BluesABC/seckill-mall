@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：准备真实RocketMQ验收Topic及基础配置；是测试依赖准备，不是业务生产者。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"

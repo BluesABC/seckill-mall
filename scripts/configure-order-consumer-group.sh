@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：配置订单消费组与重投策略；重复运行不代表已完成业务一致性验收。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"

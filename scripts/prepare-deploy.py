@@ -1,3 +1,5 @@
+# 职责：生成本机部署配置并保留已有凭据。配置文件含密钥，不能提交到公开仓库。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Generate a local stack env without overwriting existing credentials."""
 import argparse,secrets
 from pathlib import Path

@@ -118,3 +118,25 @@ docker compose -p seckill-mall-s7 --env-file deploy/.env.s7 \
 分钟checkpoint为`build/wsl/s19-progress.json`，不包含密码/令牌；可选另开终端执行`python3 tests/sample_s19_runtime.py`记录只读资源和历史到期/回写采样（其开销与服务共享主机）。异常中断记为未完成；强杀后核对容器实际参数与保留订单，不推造缺失延迟。还原后需等待网关业务健康路由返回200再做冒烟，容器healthy不是所有代理缓存都已更新的证明。
 
 S19完整入口在负载结束后自动调用独立门禁；`bash scripts/test-s19-journeys-wsl.sh --check REPORT`提供离线复核。已有报告、非法报告名、非自有项目/env或不匹配的网关端口在重建之前拒绝；`--smoke`仅短流程自检，不自动当作完整门禁。
+
+## S20 突发连接长尾
+
+工况与冻结判定见[S20计划](S20-TEST-PLAN.md)。在WSL已有自有S7栈执行`bash scripts/test-s20-burst-wsl.sh --label fixed-recheck-64 --stock 64 --workers 32`；每次标签唯一，三轮各64人同步提交，另以`--stock 32`验证售罄竞争，`--workers 8`复核默认线程。测试持有S18/S19共享容量锁，临时记录网关耗时，退出恢复原Nginx配置和线程/任务队列，不删卷、不改TTL。私有会话仅作抢购诊断，不证明登录容量；真实可读验证码/token保持60秒。
+
+独立检查`python3 scripts/check_burst_gate.py tests/reports/wsl/s20-fixed-recheck-64.json`（或入口`--check REPORT`）；每轮重新计算P95≤500ms、核对完整64条关联计时、唯一订单与支付数、零listen队列溢出与库存明细CLEAN。`python3 -m unittest tests.test_burst_gate`使用已冻结真实修复报告，拒绝短测、伪造汇总、非有限耗时、5xx、缺样本、溢出和库存不守恒。原始业务ID/trace保存在忽略的build/wsl checkpoint，公开报告只保留状态/计时。
+
+接入配置改动后运行完整`bash scripts/test-s2.sh`、`bash scripts/test-s4.sh`，先结束构建/故障回归再压测；完成后补跑S19 `--smoke`检查业务旅程。该短测不能替代S17/S19历史30分钟门禁，也不证明公网或多机容量。
+
+## T059 商城闭环验证
+
+`bash scripts/test-s4.sh`包含普通结算、合并金额、原子回滚、同键重放/参数冲突、并发超卖/取消/退款、到期释放、地址越权、手工发货/收货、审计补货和秒杀物流验证。真实浏览器运行 `MALL_ADMIN_PASSWORD=<本机管理员密码> node tests/browser/retail-live.mjs`（先部署本机新版、source scripts/env-wsl.sh）；脚本仅创建独立验收用户/鞋款，结束后下架自有鞋款，保留测试订单审计，不删卷。凭据不要提交或写进报告。三种宽度390/768/1440截图在tests/reports/wsl/retail。
+
+只读核对普通订单金额/状态：工具容器运行`python scripts/reconcile-shop.py`；不宣称渠道账单或全部历史库存守恒已验收。证据见[T059报告](../tests/reports/T059-shop-completion.md)。
+
+## T060 微信Native代码验证
+
+`bash scripts/test-wechat-wsl.sh`运行官方SDK临时密钥安全测试和自有MySQL库状态机探针，不连接真实商户，不提供生产测试成功入口。`source scripts/env-wsl.sh && node tests/browser/wechat-ui.mjs`为收银界面夹具，二维码非真实收款码；依赖前述探针生成的build/wsl/t060-test-qr.txt。原商城继续用`bash scripts/test-s4.sh`验证MOCK回归。环境/范围/证据见[T060报告](../tests/reports/T060-wechat-native.md)。
+
+## T063 收货前置与删除
+
+`source scripts/env-wsl.sh && node tests/browser/shipping-delete-live.mjs`对已启动本机商城使用独立新用户：无地址阻止、填写地址、真实秒杀建单、取消、删除、刷新。须有在售且有库存的演示活动；不自动重置库存或创建管理员。原S4入口新增05k/05l，覆盖HTTP无地址不预扣、越权/幂等/SQL快照、消费者补偿、终态删除、支付取消竞争和维护脚本。新增收货准备后的容量尚未复测。见[证据](../tests/reports/T063-shipping-delete.md)。

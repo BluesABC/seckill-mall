@@ -1,8 +1,16 @@
 package com.seckillmall.order.business;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.*;
+/**
+ * 严格输入校验；ID和金额通过十进制字符串传输，避免JavaScript整数精度丢失。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class Input {
   private Input() {}
+  /**
+   * 对象字段白名单校验：拒绝多余键及缺失/null键，不能让客户端静默覆盖服务端字段。
+   */
   public static void fields(JsonNode n, String... fields) {
     if (n == null || !n.isObject())
       throw new Fault(400, "INVALID_ARGUMENT");
@@ -23,6 +31,9 @@ public final class Input {
       throw new Fault(400, "INVALID_ARGUMENT");
     return v;
   }
+  /**
+   * 只接受规范正整数十进制字符串，拒绝前导零、浮点和超出long范围的值。
+   */
   public static long id(String value) {
     if (value == null || !value.matches("[1-9][0-9]{0,18}"))
       throw new Fault(400, "INVALID_ARGUMENT");

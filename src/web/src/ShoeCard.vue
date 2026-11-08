@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/**
+ * 商品卡片和库存占用比例展示；比例是快照，最终是否可买由服务端决定。
+ * 阅读导航：docs/CODE-READING.md；接口契约：docs/API.md。
+ */
 import { money, type Goods, type Activity } from "./api";
 const props = defineProps<{
   goods: Goods;

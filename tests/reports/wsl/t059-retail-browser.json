@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "scope": "real local Java/MySQL commerce HTTP and browser, MOCK money/manual shipment",
+  "userId": "7",
+  "goodsId": "9",
+  "checks": [
+    "choose size",
+    "server cart quantity",
+    "address",
+    "390/768/1440 no overflow",
+    "checkout amount",
+    "payment",
+    "full refund",
+    "manual shipment",
+    "receipt",
+    "inventory 8→6→8→7"
+  ]
+}

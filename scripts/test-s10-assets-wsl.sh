@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：WSL图片转换、发布资源尺寸及大小检查；视觉和浏览器行为另由S5验证。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"

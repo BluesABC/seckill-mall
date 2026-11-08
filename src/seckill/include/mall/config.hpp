@@ -1,3 +1,9 @@
+/**
+ * @file config.hpp
+ * @brief 秒杀服务环境配置与取值边界。
+ *
+ * 时间配置以字段名中的ms为毫秒；worker任务排队与TCP listen backlog是不同队列。
+ */
 #pragma once
 #include <cstdlib>
 #include <stdexcept>

@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-15",
+  "platform": "WSL2 Ubuntu; Docker Desktop Linux engine; project on /mnt/e (DrvFs)",
+  "loadGenerator": "same-host Python HTTP clients; original process did not persist its response data",
+  "activityName": "T048-sustained-750d8f0874",
+  "activityId": "141",
+  "skuId": "3501",
+  "cppHttpWorkers": 32,
+  "mqConsumerThreads": 4,
+  "mqQueueCount": 16,
+  "offeredQps": 15,
+  "durationSeconds": 1800,
+  "plannedSubmissions": 27000,
+  "requestResultSource": "recovered from MySQL after the test process exited",
+  "persistedReservationRequests": 21509,
+  "persistedOrders": 21509,
+  "ordersByStatus": {
+    "PENDING_PAYMENT": 21509
+  },
+  "persistedOrdersPerPlannedSubmissionPercent": 79.663,
+  "persistedOrdersPerPlannedSubmissionAtLeast99_5Percent": false,
+  "httpAcceptedCount": null,
+  "httpStatusCounts": null,
+  "http5xxRatePercent": null,
+  "requestLatencyPercentilesMs": null,
+  "requestToDurableOrderPercentilesMs": null,
+  "outboxStatus": {
+    "PUBLISHED": 21509,
+    "pendingCountAtRecovery": 0
+  },
+  "reconciliationStatusAtRecovery": "CLEAN",
+  "observedOrderServiceFailure": "MySQL CannotAcquireLockException followed by RocketMQ redelivery and successful retry in sampled logs",
+  "reporterFailure": "The test process exited after the 600-second cleanup wait timed out; client response metrics had not been written.",
+  "temporaryGateResults": {
+    "15QpsFor30Minutes": true,
+    "eligibleRequestAcceptanceAtLeast99_5Percent": null,
+    "server5xxAtMost0_1Percent": null,
+    "acceptedBuyApiP95AtMost500ms": null,
+    "durableOrderP95AtMost3000ms": null,
+    "durableOrderP99AtMost8000ms": null,
+    "allPersistedReservationsHaveOrders": true,
+    "outboxEventuallyDrained": true,
+    "inventoryReconciliationClean": true,
+    "passed": false
+  },
+  "limits": [
+    "Persisted orders divided by planned submissions is not HTTP acceptance rate.",
+    "Same-host WSL load is not an independent production capacity proof.",
+    "No production capacity, HA, or SLA claim is made."
+  ]
+}

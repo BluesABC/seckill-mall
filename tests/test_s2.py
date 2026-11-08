@@ -1,3 +1,5 @@
+# 测试职责：真实C++ HTTP/Redis及防超卖、幂等、凭证与未知结果。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Real C++ HTTP/Redis tests on WSL. Private fixture sessions/challenge answers only.
 RocketMQ publishing uses an explicitly test-only probe, never production acceptance.
 """
@@ -146,6 +148,9 @@ class S2Tests(unittest.TestCase):
         return value,key,token
     def purchase(self,user=1,request=None,server=None):
         srv=server or self.server;request=request or uid()
+        # 本文件只测C++/Redis，无Java；私有夹具只模拟SQL快照提交后的无PII标记。
+        shipping=f'{srv.prefix}:{{{self.a}:{self.s}}}:ledger:shipping:{user}:{request}'
+        self.client.set(shipping,'1',ex=3600);self.keys.append(shipping)
         captcha,key,token=self.captcha(user,srv)
         code,proof,_=srv.call("POST","/api/seckill/token",token,{"activityId":self.a,"skuId":self.s,"requestId":request,"captchaId":captcha["captchaId"],"captchaAnswer":"123456"})
         self.assertEqual(code,200)
@@ -370,5 +375,7 @@ if __name__=="__main__":
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(S2Tests))
     report={"stage":"S2","platform":sys.platform,"tests":result.testsRun,"failures":len(result.failures),"errors":len(result.errors),
             "skipped":len(result.skipped),"passed":result.wasSuccessful(),"scope":"C++ HTTP + real Redis; relay probe test-only; no RocketMQ/Java order"}
-    (REPORT/"s2-http-integration.json").write_text(json.dumps(report,indent=2)+"\n")
+    # DrvFs上直接截断已有报告可能命中失效句柄；先写同目录临时文件，再原子替换。
+    pending=REPORT/('s2-http-integration.'+uuid.uuid4().hex+'.tmp')
+    pending.write_text(json.dumps(report,indent=2)+"\n");pending.replace(REPORT/'s2-http-integration.json')
     print(json.dumps(report));sys.exit(0 if result.wasSuccessful() else 1)

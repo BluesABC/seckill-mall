@@ -18,7 +18,7 @@ S3独立RocketMQ转发进程已接通，Broker确认后请求可推进QUEUED。H
 - 用户身份从认证上下文获得，查询与支付校验归属；价格以服务端快照为准。
 - requestId作用域、合法重放与受理边界按下文执行；同范围参数与原请求不匹配返回REQUEST_CONFLICT。
 - 请求/订单状态使用下文统一枚举；稳定错误码见错误码表，示例为契约样本而非真实订单。
-- 普通商品/用户/后台接口与真实支付回调在后续阶段补充；验证码/活动令牌见下文已实现契约。
+- 普通商品/用户/后台及普通购买已实现（见下文），真实支付回调未接入；验证码/活动令牌见下文已实现契约。
 
 ID、金额分和 UTC 毫秒时间使用十进制字符串，业务 ID 最大有符号64位；requestId/reservationId/orderId 使用小写 UUID。购买固定数量1，活动+SKU+用户一人一单，关闭不释放资格。请求体16KiB上限，未知字段拒绝。
 
@@ -179,3 +179,49 @@ S7补充：C++业务线程在任何写操作前进行PING连通探测，旧连�
 默认浏览器地址 http://localhost:18080。业务路径/请求响应保持上述契约：`/api/seckill/*` 路由 C++，其余 `/api/*` 路由 Java。`/health/live` 为 Nginx 存活，`/health/order` / `/health/seckill` 为对应上游就绪，不代表完整容量达标。Nginx API/IP限流可能返回 HTTP429；请求体上限16KiB，超限413。客户端仍使用原 requestId 查询受理结果，不自动换ID重试。
 
 Nginx覆盖客户端转发头，后端仅信任配置的单个网关IP；默认直连不信任。API/CAPTCHA不缓存；访问日志不记录查询参数、Bearer或请求体。部署配置和私有端口见[DEPLOYMENT](DEPLOYMENT.md)。
+
+## 模拟支付凭证与全额退款（2026-11-02）
+
+- `GET /api/order/payment?orderId=<UUID>`：需用户会话，限定本人订单，额外参数拒绝。未支付返回 `paymentState=NOT_PAID, provider=MOCK`；已支付包含paymentId、paidAmountFen、paidAtMs；退款后paymentState=REFUNDED，并含refundId、refundedAmountFen、refundedAtMs。不存在/非本人返回404。
+- `POST /api/order/refund`：需本人会话，body仅 `{orderId,idempotencyKey}`，均UUID。仅MOCK成功支付支持全额模拟退款，金额取原支付凭证，不接受客户端金额。同键或不同键重放均返回唯一退款记录。未付款/已关单409 NOT_PAID；其他支付来源409 PAYMENT_CONFLICT。
+- `POST /api/order/pay` 保持原字段兼容，新增支付凭证详情与paymentState；已退款订单重复pay仍返回REFUNDED，不生成新支付或重新扣款。
+- 财务与履约分开：订单仍PAID，原payments.status仍SUCCEEDED；mock_refunds是独立全额退款凭证。净额为原支付减退款，不能只依据订单PAID标签判断净收款。退款不回补库存、不退货、不重置秒杀资格。无真实资金或第三方回调。
+
+## 普通商城与秒杀物流（T059）
+
+普通商城独立订单/明细，不伪造活动或预留。购物车/地址/结算/订单/履约/补货完整契约见[普通商城说明](ORDINARY-SHOP.md)。用户接口均检查归属；管理员补货与发货检查ADMIN。原商品详情SKU新增unallocatedStock字符串，供普通购买展示，以结算条件更新为准。原秒杀订单退款新增保护：已发货/已收货返回409 REFUND_NOT_ALLOWED；填写地址和发货不改原PAID/库存事实。
+
+## 微信 Native APIv3（T060）
+
+普通/秒杀订单已增加Native预下单、主动查单、确认关闭、全额退款及支付/退款通知接口，完整字段与状态见[微信支付接入](WECHAT-PAY.md)。默认MOCK、无商户不出二维码；真实商户联调尚未执行。真实模式拒绝旧MOCK支付入口；有微信意图时，即使切回MOCK也不能绕过它付款/退款或提前释放库存。通知原始UTF-8正文验签/解密后才落账，成功204；不信任客户端金额或支付跳转。
+
+
+2026-11-02 订单购买信息：普通结算后定位新订单，明确标注订单号、下单时间并展开收货信息；秒杀状态接口补充title/imageUrl/sizeEu/quantity/createdAtMs，详情显示商品、尺码、数量、时间。普通订单保留既有购买快照；秒杀商品名称/尺码为当前商品资料，金额与数量来自持久订单。关联G03/G13。验证见build/wsl/order-info-build.log。
+
+## 模拟收银展示（T062）
+
+`POST /api/payments/mock/session`，Bearer登录；严格请求字段：`orderKind`（SHOP/SECKILL）、`orderId`（UUID）、`method`（WECHAT_DEMO/DIRECT_DEMO）。返回`orderId/orderKind/method/provider=MOCK/state=WAITING_CONFIRMATION/amountFen/expiresAtMs`；金额/时间为十进制字符串。WECHAT_DEMO另返回`qrImage` PNG data URI；DIRECT_DEMO无该字段。
+
+接口只读本人有效待支付订单，不创建支付凭证或改订单；二维码是演示文本，不是真实微信收款链接。错误：401未登录、400未知/伪造字段或无效枚举、404非本人/不存在、409已付/关闭/过期（ORDER_CLOSED）或真实模式/已有微信意图限制。二维码返回后订单仍可能并发过期；最终确认以原支付事务校验为准。
+
+“模拟已支付”复用`POST /api/shop/orders/{id}/pay`（body为idempotencyKey）或`POST /api/order/pay`（orderId/idempotencyKey），不接受客户端金额。前端随后查询原订单确认已付款；网络异常查询原订单，重试沿用同一幂等键。[完整步骤](DEMO-CASHIER.md)。
+
+## 收货前置与订单删除（T063）
+
+新增`POST /api/shop/seckill/checkout`，在秒杀预扣前提交本人收货快照；缺失收货标记的新buy请求返回409 ADDRESS_REQUIRED且不扣库存。异步消费者再核对SQL快照，缺失时持久补偿，不创建订单。新增`POST /api/shop/seckill/{id}/cancel`及`DELETE /api/shop/orders/{id}`、`DELETE /api/shop/seckill/{id}`。删除只允许本人终态订单，非终态409 ORDER_DELETE_NOT_ALLOWED；重复删除幂等，列表过滤而底层凭证保留。字段、状态与错误详见[完整契约](ORDER-SHIPPING-DELETE.md)。
+
+T064：GET /api/auth/profile 需要本人 Bearer 会话，返回 userId、username、role、createdAtMs，不返回凭据。商城客服使用本地规则知识库，不查询订单。微信网站扫码登录待开放平台应用及回调域名。
+
+## 模型客服
+
+登录后可通过右下角浮标打开聊天。服务端调用兼容 Chat Completions 的 HTTPS 接口。请在本机 deploy/.env.stack 配置：
+
+- MALL_SUPPORT_ENDPOINT：服务商提供的完整 HTTPS Chat Completions 地址。
+- MALL_SUPPORT_MODEL：服务商提供的模型名。
+- MALL_SUPPORT_API_KEY：服务商密钥，仅在本机填写。
+
+重新构建并启动订单服务和前端后生效。POST /api/support/chat 接受 messages 数组，按 user、assistant 交替并以 user 结尾，返回 answer。最多携带最近四轮问答和当前问题。服务会向所配置的模型发送这些聊天内容及公开商城规则。缺少配置时返回 SUPPORT_NOT_CONFIGURED。
+
+客服每轮附带最多12条当前公开SKU快照，包括普通售价、普通库存、尺码、颜色和商品页路径。普通库存不代表活动库存。回复长度上限150字符，超过上限或含多个问号时返回简短兜底。模型只获得公开目录与对话内容。
+
+客服加购由前端按当前公开目录匹配有货尺码，确认 SKU 和数量后复用现有购物车 PUT 接口。模型回复不会直接发起购物车写入。未配置模型或模型请求失败时，界面使用商城规则知识库。

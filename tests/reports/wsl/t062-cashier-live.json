@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "scope": "real local HTTP order/payment DB, simulated money, independent ordinary user; no admin changes",
+  "checks": [
+    "pending order created",
+    "payment method selection",
+    "Escape does not pay",
+    "demo QR does not pay",
+    "390/768/1440 modal",
+    "explicit simulated confirmation",
+    "server PAID",
+    "reload persists",
+    "refund restores own order allocation"
+  ]
+}

@@ -1,3 +1,4 @@
+# 仅自有S7验收栈的限流/网关覆盖，不应当作生产容量配置复制。
 # Private acceptance profile: elevated ingress limits, unchanged auth/Lua/MQ/SQL.
 services:
   gateway:

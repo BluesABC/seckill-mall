@@ -6,6 +6,11 @@ import java.security.SecureRandom;
 import java.util.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * 用户注册、登录、会话验证及管理员管理；密码存bcrypt哈希，Redis会话键存token摘要。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class Sessions {
   public record Identity(long userId, String role) {
     public void admin() {
@@ -22,6 +27,9 @@ public final class Sessions {
     this.store = store;
     this.cache = cache;
   }
+  /**
+   * 注册坚持12字符最低密码及bcrypt 72字节限制，注册限流与登录分开。
+   */
   public Map<String, Object> register(JsonNode body, String ip) {
     Input.fields(body, "username", "password");
     String name = name(body), password = password(body);
@@ -31,6 +39,9 @@ public final class Sessions {
         name, encoded, store.now());
     return Map.of("userId", Long.toString(id), "username", name, "role", "USER");
   }
+  /**
+   * 登录按IP和用户名双重限流；未知账号也运行bcrypt匹配，减少明显时间差。
+   */
   public Map<String, Object> login(JsonNode body, String ip) {
     Input.fields(body, "username", "password");
     String name = name(body), password = loginPassword(body);
@@ -56,6 +67,9 @@ public final class Sessions {
           Long.toString(id), "role", user.get("role"));
     });
   }
+  /**
+   * 从摘要会话取身份并复查数据库启用状态/角色，不能相信客户端传来的userId。
+   */
   public Identity auth(String authorization) {
     String token = token(authorization);
     Map<Object, Object> session =
@@ -77,6 +91,9 @@ public final class Sessions {
   public void logout(String authorization) {
     cache.redis.delete(cache.prefix + ":session:" + Cache.hash(token(authorization)));
   }
+  /**
+   * 管理员禁用用户时撤销已索引会话；禁止管理员禁用自己。
+   */
   public void enable(Identity admin, long user, boolean enabled) {
     admin.admin();
     if (user == admin.userId() && !enabled)
@@ -95,6 +112,9 @@ public final class Sessions {
       return null;
     });
   }
+  /**
+   * 仅首次创建管理员；已有ADMIN不会因修改环境变量自动重置密码。
+   */
   public void bootstrap() {
     String name = System.getenv("MALL_ADMIN_USERNAME"),
            password = System.getenv("MALL_ADMIN_PASSWORD");
@@ -140,6 +160,9 @@ public final class Sessions {
       throw new Fault(400, "INVALID_ARGUMENT");
     return p;
   }
+  /**
+   * 登录允许已有短密码账号验证；这不放宽新注册及首次管理员配置要求。
+   */
   private static String loginPassword(JsonNode b) {
     String p = Input.text(b, "password", 1, 72);
     if (p.getBytes(StandardCharsets.UTF_8).length > 72)

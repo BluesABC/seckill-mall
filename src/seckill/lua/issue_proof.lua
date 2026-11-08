@@ -1,3 +1,8 @@
+-- 职责：原子验证答案并将挑战兑换成绑定用户/请求/epoch的证明；失败累计至最多5次。
+-- KEYS：[1]挑战JSON；ARGV依次为userId、requestId、答案摘要、captchaToken摘要、activityToken摘要、epoch。
+-- 校验使用Redis TIME；KEEPTTL保留最初60秒期限，不能在兑换时续期。
+-- 返回：ISSUED及到期毫秒，或INVALID_PROOF/INVALID_ARGUMENT；成功后删除答案摘要。
+
 -- Single atomic update of the existing challenge JSON, preserving its TTL.
 -- ARGV userId, requestId, answerDigest, captchaDigest, activityDigest, epoch.
 if #KEYS ~= 1 or #ARGV ~= 6 then return {'INVALID_ARGUMENT'} end

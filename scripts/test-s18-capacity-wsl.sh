@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：15 QPS×30分钟下单专项入口；持共享容量锁，拒绝短测充当完整门禁。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 # Run only against the already provisioned, owned S7 stack; never replace data.
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"

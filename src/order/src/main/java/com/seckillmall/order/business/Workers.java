@@ -10,6 +10,11 @@ import org.apache.rocketmq.client.apis.message.MessageView;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 
+/**
+ * 消费、过期关闭、恢复与outbox后台调度；消费者成功确认晚于数据库事务提交。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class Workers implements AutoCloseable {
   private final Store store;
   private final Cache cache;
@@ -56,6 +61,9 @@ public final class Workers implements AutoCloseable {
     this.jobs = jobs;
     threads = consumerThreads();
   }
+  /**
+   * 启动消费维护与独立outbox调度；过期订单锁等待不应阻塞新订单状态派发。
+   */
   public void start() {
     executor.scheduleWithFixedDelay(() -> {
       if (closing)
@@ -92,6 +100,9 @@ public final class Workers implements AutoCloseable {
       throw new IllegalArgumentException("MALL_MQ_CONSUMER_THREADS must be 1..64");
     return count;
   }
+  /**
+   * 解析→事务落单→记录恢复结果→确认；任何失败返回FAILURE，允许安全重投。
+   */
   private ConsumeResult consume(MessageView message) {
     received.incrementAndGet();
     String body = null;
@@ -150,6 +161,9 @@ public final class Workers implements AutoCloseable {
       return -1;
     }
   }
+  /**
+   * 以消息体摘要记录失败；业务冲突进入隔离，暂态失败保持可恢复RETRY。
+   */
   private void journal(String body, String reason, boolean quarantine) {
     store.db.update("INSERT INTO mq_failures(message_hash,payload,status,reason,updated_at_ms) "
             + "VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE "
@@ -161,6 +175,9 @@ public final class Workers implements AutoCloseable {
     store.db.update("UPDATE mq_failures SET status='RESOLVED',updated_at_ms=? WHERE message_hash=?",
         store.now(), Cache.hash(body));
   }
+  /**
+   * 管理员显式恢复入口；与后台派发可能并发，重复生效由事件行锁防护。
+   */
   public synchronized void tick() {
     // Explicit ADMIN recovery remains synchronous, including jobs-disabled
     // fixtures. Concurrent dispatchers serialize on the event row and recheck
@@ -169,6 +186,9 @@ public final class Workers implements AutoCloseable {
     maintenance();
     orders.dispatch();
   }
+  /**
+   * 有界关闭过期单、重试失败消息并扫描老预留；不承担outbox主派发循环。
+   */
   private synchronized void maintenance() {
     orders.closeExpired();
     for (var row : store.db.queryForList("SELECT message_hash,payload FROM mq_failures WHERE "
@@ -186,6 +206,9 @@ public final class Workers implements AutoCloseable {
   }
   // A durable DB termination fence is required before releasing an aged reservation.
   // This also finds reservations stranded in Broker DLQ while MySQL was unavailable.
+  /**
+   * 跨轮保留SCAN游标，每轮限制账本/请求工作量；先建DB终止事实再由outbox回补。
+   */
   private void recover() {
     if (ledgerScan == null)
       ledgerScan = cache.redis.opsForSet().scan(
@@ -232,6 +255,9 @@ public final class Workers implements AutoCloseable {
       }
     }
   }
+  /**
+   * 按失败消息摘要执行受控重放，保留原事件身份和所有业务校验。
+   */
   public Map<String, Object> replay(String hash) {
     if (hash == null || !hash.matches("[0-9a-f]{64}"))
       throw new Fault(400, "INVALID_ARGUMENT");
@@ -257,6 +283,9 @@ public final class Workers implements AutoCloseable {
         "lastWorkerError", lastError, "lastOutboxError", lastOutboxError,
         "outboxDispatchCycles", outboxCycles.get());
   }
+  /**
+   * 检查迁移、DB、Redis持久化策略、Proxy端口和消费者实例；不等同于HA或容量证明。
+   */
   public boolean ready() {
     try (var connection = cache.redis.getConnectionFactory().getConnection();
          var socket = new java.net.Socket()) {

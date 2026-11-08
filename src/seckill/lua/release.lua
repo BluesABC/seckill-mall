@@ -1,3 +1,9 @@
+-- 职责：依据已提交的DB终止/关闭事实，幂等归还Redis预扣；不得因HTTP超时或MQ结果未知调用。
+-- KEYS：[1]账本；可选[2]活跃relay账本集合、[3]该账本待发送集合（兼容旧式单KEY）。
+-- ARGV：[1]userId，[2]requestId，[3]reservationId，[4]epoch，[5]outbox eventId，[6]FAILED或CLOSED。
+-- eventId标记阻止同事件重放；req.released阻止不同事件对同一预留重复回补。用户资格保留。
+-- 返回：RELEASED/REPLAY/ALREADY_RELEASED或冲突码；数据库库存的回补由Java事务另行处理。
+
 -- Execute only after durable DB termination/closed outbox evidence.
 -- KEYS[1] ledger, KEYS[2] active relay-ledger registry,
 -- KEYS[3] per-ledger pending reservation set.

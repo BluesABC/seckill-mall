@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "oldPrimary": "redis",
+  "newPrimary": "redis-replica-2",
+  "clientRecoverySeconds": 23.75,
+  "verified": [
+    "replicated accepted reservation before kill",
+    "C++ and Java readiness",
+    "session retained",
+    "request replay",
+    "relay resumes queued reservation",
+    "new order after failover",
+    "both stocks decremented once",
+    "cancel restores stock"
+  ]
+}

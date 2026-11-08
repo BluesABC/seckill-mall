@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/**
+ * 应用流程编排：路由、会话、目录、验证码、幂等抢购、订单轮询和模拟支付。
+ * 阅读导航：docs/CODE-READING.md；接口契约：docs/API.md。
+ */
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import {
   api,
@@ -6,6 +10,8 @@ import {
   attempts,
   remember,
   paymentKey,
+  paymentConfig,
+  paymentRemaining,
   readSession,
   saveSession,
   money,
@@ -17,6 +23,11 @@ import {
   type Order,
   type Attempt,
 } from "./api";
+import WechatPay from "./WechatPay.vue";
+import MockCashier from "./MockCashier.vue";
+import AccountMenu from "./AccountMenu.vue";
+import AccountSupport from "./AccountSupport.vue";
+import Commerce from "./Commerce.vue";
 import Admin from "./Admin.vue";
 import ShopFront from "./ShopFront.vue";
 import ShoeDetail from "./ShoeDetail.vue";
@@ -45,6 +56,17 @@ const session = ref<Session | null>(readSession()),
   offset = ref(0),
   pollNote = ref(""),
   refreshing = ref(false);
+const paymentProvider = ref("UNKNOWN");
+type ShippingAddress={id:string;recipient:string;phone:string;address:string};
+const shippingAddresses=ref<ShippingAddress[]>([]),shippingAddress=ref(''),shippingError=ref('');
+async function loadShipping(){
+  shippingError.value='';
+  try{const result=await api<{items:ShippingAddress[]}>('/api/shop/addresses',session.value);shippingAddresses.value=result.items;
+    shippingAddress.value=attempt.value?.addressId||result.items.find(x=>x.id===shippingAddress.value)?.id||result.items[0]?.id||'';
+  }catch(e){shippingError.value=message(e);shippingAddresses.value=[];shippingAddress.value='';}
+}
+const paymentInfo = ref<{ provider?:string; paymentState: string; paymentId?: string; paidAmountFen?: string;
+  paidAtMs?: string; refundedAmountFen?: string; refundedAtMs?: string; refundId?: string } | null>(null);
 type CatalogQuery = { q: string; category: string; maxPriceFen: string; sort: string };
 const catalogQuery = ref<CatalogQuery>({ q: "", category: "", maxPriceFen: "", sort: "featured" });
 let catalogRequest = 0;
@@ -161,6 +183,9 @@ const buyLabel = computed(() => {
 });
 const bagOpen = ref(false),
   bagIds = ref<string[]>([]);
+/**
+ * 按当前用户或访客隔离清单；清单条目只表示意向，库存以服务端为准。
+ */
 function bagKey() {
   return "snkr.bag." + (session.value?.userId || "guest");
 }
@@ -239,6 +264,9 @@ async function loadCatalog() {
     loading.value = false;
   }
 }
+/**
+ * 请求序号屏蔽旧响应；改筛选清空分页，加载更多追加当前组合的下一页。
+ */
 async function fetchCatalog(query: CatalogQuery, append = false) {
   if (append && catalogLoading.value) return;
   const request = ++catalogRequest;
@@ -284,6 +312,9 @@ function changeCatalog(query: CatalogQuery) {
 function loadMoreCatalog() {
   void fetchCatalog(catalogQuery.value, true);
 }
+/**
+ * 获取服务端活动快照并校正显示时钟；前端倒计时不授予购买资格。
+ */
 async function loadInfo() {
   info.value = null;
   infoError.value = "";
@@ -348,6 +379,7 @@ async function logout() {
     saveSession(null);
     session.value = null;
     order.value = null;
+  paymentInfo.value = null;
     orders.value = [];
     go("/");
     notice.value = "已安全退出。";
@@ -364,6 +396,9 @@ async function requireSession() {
   }
   return true;
 }
+/**
+ * 先保存稳定requestId再取验证码；已发送的历史请求直接进入查询，避免重复抢购。
+ */
 async function startPurchase() {
   if (!(await requireSession())) return;
   const a = productActivity.value;
@@ -384,8 +419,12 @@ async function startPurchase() {
     return;
   }
   captchaOpen.value = true;
+  await loadShipping();
   await refreshCaptcha();
 }
+/**
+ * 两种验证码共用请求身份；切换题面仅刷新挑战，不创建新的抢购requestId。
+ */
 async function refreshCaptcha(mode: "image" | "accessible" = captchaMode.value) {
   if (!attempt.value || busy.value) return;
   busy.value = true;
@@ -410,6 +449,9 @@ function toggleCaptchaMode() {
 function refreshCurrentCaptcha() {
   return refreshCaptcha(captchaMode.value);
 }
+/**
+ * 兑换证明→先持久保存submitted→发buy；断网/5xx按原requestId查询结果，不能直接当失败重建请求。
+ */
 async function buy() {
   if (busy.value || !attempt.value || !captcha.value) return;
   const a = attempt.value;
@@ -417,6 +459,10 @@ async function buy() {
   captchaError.value = "";
   let sent = false;
   try {
+    if(!shippingAddress.value)throw new Error('请先填写完整收货信息。');
+    await api('/api/shop/seckill/checkout',session.value,{activityId:a.activityId,skuId:a.skuId,requestId:a.requestId,addressId:a.addressId||shippingAddress.value});
+    a.addressId=a.addressId||shippingAddress.value;
+    remember(a);
     const proof = await api<{ captchaToken: string; activityToken: string }>(
       "/api/seckill/token",
       session.value,
@@ -474,12 +520,18 @@ async function loadOrders() {
     loading.value = false;
   }
 }
+/**
+ * 递增generation并中止在途读取，使离开页面后的旧响应无法覆盖新页面状态。
+ */
 function stopPoll() {
   generation++;
   clearTimeout(timer);
   controller?.abort();
   refreshing.value = false;
 }
+/**
+ * 最多自动观察120秒并有界退避；查不到或超时不等于下单失败，保留请求供手动继续。
+ */
 async function poll(start = Date.now(), delay = 500, version = generation) {
   if (!session.value || version !== generation) return;
   const a = currentAttempt.value;
@@ -505,6 +557,13 @@ async function poll(start = Date.now(), delay = 500, version = generation) {
     );
     if (version !== generation) return;
     order.value = result;
+    if (result.orderId && result.orderState === "PAID") {
+      const info = await api<NonNullable<typeof paymentInfo.value>>(
+        `/api/order/payment?orderId=${encodeURIComponent(result.orderId)}`, session.value,
+        undefined, undefined, controller.signal);
+      if (version !== generation) return;
+      paymentInfo.value = info;
+    }
     pollNote.value = "";
     if (
       result.orderState === "PAID" ||
@@ -550,34 +609,48 @@ function retryPoll() {
   pollNote.value = "";
   void poll();
 }
+/**
+ * 重新验证原请求；不会通过更换requestId绕开未知结果或一人一单约束。
+ */
 async function retryAttempt() {
   const a = currentAttempt.value;
   if (!a || !session.value || busy.value) return;
   attempt.value = a;
   captchaOpen.value = true;
+  await loadShipping();
   await refreshCaptcha();
 }
-async function pay() {
+/**
+ * 将所选真实SKU加入普通购物车；已有数量保持不变。
+ */
+async function addRegularCart() {
+  if (!await requireSession() || !product.value || busy.value) return;
+  busy.value = true;
+  try { const current=await api<{items:{skuId:string;quantity:string}[]}>('/api/shop/cart',session.value);
+    const quantity=current.items.find(i=>i.skuId===product.value!.skuId)?.quantity||'1';
+    await api('/api/shop/cart',session.value,{skuId:product.value.skuId,quantity},'PUT');go('/shop/cart'); }
+  catch(e){notice.value=message(e);}finally{busy.value=false;}
+}
+/**
+ * 路由加载入口；先停止上一页轮询，再按页面职责加载商品、请求或订单。
+ */
+async function refundPayment() {
   if (busy.value || !session.value || !order.value?.orderId) return;
+  if (!window.confirm("确认模拟全额退款？不会产生真实资金变动，也不会恢复库存或购买资格。")) return;
   busy.value = true;
   const orderId = order.value.orderId;
   try {
-    await api("/api/order/pay", session.value, {
-      orderId,
-      idempotencyKey: paymentKey(session.value.userId, orderId),
-    });
-    notice.value = "模拟支付已确认，不会产生真实扣款。";
-    retryPoll();
-  } catch (e) {
-    notice.value = message(e);
-    retryPoll();
-  } finally {
-    busy.value = false;
-  }
+    await api("/api/order/refund", session.value, { orderId,
+      idempotencyKey: paymentKey(session.value.userId, `refund:${orderId}`) });
+    notice.value = "模拟全额退款已完成，无真实资金变动。";
+  } catch (e) { notice.value = message(e); }
+  finally { busy.value = false; retryPoll(); }
 }
+
 async function loadPage() {
   stopPoll();
   order.value = null;
+  paymentInfo.value = null;
   pollNote.value = "";
   if (page.value === "product") {
     if (!product.value && id.value) {
@@ -591,8 +664,9 @@ async function loadPage() {
     }
     if (product.value) await loadInfo();
   }
-  if (page.value === "orders") await loadOrders();
+  if (page.value === "requests") await loadOrders();
   if (page.value === "request" || page.value === "order") {
+    try { paymentProvider.value=(await paymentConfig()).provider; } catch(e) { notice.value=message(e); }
     if (await requireSession()) void poll();
   }
   await nextTick();
@@ -607,6 +681,7 @@ watch(route, () => {
     void fetchCatalog({ ...catalogQuery.value, category: id.value });
   }
 });
+// 弹窗打开时管理初始焦点，关闭时归还焦点；不能只靠视觉显隐构造键盘可访问弹窗。
 watch([authOpen, captchaOpen], async () => {
   await nextTick();
   if (authOpen.value || captchaOpen.value) {
@@ -623,11 +698,15 @@ function closeDialog() {
   authOpen.value = false;
   captchaOpen.value = false;
 }
+/**
+ * 响应统一401事件，清理本页会话/轮询并引导重新登录。
+ */
 function expired() {
   stopPoll();
   saveSession(null);
   session.value = null;
   order.value = null;
+  paymentInfo.value = null;
   orders.value = [];
   captchaOpen.value = false;
   notice.value = "登录已过期或账号已停用，请重新登录。";
@@ -661,7 +740,7 @@ onUnmounted(() => {
   <a class="skip" href="#main">跳到主要内容</a>
   <div class="utility-bar">
     <span>SNKR//DROP · ORIGINAL PERFORMANCE</span>
-    <div><a href="#/orders">追踪订单</a><a href="#/flash">限时发售</a></div>
+    <div><a href="#/shop/cart">购物车</a><a href="#/shop/orders">普通订单</a><a href="#/orders">秒杀订单</a><a href="#/flash">限时发售</a></div>
   </div>
   <header class="header sports-header">
     <a class="brand sports-brand" href="#/" aria-label="SNKR DROP 首页"
@@ -695,9 +774,8 @@ onUnmounted(() => {
       <a v-if="session?.role === 'ADMIN'" href="#/admin">管理</a
       ><button v-if="!session" class="text-button" @click="openAuth()">
         登录 / 注册</button
-      ><button v-else class="text-button" :disabled="busy" @click="logout">
-        退出账号</button
-      ><button
+      ><AccountMenu v-else :key="session.userId" :session="session" :busy="busy" @logout="logout" />
+      <button
         class="bag-button"
         aria-label="打开抢购清单"
         @click="bagOpen = true"
@@ -740,6 +818,7 @@ onUnmounted(() => {
       @catalog-change="changeCatalog"
       @catalog-more="loadMoreCatalog"
     />
+    <Commerce v-else-if="page === 'shop'" :session="session" :route="route" @login="openAuth(route)" />
     <template v-else-if="page === 'product'">
       <div v-if="loading" class="empty" role="status">正在加载鞋款…</div>
       <ShoeDetail
@@ -754,6 +833,8 @@ onUnmounted(() => {
         :info-error="infoError"
         :starts-in-future="!!info && clock + offset < Number(info.startsAtMs)"
         :busy="busy"
+        @regular="go('/shop/buy/' + product!.skuId + '/' + product!.goodsId)"
+        @cart="addRegularCart"
         @buy="startPurchase"
         @refresh="loadInfo"
         @save="addBag"
@@ -807,10 +888,12 @@ onUnmounted(() => {
         </aside>
       </div>
     </section>
-    <section v-else-if="page === 'orders'" class="container page-section">
+    <Commerce v-else-if="page === 'orders'" :session="session" route="/shop/all" @login="openAuth('/orders')" />
+    <section v-else-if="page === 'requests'" class="container page-section">
       <p class="eyebrow">YOUR SELECTIONS</p>
       <h1 tabindex="-1">我的订单</h1>
       <p class="muted">每一次喜欢，都有迹可循。</p>
+      <p><a href="#/shop/orders">查看普通商城订单 →</a></p>
       <div v-if="!session" class="empty">
         <p>登录后查看你的订单。</p>
         <button class="button" @click="openAuth('/orders')">登录账号</button>
@@ -908,6 +991,9 @@ onUnmounted(() => {
           <template v-if="order?.orderId"
             ><dt>订单编号</dt>
             <dd>{{ order.orderId }}</dd>
+            <dt>购买商品</dt><dd>{{ order.title || "活动商品" }}</dd>
+            <dt>尺码 / 数量</dt><dd>EU {{ order.sizeEu || "未记录" }} · {{ order.quantity || "1" }} 双</dd>
+            <dt>下单时间</dt><dd>{{ date(order.createdAtMs) }}</dd>
             <dt>订单金额</dt>
             <dd class="result-price">
               ¥ {{ money(order.amountFen) }}
@@ -917,24 +1003,27 @@ onUnmounted(() => {
             <dd>{{ id }}</dd></template
           ><template v-if="order?.orderState === 'PENDING_PAYMENT'"
             ><dt>支付截止</dt>
-            <dd>{{ date(order.expiresAtMs) }}</dd></template
+            <dd>{{ date(order.expiresAtMs) }} · {{ paymentRemaining(order.expiresAtMs, clock) }}</dd></template
           >
         </dl>
         <p v-if="pollNote" class="muted" role="status">{{ pollNote }}</p>
         <p v-if="refreshing" class="small muted" role="status">正在自动查询…</p>
-        <button
-          v-if="order?.orderState === 'PENDING_PAYMENT'"
-          class="button"
-          :disabled="busy"
-          @click="pay"
-        >
-          {{ busy ? "确认支付结果…" : "模拟支付" }} · ¥
-          {{ money(order.amountFen) }}
-        </button>
+        <MockCashier v-if="order?.orderId && paymentProvider === 'MOCK'" :session="session" :order-id="order.orderId" order-kind="SECKILL" :order-state="order.orderState||''" :amount-fen="order.amountFen" @updated="retryPoll" />
+        <p v-if="order?.orderState === 'PAID'"><a href="#/shop/seckill">查看秒杀收货信息 / 物流 →</a></p>
+        <WechatPay v-if="order?.orderId && paymentProvider === 'WECHAT'" :session="session" :order-id="order.orderId" order-kind="SECKILL" :order-state="order.orderState||''" @updated="retryPoll" @config="paymentProvider=$event.provider" />
+        <section v-if="paymentInfo && paymentInfo.provider !== 'WECHAT'" aria-label="模拟支付凭证">
+          <p>支付状态：{{ paymentInfo.paymentState === 'REFUNDED' ? '已模拟全额退款' : '模拟支付成功' }}</p>
+          <p class="small">支付凭证：{{ paymentInfo.paymentId }}</p>
+          <p>实付：¥{{ money(paymentInfo.paidAmountFen) }}</p>
+          <p v-if="paymentInfo.refundId" class="small">退款凭证：{{ paymentInfo.refundId }} · ¥{{ money(paymentInfo.refundedAmountFen) }}</p>
+          <p class="small muted">退款仅演示资金状态，不退货、不恢复库存或购买资格。</p>
+          <button v-if="paymentInfo.paymentState === 'SUCCEEDED'" class="secondary"
+            :disabled="busy" @click="refundPayment">{{ busy ? '处理中…' : '模拟全额退款' }}</button>
+        </section>
         <p
           v-if="
-            order?.orderState === 'PENDING_PAYMENT' ||
-            order?.orderState === 'PAID'
+            paymentProvider === 'MOCK' && (order?.orderState === 'PENDING_PAYMENT' ||
+            order?.orderState === 'PAID')
           "
           class="small muted"
         >
@@ -977,6 +1066,7 @@ onUnmounted(() => {
         登录账号</button
       ><a v-else class="button" href="#/">返回首页</a>
     </section>
+    <AccountSupport :key="session?.userId || 'guest'" :session="session" />
   </main>
   <footer class="footer sports-footer">
     <div class="brand sports-brand">SNKR<span>//</span>DROP</div>
@@ -1063,6 +1153,10 @@ onUnmounted(() => {
       <h2 id="dialog-title">确认这一次喜欢。</h2>
       <p class="muted">{{ captchaMode === "image" ? "输入图片里的 6 位数字，完成抢购验证。" : "使用屏幕阅读器读取题目，输入计算结果完成抢购验证。" }}</p>
       <form @submit.prevent="buy">
+        <label v-if="!attempt?.addressId">收货地址（必选）<select v-model="shippingAddress" required :disabled="busy"><option value="">请先添加并选择收货地址</option><option v-for="a in shippingAddresses" :key="a.id" :value="a.id">{{a.recipient}} · {{a.phone}} · {{a.address}}</option></select></label>
+        <p v-else class="small">收货信息已保存到本次抢购，下单后保留快照。</p>
+        <p v-if="shippingError" class="error" role="alert">{{shippingError}}</p>
+        <p class="small muted">下单前须填写收货人、联系电话和完整地址。<a href="#/shop/addresses" @click="closeDialog">管理收货地址</a></p>
         <div class="captcha-image">
           <img
             v-if="captcha?.mode === 'image' && captcha.imageDataUrl"
@@ -1105,7 +1199,7 @@ onUnmounted(() => {
         <button
           class="button full"
           :disabled="
-            busy || !captcha || clock + offset >= Number(captcha.expiresAtMs)
+            busy || !shippingAddress || !captcha || clock + offset >= Number(captcha.expiresAtMs)
           "
         >
           {{ busy ? "正在提交…" : "验证并抢购" }}

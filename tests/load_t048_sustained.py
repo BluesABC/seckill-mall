@@ -1,3 +1,5 @@
+# 测试职责：持续下单发流、逐请求checkpoint及后台收敛。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """30-minute 15 rps real buy-path run against the owned S7 stack."""
 import concurrent.futures
 import hashlib
@@ -65,14 +67,24 @@ def prepare_batch(batch_users):
                            "body": {"activityId": ACTIVITY, "skuId": SKU,
                                     "requestId": request_id, "activityToken": activity_token,
                                     "captchaToken": captcha_token}})
-    script = ('import json,os,redis,sys; rows=json.load(sys.stdin); '
-              'r=redis.Redis.from_url(os.environ["MALL_REDIS_URL"]); p=r.pipeline(); '
-              '[p.set(row["key"],row["value"],ex=600) for row in rows]; '
-              'p.execute(); print(len(rows))')
+    # 自有压测夹具先落SQL收货快照，再与验证码一起批量写Redis；不把准备阶段计入buy吞吐。
+    script = '''import json,os,redis,sys
+from scripts.data import connect
+data=json.load(sys.stdin); rows=data['proofs']
+with connect(os.environ['MALL_DB_NAME']) as db:
+ with db.cursor() as cur:
+  cur.executemany("INSERT INTO seckill_checkouts(user_id,activity_id,sku_id,request_id,address_id,recipient,phone,address,created_at_ms) VALUES(%s,%s,%s,%s,0,'Owned load fixture','13800138000','Owned test address only',%s)",data['shipping'])
+ db.commit()
+r=redis.Redis.from_url(os.environ['MALL_REDIS_URL']); p=r.pipeline()
+for row in rows: p.set(row['key'],row['value'],ex=600)
+for user,a,s,request,created in data['shipping']: p.set(f"seckill:{{{a}:{s}}}:ledger:shipping:{user}:{request}",'1',ex=3600)
+p.execute(); print(len(rows))
+'''
     proof_rows = [{"key": key, "value": value} for key, value in zip(keys, proofs)]
+    shipping_rows = [[p['user'],ACTIVITY,SKU,p['requestId'],int(time.time()*1000)] for p in challenges]
     seeded = subprocess.run(
         CMD + ["run", "--rm", "--no-deps", "-T", "migrate", "python", "-c", script],
-        input=json.dumps(proof_rows), capture_output=True, text=True, timeout=180)
+        input=json.dumps({'proofs':proof_rows,'shipping':shipping_rows}), capture_output=True, text=True, timeout=180)
     assert seeded.returncode == 0 and seeded.stdout.strip() == str(len(proof_rows)), (
         seeded.stdout[-300:], seeded.stderr[-300:], len(proof_rows))
 

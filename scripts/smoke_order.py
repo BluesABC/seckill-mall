@@ -1,3 +1,5 @@
+# 职责：真实HTTP订单冒烟辅助；用于验证业务连通性，不表示容量或生产支付验收。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Start the built S0 jar briefly, verify health semantics, then stop only that process."""
 import json
 import os

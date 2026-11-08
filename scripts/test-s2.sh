@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：C++ HTTP及真实Redis回归；包含预扣、幂等、未知受理和连接/账本读取边界。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"

@@ -1,0 +1,550 @@
+{
+  "stage": "S19",
+  "date": "2026-10-17",
+  "platform": "linux",
+  "runId": "31ddb1fd31ae",
+  "complete": true,
+  "smokeOnly": true,
+  "passed": true,
+  "apiP95TargetsMs": {
+    "catalog": 500,
+    "catalog_filtered": 500,
+    "detail": 300,
+    "activity_info": 500,
+    "orders": 1000,
+    "me": 1000,
+    "register": 1000,
+    "login": 1000,
+    "captcha_image": 500,
+    "captcha_accessible": 500,
+    "token": 500,
+    "buy": 500,
+    "buy_replay": 500,
+    "order_status": 1000,
+    "pay": 1000,
+    "pay_replay": 1000
+  },
+  "profile": {
+    "durationSeconds": 120,
+    "backgroundReadQps": 15,
+    "journeys": 4,
+    "naturalExpiryOrders": 0,
+    "realRegistrations": 2,
+    "preseededBcryptAccounts": 2,
+    "paymentTtlMs": 900000,
+    "activities": 3
+  },
+  "scope": "Same-host WSL API profile, not browser/CDN or production capacity. 15 read requests/s plus 64 paced full journeys over 30 minutes; not 15 complete journeys/s. Java auth limits unchanged. Image challenge answer digests privately set; accessible questions solved normally. Real captcha/token endpoints and production 60s proof lifetime. First 16 orders expire naturally at 15 minutes; remaining 48 use MOCK payment.",
+  "runtime": {
+    "seckill": {
+      "imageId": "sha256:a79f5a569335b3eaa22829ecda38cdc44766555a6438528fd93a7bba1a31eb80",
+      "MALL_HTTP_WORKERS": "32",
+      "MALL_HTTP_QUEUE": "128"
+    },
+    "relay": {
+      "imageId": "sha256:a79f5a569335b3eaa22829ecda38cdc44766555a6438528fd93a7bba1a31eb80"
+    },
+    "order": {
+      "imageId": "sha256:8e0ffe93d73f5ae3af4b47f1086ed30ad4c01603a625305d274b6b9755ee5b90",
+      "ORDER_PAYMENT_TTL_MS": "900000",
+      "MALL_MQ_CONSUMER_THREADS": "4"
+    }
+  },
+  "gitBase": "009780d47e8192e513468c3d9b0e036d7d2cec93",
+  "sourceSha256": {
+    "tests/load_s19_journeys.py": "cde94a249d153b2ec380874b1f4ca9bcb7f778374525eab856673cb18bd2aef7",
+    "src/seckill/service.cpp": "344353fdad22d5585781545a14f9902bee204dc71e80b3ae3a5e916742ce37be",
+    "src/order/src/main/java/com/seckillmall/order/business/Orders.java": "f392dbcb118ca59659c971babaa380121c1b2558281845ff0086717add7bd1ba",
+    "src/order/src/main/java/com/seckillmall/order/business/Cache.java": "4df29870febe9c563069f1cee3c40e2a0a94ae4e6944b0e1fde5ca95d52267c9",
+    "src/order/src/main/java/com/seckillmall/order/business/Workers.java": "5d01c66cd051473c54d604d0117253e11c34115a15e08630de819ea7fd16966b"
+  },
+  "dockerHost": {
+    "cpus": 12,
+    "memoryBytes": 7995174912
+  },
+  "mysqlClockOffsetMs": 102.81787109375,
+  "activityIds": [
+    "187",
+    "188",
+    "189"
+  ],
+  "datasetBefore": [
+    "197731",
+    "0",
+    "0"
+  ],
+  "api": {
+    "activity_info": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 11.113,
+      "p95": 15.047,
+      "p99": 20.917
+    },
+    "burst_buy": {
+      "count": 4,
+      "statuses": {
+        "202": 4
+      },
+      "p50": 77.0,
+      "p95": 90.902,
+      "p99": 90.902
+    },
+    "buy": {
+      "count": 4,
+      "statuses": {
+        "202": 4
+      },
+      "p50": 22.789,
+      "p95": 29.755,
+      "p99": 29.755
+    },
+    "buy_replay": {
+      "count": 1,
+      "statuses": {
+        "200": 1
+      },
+      "p50": 46.218,
+      "p95": 46.218,
+      "p99": 46.218
+    },
+    "captcha_accessible": {
+      "count": 6,
+      "statuses": {
+        "200": 6
+      },
+      "p50": 28.859,
+      "p95": 43.789,
+      "p99": 43.789
+    },
+    "captcha_image": {
+      "count": 2,
+      "statuses": {
+        "200": 2
+      },
+      "p50": 37.42,
+      "p95": 40.219,
+      "p99": 40.219
+    },
+    "catalog": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 4.748,
+      "p95": 6.762,
+      "p99": 7.374
+    },
+    "catalog_filtered": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 5.899,
+      "p95": 8.323,
+      "p99": 9.813
+    },
+    "detail": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 2.819,
+      "p95": 4.07,
+      "p99": 7.036
+    },
+    "login": {
+      "count": 4,
+      "statuses": {
+        "200": 4
+      },
+      "p50": 92.96,
+      "p95": 99.899,
+      "p99": 99.899
+    },
+    "me": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 3.341,
+      "p95": 5.003,
+      "p99": 6.33
+    },
+    "order_status": {
+      "count": 13,
+      "statuses": {
+        "200": 13
+      },
+      "p50": 4.407,
+      "p95": 11.926,
+      "p99": 11.926
+    },
+    "orders": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 3.779,
+      "p95": 6.031,
+      "p99": 7.957
+    },
+    "pay": {
+      "count": 8,
+      "statuses": {
+        "200": 8
+      },
+      "p50": 23.559,
+      "p95": 42.865,
+      "p99": 42.865
+    },
+    "pay_replay": {
+      "count": 4,
+      "statuses": {
+        "200": 4
+      },
+      "p50": 6.247,
+      "p95": 8.011,
+      "p99": 8.011
+    },
+    "register": {
+      "count": 2,
+      "statuses": {
+        "201": 2
+      },
+      "p50": 93.192,
+      "p95": 94.84,
+      "p99": 94.84
+    },
+    "token": {
+      "count": 8,
+      "statuses": {
+        "200": 8
+      },
+      "p50": 23.249,
+      "p95": 30.416,
+      "p99": 30.416
+    }
+  },
+  "mixedApi": {
+    "activity_info": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 11.113,
+      "p95": 15.047,
+      "p99": 20.917
+    },
+    "buy": {
+      "count": 4,
+      "statuses": {
+        "202": 4
+      },
+      "p50": 22.789,
+      "p95": 29.755,
+      "p99": 29.755
+    },
+    "buy_replay": {
+      "count": 1,
+      "statuses": {
+        "200": 1
+      },
+      "p50": 46.218,
+      "p95": 46.218,
+      "p99": 46.218
+    },
+    "captcha_accessible": {
+      "count": 2,
+      "statuses": {
+        "200": 2
+      },
+      "p50": 27.785,
+      "p95": 37.37,
+      "p99": 37.37
+    },
+    "captcha_image": {
+      "count": 2,
+      "statuses": {
+        "200": 2
+      },
+      "p50": 37.42,
+      "p95": 40.219,
+      "p99": 40.219
+    },
+    "catalog": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 4.748,
+      "p95": 6.762,
+      "p99": 7.374
+    },
+    "catalog_filtered": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 5.899,
+      "p95": 8.323,
+      "p99": 9.813
+    },
+    "detail": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 2.819,
+      "p95": 4.07,
+      "p99": 7.036
+    },
+    "login": {
+      "count": 4,
+      "statuses": {
+        "200": 4
+      },
+      "p50": 92.96,
+      "p95": 99.899,
+      "p99": 99.899
+    },
+    "me": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 3.341,
+      "p95": 5.003,
+      "p99": 6.33
+    },
+    "order_status": {
+      "count": 8,
+      "statuses": {
+        "200": 8
+      },
+      "p50": 4.04,
+      "p95": 4.687,
+      "p99": 4.687
+    },
+    "orders": {
+      "count": 300,
+      "statuses": {
+        "200": 300
+      },
+      "p50": 3.779,
+      "p95": 6.031,
+      "p99": 7.957
+    },
+    "pay": {
+      "count": 4,
+      "statuses": {
+        "200": 4
+      },
+      "p50": 18.982,
+      "p95": 24.884,
+      "p99": 24.884
+    },
+    "pay_replay": {
+      "count": 4,
+      "statuses": {
+        "200": 4
+      },
+      "p50": 6.247,
+      "p95": 8.011,
+      "p99": 8.011
+    },
+    "register": {
+      "count": 2,
+      "statuses": {
+        "201": 2
+      },
+      "p50": 93.192,
+      "p95": 94.84,
+      "p99": 94.84
+    },
+    "token": {
+      "count": 4,
+      "statuses": {
+        "200": 4
+      },
+      "p50": 23.249,
+      "p95": 30.416,
+      "p99": 30.416
+    }
+  },
+  "completedJourneys": 4,
+  "durableObservedCount": 4,
+  "naturalClosedObserved": 0,
+  "expiryToClosedObservedMs": {
+    "p50": null,
+    "p95": null,
+    "p99": null
+  },
+  "errors": [],
+  "durableOrderMs": {
+    "p50": 230.623,
+    "p95": 280.892,
+    "p99": 280.892
+  },
+  "submittedReadRequests": 1800,
+  "submissionSeconds": 119.94892816100037,
+  "orderOutcomes": {
+    "PAID": 4
+  },
+  "reconciliations": [
+    {
+      "status": "CLEAN",
+      "readOnly": true,
+      "graceSeconds": 1800,
+      "activityId": "187",
+      "orders": 2,
+      "ledgers": [
+        {
+          "activityId": "187",
+          "skuId": "3547",
+          "initial": 64,
+          "dbAvailable": 62,
+          "redisAvailable": 62,
+          "held": 2,
+          "activeOrders": 2,
+          "inTransit": 0,
+          "pendingSend": 0,
+          "oldestInTransitSeconds": 0
+        }
+      ],
+      "alerts": [],
+      "movingSnapshots": [],
+      "outbox": [],
+      "mqFailures": [],
+      "atMs": 1792235362017
+    },
+    {
+      "status": "CLEAN",
+      "readOnly": true,
+      "graceSeconds": 1800,
+      "activityId": "188",
+      "orders": 1,
+      "ledgers": [
+        {
+          "activityId": "188",
+          "skuId": "3548",
+          "initial": 64,
+          "dbAvailable": 63,
+          "redisAvailable": 63,
+          "held": 1,
+          "activeOrders": 1,
+          "inTransit": 0,
+          "pendingSend": 0,
+          "oldestInTransitSeconds": 0
+        }
+      ],
+      "alerts": [],
+      "movingSnapshots": [],
+      "outbox": [],
+      "mqFailures": [],
+      "atMs": 1792235364190
+    },
+    {
+      "status": "CLEAN",
+      "readOnly": true,
+      "graceSeconds": 1800,
+      "activityId": "189",
+      "orders": 1,
+      "ledgers": [
+        {
+          "activityId": "189",
+          "skuId": "3549",
+          "initial": 64,
+          "dbAvailable": 63,
+          "redisAvailable": 63,
+          "held": 1,
+          "activeOrders": 1,
+          "inTransit": 0,
+          "pendingSend": 0,
+          "oldestInTransitSeconds": 0
+        }
+      ],
+      "alerts": [],
+      "movingSnapshots": [],
+      "outbox": [],
+      "mqFailures": [],
+      "atMs": 1792235366421
+    }
+  ],
+  "paymentRows": 4,
+  "requestCounts": {
+    "rows": 4,
+    "distinctReservations": 4,
+    "distinctActivityUsers": 4
+  },
+  "mixedGate": {
+    "noRequestErrors": true,
+    "allJourneysComplete": true,
+    "readLoadComplete": true,
+    "readRateWithinOnePercent": true,
+    "perApiP95WithinTargets": true,
+    "durableP95Within3s": true,
+    "durableP99Within8s": true,
+    "allNaturalClosesObserved": true,
+    "naturalCloseP99Within60s": true,
+    "allInventoryClean": true
+  },
+  "bursts": [
+    {
+      "activityId": "190",
+      "users": 4,
+      "initialStock": 4,
+      "httpStatuses": {
+        "202": 4
+      },
+      "businessCodes": {
+        "ACCEPTED": 4
+      },
+      "accepted": 4,
+      "requestToOrderObservationMs": {
+        "p50": 347.313,
+        "p95": 438.007,
+        "p99": 438.007
+      },
+      "buyApi": {
+        "count": 4,
+        "statuses": {
+          "202": 4
+        },
+        "p50": 77.0,
+        "p95": 90.902,
+        "p99": 90.902
+      },
+      "reconciliation": {
+        "status": "CLEAN",
+        "readOnly": true,
+        "graceSeconds": 1800,
+        "activityId": "190",
+        "orders": 4,
+        "ledgers": [
+          {
+            "activityId": "190",
+            "skuId": "3550",
+            "initial": 4,
+            "dbAvailable": 0,
+            "redisAvailable": 0,
+            "held": 4,
+            "activeOrders": 4,
+            "inTransit": 0,
+            "pendingSend": 0,
+            "oldestInTransitSeconds": 0
+          }
+        ],
+        "alerts": [],
+        "movingSnapshots": [],
+        "outbox": [],
+        "mqFailures": [],
+        "atMs": 1792235370552
+      },
+      "passed": true,
+      "scope": "Simultaneous buy submissions after real accessible captcha/token preparation. Serial result observation is conservative and not a durable latency gate."
+    }
+  ]
+}

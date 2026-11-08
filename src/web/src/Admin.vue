@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/**
+ * 管理员操作界面；前端显隐仅改善体验，真实ADMIN权限由Java接口再次校验。
+ * 阅读导航：docs/CODE-READING.md；接口契约：docs/API.md。
+ */
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import {
   api,
@@ -44,6 +48,9 @@ const styleGoods = computed(() =>
 );
 const skuForm = reactive({ goodsId: "", sizeEu: "", stock: "30" });
 const attrs = reactive({ skuId: "", sizeEu: "", category: "", colorway: "" });
+/**
+ * 提交真实尺码SKU及独立库存；活动分配在活动页另行完成。
+ */
 async function createSku() {
   if (!skuForm.goodsId || !/^(?:3[5-9]|4[0-9]|50)(?:\.5)?$/.test(skuForm.sizeEu)) {
     error.value = "请选择鞋款并输入 35–50 的 EU 尺码（可用半码）。";
@@ -99,6 +106,9 @@ async function load() {
     busy.value = false;
   }
 }
+/**
+ * 统一管理写操作的busy/成功/错误状态，实际权限与业务冲突仍由后端裁决。
+ */
 async function action(path: string, body?: unknown, method = "POST") {
   if (busy.value) return;
   busy.value = true;
@@ -147,6 +157,9 @@ function edit(g: Goods & { enabled: unknown }) {
   enabled.value = isEnabled(g.enabled);
   window.scrollTo({ top: 150, behavior: "smooth" });
 }
+/**
+ * 将本地日期转换为毫秒并创建新活动，不通过覆盖旧账本刷新倒计时。
+ */
 async function createActivity() {
   const { starts, ends, ...rest } = activityForm;
   const start = Date.parse(starts),

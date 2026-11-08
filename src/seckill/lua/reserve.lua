@@ -1,3 +1,10 @@
+-- 职责：原子检查资格/证明/活动/库存，并记录预留与待发送消息；成功仅表示RESERVED。
+-- KEYS安全调用：[1]活动SKU账本，[2]验证码证明，[3]活跃relay账本集合，[4]本账本待发送集合。
+-- ARGV安全调用：[1]userId，[2]requestId，[3]reservationId，[4]epoch，[5]traceId，
+--   [6]captchaToken摘要，[7]activityToken摘要，[8]最大待发送数。旧式1 KEY/5 ARGV仅供兼容调用。
+-- 关键顺序：先查同requestId重放，再校验；完成序列化后才写预扣。Lua原子执行不代表Redis与MQ构成跨系统事务。
+-- 返回：{业务码, 可选请求JSON}；RESERVED/REPLAY由调用方继续做同连接WAITAOF。
+
 -- One hash per activity/SKU: all checks precede ONE mutating HSET.
 -- KEYS[1] = seckill:{activityId:skuId}:ledger
 -- KEYS[3] (secured calls) = active relay-ledger registry

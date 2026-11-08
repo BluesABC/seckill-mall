@@ -8,6 +8,11 @@ import java.util.*;
 import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.*;
 
+/**
+ * Java端Redis账本访问与Lua持久化确认；复用C++同一组Lua状态机。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class Cache {
   public final StringRedisTemplate redis;
   public final ObjectMapper mapper;
@@ -27,6 +32,9 @@ public final class Cache {
       }
     }
   }
+  /**
+   * 构造活动+SKU账本键；花括号只规定此账本标签，不表示现有全局索引已支持Redis Cluster。
+   */
   public String ledger(long a, long sku) {
     return prefix + ":{" + a + ":" + sku + "}:ledger";
   }
@@ -61,6 +69,9 @@ public final class Cache {
   public List<String> eval(String script, String key, String... args) {
     return eval(script.getBytes(StandardCharsets.UTF_8), List.of(key), args);
   }
+  /**
+   * 同连接执行Lua与WAITAOF；包装器在同次EVAL写因果标记，连只读REPLAY也需持久确认。
+   */
   private List<String> eval(byte[] script, List<String> keys, String... args) {
     return redis.execute((RedisCallback<List<String>>) connection -> {
       // Fence inside the same EVAL, including read-only replays. With
@@ -101,6 +112,9 @@ public final class Cache {
           .toList();
     }, true);
   }
+  /**
+   * 读取单个用户/requestId预留记录，不扫描完整活动历史。
+   */
   public JsonNode request(long a, long sku, long user, String request) {
     Object raw = redis.opsForHash().get(ledger(a, sku), "req:" + user + ":" + request);
     return raw == null ? null : json(raw.toString());

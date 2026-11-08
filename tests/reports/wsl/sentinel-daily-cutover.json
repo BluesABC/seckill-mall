@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "master": "redis",
+  "replicas": 2,
+  "sentinels": 3,
+  "orderCount": 2,
+  "ledgerCount": 15,
+  "stockReconciliation": "CLEAN",
+  "backupBytes": 3775,
+  "cutoverSeconds": 86.41
+}

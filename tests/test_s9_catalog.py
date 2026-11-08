@@ -1,3 +1,5 @@
+# 测试职责：超过100件商品的组合筛选、分页和深链接。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Exercise public catalog pagination against the owned S7 WSL stack."""
 import json
 from urllib.parse import urlencode

@@ -6,6 +6,11 @@ import java.util.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Java业务HTTP入口：负责参数边界、身份/管理员鉴权和委派，不承担Redis预扣。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 @RestController
 @ConditionalOnProperty(name = "mall.business-enabled", havingValue = "true")
 public class Api {
@@ -27,6 +32,9 @@ public class Api {
   private void admin(HttpServletRequest r) {
     identity(r).admin();
   }
+  /**
+   * 认证接口：注册、登录和会话生命周期；IP取可信代理处理后的请求来源。
+   */
   @PostMapping("/api/auth/register")
   @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
   public Object register(@RequestBody JsonNode b, HttpServletRequest r) {
@@ -42,11 +50,19 @@ public class Api {
     sessions.logout(r.getHeader("Authorization"));
     return Map.of("status", "LOGGED_OUT");
   }
+  /** 只返回当前登录账号的公开资料字段。 */
+  @GetMapping("/api/auth/profile")
+  public Object profile(HttpServletRequest r) {
+    return Store.wire(store.one("SELECT id AS userId,username,role,created_at_ms AS createdAtMs FROM users WHERE id=?",identity(r).userId()));
+  }
   @GetMapping("/api/auth/me")
   public Object me(HttpServletRequest r) {
     var i = identity(r);
     return Map.of("userId", Long.toString(i.userId()), "role", i.role());
   }
+  /**
+   * 公共查询接口：目录卡片、全部真实尺码及活动；请求参数仍执行严格白名单检查。
+   */
   @GetMapping("/api/goods")
   public Object goods() {
     return Map.of("items", catalog.products());
@@ -68,6 +84,9 @@ public class Api {
   public Object activities() {
     return Map.of("items", catalog.activities());
   }
+  /**
+   * 用户订单接口：身份从Bearer会话取得，查询始终限定当前用户。
+   */
   @GetMapping("/api/orders")
   public Object orders(HttpServletRequest r) {
     return Map.of("items", orders.list(identity(r).userId()));
@@ -80,10 +99,22 @@ public class Api {
         p.containsKey("activityId") ? Input.id(p.get("activityId")) : null,
         p.containsKey("skuId") ? Input.id(p.get("skuId")) : null, p.get("requestId"));
   }
+  @GetMapping("/api/order/payment")
+  public Object payment(@RequestParam Map<String,String> p,HttpServletRequest r) {
+    if (!p.keySet().equals(Set.of("orderId"))) throw new Fault(400,"INVALID_ARGUMENT");
+    return orders.paymentDetails(identity(r).userId(),p.get("orderId"));
+  }
+  @PostMapping("/api/order/refund")
+  public Object refund(@RequestBody JsonNode b,HttpServletRequest r) {
+    return orders.refund(identity(r).userId(),b);
+  }
   @PostMapping("/api/order/pay")
   public Object pay(@RequestBody JsonNode b, HttpServletRequest r) {
     return orders.pay(identity(r).userId(), b);
   }
+  /**
+   * 管理员接口起点：每个入口都在服务端复核ADMIN，不依赖前端菜单显隐。
+   */
   @GetMapping("/api/admin/users")
   public Object users(HttpServletRequest r) {
     admin(r);
@@ -182,6 +213,9 @@ public class Api {
             .map(Store::wire)
             .toList());
   }
+  /**
+   * 恢复诊断与受控重放：展示持久失败事实，原消息身份不得因手动重放而改变。
+   */
   @GetMapping("/api/admin/recovery")
   public Object recovery(HttpServletRequest r) {
     admin(r);

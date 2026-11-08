@@ -1,3 +1,5 @@
+# 测试职责：S19混合负载期间的只读运行采样。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Read-only S19 resource/expiry sample; run alongside the owned test profile."""
 import json,sys,subprocess
 from pathlib import Path

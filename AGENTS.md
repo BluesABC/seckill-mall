@@ -27,6 +27,10 @@
 - 日期按用户所在时区 Asia/Shanghai。耗时仅记录实测或明确标注估算，未计时写“未记录”。版本使用语义化版本，未发布内容放入 CHANGELOG 的“未发布”区。
 - 设计草案、计划和目录初始化不能标为已实现；没有实测结果不能声称高并发或高可用已达标。
 
+## 代码注释
+
+按`docs/CODE-READING.md`的注释约定维护中文职责说明与关键边界。C++使用Doxygen风格，Java使用Javadoc，TS/Vue使用JSDoc风格；Lua说明KEYS/ARGV/返回码。重点解释设计原因、单位、状态及失败后果，避免逐行复述代码。不要为补注释改写有校验和的历史SQL迁移或第三方源码。
+
 ## WSL测试
 
 后续测试必须支持并实际通过WSL2/Linux，Windows结果不能替代。遵循skill的references/wsl-testing.md与docs/TESTING.md；提供Bash/跨平台Python入口，各平台隔离依赖和构建产物，输出WSL命令/版本/结果。缺依赖报缺失，不静默跳过。当前MQ为用户明确选择的RocketMQ。

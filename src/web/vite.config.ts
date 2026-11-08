@@ -1,3 +1,4 @@
+/** 开发/预览同源代理：秒杀接口转C++，其他API转Java；完整容器部署由Nginx提供同类路由。 */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from '@tailwindcss/vite';

@@ -1,9 +1,13 @@
+# 数据库迁移、种子与只读对账工具镜像；管理操作与常驻业务进程分开。
 FROM python:3.12.12-slim-bookworm
 WORKDIR /project
 COPY scripts/requirements-integration.txt scripts/requirements-integration.txt
 RUN pip install --no-cache-dir -r scripts/requirements-integration.txt
 COPY scripts/data.py scripts/data.py
 COPY scripts/reconcile.py scripts/reconcile.py
+COPY scripts/reconcile-payments.py scripts/reconcile-payments.py
+COPY scripts/reconcile-shop.py scripts/reconcile-shop.py
+COPY scripts/repair-missing-shipping-demo.py scripts/repair-missing-shipping-demo.py
 COPY scripts/sql scripts/sql
 COPY scripts/seed-storefront.py scripts/seed-storefront.py
 COPY scripts/renew-demo.py scripts/renew-demo.py

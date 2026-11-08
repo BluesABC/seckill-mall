@@ -1,3 +1,6 @@
+/** @file relay_probe.cpp
+ * @brief 测试专用发布结果探针，模拟确认/未知/拒绝以覆盖relay分支，不作为生产MQ。
+ */
 #include "mall/relay.hpp"
 #include <iostream>
 

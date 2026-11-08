@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：获取并校验固定RocketMQ SDK源码，使用WSL原生工具编译安装到项目构建目录。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 sdk_commit="6b0bcc422ff1ee66198df6b4a48a4a44ad7218fa"

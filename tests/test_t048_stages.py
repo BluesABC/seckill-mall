@@ -1,3 +1,5 @@
+# 测试职责：发布/消费/事务阶段日志关联及重复去重。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Retry-aware parsing tests for T048 stage telemetry."""
 import sys
 import unittest

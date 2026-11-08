@@ -1,3 +1,9 @@
+/**
+ * @file captcha.cpp
+ * @brief 生成数字图片验证码或可读算术题。
+ *
+ * answer只在服务内部用于摘要校验；HTTP响应不得直接返回答案。
+ */
 #include "mall/captcha.hpp"
 #include <openssl/evp.h>
 #include <openssl/rand.h>
@@ -7,6 +13,9 @@
 
 namespace mall {
 namespace {
+/**
+ * @brief 使用拒绝采样消除取模偏差；随机源来自OpenSSL，不使用可预测的伪随机种子。
+ */
 int secure_random(int range) {
   unsigned char byte;
   do {

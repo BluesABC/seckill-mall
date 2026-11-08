@@ -1,3 +1,5 @@
+# 测试职责：T050负载期间的只读运行采样。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Read-only, activity-scoped runtime sample for an owned S7 capacity run."""
 import argparse
 import json

@@ -1,0 +1,18 @@
+{
+  "profile": "s20-burst-diagnostic",
+  "gitBase": "009780d47e8192e513468c3d9b0e036d7d2cec93",
+  "workers": 32,
+  "queue": 128,
+  "rounds": [],
+  "complete": false,
+  "fixture": "64 private SQL users/Redis sessions; real captcha/token exchange with private answer digest; real HTTP/MQ/SQL/mock payment",
+  "sourceSha256": "a175e2c8d3b56bd257be0520fc977e8875f6ce3b4f3d3b8a206edf0349c8d8ed",
+  "imageId": "sha256:c6ab56a87ef9cfd7858abbbc415e86efe8ad033c77116dfa848efe0fd1d2ea06",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "failure": {
+    "type": "AssertionError",
+    "message": "(500, {'traceId': '9d331901-8001-433f-96af-e6b7965e5d68', 'message': 'INTERNAL_ERROR', 'code': 'INTERNAL_ERROR', 'retryable': True})"
+  },
+  "restoredWorkers": "8",
+  "nginxConfigRestored": true
+}

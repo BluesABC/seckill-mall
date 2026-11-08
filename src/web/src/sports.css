@@ -1,3 +1,4 @@
+/* 运动商城主题及响应式覆盖；选择器与Vue模板配合，纯样式不决定购买权限。 */
 @import "tailwindcss";
 @theme {
   --color-drop: var(--color-accent);
@@ -1400,3 +1401,15 @@ select:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* 商城导航在手机上保留完整词语，品牌已在主导航展示。 */
+.utility-bar a { white-space: nowrap; }
+@media(max-width:640px) {
+  .utility-bar > span { display:none; }
+  .utility-bar { justify-content:flex-end; font-size:11px; letter-spacing:0; }
+  .utility-bar > div { gap:18px; flex-wrap:wrap; }
+}
+
+/* 商城公共导航与页脚的辅助文字保持可读，不用极小字和字距承担层级。 */
+.utility-bar,.sports-brand i,.announcement,.announcement span,
+.sports-footer .footer-bottom,.sports-footer p span { font-size:11px; letter-spacing:normal; }

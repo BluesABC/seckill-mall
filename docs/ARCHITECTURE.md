@@ -138,3 +138,36 @@ S7引入独立只读对账程序：MySQL一致性快照与版本复查、Redis�
 S17进一步将outbox派发移到独立单线程调度器，与过期关闭/恢复扫描隔离。仍逐事件事务锁定并重查PENDING，在Redis持久化确认后标为PUBLISHED；显式管理恢复与后台派发并发时依靠同一事件行锁串行化，不改变支付/关闭和幂等回补状态机。
 
 Java将原状态Lua作为局部函数包装，与因果持久化标记在同次EVAL内执行，恢复原KEYS/ARGV数量后才进入原脚本；包含只读REPLAY路径，随后仍在同一连接WAITAOF。Redis appendfsync=always与逐事件数据库提交要求不变。
+
+C++ HTTP接入含两层有界等待：内核TCP listen backlog与cpp-httplib工作任务队列。服务编译时将固定版本库的默认backlog从5改为128，实际仍受Linux somaxconn约束；worker默认8、任务队列128、业务pending背压保持。每次后端响应关闭连接的策略保持，浏览器到Nginx仍可复用。启动日志输出worker、任务队列及编译backlog，便于核对镜像；S20诊断临时用响应X-Trace-Id关联网关connect/response/request耗时与服务rtUs，日志不包含认证或请求体。
+
+## 模拟退款凭证（T058）
+
+MOCK支付事实保留在payments；004迁移新增mock_refunds（每个payment唯一）。退款锁序沿用库存父行→订单，不调用外部渠道，金额从原支付凭证读取，退款记录与操作提交在同一事务。退款后订单仍PAID/继续占用库存，查询支付状态为REFUNDED，不能据PAID推断净收款。库存回补只属于现有关单流程，本次退款不触发它。接口、迁移与验收边界见MOCK-PAYMENTS.md。
+
+## 普通购买与履约（T059）
+
+Vue商品详情/Commerce → Java Retail事务 → MySQL shop_cart/addresses/orders/items/restocks。普通结算按SKU顺序条件扣减unallocated_stock，活动划拨也竞争同一SKU行；两条销售路径不共享可售数量。普通购买无需MQ异步受理，直接返回已提交待支付订单；原C++→Redis→RocketMQ→Java秒杀链路保持。后台维护与读取补扫过期普通订单，按状态一次释放库存。
+
+shop_seckill_delivery独立记录秒杀地址快照/手工物流，与原订单行串行发货、退款，已发货不允许直接退款。订单查询分别展示普通订单与秒杀财务/履约合成状态。无真实支付、物流订阅或实物寄送；状态机、锁序、边界见[普通商城说明](ORDINARY-SHOP.md)。
+
+## 微信支付持久意图（T060）
+
+Vue WechatPay → WechatApi → WechatPayments/MySQL wx_payments → 官方WechatGateway SDK → 微信APIv3。先落意图再发RPC，RPC不在DB事务内；回调验签/解密和主动查单共用落账。未确认渠道CLOSED的意图阻止普通/秒杀到期释放；退款REFUNDING/REVIEW阻止发货。迟到已关闭订单收款进入原路退款补偿，不复活库存。普通支付/退款更新普通订单，秒杀支付写原payments和outbox，秒杀资金退款仍不返库存/资格。后台查询和预下单独立租约，未知状态不被当作失败清除。详见[接入说明](WECHAT-PAY.md)。当前没有真实商户，不具备生产收款验收证据。
+
+
+2026-11-02 订单购买信息：普通结算后定位新订单，明确标注订单号、下单时间并展开收货信息；秒杀状态接口补充title/imageUrl/sizeEu/quantity/createdAtMs，详情显示商品、尺码、数量、时间。普通订单保留既有购买快照；秒杀商品名称/尺码为当前商品资料，金额与数量来自持久订单。关联G03/G13。验证见build/wsl/order-info-build.log。
+
+## 模拟收银展示（T062）
+
+MockCashier → MockCashierApi只读本人有效待支付订单 → ZXing生成含“仅演示”的文本二维码；此时不改变订单或支付事实。显式点击模拟确认 → 原Retail/Orders的MOCK事务与稳定幂等键 → 查询服务端PAID → 显示成功。普通与秒杀共用弹窗；原异步秒杀订单必须先持久化。真实WECHAT模式和微信意图受PaymentGuard隔离；二维码生成不代替支付/关单锁内检查。见[模拟收银台](DEMO-CASHIER.md)。
+
+## 收货快照与逻辑删除（T063）
+
+Vue选择收货地址→Java SeckillCheckout事务写不可变(user,activity,sku,request)快照→提交后写24小时无PII Redis入场标记→C++检查标记后原Lua预扣→RocketMQ→Orders读取SQL快照，在同一事务建订单与shop_seckill_delivery。消费者缺快照走原补偿而不建单。MQ格式不变；原请求重放不要求重新创建快照。
+
+OrderDeletion锁本人订单，复查关闭/已退款/履约完成状态，写order_deletions唯一标记；用户列表过滤，后台/交易/库存/请求事实保留。删除不触发退款或回补；新秒杀取消沿用库存父行→订单锁序和原关闭outbox。详见[状态与恢复边界](ORDER-SHIPPING-DELETE.md)。
+
+## 当前 Redis 拓扑
+
+日常 Compose 启动一主两从与三个 Sentinel，选主 quorum 为 2。C++ 秒杀服务和中继通过 hiredis 向 Sentinel 查询主节点，Java 订单服务通过 Lettuce 使用同一主节点组。预扣、会话、补偿和对账均使用当前主节点。写入及其 WAITAOF 仍在同一连接完成，Redis 本地 AOF 确认和副本异步复制是两道不同的边界。日常节点位于同一宿主机，故障演练和切换口径见[部署说明](DEPLOYMENT.md#日常商城-sentinel)。

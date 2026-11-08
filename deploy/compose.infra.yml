@@ -1,3 +1,4 @@
+# 原生集成测试的MySQL/Redis依赖，独立于日常完整商城数据卷。
 name: seckill-mall-infra
 services:
   redis:

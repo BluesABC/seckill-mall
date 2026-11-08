@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：真实故障恢复、库存对账及本机负载验收；生产HA/SLA仍需单独证据。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)";cd "$root"
 [[ "$(uname -s)" == Linux ]] || exit 2

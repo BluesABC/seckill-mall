@@ -1,3 +1,4 @@
+# 构建C++秒杀及MQ适配模块；MALL_WITH_ROCKETMQ控制真实SDK依赖，测试开关不等于业务已集成。
 cmake_minimum_required(VERSION 3.20)
 project(seckill_mall VERSION 0.1.0 LANGUAGES CXX)
 option(MALL_WITH_ROCKETMQ "Build RocketMQ transport adapter" OFF)

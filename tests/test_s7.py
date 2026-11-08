@@ -1,3 +1,5 @@
+# 测试职责：自有栈上的故障恢复和只读对账。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Owned-stack faults, real RocketMQ, read-only alarms and replay safety."""
 import json,time,hashlib,concurrent.futures,sys,re
 from stack_client import *

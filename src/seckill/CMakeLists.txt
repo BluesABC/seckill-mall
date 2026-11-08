@@ -1,3 +1,4 @@
+# 秒杀核心库与HTTP可执行程序；hiredis/OpenSSL/PNG为原生依赖，HTTP库使用项目固定版本。
 find_package(OpenSSL REQUIRED)
 find_package(PNG REQUIRED)
 find_package(Threads REQUIRED)
@@ -12,3 +13,7 @@ add_executable(seckill_service main.cpp service.cpp)
 target_include_directories(seckill_service SYSTEM PRIVATE ${PROJECT_SOURCE_DIR}/third_party/cpp-httplib)
 target_link_libraries(seckill_service PRIVATE seckill_core)
 target_compile_options(seckill_service PRIVATE -Wall -Wextra)
+# cpp-httplib defaults to only five pending TCP accepts. A 64-client burst
+# can overflow that queue before the bounded worker pool accepts connections.
+# This is the kernel accept backlog, separate from the worker task queue.
+target_compile_definitions(seckill_service PRIVATE CPPHTTPLIB_LISTEN_BACKLOG=128)

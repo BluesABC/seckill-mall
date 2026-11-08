@@ -1,0 +1,736 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "秒杀商城 API",
+    "version": "1.2.0",
+    "description": "秒杀商城接口契约（由 docs/API.md 归纳）。权威契约以 docs/API.md 为准，本文档用于 Swagger UI 浏览与调试。\n\n- 网关唯一出口 http://localhost:18080，`/api/seckill/*` 路由 C++(8083)，其余 `/api/*` 路由 Java(8082)。\n- 鉴权：`Authorization: Bearer <64位hex>`，角色 USER/ADMIN。\n- wire 规则：ID/金额分/UTC毫秒一律十进制字符串；JSON 未知/重复字段 400；请求体 ≤16KiB。\n- 错误格式：`{\"code\",\"message\",\"traceId\",\"retryable\"}`。"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:18080",
+      "description": "本地 Nginx 网关（唯一对外端口）"
+    }
+  ],
+  "tags": [
+    { "name": "auth", "description": "账号与会话（Java 8082）" },
+    { "name": "goods", "description": "商品目录与活动（Java 8082）" },
+    { "name": "seckill", "description": "秒杀核心（C++ 8083）：验证码/令牌/预扣" },
+    { "name": "order", "description": "订单查询与 MOCK 支付（Java 8082）" },
+    { "name": "admin", "description": "后台管理（ADMIN 角色）" },
+    { "name": "health", "description": "健康检查与指标" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "64位hex",
+        "description": "登录返回的 64 位小写十六进制 opaque 令牌"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string", "example": "RATE_LIMITED" },
+          "message": { "type": "string", "example": "请求过于频繁" },
+          "traceId": { "type": "string", "example": "trace-123" },
+          "retryable": { "type": "boolean", "example": true }
+        },
+        "required": ["code", "message"]
+      },
+      "Credentials": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": { "type": "string", "example": "tester01", "description": "3–64位ASCII字母/数字/下划线/连字符" },
+          "password": { "type": "string", "example": "Password123!", "description": "至少12字符，UTF-8至多72字节" }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string", "example": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef" },
+          "userId": { "type": "string", "example": "1" },
+          "role": { "type": "string", "enum": ["USER", "ADMIN"] },
+          "expiresAtMs": { "type": "string", "example": "1791792000000" }
+        }
+      }
+    },
+    "responses": {
+      "Error": {
+        "description": "业务错误",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      }
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "security": [],
+        "summary": "注册（固定 USER 角色）",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Credentials" } } }
+        },
+        "responses": {
+          "201": {
+            "description": "注册成功",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginResponse" },
+                "example": { "token": "0123...", "userId": "1", "role": "USER", "expiresAtMs": "1791792000000" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "security": [],
+        "summary": "登录",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Credentials" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "登录成功",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginResponse" },
+                "example": { "token": "0123...", "userId": "1", "role": "USER", "expiresAtMs": "1791792000000" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "当前用户",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "userId": { "type": "string" }, "role": { "type": "string" } } },
+                "example": { "userId": "1", "role": "USER" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "退出登录（撤销当前会话）",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": { "application/json": { "example": { "status": "LOGGED_OUT" } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/goods": {
+      "get": {
+        "tags": ["goods"],
+        "security": [],
+        "summary": "展示 SKU 列表（最多 100）",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "example": {
+                  "items": [
+                    { "goodsId": "108", "skuId": "141", "title": "AERO/01 · 轻量跑鞋", "description": "轻量鞋款", "imageUrl": "/assets/shoe-run-v1.webp", "priceFen": "89900", "sizeEu": "42", "category": "跑步", "colorway": "白 / 荧光黄" }
+                  ]
+                }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/goods/catalog": {
+      "get": {
+        "tags": ["goods"],
+        "security": [],
+        "summary": "公共商品目录（服务端分页/搜索/筛选/排序）",
+        "parameters": [
+          { "name": "q", "in": "query", "schema": { "type": "string" }, "description": "标题/描述关键词，最多80字符" },
+          { "name": "category", "in": "query", "schema": { "type": "string", "enum": ["跑步", "篮球", "休闲", "训练"] } },
+          { "name": "maxPriceFen", "in": "query", "schema": { "type": "string" } },
+          { "name": "sort", "in": "query", "schema": { "type": "string", "enum": ["featured", "low", "high"], "default": "featured" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 0 }, "description": "从0起" },
+          { "name": "size", "in": "query", "schema": { "type": "integer", "default": 12, "maximum": 48 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "example": {
+                  "items": [
+                    { "goodsId": "108", "skuId": "141", "title": "AERO/01 · 轻量跑鞋", "description": "轻量鞋款", "imageUrl": "/assets/shoe-run-v1.webp", "priceFen": "89900", "sizeEu": "42", "category": "跑步", "colorway": "白 / 荧光黄", "unallocatedStock": "30" }
+                  ],
+                  "page": 0,
+                  "size": 12,
+                  "total": 105,
+                  "hasMore": true
+                }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/goods/{id}": {
+      "get": {
+        "tags": ["goods"],
+        "security": [],
+        "summary": "商品详情（该商品全部 SKU）",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "goodsId" }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": { "application/json": { "example": { "items": [ { "skuId": "141", "sizeEu": "42", "priceFen": "89900" } ] } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/activities": {
+      "get": {
+        "tags": ["goods"],
+        "security": [],
+        "summary": "活动列表（READY/ACTIVE/ENDED）",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": { "application/json": { "example": { "items": [ { "activityId": "1", "skuId": "1", "name": "首发抢购", "startsAtMs": "1791792000000", "endsAtMs": "1791795600000", "priceFen": "89900", "initialStock": "60", "availableStock": "58" } ] } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/seckill/info": {
+      "get": {
+        "tags": ["seckill"],
+        "security": [],
+        "summary": "查询活动与商品（预热账本）",
+        "parameters": [
+          { "name": "activityId", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "skuId", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "example": { "activityId": "1", "skuId": "1", "title": "活动商品", "priceFen": "1990", "startsAtMs": "1791792000000", "endsAtMs": "1791795600000", "serverTimeMs": "1791792000100", "state": "ACTIVE", "stockAvailable": true }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/seckill/captcha": {
+      "get": {
+        "tags": ["seckill"],
+        "summary": "获取验证码（image 或 accessible 模式）",
+        "parameters": [
+          { "name": "activityId", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "skuId", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "mode", "in": "query", "schema": { "type": "string", "enum": ["image", "accessible"], "default": "image" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "image": { "value": { "captchaId": "096d738a-58f8-40e1-a915-87788d02092f", "mode": "image", "imageDataUrl": "data:image/png;base64,...", "expiresAtMs": "1791792060000" } },
+                  "accessible": { "value": { "captchaId": "096d738a-58f8-40e1-a915-87788d02092f", "mode": "accessible", "challengeText": "请计算 38 加 61，并输入得数。", "expiresAtMs": "1791792060000" } }
+                }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/seckill/token": {
+      "post": {
+        "tags": ["seckill"],
+        "summary": "兑换双凭证（验证码核销，不扣库存）",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["activityId", "skuId", "requestId", "captchaId", "captchaAnswer"],
+                "properties": {
+                  "activityId": { "type": "string", "example": "1" },
+                  "skuId": { "type": "string", "example": "1" },
+                  "requestId": { "type": "string", "example": "43c05877-35b9-485e-a1fd-cf20551223e0" },
+                  "captchaId": { "type": "string", "example": "096d738a-58f8-40e1-a915-87788d02092f" },
+                  "captchaAnswer": { "type": "string", "example": "123456", "description": "1–6位数字" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "example": { "requestId": "43c05877-35b9-485e-a1fd-cf20551223e0", "activityToken": "<captchaId>.<64位hex>", "captchaToken": "<64位hex>", "expiresAtMs": "1791792060000" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/seckill/buy": {
+      "post": {
+        "tags": ["seckill"],
+        "summary": "提交抢购（预扣，202 表示已落盘）",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["activityId", "skuId", "requestId", "captchaToken", "activityToken"],
+                "properties": {
+                  "activityId": { "type": "string", "example": "1" },
+                  "skuId": { "type": "string", "example": "1" },
+                  "requestId": { "type": "string", "example": "43c05877-35b9-485e-a1fd-cf20551223e0" },
+                  "captchaToken": { "type": "string" },
+                  "activityToken": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "预扣已落盘（不承诺订单已创建）",
+            "content": {
+              "application/json": {
+                "example": { "requestId": "43c05877-35b9-485e-a1fd-cf20551223e0", "reservationId": "04a7fd99-bdf0-4c3c-a16a-983bc96e3db3", "requestState": "RESERVED", "statusUrl": "/api/order/status?activityId=1&skuId=1&requestId=43c05877-35b9-485e-a1fd-cf20551223e0" }
+              }
+            }
+          },
+          "200": {
+            "description": "幂等重放，返回当前结果",
+            "content": { "application/json": { "example": { "requestId": "43c05877-35b9-485e-a1fd-cf20551223e0", "reservationId": "04a7fd99-bdf0-4c3c-a16a-983bc96e3db3", "requestState": "ORDER_CREATED" } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/order/status": {
+      "get": {
+        "tags": ["order"],
+        "summary": "查询抢购与订单结果",
+        "parameters": [
+          { "name": "orderId", "in": "query", "schema": { "type": "string" }, "description": "与 activityId+skuId+requestId 二选一" },
+          { "name": "activityId", "in": "query", "schema": { "type": "string" } },
+          { "name": "skuId", "in": "query", "schema": { "type": "string" } },
+          { "name": "requestId", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "example": { "requestId": "43c05877-35b9-485e-a1fd-cf20551223e0", "reservationId": "04a7fd99-bdf0-4c3c-a16a-983bc96e3db3", "requestState": "ORDER_CREATED", "orderId": "993c5340-43bd-4ca3-bef9-f278bc36e726", "orderState": "PENDING_PAYMENT", "amountFen": "1990", "expiresAtMs": "1791792900000", "failureCode": null }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/order/pay": {
+      "post": {
+        "tags": ["order"],
+        "summary": "MOCK 支付",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["orderId", "idempotencyKey"],
+                "properties": {
+                  "orderId": { "type": "string", "example": "993c5340-43bd-4ca3-bef9-f278bc36e726" },
+                  "idempotencyKey": { "type": "string", "example": "b6bca05b-f9cd-4d71-bb63-2dcf64a12c10" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "example": { "orderId": "993c5340-43bd-4ca3-bef9-f278bc36e726", "orderState": "PAID", "paymentId": "payment-1", "provider": "MOCK" }
+              }
+            }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "tags": ["order"],
+        "summary": "本人订单列表",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": { "application/json": { "example": { "items": [ { "orderId": "993c5340-43bd-4ca3-bef9-f278bc36e726", "orderState": "PENDING_PAYMENT", "amountFen": "1990", "createdAtMs": "1791792000000" } ] } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/users": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "用户列表（ADMIN）",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": { "application/json": { "example": { "items": [ { "userId": "1", "username": "admin", "role": "ADMIN", "enabled": true, "createdAtMs": "1791792000000" } ] } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/users/{id}": {
+      "patch": {
+        "tags": ["admin"],
+        "summary": "启用/禁用用户（ADMIN）",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "required": ["enabled"], "properties": { "enabled": { "type": "boolean" } } } } }
+        },
+        "responses": {
+          "200": { "description": "成功", "content": { "application/json": { "example": { "status": "UPDATED" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/goods": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "管理商品列表（含下架，ADMIN）",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": { "application/json": { "example": { "items": [ { "goodsId": "108", "skuId": "141", "title": "AERO/01 · 轻量跑鞋", "description": "轻量鞋款", "imageUrl": "/assets/shoe-run-v1.webp", "enabled": true, "priceFen": "89900", "sizeEu": "42", "category": "跑步", "colorway": "白 / 荧光黄", "unallocatedStock": "30" } ] } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      },
+      "post": {
+        "tags": ["admin"],
+        "summary": "新建鞋款（首 SKU，ADMIN）",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "description", "imageUrl", "priceFen", "stock"],
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "imageUrl": { "type": "string" },
+                  "priceFen": { "type": "string" },
+                  "stock": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功", "content": { "application/json": { "example": { "goodsId": "108", "skuId": "141" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/goods/{id}": {
+      "patch": {
+        "tags": ["admin"],
+        "summary": "编辑/上下架鞋款（ADMIN）",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "imageUrl": { "type": "string" },
+                  "enabled": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "成功", "content": { "application/json": { "example": { "status": "UPDATED" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/goods/{id}/skus": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "新增尺码 SKU（ADMIN）",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["sizeEu", "stock"],
+                "properties": {
+                  "sizeEu": { "type": "string", "example": "43", "description": "35–50含半码" },
+                  "stock": { "type": "string", "example": "30", "description": "1–100000000" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功", "content": { "application/json": { "example": { "goodsId": "108", "skuId": "142", "sizeEu": "43", "unallocatedStock": "30" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/skus/{id}": {
+      "patch": {
+        "tags": ["admin"],
+        "summary": "维护 SKU 展示属性（ADMIN）",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["sizeEu", "category", "colorway"],
+                "properties": {
+                  "sizeEu": { "type": "string" },
+                  "category": { "type": "string", "enum": ["", "跑步", "篮球", "休闲", "训练"] },
+                  "colorway": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "成功", "content": { "application/json": { "example": { "status": "UPDATED" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/activities": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "创建活动（ADMIN）",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "skuId", "stock", "priceFen", "startsAtMs", "endsAtMs"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "skuId": { "type": "string" },
+                  "stock": { "type": "string" },
+                  "priceFen": { "type": "string" },
+                  "startsAtMs": { "type": "string" },
+                  "endsAtMs": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "创建成功（READY）", "content": { "application/json": { "example": { "activityId": "1" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/activities/{id}/activate": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "预热并激活活动（ADMIN）",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "required": ["skuId"], "properties": { "skuId": { "type": "string" } } } } }
+        },
+        "responses": {
+          "200": { "description": "成功", "content": { "application/json": { "example": { "status": "ACTIVE" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/activities/{id}/end": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "结束活动（ADMIN）",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "required": ["skuId"], "properties": { "skuId": { "type": "string" } } } } }
+        },
+        "responses": {
+          "200": { "description": "成功", "content": { "application/json": { "example": { "status": "ENDED" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/orders": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "全站订单列表（ADMIN）",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": { "application/json": { "example": { "items": [ { "orderId": "993c5340-43bd-4ca3-bef9-f278bc36e726", "userId": "1", "orderState": "PENDING_PAYMENT", "amountFen": "1990", "createdAtMs": "1791792000000" } ] } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/recovery": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "消费失败记录与指标（ADMIN）",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": { "application/json": { "example": { "items": [ { "messageHash": "abc", "status": "FAILED", "attempts": 3, "reason": "...", "updatedAtMs": "1791792000000" } ], "metrics": {} } } }
+          },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/recovery/{hash}/replay": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "重放失败消息（ADMIN）",
+        "parameters": [
+          { "name": "hash", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "成功", "content": { "application/json": { "example": { "status": "REPLAYED" } } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/api/admin/recovery/run": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "手动执行一轮恢复（ADMIN）",
+        "responses": {
+          "200": { "description": "成功", "content": { "application/json": { "example": {} } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    },
+    "/health/live": {
+      "get": {
+        "tags": ["health"],
+        "security": [],
+        "summary": "存活探针（Nginx）",
+        "responses": {
+          "200": { "description": "UP", "content": { "text/plain": { "example": "UP" } } }
+        }
+      }
+    },
+    "/health/order": {
+      "get": {
+        "tags": ["health"],
+        "security": [],
+        "summary": "订单服务就绪（Java 8082）",
+        "responses": {
+          "200": { "description": "就绪", "content": { "text/plain": { "example": "UP" } } },
+          "503": { "description": "未就绪" }
+        }
+      }
+    },
+    "/health/seckill": {
+      "get": {
+        "tags": ["health"],
+        "security": [],
+        "summary": "秒杀服务就绪（C++ 8083）",
+        "responses": {
+          "200": { "description": "就绪", "content": { "text/plain": { "example": "UP" } } },
+          "503": { "description": "未就绪" }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "tags": ["health"],
+        "summary": "Prometheus 指标（ADMIN）",
+        "responses": {
+          "200": { "description": "Prometheus 文本", "content": { "text/plain": { "example": "# HELP http_requests ...\nhttp_requests_total 123" } } },
+          "default": { "$ref": "#/components/responses/Error" }
+        }
+      }
+    }
+  }
+}

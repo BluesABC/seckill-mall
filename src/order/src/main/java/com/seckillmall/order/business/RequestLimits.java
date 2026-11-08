@@ -6,6 +6,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+/**
+ * API请求入口防护：限制body为16KiB，拒绝重复或非规范查询参数名。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 @Component
 public class RequestLimits extends OncePerRequestFilter {
   @Override

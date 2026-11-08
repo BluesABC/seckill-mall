@@ -1,3 +1,5 @@
+# 职责：通过真实管理接口为首次空目录建立演示鞋款/尺码/活动，重复执行不刷新已有库存和时间。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Seed the original demo shoes with real per-size SKUs and independent activities.
 
 This script only runs against an empty catalog. It never edits a populated catalog.
@@ -7,6 +9,7 @@ from data import connect
 
 URL = os.environ.get('MALL_ORDER_URL', 'http://127.0.0.1:8082')
 
+# 所有写入经真实管理API；管理员token只用于Authorization，不进入日志或报告。
 def call(path, body, token=None, method='POST'):
     headers = {'Content-Type': 'application/json'}
     if token:

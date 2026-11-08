@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "scope": "UI fixtures only",
+  "checks": [
+    "receipt",
+    "cancel",
+    "refund",
+    "reload",
+    "390/1280 no overflow"
+  ]
+}

@@ -1,3 +1,9 @@
+/**
+ * @file relay_worker.cpp
+ * @brief 独立RocketMQ转发进程与有界重试循环。
+ *
+ * 启动时兼容旧账本索引，稳态只扫描待投递登记；--once用于诊断，--loop持续运行。
+ */
 #include "mall/mq/rocketmq_publisher.hpp"
 #include "mall/relay.hpp"
 #include <atomic>
@@ -16,6 +22,7 @@ std::string setting(const char *name, const char *fallback) {
   auto value = std::getenv(name);
   return value ? value : fallback;
 }
+// 仅测试构建启用的崩溃注入：验证“Broker确认后、Redis标记前”重启会安全重投。
 class CrashAfterConfirmation : public mall::mq::Publisher {
  public:
   explicit CrashAfterConfirmation(mall::mq::Publisher &base) : base_(base) {}

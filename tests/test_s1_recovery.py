@@ -1,3 +1,5 @@
+# 测试职责：Redis AOF重启后的持久性。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Crash/restart only the owned S1 Redis container; verify AOF reservation recovery."""
 import json
 import subprocess

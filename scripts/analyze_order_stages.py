@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# 职责：按reservationId关联发布、消费与事务日志；去重重投事件，避免重复日志放大样本数。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Correlate relay and Java consumer stage logs by reservationId."""
 import argparse
 import json

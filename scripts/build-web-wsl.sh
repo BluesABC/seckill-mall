@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：将前端复制到WSL专用构建目录后安装、类型检查和打包；不共用Windows node_modules。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"

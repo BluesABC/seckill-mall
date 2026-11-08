@@ -1,3 +1,5 @@
+# 测试职责：仅自有S7栈允许的私有会话/数据夹具及真实HTTP辅助。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Private fixture helpers, restricted to the owned S7 Compose project."""
 import hashlib,http.client,json,os,secrets,subprocess,time,uuid
 from pathlib import Path
@@ -64,6 +66,8 @@ def activity(admin,stock,name):
     return a['activityId'],g['skuId']
 def prepare(user,a,sku):
     uid,token,_=user;request=str(uuid.uuid4())
+    from shipping_fixture import prepare_shipping
+    prepare_shipping(call,token,a,sku,request)
     code,c=call('GET',f'/api/seckill/captcha?activityId={a}&skuId={sku}',token=token);assert code==200,c
     key=f'seckill:{{{a}:{sku}}}:challenge:{c["captchaId"]}'
     proof=json.loads(redis('GET',key));proof['answerDigest']=hashlib.sha256(b'123456').hexdigest();redis('SET',key,json.dumps(proof),'KEEPTTL')

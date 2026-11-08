@@ -4,13 +4,15 @@
 
 ## 技术栈与职责
 
+第一次阅读源码，先看[源码阅读指南与注释规范](CODE-READING.md)：包含模块入口、完整抢购链路、标识/单位约定及事务和恢复边界。
+
 | 模块 | 技术 | 职责 |
 | --- | --- | --- |
 | 前端 | TypeScript + Vue 3 | 运动鞋商城、真实尺码/清单、验证码抢购、订单/MOCK支付、后台与响应式页面 |
 | 秒杀服务 | C++ | 网关、限流、活动资格、Redis Lua 预扣、投递 |
 | 消息队列 | RocketMQ5.x | 用户明确采用；C++/Java官方SDK适配在S3，后续需要再换自研 |
 | 订单服务 | Java + Spring Boot | 商品/用户管理、订单事务、支付与关闭、对账 |
-| Redis | Redis | 预热、原子预扣、限流、占位与热点缓存 |
+| Redis | Redis + Sentinel | 预热、原子预扣、限流、占位与热点缓存 |
 | 数据库 | MySQL | 库存、订单、支付、恢复与审计记录 |
 | 接入与部署 | Nginx + Docker Compose | 代理、缓存、限流、独立容器和环境复现 |
 
@@ -22,7 +24,9 @@
 
 数据/缓存、C++HTTP、真实RocketMQ、Java认证/商品/活动/事务订单/MOCK支付/关闭/补偿与Vue运动鞋商城可运行。阶段验收状态以[PROGRESS](PROGRESS.md)为准。前端本地展厅、开发代理与WSL浏览器测试见[前端运行说明](FRONTEND-RUNTIME.md)，订单独立启动见[订单说明](ORDER-RUNTIME.md)。S6完整容器已验收，启动见[部署说明](DEPLOYMENT.md)；S7本机故障/容量与S8消费者恢复见[进度报告](PROGRESS.md#验证记录)、[S7验收报告](../tests/reports/S7-acceptance.md)、[S8验收报告](../tests/reports/S8-acceptance.md)、[容量报告](BENCHMARK.md)与[演示流程](DEMO.md)。
 
-工作目录为 `E:/c++project/seckill-mall`；推荐WSL2 Ubuntu，C++/Java21/Node均有原生工具和测试入口；Windows可做补充开发。先读PROGRESS和TODO。
+工作目录为克隆后的项目根目录；推荐WSL2 Ubuntu，C++/Java21/Node均有原生工具和测试入口；Windows可做补充开发。先读PROGRESS和TODO。
+
+默认商城入口为 `bash scripts/stack.sh up`，Redis 使用一主两从和三个 Sentinel。浏览、普通结算、秒杀收货、模拟收银台、订单管理及知识库客服入口见[根目录说明](../README.md)。以下为单服务开发入口。
 
 ### C++ HTTP秒杀（WSL/Linux）
 
@@ -119,6 +123,7 @@ seckill-mall/
 
 ## 文档导航
 
+- [项目实现说明（GUIDE）](GUIDE.md)：面向阅读者的功能、架构、页面/接口实现、防超卖与函数清单讲解；不新增契约。
 - [RocketMQ运行说明](ROCKETMQ.md)：固定SDK、Broker/Proxy、pending转发与消费重试；WSL验收执行`bash scripts/test-s3.sh`。
 - [前端视觉方向](FRONTEND-DIRECTION.md)：S5简约精品商城设计与验收要求。
 

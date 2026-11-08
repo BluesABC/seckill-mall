@@ -1,3 +1,4 @@
+# 原生MQ集成测试的NameServer/Broker/Proxy拓扑；单Broker不构成高可用。
 name: seckill-mall-mq
 services:
   prepare-volumes:

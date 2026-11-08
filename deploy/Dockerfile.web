@@ -1,3 +1,4 @@
+# 构建Vue静态资源并交给Nginx托管；API由代理转发，不在镜像中嵌入会话或密码。
 FROM node:22.20.0-bookworm-slim AS builder
 WORKDIR /app
 COPY src/web/package*.json ./

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：消费者强停恢复诊断；基线与候选需分开报告，最终落单不代表恢复时延达标。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"

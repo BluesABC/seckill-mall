@@ -1,3 +1,5 @@
+# 测试职责：worker数量对64人热点竞争的影响。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Controlled S7 worker-count experiment; never changes/removes test volumes."""
 import concurrent.futures
 import json

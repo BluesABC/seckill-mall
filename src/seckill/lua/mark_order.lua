@@ -1,3 +1,8 @@
+-- 职责：仅镜像MySQL已经提交的支付/关闭状态；不在Redis重新裁决支付和关闭的竞争。
+-- KEYS：[1]账本；ARGV：[1]userId，[2]requestId，[3]reservationId，[4]epoch，[5]PAID或CLOSED。
+-- 前置：请求必须ORDER_CREATED，订单镜像只能由PENDING_PAYMENT到终态。
+-- 返回：UPDATED/REPLAY或冲突码；关闭后的库存释放另由release.lua处理。
+
 -- Mirror committed MySQL state only. ARGV userId, requestId, reservationId, epoch, nextState.
 if #KEYS ~= 1 or #ARGV ~= 5 then return {'INVALID_ARGUMENT'} end
 if redis.call('TYPE', KEYS[1]).ok ~= 'hash' then return {'NOT_READY'} end

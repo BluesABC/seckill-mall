@@ -1,3 +1,5 @@
+# 测试职责：背景读、登录、验证码、模拟支付与自然超时关闭的混合旅程。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Real mixed API journeys on the owned S7 stack; no production data resets."""
 import argparse
 import base64
@@ -126,6 +128,8 @@ class Run:
         else:
             answer = accessible_answer(challenge['challengeText'])
         request_id = str(uuid.uuid4())
+        from shipping_fixture import prepare_shipping
+        prepare_shipping(self.call,token,a,sku,request_id)
         _, proof = self.request('token', 'POST', '/api/seckill/token',
             {'activityId': a, 'skuId': sku, 'requestId': request_id,
              'captchaId': challenge['captchaId'], 'captchaAnswer': answer}, token)

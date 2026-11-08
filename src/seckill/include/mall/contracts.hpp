@@ -1,3 +1,9 @@
+/**
+ * @file contracts.hpp
+ * @brief 跨模块共享的请求与订单状态转换约束。
+ *
+ * 请求RESERVED不代表订单已创建；此处只描述允许转换，支付/关闭竞争仍由数据库裁决。
+ */
 #pragma once
 #include <string_view>
 

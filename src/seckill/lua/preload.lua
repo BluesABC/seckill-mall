@@ -1,3 +1,7 @@
+-- 职责：首次建立活动SKU账本；已有Key直接拒绝初始化，不能用它刷新活跃库存。
+-- KEYS：[1]账本；ARGV依次为库存、开始/结束毫秒、READY/ACTIVE、epoch、分价格、activityId、skuId。
+-- 返回：INITIALIZED/ALREADY_INITIALIZED/INVALID_ARGUMENT；只初始化，不分配SKU的数据库库存。
+
 -- Admin-only, first initialization. Never overwrite a live ledger.
 -- ARGV: stock, startsAtMs, endsAtMs, status, epoch, priceFen, activityId, skuId.
 if #KEYS ~= 1 or #ARGV ~= 8 then return {'INVALID_ARGUMENT'} end

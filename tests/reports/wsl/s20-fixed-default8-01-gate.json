@@ -1,0 +1,30 @@
+{
+  "passed": false,
+  "checks": {
+    "completeThreeRounds": true,
+    "profile": true,
+    "compiledBacklog": true,
+    "runtimeRestored": true,
+    "round1Counts": true,
+    "round1Outcomes": true,
+    "round1UniquePaidOrders": true,
+    "round1CorrelatedTimings": true,
+    "round1Latency": false,
+    "round1NoListenOverflow": true,
+    "round1CleanStock": true,
+    "round2Counts": true,
+    "round2Outcomes": true,
+    "round2UniquePaidOrders": true,
+    "round2CorrelatedTimings": true,
+    "round2Latency": false,
+    "round2NoListenOverflow": true,
+    "round2CleanStock": true,
+    "round3Counts": true,
+    "round3Outcomes": true,
+    "round3UniquePaidOrders": true,
+    "round3CorrelatedTimings": true,
+    "round3Latency": false,
+    "round3NoListenOverflow": true,
+    "round3CleanStock": true
+  }
+}

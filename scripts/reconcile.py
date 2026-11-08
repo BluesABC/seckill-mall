@@ -1,7 +1,10 @@
+# 职责：只读、有界库存对账。比较DB一致性快照与Redis前后快照；变化中可返回INCONCLUSIVE，绝不自动修库存。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Read-only, bounded reconciliation. Never reset a live ledger or repair stock."""
 import argparse,json,os,time
 from data import connect,cache
 
+# DB与Redis不是单个原子快照：前后复查变化时返回不确定，不能据短暂差额盲目回补。
 def inspect(grace=1800,limit=50000,activity_id=None):
     client=cache();prefix=os.environ.get('MALL_KEY_PREFIX','seckill')
     alerts=[];transit=[];unstable=[];ledgers=[]

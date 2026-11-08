@@ -1,3 +1,5 @@
+# 测试职责：真实RocketMQ适配及确认未知/重投/故障恢复。
+# 具体断言及fixture边界在本文件；通过范围以对应阶段报告为准，不自动代表生产上线。
 """Real RocketMQ 5 C++ publisher -> Java consumer tests, WSL only."""
 import json
 import os

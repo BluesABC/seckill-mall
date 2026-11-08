@@ -1,3 +1,9 @@
+/**
+ * @file relay.cpp
+ * @brief 将Redis待投递预留交给消息发布适配器。
+ *
+ * 先发送、确认后推进状态；发送结果未知时保留原reservationId，不释放库存。
+ */
 #include "mall/relay.hpp"
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -57,6 +63,7 @@ RelayResult PendingRelay::drain(Redis &redis, mq::Publisher &publisher,
               << " outcome=" << (sent.outcome == mq::PublishOutcome::confirmed ? "confirmed" :
                                   sent.outcome == mq::PublishOutcome::rejected ? "rejected" : "unknown")
               << '\n';
+    // Broker可能已收下消息但回执丢失：继续保留pending，消费者按reservationId幂等。
     if (sent.outcome == mq::PublishOutcome::unknown) {
       ++result.unknown;
       continue;

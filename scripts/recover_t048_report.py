@@ -1,3 +1,5 @@
+# 职责：根据已保存checkpoint补充长测收敛证据；不得从订单总量反推丢失的HTTP延迟。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 """Rebuild a T048 report from its client checkpoint and live durable evidence."""
 import argparse
 import json

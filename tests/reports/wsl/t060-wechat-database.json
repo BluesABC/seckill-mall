@@ -1,0 +1,19 @@
+{
+  "scope": "owned real MySQL, in-process fake channel; not WeChat merchant integration",
+  "passed": true,
+  "checks": [
+    "native intent/ownership/MOCK bypass guard",
+    "expiry waits for channel closure",
+    "amount/currency/merchant validation",
+    "parallel duplicate success idempotency",
+    "processing refund and repeated refund notifications",
+    "active query recovers lost callback",
+    "close unknown and confirmed closure",
+    "late payment persists compensation without reviving stock",
+    "unknown prepay stays durably tracked",
+    "seckill payment/outbox/refund invariants",
+    "callback before prepay response",
+    "abnormal refund holds stock until verified admin recheck",
+    "WECHAT mode refuses legacy MOCK fulfillment without channel proof"
+  ]
+}

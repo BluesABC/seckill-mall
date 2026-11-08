@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,6 +17,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+/**
+ * 装配数据库连接池、Redis、业务服务及后台worker，并管理其生命周期。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 @Configuration
 @ConditionalOnProperty(name = "mall.business-enabled", havingValue = "true")
 public class BusinessConfig {
@@ -46,8 +52,16 @@ public class BusinessConfig {
   @Bean
   LettuceConnectionFactory redisFactory(
       @Value("${mall.redis-host}") String host, @Value("${mall.redis-port}") int port) {
-    return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host, port),
-        LettuceClientConfiguration.builder().commandTimeout(Duration.ofSeconds(3)).build());
+    var client = LettuceClientConfiguration.builder().commandTimeout(Duration.ofSeconds(3)).build();
+    String sentinels = System.getenv("MALL_REDIS_SENTINELS");
+    if (sentinels == null || sentinels.isBlank())
+      return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host, port), client);
+    String master = System.getenv("MALL_REDIS_MASTER");
+    if (master == null || master.isBlank())
+      throw new IllegalArgumentException("Redis Sentinel master name missing");
+    var config = new RedisSentinelConfiguration().master(master);
+    for (String sentinel : sentinels.split(",")) config.sentinel(sentinel.trim(), 26379);
+    return new LettuceConnectionFactory(config, client);
   }
   @Bean
   StringRedisTemplate redis(LettuceConnectionFactory f) {
@@ -73,8 +87,10 @@ public class BusinessConfig {
     return new Catalog(s, c);
   }
   @Bean
-  Orders orders(Store s, Cache c, @Value("${mall.payment-ttl-ms}") long ttl) {
-    return new Orders(s, c, ttl);
+  Orders orders(Store s, Cache c, @Value("${mall.payment-ttl-ms}") long ttl, Retail retail) {
+    Orders orders = new Orders(s, c, ttl);
+    orders.retail(retail);
+    return orders;
   }
   @Bean(initMethod = "start", destroyMethod = "close")
   Workers workers(Store s, Cache c, Orders o, @Value("${mall.mq-endpoint}") String endpoint,

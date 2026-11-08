@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "scope": "UI fixture, no merchant or WeChat network; QR is not a real payment code",
+  "checks": [
+    "MOCK offers demo cashier only",
+    "real mode hides MOCK",
+    "280px local QR",
+    "QR does not mark paid",
+    "390/768/1440 responsive",
+    "payment from query",
+    "refund confirmation",
+    "processing is not success",
+    "confirmed refund",
+    "confirmed close"
+  ]
+}

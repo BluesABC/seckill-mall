@@ -1,7 +1,15 @@
 package com.seckillmall.order.business;
 import com.fasterxml.jackson.databind.JsonNode;
+/**
+ * 已校验的预留事件；验证schema、数量和业务标识后才能进入订单事务。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public record ReservedEvent(String reservationId, String requestId, long userId, long activityId,
     long skuId, long epoch, long priceFen, long createdAtMs, String traceId) {
+  /**
+   * 严格解析schema v1，要求eventId等于reservationId且quantity为1；消息仍须进一步核验Redis原始事实。
+   */
   public static ReservedEvent parse(JsonNode n) {
     Input.fields(n, "schemaVersion", "eventType", "eventId", "reservationId", "requestId", "userId",
         "activityId", "skuId", "epoch", "quantity", "priceFen", "createdAtMs", "traceId");

@@ -7,6 +7,11 @@ import java.util.List;
 import org.apache.rocketmq.client.apis.message.MessageView;
 
 /** Explicit local transport probe; S4 implements the real order consumer. */
+/**
+ * 传输集成测试入口，验证跨语言消息接收及确认，不是商城业务消费者。
+ *
+ * <p>业务链路与阅读顺序见 docs/CODE-READING.md。
+ */
 public final class RocketTransportProbe {
     private RocketTransportProbe() {}
 

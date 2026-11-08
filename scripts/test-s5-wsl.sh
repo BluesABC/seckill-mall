@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：隔离Chromium页面、辅助语义及真实交易回归；自动axe不是NVDA/JAWS人工认证。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"

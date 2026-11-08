@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/**
+ * 真实尺码SKU详情；尺码来自variants，选择后交给父组件切换skuId，不生成虚构库存。
+ * 阅读导航：docs/CODE-READING.md；接口契约：docs/API.md。
+ */
 import { computed, ref } from "vue";
 import { money, date, type Goods, type Activity } from "./api";
 const props = defineProps<{
@@ -12,11 +16,14 @@ const props = defineProps<{
   startsInFuture: boolean;
   busy: boolean;
 }>();
-defineEmits<{ buy: []; refresh: []; save: []; variant: [string] }>();
+defineEmits<{ buy: []; refresh: []; save: []; variant: [string]; regular: []; cart: [] }>();
 const zoom = ref(false),
   sizeChosen = ref(false),
   showGuide = ref(false),
   view = ref("side");
+/**
+ * 真实尺码来自API返回的SKU变体；排序只影响展示，不映射到虚构的共用库存。
+ */
 const sizes = computed(() =>
   [...new Set(props.variants.map((g) => g.sizeEu).filter((s): s is string => !!s))]
     .sort((a, b) => Number(a) - Number(b)),
@@ -154,6 +161,12 @@ function choose(size: string) {
         >
           加入抢购清单 <span>＋</span>
         </button>
+        <div class="regular-purchase">
+          <p>普通购买 · 原价 ¥{{ money(goods.priceFen) }} · 可售 {{goods.unallocatedStock}} 双</p>
+          <button class="button full" :disabled="!sizeChosen || busy || Number(goods.unallocatedStock)<1" @click="$emit('regular')">{{Number(goods.unallocatedStock)<1?'普通库存暂时售罄':'立即购买'}}</button>
+          <button class="button secondary full" :disabled="!sizeChosen || busy || Number(goods.unallocatedStock)<1" @click="$emit('cart')">加入购物车</button>
+          <p class="small muted" v-if="!sizeChosen">请先选择尺码，再购买或加入购物车。</p>
+        </div>
         <p class="small muted">
           限购一双 / SKU。清单不预扣库存，逐款验证后生成订单；仅支持模拟支付。
         </p>

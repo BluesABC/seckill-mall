@@ -1,0 +1,2202 @@
+{
+  "profile": "s20-burst-diagnostic",
+  "gitBase": "009780d47e8192e513468c3d9b0e036d7d2cec93",
+  "workers": 32,
+  "queue": 128,
+  "rounds": [
+    {
+      "round": 1,
+      "activityId": "178",
+      "stock": 32,
+      "users": 64,
+      "accepted": 32,
+      "soldOut": 32,
+      "rows": [
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 36.941,
+          "httpMs": 165.55,
+          "handlerMs": 66.399,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 117.0,
+          "gatewayMs": 123.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 14.489,
+          "httpMs": 159.198,
+          "handlerMs": 66.456,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 117.0,
+          "gatewayMs": 141.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.778,
+          "httpMs": 92.893,
+          "handlerMs": 65.855,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 66.0,
+          "gatewayMs": 78.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 16.031,
+          "httpMs": 135.337,
+          "handlerMs": 74.941,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 109.0,
+          "gatewayMs": 119.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.494,
+          "httpMs": 58.975,
+          "handlerMs": 46.376,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 47.0,
+          "gatewayMs": 51.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 32.172,
+          "httpMs": 161.666,
+          "handlerMs": 67.787,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 119.0,
+          "gatewayMs": 128.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 0.453,
+          "httpMs": 63.27,
+          "handlerMs": 54.607,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 55.0,
+          "gatewayMs": 61.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 35.04,
+          "httpMs": 137.199,
+          "handlerMs": 71.105,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 101.0,
+          "gatewayMs": 102.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.578,
+          "httpMs": 84.234,
+          "handlerMs": 64.992,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 65.0,
+          "gatewayMs": 69.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.393,
+          "httpMs": 65.684,
+          "handlerMs": 50.519,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 51.0,
+          "gatewayMs": 54.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 26.471,
+          "httpMs": 151.297,
+          "handlerMs": 66.101,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 116.0,
+          "gatewayMs": 121.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 8.448,
+          "httpMs": 71.292,
+          "handlerMs": 60.938,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 61.0,
+          "gatewayMs": 62.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 29.106,
+          "httpMs": 166.301,
+          "handlerMs": 51.825,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 117.0,
+          "gatewayMs": 131.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 37.855,
+          "httpMs": 161.091,
+          "handlerMs": 51.866,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 117.0,
+          "gatewayMs": 120.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 34.53,
+          "httpMs": 159.821,
+          "handlerMs": 66.569,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 117.0,
+          "gatewayMs": 124.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.215,
+          "httpMs": 75.56,
+          "handlerMs": 59.855,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 61.0,
+          "gatewayMs": 71.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.786,
+          "httpMs": 77.727,
+          "handlerMs": 65.067,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 66.0,
+          "gatewayMs": 69.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.572,
+          "httpMs": 85.217,
+          "handlerMs": 62.514,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 63.0,
+          "gatewayMs": 72.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 29.709,
+          "httpMs": 155.276,
+          "handlerMs": 66.862,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 118.0,
+          "gatewayMs": 122.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 21.059,
+          "httpMs": 165.475,
+          "handlerMs": 66.134,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 117.0,
+          "gatewayMs": 138.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 16.189,
+          "httpMs": 99.314,
+          "handlerMs": 62.405,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 75.0,
+          "gatewayMs": 82.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 19.257,
+          "httpMs": 91.85,
+          "handlerMs": 61.693,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 63.0,
+          "gatewayMs": 69.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 27.825,
+          "httpMs": 151.74,
+          "handlerMs": 77.103,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 120.0,
+          "gatewayMs": 123.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 28.695,
+          "httpMs": 144.349,
+          "handlerMs": 65.721,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 110.0,
+          "gatewayMs": 114.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.698,
+          "httpMs": 80.767,
+          "handlerMs": 64.911,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 65.0,
+          "gatewayMs": 68.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 21.424,
+          "httpMs": 93.518,
+          "handlerMs": 62.155,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 62.0,
+          "gatewayMs": 70.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 22.672,
+          "httpMs": 159.238,
+          "handlerMs": 65.829,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 117.0,
+          "gatewayMs": 133.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.066,
+          "httpMs": 80.239,
+          "handlerMs": 60.088,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 60.0,
+          "gatewayMs": 66.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.997,
+          "httpMs": 75.965,
+          "handlerMs": 59.941,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 60.0,
+          "gatewayMs": 64.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 32.195,
+          "httpMs": 152.414,
+          "handlerMs": 65.834,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 114.0,
+          "gatewayMs": 120.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 29.653,
+          "httpMs": 158.153,
+          "handlerMs": 66.632,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 118.0,
+          "gatewayMs": 121.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.638,
+          "httpMs": 94.062,
+          "handlerMs": 64.358,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 65.0,
+          "gatewayMs": 65.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 22.074,
+          "httpMs": 137.471,
+          "handlerMs": 69.108,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 108.0,
+          "gatewayMs": 114.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 28.718,
+          "httpMs": 160.776,
+          "handlerMs": 66.551,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 118.0,
+          "gatewayMs": 127.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 33.557,
+          "httpMs": 156.382,
+          "handlerMs": 66.312,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 118.0,
+          "gatewayMs": 121.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 34.719,
+          "httpMs": 152.535,
+          "handlerMs": 65.28,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 115.0,
+          "gatewayMs": 117.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.259,
+          "httpMs": 92.265,
+          "handlerMs": 67.194,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 68.0,
+          "gatewayMs": 73.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.413,
+          "httpMs": 75.289,
+          "handlerMs": 58.765,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 59.0,
+          "gatewayMs": 60.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 33.17,
+          "httpMs": 155.034,
+          "handlerMs": 65.757,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 115.0,
+          "gatewayMs": 117.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.228,
+          "httpMs": 74.811,
+          "handlerMs": 59.488,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 60.0,
+          "gatewayMs": 67.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 0.303,
+          "httpMs": 70.32,
+          "handlerMs": 60.89,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 62.0,
+          "gatewayMs": 68.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 26.191,
+          "httpMs": 105.088,
+          "handlerMs": 62.261,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 75.0,
+          "gatewayMs": 78.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 19.539,
+          "httpMs": 106.094,
+          "handlerMs": 62.307,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 75.0,
+          "gatewayMs": 85.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.387,
+          "httpMs": 91.915,
+          "handlerMs": 67.17,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 68.0,
+          "gatewayMs": 73.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 18.678,
+          "httpMs": 137.08,
+          "handlerMs": 69.239,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 109.0,
+          "gatewayMs": 117.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.529,
+          "httpMs": 86.513,
+          "handlerMs": 59.418,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 60.0,
+          "gatewayMs": 61.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 23.047,
+          "httpMs": 156.386,
+          "handlerMs": 70.657,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 121.0,
+          "gatewayMs": 131.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 36.426,
+          "httpMs": 160.645,
+          "handlerMs": 51.816,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 118.0,
+          "gatewayMs": 122.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 26.647,
+          "httpMs": 143.418,
+          "handlerMs": 66.146,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 110.0,
+          "gatewayMs": 115.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 29.488,
+          "httpMs": 94.389,
+          "handlerMs": 60.453,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 61.0,
+          "gatewayMs": 61.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.043,
+          "httpMs": 79.921,
+          "handlerMs": 60.655,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 61.0,
+          "gatewayMs": 68.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.982,
+          "httpMs": 87.826,
+          "handlerMs": 66.531,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 67.0,
+          "gatewayMs": 75.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 28.92,
+          "httpMs": 147.487,
+          "handlerMs": 71.594,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 115.0,
+          "gatewayMs": 117.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 25.878,
+          "httpMs": 144.955,
+          "handlerMs": 69.385,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 109.0,
+          "gatewayMs": 118.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 10.612,
+          "httpMs": 121.993,
+          "handlerMs": 69.26,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 96.0,
+          "gatewayMs": 102.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 28.981,
+          "httpMs": 144.253,
+          "handlerMs": 69.32,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 109.0,
+          "gatewayMs": 114.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 18.271,
+          "httpMs": 107.574,
+          "handlerMs": 62.464,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 76.0,
+          "gatewayMs": 88.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.973,
+          "httpMs": 88.309,
+          "handlerMs": 66.128,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 67.0,
+          "gatewayMs": 75.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.931,
+          "httpMs": 79.802,
+          "handlerMs": 59.568,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 60.0,
+          "gatewayMs": 67.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 12.234,
+          "httpMs": 140.943,
+          "handlerMs": 65.166,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 112.0,
+          "gatewayMs": 124.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.79,
+          "httpMs": 92.335,
+          "handlerMs": 60.587,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 61.0,
+          "gatewayMs": 65.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 10.466,
+          "httpMs": 87.022,
+          "handlerMs": 63.838,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 64.0,
+          "gatewayMs": 73.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 24.317,
+          "httpMs": 139.418,
+          "handlerMs": 66.013,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 111.0,
+          "gatewayMs": 113.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 34.49,
+          "httpMs": 164.332,
+          "handlerMs": 52.519,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 118.0,
+          "gatewayMs": 120.0
+        }
+      ],
+      "complete": true,
+      "timings": {
+        "httpMs": {
+          "p50": 107.574,
+          "p95": 164.332,
+          "p99": 166.301
+        },
+        "clientConnectMs": {
+          "p50": 21.059,
+          "p95": 35.04,
+          "p99": 37.855
+        },
+        "upstreamConnectMs": {
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0
+        },
+        "upstreamResponseMs": {
+          "p50": 76.0,
+          "p95": 118.0,
+          "p99": 121.0
+        },
+        "gatewayMs": {
+          "p50": 88.0,
+          "p95": 131.0,
+          "p99": 141.0
+        },
+        "handlerMs": {
+          "p50": 65.166,
+          "p95": 71.105,
+          "p99": 77.103
+        }
+      },
+      "tcpDelta": {
+        "ListenOverflows": 0,
+        "ListenDrops": 0,
+        "TCPSynRetrans": 0
+      },
+      "reconciliation": {
+        "status": "CLEAN",
+        "readOnly": true,
+        "graceSeconds": 1800,
+        "activityId": "178",
+        "orders": 32,
+        "ledgers": [
+          {
+            "activityId": "178",
+            "skuId": "3538",
+            "initial": 32,
+            "dbAvailable": 0,
+            "redisAvailable": 0,
+            "held": 32,
+            "activeOrders": 32,
+            "inTransit": 0,
+            "pendingSend": 0,
+            "oldestInTransitSeconds": 0
+          }
+        ],
+        "alerts": [],
+        "movingSnapshots": [],
+        "outbox": [],
+        "mqFailures": [],
+        "atMs": 1792234898851
+      },
+      "outcomes": {
+        "orders": 32,
+        "paid": 32,
+        "distinctUsers": 32,
+        "paymentRows": 32,
+        "distinctReservations": 32
+      },
+      "httpStatuses": {
+        "409": 32,
+        "202": 32
+      }
+    },
+    {
+      "round": 2,
+      "activityId": "179",
+      "stock": 32,
+      "users": 64,
+      "accepted": 32,
+      "soldOut": 32,
+      "rows": [
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 16.347,
+          "httpMs": 96.41,
+          "handlerMs": 76.952,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 78.0,
+          "gatewayMs": 78.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.162,
+          "httpMs": 111.847,
+          "handlerMs": 72.95,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 74.0,
+          "gatewayMs": 82.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 21.392,
+          "httpMs": 96.875,
+          "handlerMs": 73.062,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 74.0,
+          "gatewayMs": 74.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 33.926,
+          "httpMs": 185.1,
+          "handlerMs": 70.838,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 134.0,
+          "gatewayMs": 144.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 16.475,
+          "httpMs": 110.18,
+          "handlerMs": 74.301,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 75.0,
+          "gatewayMs": 93.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 43.386,
+          "httpMs": 187.609,
+          "handlerMs": 67.802,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 129.0,
+          "gatewayMs": 133.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 28.845,
+          "httpMs": 166.253,
+          "handlerMs": 75.71,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 129.0,
+          "gatewayMs": 136.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 32.29,
+          "httpMs": 171.321,
+          "handlerMs": 75.746,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 128.0,
+          "gatewayMs": 136.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 21.198,
+          "httpMs": 159.497,
+          "handlerMs": 75.699,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 129.0,
+          "gatewayMs": 137.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.165,
+          "httpMs": 94.375,
+          "handlerMs": 71.646,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 73.0,
+          "gatewayMs": 82.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.546,
+          "httpMs": 108.393,
+          "handlerMs": 79.061,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 79.0,
+          "gatewayMs": 79.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 29.073,
+          "httpMs": 163.976,
+          "handlerMs": 67.23,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 130.0,
+          "gatewayMs": 132.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 40.497,
+          "httpMs": 178.153,
+          "handlerMs": 63.608,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 132.0,
+          "gatewayMs": 133.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 15.961,
+          "httpMs": 124.838,
+          "handlerMs": 62.363,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 86.0,
+          "gatewayMs": 107.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 25.016,
+          "httpMs": 172.87,
+          "handlerMs": 68.441,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 132.0,
+          "gatewayMs": 146.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.105,
+          "httpMs": 101.762,
+          "handlerMs": 70.675,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 71.0,
+          "gatewayMs": 79.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 16.085,
+          "httpMs": 94.217,
+          "handlerMs": 74.703,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 76.0,
+          "gatewayMs": 76.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 26.255,
+          "httpMs": 161.577,
+          "handlerMs": 71.588,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 129.0,
+          "gatewayMs": 132.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.19,
+          "httpMs": 112.593,
+          "handlerMs": 85.734,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 86.0,
+          "gatewayMs": 91.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.344,
+          "httpMs": 92.691,
+          "handlerMs": 74.583,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 75.0,
+          "gatewayMs": 80.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 25.267,
+          "httpMs": 163.264,
+          "handlerMs": 76.1,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 130.0,
+          "gatewayMs": 137.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 21.365,
+          "httpMs": 104.099,
+          "handlerMs": 72.246,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 73.0,
+          "gatewayMs": 81.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 12.781,
+          "httpMs": 105.462,
+          "handlerMs": 76.315,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 78.0,
+          "gatewayMs": 90.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.861,
+          "httpMs": 106.143,
+          "handlerMs": 72.534,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 73.0,
+          "gatewayMs": 78.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 36.929,
+          "httpMs": 113.008,
+          "handlerMs": 74.269,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 75.0,
+          "gatewayMs": 75.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.076,
+          "httpMs": 99.678,
+          "handlerMs": 69.539,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 70.0,
+          "gatewayMs": 78.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.004,
+          "httpMs": 105.624,
+          "handlerMs": 77.45,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 78.0,
+          "gatewayMs": 78.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 32.945,
+          "httpMs": 172.314,
+          "handlerMs": 67.707,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 130.0,
+          "gatewayMs": 134.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 32.727,
+          "httpMs": 140.729,
+          "handlerMs": 63.645,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 102.0,
+          "gatewayMs": 107.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 13.014,
+          "httpMs": 98.585,
+          "handlerMs": 78.819,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 80.0,
+          "gatewayMs": 84.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 42.281,
+          "httpMs": 181.755,
+          "handlerMs": 68.929,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 131.0,
+          "gatewayMs": 134.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 16.02,
+          "httpMs": 98.44,
+          "handlerMs": 80.068,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 81.0,
+          "gatewayMs": 81.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.641,
+          "httpMs": 56.879,
+          "handlerMs": 51.723,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 52.0,
+          "gatewayMs": 52.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 37.006,
+          "httpMs": 180.646,
+          "handlerMs": 68.648,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 132.0,
+          "gatewayMs": 137.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 25.043,
+          "httpMs": 107.91,
+          "handlerMs": 75.109,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 76.0,
+          "gatewayMs": 80.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.833,
+          "httpMs": 102.673,
+          "handlerMs": 77.391,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 78.0,
+          "gatewayMs": 81.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.528,
+          "httpMs": 96.225,
+          "handlerMs": 69.9,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 70.0,
+          "gatewayMs": 79.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.281,
+          "httpMs": 104.733,
+          "handlerMs": 82.193,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 83.0,
+          "gatewayMs": 97.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 9.654,
+          "httpMs": 98.937,
+          "handlerMs": 76.302,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 77.0,
+          "gatewayMs": 85.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 28.122,
+          "httpMs": 105.422,
+          "handlerMs": 70.584,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 72.0,
+          "gatewayMs": 77.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 22.186,
+          "httpMs": 161.295,
+          "handlerMs": 67.348,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 132.0,
+          "gatewayMs": 132.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 39.48,
+          "httpMs": 169.686,
+          "handlerMs": 71.62,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 128.0,
+          "gatewayMs": 128.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 16.624,
+          "httpMs": 154.18,
+          "handlerMs": 71.548,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 128.0,
+          "gatewayMs": 135.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 35.427,
+          "httpMs": 170.895,
+          "handlerMs": 68.497,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 131.0,
+          "gatewayMs": 134.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 33.031,
+          "httpMs": 182.43,
+          "handlerMs": 74.133,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 137.0,
+          "gatewayMs": 143.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 33.627,
+          "httpMs": 153.864,
+          "handlerMs": 67.302,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 115.0,
+          "gatewayMs": 119.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.14,
+          "httpMs": 86.164,
+          "handlerMs": 68.254,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 69.0,
+          "gatewayMs": 74.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.728,
+          "httpMs": 71.887,
+          "handlerMs": 62.649,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 63.0,
+          "gatewayMs": 63.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 21.196,
+          "httpMs": 174.143,
+          "handlerMs": 73.043,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 136.0,
+          "gatewayMs": 149.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.673,
+          "httpMs": 97.929,
+          "handlerMs": 73.953,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 76.0,
+          "gatewayMs": 79.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 24.946,
+          "httpMs": 176.0,
+          "handlerMs": 73.423,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 132.0,
+          "gatewayMs": 146.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 28.412,
+          "httpMs": 174.687,
+          "handlerMs": 72.173,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 130.0,
+          "gatewayMs": 142.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 37.057,
+          "httpMs": 182.558,
+          "handlerMs": 68.041,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 130.0,
+          "gatewayMs": 135.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 29.542,
+          "httpMs": 166.418,
+          "handlerMs": 66.668,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 130.0,
+          "gatewayMs": 134.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 16.431,
+          "httpMs": 166.216,
+          "handlerMs": 75.63,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 128.0,
+          "gatewayMs": 140.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 24.848,
+          "httpMs": 176.169,
+          "handlerMs": 63.759,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 133.0,
+          "gatewayMs": 149.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 31.976,
+          "httpMs": 177.816,
+          "handlerMs": 72.095,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 134.0,
+          "gatewayMs": 137.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.296,
+          "httpMs": 102.425,
+          "handlerMs": 73.96,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 75.0,
+          "gatewayMs": 83.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 43.627,
+          "httpMs": 184.178,
+          "handlerMs": 67.43,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 128.0,
+          "gatewayMs": 129.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.472,
+          "httpMs": 90.77,
+          "handlerMs": 77.288,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 78.0,
+          "gatewayMs": 81.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.609,
+          "httpMs": 92.449,
+          "handlerMs": 73.796,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 75.0,
+          "gatewayMs": 84.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.552,
+          "httpMs": 106.939,
+          "handlerMs": 76.956,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 78.0,
+          "gatewayMs": 78.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 26.541,
+          "httpMs": 169.071,
+          "handlerMs": 67.813,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 132.0,
+          "gatewayMs": 140.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 37.818,
+          "httpMs": 187.734,
+          "handlerMs": 68.47,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 136.0,
+          "gatewayMs": 144.0
+        }
+      ],
+      "complete": true,
+      "timings": {
+        "httpMs": {
+          "p50": 113.008,
+          "p95": 184.178,
+          "p99": 187.734
+        },
+        "clientConnectMs": {
+          "p50": 24.552,
+          "p95": 40.497,
+          "p99": 43.627
+        },
+        "upstreamConnectMs": {
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0
+        },
+        "upstreamResponseMs": {
+          "p50": 86.0,
+          "p95": 134.0,
+          "p99": 137.0
+        },
+        "gatewayMs": {
+          "p50": 97.0,
+          "p95": 146.0,
+          "p99": 149.0
+        },
+        "handlerMs": {
+          "p50": 72.173,
+          "p95": 79.061,
+          "p99": 85.734
+        }
+      },
+      "tcpDelta": {
+        "ListenOverflows": 0,
+        "ListenDrops": 0,
+        "TCPSynRetrans": 0
+      },
+      "reconciliation": {
+        "status": "CLEAN",
+        "readOnly": true,
+        "graceSeconds": 1800,
+        "activityId": "179",
+        "orders": 32,
+        "ledgers": [
+          {
+            "activityId": "179",
+            "skuId": "3539",
+            "initial": 32,
+            "dbAvailable": 0,
+            "redisAvailable": 0,
+            "held": 32,
+            "activeOrders": 32,
+            "inTransit": 0,
+            "pendingSend": 0,
+            "oldestInTransitSeconds": 0
+          }
+        ],
+        "alerts": [],
+        "movingSnapshots": [],
+        "outbox": [],
+        "mqFailures": [],
+        "atMs": 1792234921428
+      },
+      "outcomes": {
+        "orders": 32,
+        "paid": 32,
+        "distinctUsers": 32,
+        "paymentRows": 32,
+        "distinctReservations": 32
+      },
+      "httpStatuses": {
+        "202": 32,
+        "409": 32
+      }
+    },
+    {
+      "round": 3,
+      "activityId": "180",
+      "stock": 32,
+      "users": 64,
+      "accepted": 32,
+      "soldOut": 32,
+      "rows": [
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 6.218,
+          "httpMs": 185.571,
+          "handlerMs": 72.529,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 148.0,
+          "gatewayMs": 178.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 30.851,
+          "httpMs": 192.585,
+          "handlerMs": 58.185,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 145.0,
+          "gatewayMs": 157.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 14.726,
+          "httpMs": 127.263,
+          "handlerMs": 101.675,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 102.0,
+          "gatewayMs": 110.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.045,
+          "httpMs": 127.07,
+          "handlerMs": 102.307,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 103.0,
+          "gatewayMs": 107.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 22.802,
+          "httpMs": 177.782,
+          "handlerMs": 63.119,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 151.0,
+          "gatewayMs": 154.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 38.567,
+          "httpMs": 191.6,
+          "handlerMs": 63.749,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 146.0,
+          "gatewayMs": 151.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 24.775,
+          "httpMs": 128.349,
+          "handlerMs": 101.717,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 103.0,
+          "gatewayMs": 102.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 35.895,
+          "httpMs": 191.368,
+          "handlerMs": 57.812,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 144.0,
+          "gatewayMs": 151.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 19.3,
+          "httpMs": 179.847,
+          "handlerMs": 63.602,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 145.0,
+          "gatewayMs": 155.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 33.147,
+          "httpMs": 188.976,
+          "handlerMs": 63.199,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 155.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 12.512,
+          "httpMs": 127.567,
+          "handlerMs": 104.328,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 106.0,
+          "gatewayMs": 109.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 8.37,
+          "httpMs": 182.819,
+          "handlerMs": 73.07,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 149.0,
+          "gatewayMs": 157.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.287,
+          "httpMs": 137.476,
+          "handlerMs": 105.367,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 106.0,
+          "gatewayMs": 127.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.743,
+          "httpMs": 132.319,
+          "handlerMs": 107.607,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 108.0,
+          "gatewayMs": 109.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.065,
+          "httpMs": 104.436,
+          "handlerMs": 99.686,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 101.0,
+          "gatewayMs": 100.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 27.471,
+          "httpMs": 189.66,
+          "handlerMs": 63.177,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 160.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 32.809,
+          "httpMs": 188.884,
+          "handlerMs": 63.606,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 145.0,
+          "gatewayMs": 150.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 8.532,
+          "httpMs": 166.709,
+          "handlerMs": 63.08,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 156.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.065,
+          "httpMs": 134.506,
+          "handlerMs": 104.086,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 105.0,
+          "gatewayMs": 117.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 27.095,
+          "httpMs": 132.409,
+          "handlerMs": 99.721,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 101.0,
+          "gatewayMs": 104.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 12.693,
+          "httpMs": 122.37,
+          "handlerMs": 101.163,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 104.0,
+          "gatewayMs": 107.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 30.18,
+          "httpMs": 183.975,
+          "handlerMs": 73.016,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 153.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 4.153,
+          "httpMs": 110.54,
+          "handlerMs": 98.022,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 99.0,
+          "gatewayMs": 103.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 31.036,
+          "httpMs": 136.525,
+          "handlerMs": 101.813,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 103.0,
+          "gatewayMs": 103.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.767,
+          "httpMs": 110.424,
+          "handlerMs": 96.781,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 97.0,
+          "gatewayMs": 98.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 2.962,
+          "httpMs": 157.253,
+          "handlerMs": 57.807,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 146.0,
+          "gatewayMs": 153.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.9,
+          "httpMs": 132.662,
+          "handlerMs": 106.846,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 108.0,
+          "gatewayMs": 115.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 6.318,
+          "httpMs": 111.059,
+          "handlerMs": 98.044,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 98.0,
+          "gatewayMs": 103.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 27.35,
+          "httpMs": 184.763,
+          "handlerMs": 63.161,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 157.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.998,
+          "httpMs": 132.768,
+          "handlerMs": 110.448,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 111.0,
+          "gatewayMs": 119.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 4.982,
+          "httpMs": 108.227,
+          "handlerMs": 97.318,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 98.0,
+          "gatewayMs": 102.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.443,
+          "httpMs": 126.364,
+          "handlerMs": 103.366,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 104.0,
+          "gatewayMs": 120.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.994,
+          "httpMs": 118.71,
+          "handlerMs": 102.519,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 103.0,
+          "gatewayMs": 108.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 12.33,
+          "httpMs": 180.488,
+          "handlerMs": 57.998,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 146.0,
+          "gatewayMs": 164.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 29.808,
+          "httpMs": 177.711,
+          "handlerMs": 73.462,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 143.0,
+          "gatewayMs": 147.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 19.759,
+          "httpMs": 125.698,
+          "handlerMs": 96.548,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 98.0,
+          "gatewayMs": 103.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 46.889,
+          "httpMs": 194.983,
+          "handlerMs": 56.653,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 143.0,
+          "gatewayMs": 144.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 38.885,
+          "httpMs": 195.875,
+          "handlerMs": 57.916,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 145.0,
+          "gatewayMs": 151.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 11.64,
+          "httpMs": 111.182,
+          "handlerMs": 93.436,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 94.0,
+          "gatewayMs": 98.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 29.404,
+          "httpMs": 184.726,
+          "handlerMs": 57.43,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 144.0,
+          "gatewayMs": 154.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 24.776,
+          "httpMs": 177.255,
+          "handlerMs": 65.834,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 148.0,
+          "gatewayMs": 148.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 45.165,
+          "httpMs": 200.157,
+          "handlerMs": 57.312,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 143.0,
+          "gatewayMs": 145.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 3.998,
+          "httpMs": 108.283,
+          "handlerMs": 94.578,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 95.0,
+          "gatewayMs": 103.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 22.808,
+          "httpMs": 189.178,
+          "handlerMs": 63.308,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 151.0,
+          "gatewayMs": 163.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 27.068,
+          "httpMs": 192.351,
+          "handlerMs": 56.966,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 143.0,
+          "gatewayMs": 157.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 22.447,
+          "httpMs": 136.132,
+          "handlerMs": 108.717,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 110.0,
+          "gatewayMs": 110.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 36.062,
+          "httpMs": 194.605,
+          "handlerMs": 57.456,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 145.0,
+          "gatewayMs": 152.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 17.219,
+          "httpMs": 130.142,
+          "handlerMs": 103.525,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 104.0,
+          "gatewayMs": 108.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 31.908,
+          "httpMs": 187.753,
+          "handlerMs": 63.564,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 147.0,
+          "gatewayMs": 147.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 43.316,
+          "httpMs": 195.913,
+          "handlerMs": 57.291,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 143.0,
+          "gatewayMs": 144.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 20.918,
+          "httpMs": 126.78,
+          "handlerMs": 94.997,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 96.0,
+          "gatewayMs": 100.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.099,
+          "httpMs": 132.39,
+          "handlerMs": 111.153,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 112.0,
+          "gatewayMs": 115.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 24.729,
+          "httpMs": 183.99,
+          "handlerMs": 57.81,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 145.0,
+          "gatewayMs": 151.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.801,
+          "httpMs": 127.739,
+          "handlerMs": 109.116,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 110.0,
+          "gatewayMs": 113.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 15.999,
+          "httpMs": 193.273,
+          "handlerMs": 56.873,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 142.0,
+          "gatewayMs": 159.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 19.917,
+          "httpMs": 179.577,
+          "handlerMs": 73.037,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 149.0,
+          "gatewayMs": 151.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 19.981,
+          "httpMs": 126.098,
+          "handlerMs": 95.637,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 96.0,
+          "gatewayMs": 101.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 5.502,
+          "httpMs": 124.817,
+          "handlerMs": 105.667,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 107.0,
+          "gatewayMs": 114.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 27.553,
+          "httpMs": 177.874,
+          "handlerMs": 56.751,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 145.0,
+          "gatewayMs": 144.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 15.834,
+          "httpMs": 132.489,
+          "handlerMs": 99.732,
+          "upstreamConnectMs": 1.0,
+          "upstreamResponseMs": 101.0,
+          "gatewayMs": 115.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 24.983,
+          "httpMs": 180.41,
+          "handlerMs": 62.93,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 149.0,
+          "gatewayMs": 152.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 7.897,
+          "httpMs": 119.561,
+          "handlerMs": 104.793,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 106.0,
+          "gatewayMs": 110.0
+        },
+        {
+          "status": 202,
+          "code": "ACCEPTED",
+          "clientConnectMs": 12.493,
+          "httpMs": 121.288,
+          "handlerMs": 95.136,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 95.0,
+          "gatewayMs": 108.0
+        },
+        {
+          "status": 409,
+          "code": "SOLD_OUT",
+          "clientConnectMs": 32.859,
+          "httpMs": 186.159,
+          "handlerMs": 73.25,
+          "upstreamConnectMs": 0.0,
+          "upstreamResponseMs": 150.0,
+          "gatewayMs": 152.0
+        }
+      ],
+      "complete": true,
+      "timings": {
+        "httpMs": {
+          "p50": 137.476,
+          "p95": 194.983,
+          "p99": 200.157
+        },
+        "clientConnectMs": {
+          "p50": 19.759,
+          "p95": 38.885,
+          "p99": 46.889
+        },
+        "upstreamConnectMs": {
+          "p50": 0.0,
+          "p95": 1.0,
+          "p99": 1.0
+        },
+        "upstreamResponseMs": {
+          "p50": 112.0,
+          "p95": 150.0,
+          "p99": 151.0
+        },
+        "gatewayMs": {
+          "p50": 127.0,
+          "p95": 160.0,
+          "p99": 178.0
+        },
+        "handlerMs": {
+          "p50": 73.462,
+          "p95": 108.717,
+          "p99": 111.153
+        }
+      },
+      "tcpDelta": {
+        "ListenOverflows": 0,
+        "ListenDrops": 0,
+        "TCPSynRetrans": 0
+      },
+      "reconciliation": {
+        "status": "CLEAN",
+        "readOnly": true,
+        "graceSeconds": 1800,
+        "activityId": "180",
+        "orders": 32,
+        "ledgers": [
+          {
+            "activityId": "180",
+            "skuId": "3540",
+            "initial": 32,
+            "dbAvailable": 0,
+            "redisAvailable": 0,
+            "held": 32,
+            "activeOrders": 32,
+            "inTransit": 0,
+            "pendingSend": 0,
+            "oldestInTransitSeconds": 0
+          }
+        ],
+        "alerts": [],
+        "movingSnapshots": [],
+        "outbox": [],
+        "mqFailures": [],
+        "atMs": 1792234944113
+      },
+      "outcomes": {
+        "orders": 32,
+        "paid": 32,
+        "distinctUsers": 32,
+        "paymentRows": 32,
+        "distinctReservations": 32
+      },
+      "httpStatuses": {
+        "409": 32,
+        "202": 32
+      }
+    }
+  ],
+  "complete": true,
+  "fixture": "64 private SQL users/Redis sessions; real accessible captcha/token exchange; real HTTP/MQ/SQL/mock payment",
+  "sourceSha256": "344353fdad22d5585781545a14f9902bee204dc71e80b3ae3a5e916742ce37be",
+  "imageId": "sha256:a79f5a569335b3eaa22829ecda38cdc44766555a6438528fd93a7bba1a31eb80",
+  "compiledListenBacklog": 128,
+  "kernelSomaxconn": 4096,
+  "nginxConfigSha256": "588b8e13e1819d0c92185c510db9913e779c56b3c803e4735d0261aeafe3d3b1",
+  "orderPaymentTtlMs": 900000,
+  "dockerHost": {
+    "cpus": 12,
+    "memoryBytes": 7995174912
+  },
+  "startedUtc": "2026-10-17T11:01:14.432183+00:00",
+  "sourceMount": "/mnt/e/c++project/seckill-mall",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "restoredWorkers": "8",
+  "restoredQueue": "128",
+  "nginxConfigRestored": true,
+  "restoreErrors": []
+}

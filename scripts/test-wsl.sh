@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# 职责：WSL原生构建与基础检查总入口；--cpp是子集，不能宣称完整业务验收。
+# 运行口径与所需环境见 docs/TESTING.md；代码阅读导航见 docs/CODE-READING.md。
 set -euo pipefail
 project_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"

@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "primaryBeforeAndAfterColdStart": "redis-replica-2",
+  "coldStartSecondsIncludingStop": 103.3,
+  "failbackPrimary": "redis",
+  "failbackSeconds": 18.17,
+  "verified": [
+    "all three Sentinels agree",
+    "one primary and two connected replicas",
+    "persisted probe retained",
+    "original login session retained",
+    "C++ and Java readiness"
+  ],
+  "failbackLabTiltPeriodMs": 3000
+}
